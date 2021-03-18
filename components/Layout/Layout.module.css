@@ -1,0 +1,15 @@
+.Profile {
+    color: #EEEEEE;
+    float: right;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.Profile:hover {
+    cursor: pointer;
+    background-color: rgb(0, 21, 41)
+}
