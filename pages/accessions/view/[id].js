@@ -2,6 +2,7 @@ import React from 'react'
 import AppLayout from "../../../components/Layout/Layout";
 import Head from "next/dist/next-server/lib/head";
 import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
+import {Card} from "antd";
 import useSWR from "swr";
 import {get} from "../../../utils/api";
 import {useRouter} from "next/router";
@@ -15,22 +16,21 @@ export default function AccessionList() {
 
   const breadcrumbData = [
     {text: 'Accession Records'},
-    {text: 'Edit'},
+    {text: 'View'},
     {text: data ? `${data.seq}` : ''}
   ];
 
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - Edit Accession Records</title>
+        <title>AMS - Archival Management System - View Accession Records</title>
       </Head>
       <Breadcrumbs breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm
-          api={`/v1/accession/${id}/`}
           module={'accessions'}
-          type={'edit'}
+          type={'view'}
           initialValues={data} /> : ''
       }
     </AppLayout>

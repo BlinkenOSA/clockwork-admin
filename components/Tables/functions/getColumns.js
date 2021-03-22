@@ -1,10 +1,10 @@
 import React from 'react';
 import style from '../Table.module.css'
 import {Button, Tooltip} from "antd";
-import { EyeOutlined, EditOutlined } from "@ant-design/icons";
+import {EyeOutlined, EditOutlined, DeleteOutlined} from "@ant-design/icons";
 import Link from "next/link";
 
-const renderActionButtons = (record, actions, module) => {
+const renderActionButtons = (record, actions, module, onDelete) => {
   const getButtons = () => {
     return actions.map((action) => {
       switch (action) {
@@ -24,6 +24,12 @@ const renderActionButtons = (record, actions, module) => {
               </Link>
             </Tooltip>
           );
+        case 'delete':
+          return (
+            record.is_removable && <Tooltip key={'delete'} title={'Delete'}>
+              <Button size="small" icon={<DeleteOutlined/>} onClick={() => onDelete(record.id)}/>
+            </Tooltip>
+          );
         default:
           break;
       }
@@ -38,7 +44,7 @@ const renderActionButtons = (record, actions, module) => {
 
 };
 
-export const getColumns = (columns, actions, module) => {
+export const getColumns = (columns, actions, module, onDelete) => {
   const c = [...columns];
   if (actions.length > 0) {
     c.push(
@@ -47,7 +53,7 @@ export const getColumns = (columns, actions, module) => {
         title: 'Actions',
         width: 150,
         className: style.ActionColumn,
-        render: (record) => renderActionButtons(record, actions, module)
+        render: (record) => renderActionButtons(record, actions, module, onDelete)
       }
     )
   }

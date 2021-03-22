@@ -39,7 +39,8 @@ export default function DonorList() {
       <Breadcrumbs breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <SimpleTable
-          module={'donor'}
+          button={'New Donor'}
+          module={'donors'}
           api={`/v1/donor/`}
           columns={columns}
           actions={['view', 'edit', 'delete']}

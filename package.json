@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "latest",
+    "@kunukn/react-collapse": "^2.2.9",
     "@next/bundle-analyzer": "^10.0.7",
     "antd": "4.11.2",
     "axios": "^0.21.1",

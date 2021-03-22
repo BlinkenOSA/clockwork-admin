@@ -11,25 +11,25 @@ export default function AccessionList() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, error } = useSWR(id ? `/v1/accession/${id}/` : null, url => get(url));
+  const { data, error } = useSWR(id ? `/v1/donor/${id}/` : null, url => get(url));
 
   const breadcrumbData = [
-    {text: 'Accession Records'},
+    {text: 'Donor Records'},
     {text: 'Edit'},
-    {text: data ? `${data.seq}` : ''}
+    {text: data ? `${data.name}` : ''}
   ];
 
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - Edit Accession Records</title>
+        <title>AMS - Archival Management System - Edit Donor Records</title>
       </Head>
       <Breadcrumbs breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm
-          api={`/v1/accession/${id}/`}
-          module={'accessions'}
+          api={`/v1/donor/${id}/`}
+          module={'donors'}
           type={'edit'}
           initialValues={data} /> : ''
       }

@@ -1,5 +1,6 @@
 import { Provider } from 'next-auth/client'
 import 'antd/dist/antd.min.css'
+import '../styles/styles.css';
 import React from "react";
 
 function MyApp({ Component, pageProps }) {

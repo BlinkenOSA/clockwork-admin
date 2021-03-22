@@ -1,36 +1,33 @@
-import React, {useState} from "react";
-import {Card, Form, Row, notification} from 'antd';
-import {AccessionForm} from "./fields/AccessionForm";
+import React, {useState, useEffect} from "react";
+import {Form, Row, notification, Col, Button, Input} from 'antd';
 import style from './Forms.module.css';
-import {SimpleFormFooter} from "./SimpleFormFooter";
-import {post, put} from "../../utils/api";
-import {useRouter} from "next/router";
-import {DonorForm} from "./fields/DonorForm";
+import {get, post, put} from "../../utils/api";
+import useSWR from "swr";
+import {CarrierTypeForm} from "./fields/CarrierTypeForm";
 
-const MODULES = {
-  'accessions': 'Accession',
-  'donors': 'Donor'
-};
-
-export const SimpleForm = ({api, module, type, initialValues}) => {
-  const router = useRouter();
+export const PopupForm = ({api, selectedRecord, module, type, field, label, onClose}) => {
   const [loading, setLoading] = useState(false);
-
   const [form] = Form.useForm();
-  const readOnly = type === 'view';
+
+  const { data, error } = useSWR(selectedRecord ? `${api}${selectedRecord}/` : null, get, {revalidateOnMount: true});
+
+  useEffect(() => {
+    form.setFieldsValue(data)
+  }, [form, data]);
 
   const onFinish = (values) => {
     setLoading(true);
 
     switch (type) {
       case 'edit':
-        put(api, values).then(response => {
+        put(`${api}${selectedRecord}/`, values).then(response => {
           notification.success({
             duration: 3,
             message: 'Success!',
-            description: `${MODULES[module]} record was ${type === 'create' ? 'created' : 'updated'}!`,
+            description: `'${label}' record was updated!`,
           });
           setLoading(false);
+          onClose();
         }).catch(error => {
           handleError(error);
         });
@@ -40,15 +37,15 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
           notification.success({
             duration: 3,
             message: 'Success!',
-            description: `${MODULES[module]} record was ${type === 'create' ? 'created' : 'updated'}!`,
+            description: `'${label}' record was created!`,
           });
           setLoading(false);
+          onClose();
         }).catch(error => {
           handleError(error);
         });
         break;
     }
-    router.push(`/${module}`)
   };
 
   const handleError = (error) => {
@@ -64,7 +61,6 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
     if (non_field_errors) {
       console.log(non_field_errors)
     }
-
     if (field_errors) {
       Object.keys(field_errors).forEach(errorKey => {
         form.setFields([
@@ -82,14 +78,18 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
     required: 'This field is required!'
   };
 
-  const renderFormFields = () => {
+  const renderFields = () => {
     switch (module) {
-      case 'accessions':
-        return <AccessionForm readOnly={readOnly}/>;
-      case 'donors':
-        return <DonorForm readOnly={readOnly}/>;
+      case 'carrier-types':
+        return <CarrierTypeForm />;
       default:
-        break;
+        return (
+          <Col xs={24}>
+            <Form.Item label={label} name={field}>
+              <Input />
+            </Form.Item>
+          </Col>
+        )
     }
   };
 
@@ -99,23 +99,29 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
         name={`${module}-form`}
         validateMessages={validateMessages}
         validateTrigger={''}
-        initialValues={initialValues}
+        initialValues={type === 'edit' ? data : {}}
         form={form}
         onFinish={onFinish}
         layout={'vertical'}
         className={style.Form}
       >
-        <Card size="small" style={{marginBottom: 0}}>
-          <Row gutter={[12, 0]}>
-            {renderFormFields()}
-          </Row>
-        </Card>
-        <SimpleFormFooter
-          module={module}
-          form={form}
-          type={type}
-          loading={loading}
-        />
+        <Row gutter={[12, 0]}>
+          {renderFields()}
+        </Row>
+        <Row>
+          <Col xs={4}>
+            {
+              type !== 'view' &&
+              <Button
+                loading={loading}
+                type={'primary'}
+                htmlType={'submit'}
+              >
+                Submit
+              </Button>
+            }
+          </Col>
+        </Row>
       </Form>
     </React.Fragment>
   )

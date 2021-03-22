@@ -1,6 +1,6 @@
 import { DashboardOutlined, SwapOutlined, ApartmentOutlined, UserOutlined, ProfileOutlined, FileOutlined,
   UnorderedListOutlined, BankOutlined, FlagOutlined, DeploymentUnitOutlined, GlobalOutlined, TeamOutlined,
-  EnvironmentOutlined, TagOutlined, RightCircleOutlined, DesktopOutlined, InboxOutlined
+  EnvironmentOutlined, TagOutlined, TagsOutlined, RightCircleOutlined, DesktopOutlined, InboxOutlined
 } from '@ant-design/icons';
 
 const configMenu = [
@@ -16,32 +16,30 @@ const configMenu = [
       {name: 'Folders / Items', link: '/finding-aids'},
       {name: 'Organizer', link: '#'},
     ]},
-  {name: 'Lists', icon: <UnorderedListOutlined/>, submenu: [
-      {name: 'Authority List', module: 'authority-list', submenu: [
-          {name: 'Corporations', icon: <BankOutlined/>, link: '/authority-list/corporations'},
-          {name: 'Countries', icon: <FlagOutlined/>, link: '/authority-list/countries'},
-          {name: 'Genres', icon: <DeploymentUnitOutlined/>, link: '/authority-list/genres'},
-          {name: 'Languages', icon: <GlobalOutlined/>, link: '/authority-list/languages'},
-          {name: 'People', icon: <TeamOutlined/>, link: '/authority-list/people'},
-          {name: 'Places', icon: <EnvironmentOutlined/>, link: '/authority-list/places'},
-          {name: 'Subjects', icon: <TagOutlined/>, link: '/authority-list/subjects'},
-        ]},
-      {name: 'Controlled List', module: 'controlled-list', submenu: [
-          {name: 'Access Rights', icon: <RightCircleOutlined/>, link: '/controlled-list/access-rights'},
-          {name: 'Archival Unit Themes', icon: <RightCircleOutlined/>, link: '/controlled-list/archival-unit-themes'},
-          {name: 'Building', icon: <RightCircleOutlined/>, link: '/controlled-list/buildings'},
-          {name: 'Carrier Types', icon: <RightCircleOutlined/>, link: '/controlled-list/carrier-types'},
-          {name: 'Corporation Roles', icon: <RightCircleOutlined/>, link: '/controlled-list/corporation-roles'},
-          {name: 'Date Types', icon: <RightCircleOutlined/>, link: '/controlled-list/date-types'},
-          {name: 'Extent Units', icon: <RightCircleOutlined/>, link: '/controlled-list/extent-units'},
-          {name: 'Geo Roles', icon: <RightCircleOutlined/>, link: '/controlled-list/geo-roles'},
-          {name: 'Keyword', icon: <RightCircleOutlined/>, link: '/controlled-list/keywords'},
-          {name: 'Language Usages', icon: <RightCircleOutlined/>, link: '/controlled-list/language-useages'},
-          {name: 'Person Roles', icon: <RightCircleOutlined/>, link: '/controlled-list/person-roles'},
-          {name: 'Primary Types', icon: <RightCircleOutlined/>, link: '/controlled-list/primary-types'},
-          {name: 'Reproduction Rights', icon: <RightCircleOutlined/>, link: '/controlled-list/reproduction-rights'},
-          {name: 'Restriction Reasons', icon: <RightCircleOutlined/>, link: '/controlled-list/restriction-reasons'},
-        ]},
+  {name: 'Authority List', icon: <TagsOutlined/>, module: 'authority-list', submenu: [
+      {name: 'Corporations', icon: <BankOutlined/>, link: '/authority-list/corporations'},
+      {name: 'Countries', icon: <FlagOutlined/>, link: '/authority-list/countries'},
+      {name: 'Genres', icon: <DeploymentUnitOutlined/>, link: '/authority-list/genres'},
+      {name: 'Languages', icon: <GlobalOutlined/>, link: '/authority-list/languages'},
+      {name: 'People', icon: <TeamOutlined/>, link: '/authority-list/people'},
+      {name: 'Places', icon: <EnvironmentOutlined/>, link: '/authority-list/places'},
+      {name: 'Subjects', icon: <TagOutlined/>, link: '/authority-list/subjects'},
+    ]},
+  {name: 'Controlled List', icon: <UnorderedListOutlined/>, module: 'controlled-list', submenu: [
+      {name: 'Access Rights', icon: <RightCircleOutlined/>, link: '/controlled-list/access-rights'},
+      {name: 'Archival Unit Themes', icon: <RightCircleOutlined/>, link: '/controlled-list/archival-unit-themes'},
+      {name: 'Building', icon: <RightCircleOutlined/>, link: '/controlled-list/buildings'},
+      {name: 'Carrier Types', icon: <RightCircleOutlined/>, link: '/controlled-list/carrier-types'},
+      {name: 'Corporation Roles', icon: <RightCircleOutlined/>, link: '/controlled-list/corporation-roles'},
+      {name: 'Date Types', icon: <RightCircleOutlined/>, link: '/controlled-list/date-types'},
+      {name: 'Extent Units', icon: <RightCircleOutlined/>, link: '/controlled-list/extent-units'},
+      {name: 'Geo Roles', icon: <RightCircleOutlined/>, link: '/controlled-list/geo-roles'},
+      {name: 'Keyword', icon: <RightCircleOutlined/>, link: '/controlled-list/keywords'},
+      {name: 'Language Usages', icon: <RightCircleOutlined/>, link: '/controlled-list/language-usages'},
+      {name: 'Person Roles', icon: <RightCircleOutlined/>, link: '/controlled-list/person-roles'},
+      {name: 'Primary Types', icon: <RightCircleOutlined/>, link: '/controlled-list/primary-types'},
+      {name: 'Reproduction Rights', icon: <RightCircleOutlined/>, link: '/controlled-list/reproduction-rights'},
+      {name: 'Restriction Reasons', icon: <RightCircleOutlined/>, link: '/controlled-list/restriction-reasons'},
     ]},
   {name: 'MLR', icon: <InboxOutlined/>, module: 'mlr', link: '/mlr'},
   {name: 'Digitization', icon: <DesktopOutlined/>, module: 'digitization', submenu: [

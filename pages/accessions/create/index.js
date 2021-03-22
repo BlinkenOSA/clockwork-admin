@@ -4,33 +4,28 @@ import Head from "next/dist/next-server/lib/head";
 import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
 import useSWR from "swr";
 import {get} from "../../../utils/api";
-import {useRouter} from "next/router";
 import {SimpleForm} from "../../../components/Forms/SimpleForm";
 
-export default function AccessionList() {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const { data, error } = useSWR(id ? `/v1/accession/${id}/` : null, url => get(url));
+export default function AccessionCreate() {
+  const { data, error } = useSWR(`/v1/accession/create/`, url => get(url));
 
   const breadcrumbData = [
     {text: 'Accession Records'},
-    {text: 'Edit'},
-    {text: data ? `${data.seq}` : ''}
+    {text: 'Create'},
   ];
 
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - Edit Accession Records</title>
+        <title>AMS - Archival Management System - Create Accession Record</title>
       </Head>
       <Breadcrumbs breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm
-          api={`/v1/accession/${id}/`}
+          api={`/v1/accession/`}
           module={'accessions'}
-          type={'edit'}
+          type={'create'}
           initialValues={data} /> : ''
       }
     </AppLayout>

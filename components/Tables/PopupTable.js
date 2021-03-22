@@ -1,14 +1,14 @@
-import {Button, Col, Modal, notification, Row, Table} from "antd";
+import {Button, Col, Drawer, Modal, notification, Row, Table, Tooltip} from "antd";
 import React, {useState, useEffect} from "react";
-import {LoadingOutlined } from "@ant-design/icons";
+import {EditOutlined, DeleteOutlined, EyeOutlined, LoadingOutlined} from "@ant-design/icons";
 import useStickyState from "../../utils/hooks/useStickyState";
 import {createParams} from "./functions/createParams";
-import {getColumns} from "./functions/getColumns";
 import TableFilters from "./TableFilters";
 import style from './Table.module.css';
-import Link from "next/link";
 import useSWR, {mutate} from "swr";
 import {get, remove} from "../../utils/api";
+import _ from 'lodash';
+import {PopupForm} from "../Forms/PopupForm";
 
 const PAGINATION_INIT = {
   showQuickJumper: true,
@@ -17,7 +17,11 @@ const PAGINATION_INIT = {
   showTotal: (total, range) => {return `${range[0]}-${range[1]} of ${total} items`}
 };
 
-const SimpleTable = ({api, columns, module, button, actions=[], ...props}) => {
+const PopupTable = ({api, columns, module, button, actions=[], field, label, showFilter=false, ...props}) => {
+  const [drawerShown, setDrawerShown] = useState(false);
+  const [action, setAction] = useState('create');
+  const [selectedRecord, setSelectedRecord] = useState(undefined);
+
   const [ params, setParams ] = useState({});
   const [ tableState, setTableState ] = useStickyState({pagination: PAGINATION_INIT}, `ams-${module}-table`);
 
@@ -64,15 +68,64 @@ const SimpleTable = ({api, columns, module, button, actions=[], ...props}) => {
     }
   };
 
+  const renderActionButtons = (record, actions) => {
+    const getButtons = () => {
+      return actions.map((action) => {
+        switch (action) {
+          case 'view':
+            return (
+              <Tooltip key={'view'} title={'View'}>
+                <Button size="small" icon={<EyeOutlined/>} onClick={() => onView(record.id)}/>
+              </Tooltip>
+            );
+          case 'edit':
+            return (
+              <Tooltip key={'edit'} title={'Edit'}>
+                <Button size="small" icon={<EditOutlined/>} onClick={() => onEdit(record.id)}/>
+              </Tooltip>
+            );
+          case 'delete':
+            return (
+              record.is_removable && <Tooltip key={'delete'} title={'Delete'}>
+                <Button size="small" icon={<DeleteOutlined/>} onClick={() => onDelete(record.id)}/>
+              </Tooltip>
+            );
+          default:
+            break;
+        }
+      })
+    };
+
+    return (
+      <Button.Group>
+        {getButtons()}
+      </Button.Group>
+    )
+  };
+
+  const getPopupColumns = (columns, actions) => {
+    const c = [...columns];
+    if (actions.length > 0) {
+      c.push(
+        {
+          key: 'actions',
+          title: 'Actions',
+          width: 150,
+          className: style.ActionColumn,
+          render: (record) => renderActionButtons(record, actions)
+        }
+      )
+    }
+    return c;
+  };
+
   const getFooter = () => {
     return (
       <Row>
         <Col span={8}>
-          <Link href={`/${module}/create`}>
-            <Button type={'primary'}>
-              {button}
-            </Button>
-          </Link>
+          <Button type={'primary'} onClick={onCreate}>
+            {button}
+          </Button>
         </Col>
       </Row>
     )
@@ -122,16 +175,58 @@ const SimpleTable = ({api, columns, module, button, actions=[], ...props}) => {
     showDeleteConfirm(id)
   };
 
+  const onCreate = () => {
+    setSelectedRecord(undefined);
+    setAction('create');
+    setDrawerShown(true);
+  };
+
+  const onEdit = (id) => {
+    setSelectedRecord(id);
+    setAction('edit');
+    setDrawerShown(true);
+  };
+
+  const onView = (id) => {
+    setSelectedRecord(id);
+    setAction('view');
+    setDrawerShown(true);
+  };
+
+  const onClose = () => {
+    mutate([`${api}`, params]);
+    setDrawerShown(false);
+  };
+
+  const renderForm = () => {
+    switch (module) {
+      default:
+        return (
+          <PopupForm
+            api={api}
+            selectedRecord={selectedRecord}
+            module={module}
+            type={action}
+            field={field}
+            label={label}
+            onClose={onClose}
+          />
+        )
+    }
+  };
+
   return (
     <React.Fragment>
-      <TableFilters module={module} onFilterChange={handleFilterChange}/>
+      {showFilter &&
+        <TableFilters module={module} onFilterChange={handleFilterChange}/>
+      }
       <Table
         api={api}
         bordered={true}
         className={style.Table}
         rowKey={record => record.id}
         dataSource={data ? data.results : []}
-        columns={getColumns(columns, actions, module, onDelete)}
+        columns={getPopupColumns(columns, actions, module)}
         size={'small'}
         footer={() => getFooter()}
         loading={{
@@ -141,8 +236,17 @@ const SimpleTable = ({api, columns, module, button, actions=[], ...props}) => {
         pagination={tableState['pagination']}
         onChange={handleTableChange}
       />
+      <Drawer
+        title={_.capitalize(action)}
+        width={'40%'}
+        onClose={(e) => onClose()}
+        visible={drawerShown}
+        destroyOnClose={true}
+      >
+        {renderForm()}
+      </Drawer>
     </React.Fragment>
   )
 };
 
-export default SimpleTable;
+export default PopupTable;

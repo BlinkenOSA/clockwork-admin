@@ -16,3 +16,44 @@ export const get = async (url, params={}) => {
     }
     ).then(res => res.data);
 };
+
+export const put = async (url, data={}) => {
+  const session = await getSession();
+
+  return axios.put(
+    `${API}${url}`,
+    data,
+    {
+      headers: {
+        Authorization: "Bearer " + session.accessToken
+      }
+    }
+  )
+};
+
+export const post = async (url, data={}) => {
+  const session = await getSession();
+
+  return axios.post(
+    `${API}${url}`,
+    data,
+    {
+      headers: {
+        Authorization: "Bearer " + session.accessToken
+      }
+    }
+  )
+};
+
+export const remove = async (url) => {
+  const session = await getSession();
+
+  return axios.delete(
+    `${API}${url}`,
+    {
+      headers: {
+        Authorization: "Bearer " + session.accessToken
+      }
+    }
+  )
+};
