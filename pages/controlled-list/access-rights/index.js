@@ -30,7 +30,6 @@ export default function AccessRightsList() {
       <Breadcrumbs breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
-          button={`New ${name}`}
           module={'access-rights'}
           api={`/v1/controlled_list/access_rights/`}
           columns={columns}

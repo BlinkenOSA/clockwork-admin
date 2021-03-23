@@ -17,7 +17,7 @@ const PAGINATION_INIT = {
   showTotal: (total, range) => {return `${range[0]}-${range[1]} of ${total} items`}
 };
 
-const PopupTable = ({api, columns, module, button, actions=[], field, label, showFilter=false, ...props}) => {
+const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=false, ...props}) => {
   const [drawerShown, setDrawerShown] = useState(false);
   const [action, setAction] = useState('create');
   const [selectedRecord, setSelectedRecord] = useState(undefined);
@@ -124,7 +124,7 @@ const PopupTable = ({api, columns, module, button, actions=[], field, label, sho
       <Row>
         <Col span={8}>
           <Button type={'primary'} onClick={onCreate}>
-            {button}
+            {`New ${label}`}
           </Button>
         </Col>
       </Row>
@@ -198,23 +198,6 @@ const PopupTable = ({api, columns, module, button, actions=[], field, label, sho
     setDrawerShown(false);
   };
 
-  const renderForm = () => {
-    switch (module) {
-      default:
-        return (
-          <PopupForm
-            api={api}
-            selectedRecord={selectedRecord}
-            module={module}
-            type={action}
-            field={field}
-            label={label}
-            onClose={onClose}
-          />
-        )
-    }
-  };
-
   return (
     <React.Fragment>
       {showFilter &&
@@ -238,12 +221,20 @@ const PopupTable = ({api, columns, module, button, actions=[], field, label, sho
       />
       <Drawer
         title={_.capitalize(action)}
-        width={'40%'}
+        width={'50%'}
         onClose={(e) => onClose()}
         visible={drawerShown}
         destroyOnClose={true}
       >
-        {renderForm()}
+        <PopupForm
+          api={api}
+          selectedRecord={selectedRecord}
+          module={module}
+          type={action}
+          field={field}
+          label={label}
+          onClose={onClose}
+        />
       </Drawer>
     </React.Fragment>
   )

@@ -7,7 +7,7 @@ export const CarrierTypeForm = ({readOnly}) => {
   return (
     <React.Fragment>
       <Col xs={24}>
-        <Form.Item label="Type" name="type">
+        <Form.Item label="Type" name="type" required rules={[{ required: true }]}>
           <Input />
         </Form.Item>
       </Col>

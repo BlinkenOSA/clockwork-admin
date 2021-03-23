@@ -5,8 +5,10 @@ import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 export const FormMultipleFields = ({label, disabled, children}) => {
   return (
     <React.Fragment>
-      <div className={'ant-form-item-label'}>{label}</div>
-      <Form.List name="items">
+      {
+        label && <div className={'ant-form-item-label'}>{label}</div>
+      }
+      <Form.List name="items" initialValue={[{}]}>
         {(fields, { add, remove }) => (
           <>
             {fields.map(field => (

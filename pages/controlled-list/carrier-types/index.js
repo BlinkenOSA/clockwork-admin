@@ -51,7 +51,6 @@ export default function CarrierTypeList() {
       <Breadcrumbs breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
-          button={`New ${name}`}
           module={`carrier-types`}
           api={`/v1/controlled_list/carrier_types/`}
           columns={columns}

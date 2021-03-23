@@ -31,7 +31,6 @@ export default function PersonRoleList() {
       <Breadcrumbs breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
-          button={`New ${name}`}
           module={`${field}s`}
           api={`/v1/controlled_list/person_roles/`}
           columns={columns}

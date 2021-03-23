@@ -31,7 +31,6 @@ export default function DateTypeList() {
       <Breadcrumbs breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
-          button={`New ${name}`}
           module={`${field}s`}
           api={`/v1/controlled_list/date_types/`}
           columns={columns}

@@ -30,7 +30,6 @@ export default function AccessRightsList() {
       <Breadcrumbs breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
-          button={'New Theme'}
           module={'archival-unit-themes'}
           api={`/v1/controlled_list/archival_unit_themes/`}
           columns={columns}

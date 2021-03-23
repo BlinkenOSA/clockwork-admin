@@ -4,10 +4,19 @@ import style from './Forms.module.css';
 import {get, post, put} from "../../utils/api";
 import useSWR from "swr";
 import {CarrierTypeForm} from "./fields/CarrierTypeForm";
+import {CorporationForm} from "./fields/CorporationForm";
+import {CountryForm} from "./fields/CountryForm";
+import {GenreForm} from "./fields/GenreForm";
+import {LanguageForm} from "./fields/LanguageForm";
+import {PersonForm} from "./fields/PersonForm";
+import {PlaceForm} from "./fields/PlaceForm";
+import {SubjectForm} from "./fields/SubjectForm";
 
 export const PopupForm = ({api, selectedRecord, module, type, field, label, onClose}) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+
+  const readOnly = type === 'view';
 
   const { data, error } = useSWR(selectedRecord ? `${api}${selectedRecord}/` : null, get, {revalidateOnMount: true});
 
@@ -80,12 +89,26 @@ export const PopupForm = ({api, selectedRecord, module, type, field, label, onCl
 
   const renderFields = () => {
     switch (module) {
+      case 'corporations':
+        return <CorporationForm form={form} readOnly={readOnly}/>;
+      case 'countries':
+        return <CountryForm form={form} readOnly={readOnly}/>;
+      case 'genres':
+        return <GenreForm form={form} readOnly={readOnly}/>;
+      case 'languages':
+        return <LanguageForm form={form} readOnly={readOnly}/>;
+      case 'people':
+        return <PersonForm form={form} readOnly={readOnly}/>;
+      case 'places':
+        return <PlaceForm form={form} readOnly={readOnly}/>;
+      case 'subjects':
+        return <SubjectForm form={form} readOnly={readOnly}/>;
       case 'carrier-types':
         return <CarrierTypeForm />;
       default:
         return (
           <Col xs={24}>
-            <Form.Item label={label} name={field}>
+            <Form.Item label={label} name={field} required rules={[{ required: true }]}>
               <Input />
             </Form.Item>
           </Col>

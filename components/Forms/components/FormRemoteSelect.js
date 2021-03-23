@@ -5,7 +5,7 @@ import {get} from "../../../utils/api";
 
 const {Option} = Select;
 
-const FormRemoteSelect = ({selectAPI, selectAPIParams, valueField, labelField, value, onChange, disabled=false}) => {
+const FormRemoteSelect = ({selectAPI, selectAPIParams, valueField, labelField, value, onChange, placeholder, disabled=false}) => {
   const [params, setParams] = useState(selectAPIParams);
 
   const { data, error } = useSWR([selectAPI, params], url => get(url, params));
@@ -40,6 +40,7 @@ const FormRemoteSelect = ({selectAPI, selectAPIParams, valueField, labelField, v
       filterOption={false}
       onSearch={handleSearch}
       onSelect={handleSelect}
+      placeholder={placeholder}
       disabled={disabled}
     >
       {selectOptions}
