@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Form, Row, notification, Col, Button, Input} from 'antd';
+import {Form, Row, notification, Col, Button, Input, Alert} from 'antd';
 import style from './Forms.module.css';
 import {get, post, put} from "../../utils/api";
 import useSWR from "swr";
@@ -11,14 +11,18 @@ import {LanguageForm} from "./fields/LanguageForm";
 import {PersonForm} from "./fields/PersonForm";
 import {PlaceForm} from "./fields/PlaceForm";
 import {SubjectForm} from "./fields/SubjectForm";
+import {ArchivalUnitsFondsForm} from "./fields/ArchivalUnitsFondsForm";
+import {ArchivalUnitsSubFondsForm} from "./fields/ArchivalUnitsSubFondsForm";
+import {ArchivalUnitsSeriesForm} from "./fields/ArchivalUnitsSeriesForm";
 
-export const PopupForm = ({api, selectedRecord, module, type, field, label, onClose}) => {
+export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
+  const [errors, setErrors] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
   const readOnly = type === 'view';
 
-  const { data, error } = useSWR(selectedRecord ? `${api}${selectedRecord}/` : null, get, {revalidateOnMount: true});
+  const { data, error } = useSWR(selectedRecord ? `${preCreateAPI ? preCreateAPI : api}${selectedRecord}/` : null, get, {revalidateOnMount: true});
 
   useEffect(() => {
     form.setFieldsValue(data)
@@ -68,8 +72,9 @@ export const PopupForm = ({api, selectedRecord, module, type, field, label, onCl
     });
 
     if (non_field_errors) {
-      console.log(non_field_errors)
+      setErrors(non_field_errors);
     }
+
     if (field_errors) {
       Object.keys(field_errors).forEach(errorKey => {
         form.setFields([
@@ -103,6 +108,12 @@ export const PopupForm = ({api, selectedRecord, module, type, field, label, onCl
         return <PlaceForm form={form} readOnly={readOnly}/>;
       case 'subjects':
         return <SubjectForm form={form} readOnly={readOnly}/>;
+      case 'archival-units-fonds':
+        return <ArchivalUnitsFondsForm form={form} type={type} />;
+      case 'archival-units-subfonds':
+        return <ArchivalUnitsSubFondsForm form={form} type={type} />;
+      case 'archival-units-series':
+        return <ArchivalUnitsSeriesForm form={form} type={type} />;
       case 'carrier-types':
         return <CarrierTypeForm />;
       default:
@@ -116,8 +127,34 @@ export const PopupForm = ({api, selectedRecord, module, type, field, label, onCl
     }
   };
 
+  const renderErrors = () => {
+    const onErrorClose = () => {
+      setErrors(undefined);
+    };
+
+    if (errors.length > 0) {
+      const errorDisplay = errors.map((e, idx) => {
+        return (
+          <div key={idx}>{e}</div>
+        )
+      });
+
+      return (
+        <Alert
+          description={errorDisplay}
+          type="error"
+          closable
+          style={{marginBottom: '10px'}}
+          onClose={onErrorClose}
+          message={''}
+        />
+      )
+    }
+  };
+
   return (
     <React.Fragment>
+      { errors && renderErrors() }
       <Form
         name={`${module}-form`}
         validateMessages={validateMessages}

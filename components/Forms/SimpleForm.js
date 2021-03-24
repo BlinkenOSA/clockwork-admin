@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Card, Form, Row, notification} from 'antd';
+import {Card, Form, Row, notification, Alert} from 'antd';
 import {AccessionForm} from "./fields/AccessionForm";
 import style from './Forms.module.css';
 import {SimpleFormFooter} from "./SimpleFormFooter";
@@ -15,6 +15,7 @@ const MODULES = {
 export const SimpleForm = ({api, module, type, initialValues}) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState(undefined);
 
   const [form] = Form.useForm();
   const readOnly = type === 'view';
@@ -62,7 +63,7 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
     });
 
     if (non_field_errors) {
-      console.log(non_field_errors)
+      setErrors(non_field_errors);
     }
 
     if (field_errors) {
@@ -93,8 +94,34 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
     }
   };
 
+  const renderErrors = () => {
+    const onErrorClose = () => {
+      setErrors(undefined);
+    };
+
+    if (errors.length > 0) {
+      const errorDisplay = errors.map((e, idx) => {
+        return (
+          <div key={idx}>{e}</div>
+        )
+      });
+
+      return (
+        <Alert
+          description={errorDisplay}
+          type="error"
+          closable
+          style={{marginBottom: '10px'}}
+          onClose={onErrorClose}
+          message={''}
+        />
+      )
+    }
+  };
+
   return (
     <React.Fragment>
+      { errors && renderErrors() }
       <Form
         name={`${module}-form`}
         validateMessages={validateMessages}
