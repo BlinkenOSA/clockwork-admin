@@ -2,8 +2,7 @@ import {Button, Col, Form, Input, Tooltip, Row, Table} from "antd";
 import React, {useState} from "react";
 import { SelectOutlined } from '@ant-design/icons';
 import style from "./FormAuthoritySelect.module.css";
-import useSWR from "swr";
-import {get} from "../../../utils/api";
+import {useData} from "../../../utils/hooks/useData";
 
 const AuthoritySelectTable = ({tableColumnTitle, tableColumnField, dataSource, ...props}) => {
   const renderSelectButton = (data) => {
@@ -58,7 +57,7 @@ const AuthoritySelectTable = ({tableColumnTitle, tableColumnField, dataSource, .
 export const FormAuthoritySelect = ({api, type, nameField='name', field, form, columnTitle, columnField}) => {
   const [searchValue, setSearchValue] = useState('');
 
-  const {data, error} = useSWR([api, searchValue], url => get(url, {query: searchValue, type: type}));
+  const {data, loading} = useData(api, {query: searchValue, type: type});
 
   const onSearch = () => {
     const search = form.getFieldValue(nameField);
@@ -79,7 +78,7 @@ export const FormAuthoritySelect = ({api, type, nameField='name', field, form, c
           <Button
             className={style.SearchButton}
             onClick={onSearch}
-            loading={!data}
+            loading={loading}
           >
             Search
           </Button>

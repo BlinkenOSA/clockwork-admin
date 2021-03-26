@@ -1,14 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import {Select, Spin} from "antd";
-import useSWR from "swr";
-import {get} from "../../../utils/api";
+import {useData} from "../../../utils/hooks/useData";
 
 const {Option} = Select;
 
-const FormRemoteSelect = ({selectAPI, selectAPIParams, valueField, labelField, value, onChange, placeholder, mode='default', disabled=false}) => {
+const FormRemoteSelect = ({ selectAPI, selectAPIParams, valueField, labelField,
+                            onChange, placeholder, mode='default',
+                            disabled=false, ...props }) => {
   const [params, setParams] = useState(selectAPIParams);
+  const [selectData, setSelectData] = useState([]);
 
-  const { data, error } = useSWR([selectAPI, params], url => get(url, params));
+  const {data, loading} = useData(selectAPI, params);
+
+  useEffect(() => {
+    data && setSelectData(data)
+  }, [data]);
 
   const handleSearch = (value) => {
     if (value.length > 2 || value.length === 0) {
@@ -20,29 +26,36 @@ const FormRemoteSelect = ({selectAPI, selectAPIParams, valueField, labelField, v
   };
 
   const handleSelect = (value) => {
-    console.log(value);
-    setParams(prevParams => ({
-      ...prevParams,
-      search: ''
-    }));
-    onChange(value);
+    if (params.hasOwnProperty('search') && params['search'] !== "") {
+      setParams(prevParams => ({
+        ...prevParams,
+        search: ''
+      }));
+    }
+    onChange(value)
   };
 
-  const selectOptions = data ? data.map(d => (
+  const handleClear = () => {
+    onChange(undefined);
+  };
+
+  const selectOptions = selectData.map(d => (
     <Option key={d[valueField]} value={d[valueField]}>{d[labelField]}</Option>
-  )) : [];
+  ));
 
   return (
     <Select
       showSearch
       allowClear
-      defaultValue={value ? value : undefined}
       filterOption={false}
       onSearch={handleSearch}
       onSelect={handleSelect}
+      onClear={handleClear}
       placeholder={placeholder}
       mode={mode}
       disabled={disabled}
+      loading={loading}
+      {...props}
     >
       {selectOptions}
     </Select>

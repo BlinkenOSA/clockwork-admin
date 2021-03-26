@@ -2,6 +2,7 @@ import React from 'react';
 import {Form, Col, Input, Row} from "antd";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 import {FormMultipleFields} from "../components/FormMultipleFields";
+import {FormRemoteSelectWithEdit} from "../components/FormRemoteSelectWithEdit";
 
 const AccessionItem = ({field, disabled}) => (
   <React.Fragment>
@@ -35,7 +36,7 @@ const AccessionItem = ({field, disabled}) => (
   </React.Fragment>
 );
 
-export const AccessionForm = ({readOnly}) => {
+export const AccessionForm = ({form, readOnly}) => {
   return (
     <React.Fragment>
       <Col xs={12}>
@@ -45,10 +46,15 @@ export const AccessionForm = ({readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item label="Donor" name="donor">
-          <FormRemoteSelect
+          <FormRemoteSelectWithEdit
+            fieldName={'donor'}
+            form={form}
             valueField={'id'}
             labelField={'name'}
             selectAPI={'/v1/donor/select/'}
+            api={'/v1/donor/'}
+            label={'Donor'}
+            module={'donors'}
             disabled={readOnly}
           />
         </Form.Item>

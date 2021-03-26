@@ -2,8 +2,6 @@ import React from 'react'
 import AppLayout from "../../../components/Layout/Layout";
 import Head from "next/dist/next-server/lib/head";
 import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
-import useSWR from "swr";
-import {get} from "../../../utils/api";
 import {SimpleForm} from "../../../components/Forms/SimpleForm";
 
 export default function DonorCreate() {

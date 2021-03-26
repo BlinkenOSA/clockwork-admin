@@ -22,7 +22,12 @@ export const ArchivalUnitsSubFondsForm = ({type, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={4}>
-        <Form.Item label="Subfonds" name="subfonds" required rules={[{ required: true }]}>
+        <Form.Item
+          label="Subfonds"
+          name="subfonds"
+          required
+          rules={[{ required: true, type: 'number', min: 1 }]}
+        >
           <Input />
         </Form.Item>
       </Col>

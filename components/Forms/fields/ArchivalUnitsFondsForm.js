@@ -7,7 +7,12 @@ export const ArchivalUnitsFondsForm = ({type, readOnly}) => {
   return (
     <React.Fragment>
       <Col xs={4}>
-        <Form.Item label="Fonds" name="fonds" required rules={[{ required: true }]}>
+        <Form.Item
+          label="Fonds"
+          name="fonds"
+          required
+          rules={[{ required: true, type: 'number', min: 1 }]}
+        >
           <Input />
         </Form.Item>
       </Col>

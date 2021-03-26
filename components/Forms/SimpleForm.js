@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Card, Form, Row, notification, Alert} from 'antd';
+import {Card, Form, Row, notification, Alert, Select} from 'antd';
 import {AccessionForm} from "./fields/AccessionForm";
 import style from './Forms.module.css';
 import {SimpleFormFooter} from "./SimpleFormFooter";
@@ -32,6 +32,7 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
             description: `${MODULES[module]} record was ${type === 'create' ? 'created' : 'updated'}!`,
           });
           setLoading(false);
+          router.push(`/${module}`)
         }).catch(error => {
           handleError(error);
         });
@@ -44,12 +45,12 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
             description: `${MODULES[module]} record was ${type === 'create' ? 'created' : 'updated'}!`,
           });
           setLoading(false);
+          router.push(`/${module}`)
         }).catch(error => {
           handleError(error);
         });
         break;
     }
-    router.push(`/${module}`)
   };
 
   const handleError = (error) => {
@@ -86,7 +87,7 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
   const renderFormFields = () => {
     switch (module) {
       case 'accessions':
-        return <AccessionForm readOnly={readOnly}/>;
+        return <AccessionForm form={form} readOnly={readOnly}/>;
       case 'donors':
         return <DonorForm readOnly={readOnly}/>;
       default:
@@ -124,6 +125,7 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
       { errors && renderErrors() }
       <Form
         name={`${module}-form`}
+        scrollToFirstError={true}
         validateMessages={validateMessages}
         validateTrigger={''}
         initialValues={initialValues}

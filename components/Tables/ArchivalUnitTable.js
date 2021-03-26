@@ -5,10 +5,10 @@ import useStickyState from "../../utils/hooks/useStickyState";
 import {createParams} from "./functions/createParams";
 import TableFilters from "./TableFilters";
 import style from './Table.module.css';
-import useSWR, {mutate} from "swr";
-import {get, remove} from "../../utils/api";
+import {remove} from "../../utils/api";
 import _ from 'lodash';
 import {PopupForm} from "../Forms/PopupForm";
+import {useData} from "../../utils/hooks/useData";
 
 const PAGINATION_INIT = {
   showQuickJumper: true,
@@ -33,7 +33,7 @@ const ArchivalUnitTable = ({columns}) => {
   const [ params, setParams ] = useState({});
   const [ tableState, setTableState ] = useStickyState({pagination: PAGINATION_INIT}, `ams-archival-units-table`);
 
-  const { data, error } = useSWR([`/v1/archival_unit/`, params], url => get(url, params));
+  const {data, loading, refresh} = useData(`/v1/archival_unit/`, params);
 
   useEffect(() => {
     if (data) {
@@ -143,7 +143,7 @@ const ArchivalUnitTable = ({columns}) => {
         }
       }));
     } else {
-      mutate([`/v1/archival_unit/`, params]);
+      refresh();
     }
   };
 
@@ -200,7 +200,7 @@ const ArchivalUnitTable = ({columns}) => {
   };
 
   const onClose = () => {
-    mutate([`/v1/archival_unit/`, params]);
+    refresh();
     setDrawerShown(false);
   };
 
@@ -216,7 +216,7 @@ const ArchivalUnitTable = ({columns}) => {
         size={'small'}
         footer={() => getFooter()}
         loading={{
-          spinning: !data,
+          spinning: loading,
           indicator: <LoadingOutlined/>,
         }}
         pagination={tableState['pagination']}

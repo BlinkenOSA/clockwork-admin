@@ -2,12 +2,11 @@ import React from 'react'
 import AppLayout from "../../../components/Layout/Layout";
 import Head from "next/dist/next-server/lib/head";
 import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
-import useSWR from "swr";
-import {get} from "../../../utils/api";
 import {SimpleForm} from "../../../components/Forms/SimpleForm";
+import {useData} from "../../../utils/hooks/useData";
 
 export default function AccessionCreate() {
-  const { data, error } = useSWR(`/v1/accession/create/`, url => get(url));
+  const { data, error } = useData(`/v1/accession/create/`);
 
   const breadcrumbData = [
     {text: 'Accession Records'},

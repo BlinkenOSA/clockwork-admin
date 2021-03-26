@@ -8,35 +8,41 @@ export const FormMultipleFields = ({label, disabled, children}) => {
       {
         label && <div className={'ant-form-item-label'}>{label}</div>
       }
-      <Form.List name="items" initialValue={[{}]}>
-        {(fields, { add, remove }) => (
-          <>
-            {fields.map(field => (
-              <Row gutter={12} key={field.name}>
-                {React.cloneElement(children, {field: field, disabled: disabled})}
-                <Col xs={2}>
+      <Form.List name="items">
+        {(fields, { add, remove }) => {
+          if (fields.length === 0) {
+            fields.push("")
+          }
+
+          return (
+            <>
+              {fields.map(field => (
+                <Row gutter={12} key={field.name}>
+                  {React.cloneElement(children, {field: field, disabled: disabled})}
+                  <Col xs={2}>
+                    <Button
+                      type="secondary"
+                      onClick={() => remove(field.name)}
+                      disabled={disabled}
+                      icon={<CloseOutlined />}
+                    />
+                  </Col>
+                </Row>
+              ))}
+              {!disabled &&
+                <Form.Item>
                   <Button
                     type="secondary"
-                    onClick={() => remove(field.name)}
-                    disabled={disabled}
-                    icon={<CloseOutlined />}
-                  />
-                </Col>
-              </Row>
-            ))}
-            {!disabled &&
-              <Form.Item>
-                <Button
-                  type="secondary"
-                  onClick={() => add()}
-                  icon={<PlusOutlined/>}
-                >
-                  Add
-                </Button>
-              </Form.Item>
-            }
-          </>
-        )}
+                    onClick={() => add()}
+                    icon={<PlusOutlined/>}
+                  >
+                    Add
+                  </Button>
+                </Form.Item>
+              }
+            </>
+            )}}
+
       </Form.List>
     </React.Fragment>
   )

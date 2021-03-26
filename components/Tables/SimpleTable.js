@@ -7,8 +7,8 @@ import {getColumns} from "./functions/getColumns";
 import TableFilters from "./TableFilters";
 import style from './Table.module.css';
 import Link from "next/link";
-import useSWR, {mutate} from "swr";
-import {get, remove} from "../../utils/api";
+import {remove} from "../../utils/api";
+import {useData} from "../../utils/hooks/useData";
 
 const PAGINATION_INIT = {
   showQuickJumper: true,
@@ -21,7 +21,7 @@ const SimpleTable = ({api, columns, module, button, actions=[], ...props}) => {
   const [ params, setParams ] = useState({});
   const [ tableState, setTableState ] = useStickyState({pagination: PAGINATION_INIT}, `ams-${module}-table`);
 
-  const { data, error } = useSWR([`${api}`, params], url => get(url, params));
+  const { data, loading, refresh} = useData(api, params);
 
   useEffect(() => {
     if (data) {
@@ -96,8 +96,6 @@ const SimpleTable = ({api, columns, module, button, actions=[], ...props}) => {
           current: prevTableState.pagination['current'] - 1
         }
       }));
-    } else {
-      mutate([`${api}`, params]);
     }
   };
 
@@ -113,6 +111,7 @@ const SimpleTable = ({api, columns, module, button, actions=[], ...props}) => {
         remove(`${api}${id}/`).then(() => {
           handleDelete();
           deleteAlert();
+          refresh();
         })
       }
     });
@@ -135,7 +134,7 @@ const SimpleTable = ({api, columns, module, button, actions=[], ...props}) => {
         size={'small'}
         footer={() => getFooter()}
         loading={{
-          spinning: !data,
+          spinning: loading,
           indicator: <LoadingOutlined/>,
         }}
         pagination={tableState['pagination']}

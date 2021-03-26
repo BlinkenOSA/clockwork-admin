@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Form, Row, notification, Col, Button, Input, Alert} from 'antd';
 import style from './Forms.module.css';
-import {get, post, put} from "../../utils/api";
-import useSWR from "swr";
+import {post, put} from "../../utils/api";
 import {CarrierTypeForm} from "./fields/CarrierTypeForm";
 import {CorporationForm} from "./fields/CorporationForm";
 import {CountryForm} from "./fields/CountryForm";
@@ -14,22 +13,24 @@ import {SubjectForm} from "./fields/SubjectForm";
 import {ArchivalUnitsFondsForm} from "./fields/ArchivalUnitsFondsForm";
 import {ArchivalUnitsSubFondsForm} from "./fields/ArchivalUnitsSubFondsForm";
 import {ArchivalUnitsSeriesForm} from "./fields/ArchivalUnitsSeriesForm";
+import {DonorForm} from "./fields/DonorForm";
+import {useData} from "../../utils/hooks/useData";
 
 export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
   const [errors, setErrors] = useState(undefined);
-  const [loading, setLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
   const [form] = Form.useForm();
 
   const readOnly = type === 'view';
 
-  const { data, error } = useSWR(selectedRecord ? `${preCreateAPI ? preCreateAPI : api}${selectedRecord}/` : null, get, {revalidateOnMount: true});
+  const {data, loading} = useData(selectedRecord ? `${preCreateAPI ? preCreateAPI : api}${selectedRecord}/` : undefined);
 
   useEffect(() => {
     form.setFieldsValue(data)
   }, [form, data]);
 
   const onFinish = (values) => {
-    setLoading(true);
+    setFormLoading(true);
 
     switch (type) {
       case 'edit':
@@ -39,7 +40,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
             message: 'Success!',
             description: `'${label}' record was updated!`,
           });
-          setLoading(false);
+          setFormLoading(false);
           onClose();
         }).catch(error => {
           handleError(error);
@@ -52,8 +53,9 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
             message: 'Success!',
             description: `'${label}' record was created!`,
           });
-          setLoading(false);
-          onClose();
+          const {id} = response.data;
+          setFormLoading(false);
+          onClose(id);
         }).catch(error => {
           handleError(error);
         });
@@ -84,7 +86,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
           },
         ]);
       });
-      setLoading(false);
+      setFormLoading(false);
     }
   };
 
@@ -95,19 +97,19 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
   const renderFields = () => {
     switch (module) {
       case 'corporations':
-        return <CorporationForm form={form} readOnly={readOnly}/>;
+        return <CorporationForm form={form} readOnly={readOnly} />;
       case 'countries':
-        return <CountryForm form={form} readOnly={readOnly}/>;
+        return <CountryForm form={form} readOnly={readOnly} />;
       case 'genres':
-        return <GenreForm form={form} readOnly={readOnly}/>;
+        return <GenreForm form={form} readOnly={readOnly} />;
       case 'languages':
-        return <LanguageForm form={form} readOnly={readOnly}/>;
+        return <LanguageForm form={form} readOnly={readOnly} />;
       case 'people':
-        return <PersonForm form={form} readOnly={readOnly}/>;
+        return <PersonForm form={form} readOnly={readOnly} />;
       case 'places':
-        return <PlaceForm form={form} readOnly={readOnly}/>;
+        return <PlaceForm form={form} readOnly={readOnly} />;
       case 'subjects':
-        return <SubjectForm form={form} readOnly={readOnly}/>;
+        return <SubjectForm form={form} readOnly={readOnly} />;
       case 'archival-units-fonds':
         return <ArchivalUnitsFondsForm form={form} type={type} />;
       case 'archival-units-subfonds':
@@ -115,7 +117,9 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
       case 'archival-units-series':
         return <ArchivalUnitsSeriesForm form={form} type={type} />;
       case 'carrier-types':
-        return <CarrierTypeForm />;
+        return <CarrierTypeForm/>;
+      case 'donors':
+        return <DonorForm />;
       default:
         return (
           <Col xs={24}>
@@ -157,6 +161,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
       { errors && renderErrors() }
       <Form
         name={`${module}-form`}
+        scrollToFirstError={true}
         validateMessages={validateMessages}
         validateTrigger={''}
         initialValues={type === 'edit' ? data : {}}
@@ -173,7 +178,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
             {
               type !== 'view' &&
               <Button
-                loading={loading}
+                loading={formLoading}
                 type={'primary'}
                 htmlType={'submit'}
               >

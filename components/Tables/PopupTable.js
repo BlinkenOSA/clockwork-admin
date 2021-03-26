@@ -5,10 +5,10 @@ import useStickyState from "../../utils/hooks/useStickyState";
 import {createParams} from "./functions/createParams";
 import TableFilters from "./TableFilters";
 import style from './Table.module.css';
-import useSWR, {mutate} from "swr";
-import {get, remove} from "../../utils/api";
+import {remove} from "../../utils/api";
 import _ from 'lodash';
 import {PopupForm} from "../Forms/PopupForm";
+import {useData} from "../../utils/hooks/useData";
 
 const PAGINATION_INIT = {
   showQuickJumper: true,
@@ -25,7 +25,7 @@ const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=
   const [ params, setParams ] = useState({});
   const [ tableState, setTableState ] = useStickyState({pagination: PAGINATION_INIT}, `ams-${module}-table`);
 
-  const { data, error } = useSWR([`${api}`, params], url => get(url, params));
+  const { data, loading, refresh } = useData(api, params);
 
   useEffect(() => {
     if (data) {
@@ -150,7 +150,7 @@ const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=
         }
       }));
     } else {
-      mutate([`${api}`, params]);
+      refresh()
     }
   };
 
@@ -194,7 +194,7 @@ const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=
   };
 
   const onClose = () => {
-    mutate([`${api}`, params]);
+    refresh();
     setDrawerShown(false);
   };
 
@@ -213,7 +213,7 @@ const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=
         size={'small'}
         footer={() => getFooter()}
         loading={{
-          spinning: !data,
+          spinning: loading,
           indicator: <LoadingOutlined/>,
         }}
         pagination={tableState['pagination']}

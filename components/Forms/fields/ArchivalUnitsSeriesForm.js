@@ -37,7 +37,11 @@ export const ArchivalUnitsSeriesForm = ({type, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={4}>
-        <Form.Item label="Series" name="series" required rules={[{ required: true }]}>
+        <Form.Item
+          label="Series"
+          name="series"
+          rules={[{ required: true, type: 'number', min: 1 }]}
+        >
           <Input />
         </Form.Item>
       </Col>
