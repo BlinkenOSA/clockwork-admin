@@ -4,7 +4,7 @@ import {useData} from "../../../utils/hooks/useData";
 
 const {Option} = Select;
 
-const FormRemoteSelect = ({ selectAPI, selectAPIParams, valueField, labelField,
+const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelField,
                             onChange, placeholder, mode='default',
                             disabled=false, ...props }) => {
   const [params, setParams] = useState(selectAPIParams);
@@ -49,7 +49,7 @@ const FormRemoteSelect = ({ selectAPI, selectAPIParams, valueField, labelField,
       allowClear
       filterOption={false}
       onSearch={handleSearch}
-      onSelect={handleSelect}
+      onChange={handleSelect}
       onClear={handleClear}
       placeholder={placeholder}
       mode={mode}

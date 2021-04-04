@@ -1,12 +1,7 @@
 import React from 'react';
-import {Form, Col, Input, Row, Tabs} from "antd";
-import {FormMultipleFields} from "../components/FormMultipleFields";
-import FormRemoteSelect from "../components/FormRemoteSelect";
-import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
+import {Form, Col, Input} from "antd";
 
-const { TabPane } = Tabs;
-
-export const LanguageForm = ({form, readOnly}) => {
+export const LanguageForm = ({readOnly}) => {
   return (
     <React.Fragment>
       <Col xs={8}>

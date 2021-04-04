@@ -1,7 +1,5 @@
 import React from 'react';
 import {Form, Col, Input, Row, Tabs} from "antd";
-import {FormMultipleFields} from "../components/FormMultipleFields";
-import FormRemoteSelect from "../components/FormRemoteSelect";
 import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
 
 const { TabPane } = Tabs;

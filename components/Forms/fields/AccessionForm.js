@@ -1,40 +1,8 @@
 import React from 'react';
 import {Form, Col, Input, Row} from "antd";
 import FormRemoteSelect from "../components/FormRemoteSelect";
-import {FormMultipleFields} from "../components/FormMultipleFields";
 import {FormRemoteSelectWithEdit} from "../components/FormRemoteSelectWithEdit";
-
-const AccessionItem = ({field, disabled}) => (
-  <React.Fragment>
-    <Col xs={4}>
-      <Form.Item
-        {...field}
-        name={[field.name, 'quantity']}
-        fieldKey={[field.name, 'quantity']}
-      >
-        <Input placeholder={'Quantity'} disabled={disabled}/>
-      </Form.Item>
-    </Col>
-    <Col xs={8}>
-      <Form.Item
-        {...field}
-        name={[field.name, 'container']}
-        fieldKey={[field.name, 'container']}
-      >
-        <Input placeholder={'Container'} disabled={disabled}/>
-      </Form.Item>
-    </Col>
-    <Col xs={10}>
-      <Form.Item
-        {...field}
-        name={[field.name, 'content']}
-        fieldKey={[field.name, 'content']}
-      >
-        <Input placeholder={'Content'} disabled={disabled}/>
-      </Form.Item>
-    </Col>
-  </React.Fragment>
-);
+import {AccessionItems} from "./accessions/AccessionItems";
 
 export const AccessionForm = ({form, readOnly}) => {
   return (
@@ -121,9 +89,7 @@ export const AccessionForm = ({form, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={24}>
-        <FormMultipleFields label={'Items'} disabled={readOnly}>
-          <AccessionItem />
-        </FormMultipleFields>
+        <AccessionItems disabled={readOnly} />
       </Col>
       <Col xs={12}>
         <Row>

@@ -7,7 +7,7 @@ import {useData} from "../../../utils/hooks/useData";
 
 const {Option} = Select;
 
-export const FormRemoteSelectWithEdit = ({api, fieldName, module, selectAPI, selectAPIParams, valueField, labelField, onChange, placeholder, disabled=false, form, ...props}) => {
+export const FormRemoteSelectWithEdit = ({api, fieldName, module, selectAPI, selectAPIParams={}, valueField, labelField, onChange, placeholder, disabled=false, form, ...props}) => {
   const [params, setParams] = useState(selectAPIParams);
   const [selectData, setSelectData] = useState([]);
   const [drawerShown, setDrawerShown] = useState(false);

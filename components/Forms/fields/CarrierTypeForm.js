@@ -1,7 +1,5 @@
 import React from 'react';
-import {Form, Col, Input, Row} from "antd";
-import FormRemoteSelect from "../components/FormRemoteSelect";
-import {FormMultipleFields} from "../components/FormMultipleFields";
+import {Form, Col, Input} from "antd";
 
 export const CarrierTypeForm = ({readOnly}) => {
   return (

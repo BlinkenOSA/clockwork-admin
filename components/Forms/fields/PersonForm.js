@@ -1,39 +1,9 @@
 import React from 'react';
-import {Form, Col, Input, Row, Tabs} from "antd";
-import {FormMultipleFields} from "../components/FormMultipleFields";
-import FormRemoteSelect from "../components/FormRemoteSelect";
+import {Form, Col, Input, Tabs} from "antd";
 import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
+import {PersonOtherNames} from "./authority_lists/PersonOtherNames";
 
 const { TabPane } = Tabs;
-
-const OtherNames = ({field, disabled}) => (
-  <React.Fragment>
-    <Col xs={10}>
-      <Form.Item
-        {...field}
-        name={[field.name, 'language']}
-        fieldKey={[field.name, 'language']}
-      >
-        <FormRemoteSelect
-          valueField={'id'}
-          labelField={'language'}
-          selectAPI={'/v1/authority_list/select/languages/'}
-          placeholder={'- Select Language -'}
-          disabled={disabled}
-        />
-      </Form.Item>
-    </Col>
-    <Col xs={12}>
-      <Form.Item
-        {...field}
-        name={[field.name, 'name']}
-        fieldKey={[field.name, 'name']}
-      >
-        <Input placeholder={'Name'} disabled={disabled}/>
-      </Form.Item>
-    </Col>
-  </React.Fragment>
-);
 
 export const PersonForm = ({form, readOnly}) => {
   return (
@@ -56,9 +26,7 @@ export const PersonForm = ({form, readOnly}) => {
       <Col xs={24}>
         <Tabs defaultActiveKey="1">
           <TabPane tab="Other Forms of Name" key="person_other_formats">
-            <FormMultipleFields disabled={readOnly}>
-              <OtherNames />
-            </FormMultipleFields>
+            <PersonOtherNames disabled={readOnly} />
           </TabPane>
           <TabPane tab="Authority Link (VIAF)" key="authority_link">
             <FormAuthoritySelect

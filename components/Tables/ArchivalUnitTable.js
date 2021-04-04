@@ -142,8 +142,6 @@ const ArchivalUnitTable = ({columns}) => {
           current: prevTableState.pagination['current'] - 1
         }
       }));
-    } else {
-      refresh();
     }
   };
 
@@ -159,6 +157,7 @@ const ArchivalUnitTable = ({columns}) => {
         remove(`/v1/archival_unit/${id}/`).then(() => {
           handleDelete();
           deleteAlert();
+          refresh();
         })
       }
     });

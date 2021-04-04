@@ -1,7 +1,6 @@
 import React from 'react';
-import {Form, Col, Input, Row} from "antd";
+import {Form, Col, Input} from "antd";
 import FormRemoteSelect from "../components/FormRemoteSelect";
-import {FormMultipleFields} from "../components/FormMultipleFields";
 
 export const DonorForm = ({readOnly}) => {
   return (

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import useSWR from "swr";
-import {get} from "../api";
+import {swrGET} from "../api";
 
 export const useUser = () => {
   const [ user, setUser ] = useState(null);
 
-  const { data, error } = useSWR('/auth/users/me/', get, { revalidateOnFocus: false });
+  const { data, error } = useSWR('/auth/users/me/', swrGET, { revalidateOnFocus: true });
 
   useEffect(() => {
     if (data) {

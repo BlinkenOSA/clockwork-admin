@@ -15,6 +15,8 @@ import {ArchivalUnitsSubFondsForm} from "./fields/ArchivalUnitsSubFondsForm";
 import {ArchivalUnitsSeriesForm} from "./fields/ArchivalUnitsSeriesForm";
 import {DonorForm} from "./fields/DonorForm";
 import {useData} from "../../utils/hooks/useData";
+import {normalizeManyFields} from "../../utils/functions/normalizeManyFields";
+import {fillManyFields} from "../../utils/functions/fillManyFields";
 
 export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
   const [errors, setErrors] = useState(undefined);
@@ -31,6 +33,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
 
   const onFinish = (values) => {
     setFormLoading(true);
+    values = normalizeManyFields(values);
 
     switch (type) {
       case 'edit':
@@ -63,6 +66,33 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
     }
   };
 
+  const markErrors = (field_errors) => {
+    Object.keys(field_errors).forEach(errorKey => {
+      const errors = field_errors[errorKey];
+
+      if (typeof errors[0] === 'object') {
+        errors.forEach((e, idx) => {
+          Object.keys(e).forEach(eKey => {
+            console.log(`${errorKey}[${idx}].${eKey}`);
+            form.setFields([
+              {
+                name: [errorKey, idx, eKey],
+                errors: e[eKey],
+              },
+            ]);
+          });
+        })
+      } else {
+        form.setFields([
+          {
+            name: errorKey,
+            errors: errors,
+          },
+        ]);
+      }
+    });
+  };
+
   const handleError = (error) => {
     const errors = error.response.data;
     const {non_field_errors, ...field_errors} = errors;
@@ -78,14 +108,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
     }
 
     if (field_errors) {
-      Object.keys(field_errors).forEach(errorKey => {
-        form.setFields([
-          {
-            name: errorKey,
-            errors: field_errors[errorKey],
-          },
-        ]);
-      });
+      markErrors(field_errors);
       setFormLoading(false);
     }
   };
@@ -156,6 +179,27 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
     }
   };
 
+  const getInitialValue = () => {
+    switch (module) {
+      case 'people':
+        if (data) {
+          return fillManyFields(data, ['person_other_formats']);
+        } else {
+          return {person_other_formats: [{}]}
+        }
+      case 'corporations':
+        if (data) {
+          return fillManyFields(data, ['corporation_other_formats']);
+        } else {
+          return {corporation_other_formats: [{}]}
+        }
+      default:
+        if (data) {
+          return data;
+        }
+    }
+  };
+
   return (
     <React.Fragment>
       { errors && renderErrors() }
@@ -164,7 +208,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
         scrollToFirstError={true}
         validateMessages={validateMessages}
         validateTrigger={''}
-        initialValues={type === 'edit' ? data : {}}
+        initialValues={getInitialValue()}
         form={form}
         onFinish={onFinish}
         layout={'vertical'}

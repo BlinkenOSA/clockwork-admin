@@ -3598,7 +3598,7 @@ promise-inflight@^1.0.1:
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
-prop-types@15.7.2:
+prop-types@15.7.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -4712,6 +4712,19 @@ stylis@3.5.4:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.4.tgz#f665f25f5e299cf3d64654ab949a57c768b73fbe"
   integrity sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q==
+
+suneditor-react@^2.16.1:
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/suneditor-react/-/suneditor-react-2.16.1.tgz#65d89f2a32864b6fd529b26026960827e74bf1bb"
+  integrity sha512-TQ0/y27BA3JMdVamKywZv8wVVN6YyHBWDIFEEm2pLdf3/TzXLOv2NRSxgpTkf3kjuzuwRrSQA2MaG8I3UBazcA==
+  dependencies:
+    prop-types "^15.7.2"
+    suneditor "^2.37.1"
+
+suneditor@^2.37.1:
+  version "2.37.2"
+  resolved "https://registry.yarnpkg.com/suneditor/-/suneditor-2.37.2.tgz#f93b655a080897719920d7bcc7716c1642016a58"
+  integrity sha512-1kP4xqd0BnK2er7ARuOCB5l9vJxXz6JOAi3LVRTtw++ULVDvqLuxbXWLhltzjeRBBcPd1LiLKQAhjN0GlqcTpw==
 
 supports-color@^2.0.0:
   version "2.0.0"

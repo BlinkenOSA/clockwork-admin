@@ -6,10 +6,14 @@ import {SimpleFormFooter} from "./SimpleFormFooter";
 import {post, put} from "../../utils/api";
 import {useRouter} from "next/router";
 import {DonorForm} from "./fields/DonorForm";
+import {IsaarForm} from "./fields/IsaarForm";
+import {normalizeManyFields} from "../../utils/functions/normalizeManyFields";
 
 const MODULES = {
   'accessions': 'Accession',
-  'donors': 'Donor'
+  'donors': 'Donor',
+  'isaar': 'ISAAR-CPF',
+  'isad': 'ISAD(G)'
 };
 
 export const SimpleForm = ({api, module, type, initialValues}) => {
@@ -22,6 +26,7 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
 
   const onFinish = (values) => {
     setLoading(true);
+    values = normalizeManyFields(values);
 
     switch (type) {
       case 'edit':
@@ -53,6 +58,33 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
     }
   };
 
+  const markErrors = (field_errors) => {
+    Object.keys(field_errors).forEach(errorKey => {
+      const errors = field_errors[errorKey];
+
+      if (typeof errors[0] === 'object') {
+        errors.forEach((e, idx) => {
+          Object.keys(e).forEach(eKey => {
+            console.log(`${errorKey}[${idx}].${eKey}`);
+            form.setFields([
+              {
+                name: [errorKey, idx, eKey],
+                errors: e[eKey],
+              },
+            ]);
+          });
+        })
+      } else {
+        form.setFields([
+          {
+            name: errorKey,
+            errors: errors,
+          },
+        ]);
+      }
+    });
+  };
+
   const handleError = (error) => {
     const errors = error.response.data;
     const {non_field_errors, ...field_errors} = errors;
@@ -68,14 +100,7 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
     }
 
     if (field_errors) {
-      Object.keys(field_errors).forEach(errorKey => {
-        form.setFields([
-          {
-            name: errorKey,
-            errors: field_errors[errorKey],
-          },
-        ]);
-      });
+      markErrors(field_errors);
       setLoading(false);
     }
   };
@@ -90,6 +115,8 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
         return <AccessionForm form={form} readOnly={readOnly}/>;
       case 'donors':
         return <DonorForm readOnly={readOnly}/>;
+      case 'isaar':
+        return <IsaarForm form={form} readOnly={readOnly}/>;
       default:
         break;
     }

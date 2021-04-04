@@ -2,6 +2,14 @@
     margin-bottom: 12px;
 }
 
+.Form :global .ant-form-item-label {
+    padding: 0 0 2px;
+}
+
+.Form :global .ant-form-item-explain {
+    font-size: 12px;
+}
+
 .Footer {
     border-top: 0;
     background-color: #fafafa;

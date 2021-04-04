@@ -29,6 +29,9 @@ export const useData = (api, params) => {
     get(api, params).then(response => {
       setLoading(false);
       setData(response.data)
+    }).catch(error => {
+      setData(undefined);
+      setLoading(false);
     });
   };
 

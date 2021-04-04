@@ -149,8 +149,6 @@ const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=
           current: prevTableState.pagination['current'] - 1
         }
       }));
-    } else {
-      refresh()
     }
   };
 
@@ -166,6 +164,7 @@ const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=
         remove(`${api}${id}/`).then(() => {
           handleDelete();
           deleteAlert();
+          refresh();
         })
       }
     });
