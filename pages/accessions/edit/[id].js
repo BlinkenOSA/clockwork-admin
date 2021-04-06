@@ -5,12 +5,17 @@ import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
 import {useRouter} from "next/router";
 import {SimpleForm} from "../../../components/Forms/SimpleForm";
 import {useData} from "../../../utils/hooks/useData";
+import {fillManyFields} from "../../../utils/functions/fillManyFields";
 
-export default function AccessionList() {
+export default function AccessionEdit() {
   const router = useRouter();
   const { id } = router.query;
 
   const { data, error } = useData(id ? `/v1/accession/${id}/` : null);
+
+  const manyFieldList = [
+    'items'
+  ];
 
   const breadcrumbData = [
     {text: 'Accession Records'},
@@ -30,7 +35,7 @@ export default function AccessionList() {
           api={`/v1/accession/${id}/`}
           module={'accessions'}
           type={'edit'}
-          initialValues={data} /> : ''
+          initialValues={data ? fillManyFields(data, manyFieldList) : undefined} /> : ''
       }
     </AppLayout>
   )

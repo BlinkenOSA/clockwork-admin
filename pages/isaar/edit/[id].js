@@ -7,7 +7,7 @@ import {SimpleForm} from "../../../components/Forms/SimpleForm";
 import {useData} from "../../../utils/hooks/useData";
 import {fillManyFields} from "../../../utils/functions/fillManyFields";
 
-export default function AccessionList() {
+export default function IsaarEdit() {
   const router = useRouter();
   const { id } = router.query;
 

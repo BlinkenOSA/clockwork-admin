@@ -6,7 +6,7 @@ import {useRouter} from "next/router";
 import {SimpleForm} from "../../../components/Forms/SimpleForm";
 import {useData} from "../../../utils/hooks/useData";
 
-export default function AccessionList() {
+export default function DonorEdit() {
   const router = useRouter();
   const { id } = router.query;
 

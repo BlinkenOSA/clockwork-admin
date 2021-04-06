@@ -4,8 +4,8 @@ import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 
 export const AccessionItems = ({disabled}) => (
   <React.Fragment>
-    <div className={'ant-form-item-label'}>Parallel forms of name</div>
-    <Form.List name={'parallel_names'}>
+    <div className={'ant-form-item-label'}>Items</div>
+    <Form.List name={'items'}>
       {(fields, { add, remove }) => {
         return (
           <>

@@ -6,15 +6,11 @@ import {useRouter} from "next/router";
 import {SimpleForm} from "../../../components/Forms/SimpleForm";
 import {useData} from "../../../utils/hooks/useData";
 
-export default function AccessionList() {
+export default function DonorView() {
   const router = useRouter();
   const { id } = router.query;
 
   const { data, error } = useData(id ? `/v1/donor/${id}/` : undefined);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   const breadcrumbData = [
     {text: 'Donor Records'},

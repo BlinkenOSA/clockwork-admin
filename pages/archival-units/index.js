@@ -4,27 +4,19 @@ import Head from "next/dist/next-server/lib/head";
 import Breadcrumbs from "../../components/Layout/Breadcrumbs";
 import {Card} from "antd";
 import ArchivalUnitTable from "../../components/Tables/ArchivalUnitTable";
+import {renderArchivalUnit} from "../../utils/renders/renderArchivalUnit";
 
 export default function ArchivalUnitList() {
   const breadcrumbData = [
     {text: 'Archival Units'},
   ];
 
-  const archivalUnitRender = (text, record) => {
-    return(
-      <React.Fragment>
-        <strong style={{marginLeft: '10px'}}>{record.reference_code}</strong>
-        <span style={{marginLeft: '20px'}}>{record.title}</span>
-      </React.Fragment>
-    )
-  };
-
   const columns = [
     {
       title: 'Reference Code',
       dataIndex: 'reference_code',
       key: 'reference_code',
-      render: archivalUnitRender,
+      render: renderArchivalUnit,
       sorter: true,
       ellipsis: true
     }

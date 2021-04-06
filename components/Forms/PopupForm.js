@@ -17,6 +17,7 @@ import {DonorForm} from "./fields/DonorForm";
 import {useData} from "../../utils/hooks/useData";
 import {normalizeManyFields} from "../../utils/functions/normalizeManyFields";
 import {fillManyFields} from "../../utils/functions/fillManyFields";
+import {IsaarForm} from "./fields/IsaarForm";
 
 export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
   const [errors, setErrors] = useState(undefined);
@@ -143,6 +144,8 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
         return <CarrierTypeForm/>;
       case 'donors':
         return <DonorForm />;
+      case 'isaar':
+        return <IsaarForm form={form} />;
       default:
         return (
           <Col xs={24}>
@@ -192,6 +195,20 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
           return fillManyFields(data, ['corporation_other_formats']);
         } else {
           return {corporation_other_formats: [{}]}
+        }
+      case 'isaar':
+        if (data) {
+          return fillManyFields(data,
+            ['parallel_names', 'other_names', 'standardized_names', 'corporate_body_identifiers', 'places']
+          );
+        } else {
+          return {
+            parallel_names: [{}],
+            other_names: [{}],
+            standardized_names: [{}],
+            corporate_body_identifiers: [{}],
+            places: [{}]
+          }
         }
       default:
         if (data) {

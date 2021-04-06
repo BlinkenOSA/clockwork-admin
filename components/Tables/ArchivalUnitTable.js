@@ -1,21 +1,14 @@
-import {Button, Col, Drawer, Modal, notification, Row, Table, Tooltip} from "antd";
+import {Button, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
 import React, {useState, useEffect} from "react";
 import {EditOutlined, DeleteOutlined, PlusOutlined, LoadingOutlined} from "@ant-design/icons";
-import useStickyState from "../../utils/hooks/useStickyState";
-import {createParams} from "./functions/createParams";
 import TableFilters from "./TableFilters";
 import style from './Table.module.css';
 import {remove} from "../../utils/api";
 import _ from 'lodash';
 import {PopupForm} from "../Forms/PopupForm";
 import {useData} from "../../utils/hooks/useData";
-
-const PAGINATION_INIT = {
-  showQuickJumper: true,
-  showSizeChanger: true,
-  pageSizeOptions: ['10', '20', '30', '50', '100'],
-  showTotal: (total, range) => {return `${range[0]}-${range[1]} of ${total} items`}
-};
+import {useTable} from "../../utils/hooks/useTable";
+import {deleteAlert} from "./functions/deleteAlert";
 
 const LABELS = {
   'archival-units-fonds': 'Fonds',
@@ -25,56 +18,20 @@ const LABELS = {
 };
 
 const ArchivalUnitTable = ({columns}) => {
+  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module);
+
   const [drawerShown, setDrawerShown] = useState(false);
   const [action, setAction] = useState('create');
   const [module, setModule] = useState('archival-units-fonds');
   const [selectedRecord, setSelectedRecord] = useState(undefined);
 
-  const [ params, setParams ] = useState({});
-  const [ tableState, setTableState ] = useStickyState({pagination: PAGINATION_INIT}, `ams-archival-units-table`);
-
   const {data, loading, refresh} = useData(`/v1/archival_unit/`, params);
 
   useEffect(() => {
     if (data) {
-      setTableState(prevTableState => ({
-        ...prevTableState,
-        pagination: {
-          ...prevTableState.pagination,
-          total: data.count
-        },
-      }));
+      handleDataChange(data.count);
     }
   }, [data]);
-
-  const handleTableChange = (pagination, filters, sorter) => {
-    setTableState(prevTableState => ({
-      ...prevTableState,
-      pagination: {
-        ...prevTableState.pagination.showTotal,
-        ...pagination
-      },
-      ...filters,
-      ...sorter
-    }));
-    setParams(Object.assign({}, params, createParams({pagination, filters, sorter})));
-  };
-
-  const handleFilterChange = (filterValues) => {
-    if (Object.entries(filterValues).length > 0) {
-
-      // set pagination
-      setTableState(prevTableState => ({
-        ...prevTableState,
-        pagination: {
-          ...prevTableState.pagination,
-          current: 1
-        }
-      }));
-
-      setParams(Object.assign({}, filterValues));
-    }
-  };
 
   const renderActionButtons = (record) => {
     return (
@@ -124,28 +81,7 @@ const ArchivalUnitTable = ({columns}) => {
     )
   };
 
-  const deleteAlert = () => {
-    notification.warning({
-      duration: 3,
-      message: 'Removed!',
-      description: `Record was removed!`,
-    });
-  };
-
-  const handleDelete = () => {
-    if(data.length === 1) {
-      // set pagination
-      setTableState(prevTableState => ({
-        ...prevTableState,
-        pagination: {
-          ...prevTableState.pagination,
-          current: prevTableState.pagination['current'] - 1
-        }
-      }));
-    }
-  };
-
-  const showDeleteConfirm = (id) => {
+  const onDelete = (id) => {
     const { confirm } = Modal;
 
     confirm({
@@ -155,16 +91,12 @@ const ArchivalUnitTable = ({columns}) => {
       cancelText: 'No',
       onOk() {
         remove(`/v1/archival_unit/${id}/`).then(() => {
-          handleDelete();
+          handleDelete(data.length);
           deleteAlert();
           refresh();
         })
       }
     });
-  };
-
-  const onDelete = (id) => {
-    showDeleteConfirm(id)
   };
 
   const getModule = (level) => {

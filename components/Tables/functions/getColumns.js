@@ -10,23 +10,24 @@ const renderActionButtons = (record, actions, module, onDelete) => {
       switch (action) {
         case 'view':
           return (
-            <Tooltip key={'view'} title={'View'}>
-              <Link href={`/${module}/view/${record.id}`}>
+            <Link href={`/${module}/view/${record.id}`}>
+              <Tooltip key={'view'} title={'View'}>
                 <Button size="small" icon={<EyeOutlined/>}/>
-              </Link>
-            </Tooltip>
+              </Tooltip>
+            </Link>
           );
         case 'edit':
           return (
-            <Tooltip key={'edit'} title={'Edit'}>
-              <Link href={`/${module}/edit/${record.id}`}>
+            <Link href={`/${module}/edit/${record.id}`}>
+              <Tooltip key={'edit'} title={'Edit'}>
                 <Button size="small" icon={<EditOutlined/>}/>
-              </Link>
-            </Tooltip>
+              </Tooltip>
+            </Link>
           );
         case 'delete':
           return (
-            record.is_removable && <Tooltip key={'delete'} title={'Delete'}>
+            record.is_removable &&
+            <Tooltip key={'delete'} title={'Delete'}>
               <Button size="small" icon={<DeleteOutlined/>} onClick={() => onDelete(record.id)}/>
             </Tooltip>
           );

@@ -8,6 +8,7 @@
 
 .Form :global .ant-form-item-explain {
     font-size: 12px;
+    min-height: 12px;
 }
 
 .Footer {

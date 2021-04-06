@@ -8,6 +8,7 @@ import {useRouter} from "next/router";
 import {DonorForm} from "./fields/DonorForm";
 import {IsaarForm} from "./fields/IsaarForm";
 import {normalizeManyFields} from "../../utils/functions/normalizeManyFields";
+import {IsadForm} from "./fields/IsadForm";
 
 const MODULES = {
   'accessions': 'Accession',
@@ -18,8 +19,10 @@ const MODULES = {
 
 export const SimpleForm = ({api, module, type, initialValues}) => {
   const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(undefined);
+  const [locale, setLocale] = useState(undefined);
 
   const [form] = Form.useForm();
   const readOnly = type === 'view';
@@ -117,6 +120,8 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
         return <DonorForm readOnly={readOnly}/>;
       case 'isaar':
         return <IsaarForm form={form} readOnly={readOnly}/>;
+      case 'isad':
+        return <IsadForm form={form} locale={locale} readOnly={readOnly}/>;
       default:
         break;
     }
@@ -147,6 +152,12 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
     }
   };
 
+  const onValuesChange = (changedValues) => {
+    if (changedValues.hasOwnProperty('original_locale')) {
+      setLocale(changedValues['original_locale']);
+    }
+  };
+
   return (
     <React.Fragment>
       { errors && renderErrors() }
@@ -158,6 +169,7 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
         initialValues={initialValues}
         form={form}
         onFinish={onFinish}
+        onValuesChange={onValuesChange}
         layout={'vertical'}
         className={style.Form}
       >

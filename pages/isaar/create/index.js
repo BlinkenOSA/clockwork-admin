@@ -4,7 +4,7 @@ import Head from "next/dist/next-server/lib/head";
 import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
 import {SimpleForm} from "../../../components/Forms/SimpleForm";
 
-export default function AccessionCreate() {
+export default function IsaarCreate() {
   const data = {
     parallel_names: [{}],
     other_names: [{}],

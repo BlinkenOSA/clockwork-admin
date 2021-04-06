@@ -49,7 +49,7 @@ export const FormRemoteSelectWithEdit = ({api, fieldName, module, selectAPI, sel
 
   const openForm = (action) => {
     setAction(action);
-    setSelectedRecord(action === 'edit' ? value : undefined);
+    setSelectedRecord(action === 'edit' ? props.value : undefined);
     setDrawerShown(true);
   };
 
