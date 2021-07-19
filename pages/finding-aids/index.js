@@ -1,0 +1,22 @@
+import React from 'react'
+import AppLayout from "../../components/Layout/Layout";
+import Head from "next/dist/next-server/lib/head";
+import Breadcrumbs from "../../components/Layout/Breadcrumbs";
+import {ArchivalUnitSelectForm} from "../../components/Forms/ArchivalUnitSelectForm";
+
+export default function FindingAidsSeriesSelect() {
+  const breadcrumbData = [
+    {text: 'Finding Aids'},
+    {text: 'Select Archival Unit'}
+  ];
+
+  return (
+    <AppLayout>
+      <Head>
+        <title>AMS - Archival Management System - Finding Aids / Select Archival Unit</title>
+      </Head>
+      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <ArchivalUnitSelectForm />
+    </AppLayout>
+  )
+}

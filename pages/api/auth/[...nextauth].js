@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers';
 import axios from 'axios'
+import {useRouter} from "next/router";
 
 const providers = [
   Providers.Credentials({
@@ -31,7 +32,6 @@ const providers = [
 ];
 
 const callbacks = {
-  // Getting the JWT token from API response
   async jwt(token, user, profile) {
     // Signing in
     if (user && profile) {
@@ -55,6 +55,9 @@ const callbacks = {
       } catch (error) {
         return await refreshAccessToken(token)
       }
+    } else {
+      token.error = "RefreshAccessTokenError";
+      return token
     }
   },
 
@@ -62,6 +65,7 @@ const callbacks = {
     if (token) {
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;
+      session.error = token.error;
     }
     return session
   }
@@ -86,7 +90,10 @@ async function refreshAccessToken(token) {
       accessToken: response.data.access,
     }
   } catch (error) {
-    throw error
+    return {
+      ...token,
+      error: "RefreshAccessTokenError",
+    };
   }
 }
 

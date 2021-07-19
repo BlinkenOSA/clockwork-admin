@@ -9,9 +9,9 @@ import {fillManyFields} from "../../../utils/functions/fillManyFields";
 
 export default function IsadEdit() {
   const router = useRouter();
-  const { id } = router.query;
+  const { archival_unit } = router.query;
 
-  const { data, error } = useData(id ? `/v1/isad/${id}/` : undefined);
+  const { data, error } = useData(archival_unit ? `/v1/isad/create/${archival_unit}/` : undefined);
 
   const manyFieldList = [
     'creators',
@@ -23,14 +23,13 @@ export default function IsadEdit() {
 
   const breadcrumbData = [
     {text: 'ISAD(G) Records'},
-    {text: 'Edit'},
-    {text: data ? `${data.title_full}` : ''}
+    {text: 'Create'},
   ];
 
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - Edit ISAD(G) Records</title>
+        <title>AMS - Archival Management System - Create ISAD(G) Record</title>
       </Head>
       <Breadcrumbs breadcrumbData={breadcrumbData} />
       {

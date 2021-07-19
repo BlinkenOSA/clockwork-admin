@@ -15,6 +15,10 @@ export default function IsadView() {
 
   const manyFieldList = [
     'creators',
+    'extents',
+    'related_finding_aids',
+    'location_of_originals',
+    'location_of_copies'
   ];
 
   const breadcrumbData = [
@@ -32,6 +36,7 @@ export default function IsadView() {
       {
         data ?
         <SimpleForm
+          api={'/v1/isad/'}
           module={'isad'}
           type={'view'}
           initialValues={data ? fillManyFields(data, manyFieldList) : undefined} /> : ''
