@@ -14,7 +14,7 @@ const configMenu = [
   {name: 'ISAD(G)', icon: <ProfileOutlined/>, module: 'isad', link: '/isad'},
   {name: 'Finding Aids', icon: <FileOutlined/>, module: 'finding-aids', submenu: [
       {name: 'Folders / Items', link: '/finding-aids'},
-      {name: 'Organizer', link: '#'},
+      {name: 'Organizer', link: '/finding-aids/organizer'},
     ]},
   {name: 'Authority List', icon: <TagsOutlined/>, module: 'authority-list', submenu: [
       {name: 'Corporations', icon: <BankOutlined/>, link: '/authority-list/corporations'},
