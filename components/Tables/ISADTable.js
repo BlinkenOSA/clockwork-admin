@@ -1,5 +1,5 @@
 import {Button, Modal, Table, Tooltip} from "antd";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined, LoadingOutlined, ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.css';
@@ -14,6 +14,8 @@ import Link from "next/link";
 const ISADTable = ({...props}) => {
   const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
   const { data, loading, refresh} = useData(`/v1/isad/`, params);
+
+  const [publishing, setPublishing] = useState({});
 
   const columns = [
     {
@@ -42,7 +44,7 @@ const ISADTable = ({...props}) => {
       title: 'Actions',
       width: 100,
       className: style.ActionColumn,
-      render: (record) => renderActionButtons(record)
+      render: (record) => renderPublishButtons(record)
     }
   ];
 
@@ -51,25 +53,6 @@ const ISADTable = ({...props}) => {
       handleDataChange(data.count)
     }
   }, [data]);
-
-  const renderActionButtons = (record) => {
-    switch (record.status) {
-      case 'Published':
-        return (
-          <Tooltip key={'unplublish'} title={'Unpublish'}>
-            <Button size="small" icon={<ArrowDownOutlined />} onClick={() => onPublish('unpublish', record.isad)}/>
-          </Tooltip>
-        );
-      case 'Draft':
-        return (
-          <Tooltip key={'publish'} title={'Publish'}>
-            <Button size="small" icon={<ArrowUpOutlined />} onClick={() => onPublish('publish', record.isad)}/>
-          </Tooltip>
-        );
-      default:
-        break;
-    }
-  };
 
   const renderCRUDButtons = (record) => {
     if (record.status === 'Not exists') {
@@ -104,6 +87,35 @@ const ISADTable = ({...props}) => {
     }
   };
 
+  const renderPublishButtons = (record) => {
+    switch (record.status) {
+      case 'Published':
+        return (
+          <Tooltip key={'unplublish'} title={'Unpublish'}>
+            <Button
+              size="small"
+              icon={<ArrowDownOutlined />}
+              loading={publishing.hasOwnProperty(record.isad) ? publishing[record.isad] : false}
+              onClick={() => onPublish('unpublish', record.isad)}
+            />
+          </Tooltip>
+        );
+      case 'Draft':
+        return (
+          <Tooltip key={'publish'} title={'Publish'}>
+            <Button
+              size="small"
+              icon={<ArrowUpOutlined />}
+              loading={publishing.hasOwnProperty(record.isad) ? publishing[record.isad] : false}
+              onClick={() => onPublish('publish', record.isad)}
+            />
+          </Tooltip>
+        );
+      default:
+        break;
+    }
+  };
+
   const onPublish = (action, id) => {
     const { confirm } = Modal;
 
@@ -113,8 +125,10 @@ const ISADTable = ({...props}) => {
       okType: 'warning',
       cancelText: 'No',
       onOk() {
+        setPublishing({[id]: true});
         put(`/v1/isad/${action}/${id}/`).then(() => {
           refresh();
+          setPublishing({[id]: false});
         })
       }
     });

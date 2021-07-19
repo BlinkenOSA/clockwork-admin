@@ -1,7 +1,6 @@
-import {Button, Col, Drawer, Modal, notification, Row, Table, Tooltip} from "antd";
+import {Button, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
 import React, {useState, useEffect} from "react";
 import {EditOutlined, DeleteOutlined, EyeOutlined, LoadingOutlined} from "@ant-design/icons";
-import {createParams} from "./functions/createParams";
 import TableFilters from "./TableFilters";
 import style from './Table.module.css';
 import {remove} from "../../utils/api";

@@ -18,12 +18,12 @@ const LABELS = {
 };
 
 const ArchivalUnitTable = ({columns}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module);
-
   const [drawerShown, setDrawerShown] = useState(false);
   const [action, setAction] = useState('create');
   const [module, setModule] = useState('archival-units-fonds');
   const [selectedRecord, setSelectedRecord] = useState(undefined);
+
+  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module);
 
   const {data, loading, refresh} = useData(`/v1/archival_unit/`, params);
 
