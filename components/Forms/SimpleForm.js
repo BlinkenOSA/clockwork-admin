@@ -1,14 +1,14 @@
-import React, {useState} from "react";
-import {Card, Form, Row, notification, Alert, Select} from 'antd';
+import React from "react";
+import {Card, Form, Row} from 'antd';
 import {AccessionForm} from "./fields/AccessionForm";
 import style from './Forms.module.css';
 import {SimpleFormFooter} from "./SimpleFormFooter";
-import {post, put} from "../../utils/api";
 import {useRouter} from "next/router";
 import {DonorForm} from "./fields/DonorForm";
 import {IsaarForm} from "./fields/IsaarForm";
-import {normalizeManyFields} from "../../utils/functions/normalizeManyFields";
 import {IsadForm} from "./fields/IsadForm";
+import {FindingAidsEntityForm} from "./fields/FindingAidsEntityForm";
+import {useForm} from "../../utils/hooks/useForm";
 
 const MODULES = {
   'accessions': 'Accession',
@@ -20,94 +20,14 @@ const MODULES = {
 export const SimpleForm = ({api, module, type, initialValues}) => {
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState(undefined);
-  const [locale, setLocale] = useState(undefined);
+  const afterFinish = () => {
+    router.push(`/${module}`);
+  };
 
-  const [form] = Form.useForm();
+  const {form, formLoading, errors, locale, onFinish, renderErrors, onValuesChange} =
+    useForm(api, type, MODULES[module], afterFinish);
+
   const readOnly = type === 'view';
-
-  const onFinish = (values) => {
-    setLoading(true);
-    values = normalizeManyFields(values);
-
-    switch (type) {
-      case 'edit':
-        put(api, values).then(response => {
-          notification.success({
-            duration: 3,
-            message: 'Success!',
-            description: `${MODULES[module]} record was ${type === 'create' ? 'created' : 'updated'}!`,
-          });
-          setLoading(false);
-          router.push(`/${module}`)
-        }).catch(error => {
-          handleError(error);
-        });
-        break;
-      case 'create':
-        post(api, values).then(response => {
-          notification.success({
-            duration: 3,
-            message: 'Success!',
-            description: `${MODULES[module]} record was ${type === 'create' ? 'created' : 'updated'}!`,
-          });
-          setLoading(false);
-          router.push(`/${module}`)
-        }).catch(error => {
-          handleError(error);
-        });
-        break;
-    }
-  };
-
-  const markErrors = (field_errors) => {
-    Object.keys(field_errors).forEach(errorKey => {
-      const errors = field_errors[errorKey];
-
-      if (typeof errors[0] === 'object') {
-        errors.forEach((e, idx) => {
-          Object.keys(e).forEach(eKey => {
-            console.log(`${errorKey}[${idx}].${eKey}`);
-            form.setFields([
-              {
-                name: [errorKey, idx, eKey],
-                errors: e[eKey],
-              },
-            ]);
-          });
-        })
-      } else {
-        form.setFields([
-          {
-            name: errorKey,
-            errors: errors,
-          },
-        ]);
-      }
-    });
-  };
-
-  const handleError = (error) => {
-    const errors = error.response.data;
-    const {non_field_errors, ...field_errors} = errors;
-
-    notification.error({
-      duration: 3,
-      message: 'Error!',
-      description: `Please check your form for errors!`,
-    });
-
-    if (non_field_errors) {
-      setErrors(non_field_errors);
-    }
-
-    if (field_errors) {
-      markErrors(field_errors);
-      setLoading(false);
-    }
-  };
-
   const validateMessages = {
     required: 'This field is required!'
   };
@@ -122,39 +42,10 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
         return <IsaarForm form={form} readOnly={readOnly}/>;
       case 'isad':
         return <IsadForm form={form} locale={locale} readOnly={readOnly}/>;
+      case 'finding-aids':
+        return <FindingAidsEntityForm form={form} locale={locale} readOnly={readOnly}/>;
       default:
         break;
-    }
-  };
-
-  const renderErrors = () => {
-    const onErrorClose = () => {
-      setErrors(undefined);
-    };
-
-    if (errors.length > 0) {
-      const errorDisplay = errors.map((e, idx) => {
-        return (
-          <div key={idx}>{e}</div>
-        )
-      });
-
-      return (
-        <Alert
-          description={errorDisplay}
-          type="error"
-          closable
-          style={{marginBottom: '10px'}}
-          onClose={onErrorClose}
-          message={''}
-        />
-      )
-    }
-  };
-
-  const onValuesChange = (changedValues) => {
-    if (changedValues.hasOwnProperty('original_locale')) {
-      setLocale(changedValues['original_locale']);
     }
   };
 
@@ -182,7 +73,7 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
           module={module}
           form={form}
           type={type}
-          loading={loading}
+          loading={formLoading}
         />
       </Form>
     </React.Fragment>

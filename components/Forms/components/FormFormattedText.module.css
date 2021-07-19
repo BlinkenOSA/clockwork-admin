@@ -69,3 +69,13 @@
 .FormattedTextArea :global .sun-editor .sun-editor-editable li {
     margin: 0;
 }
+
+.FormattedTextAreaDisabled :global .sun-editor .sun-editor-editable {
+    color: rgba(0, 0, 0, 0.25) !important;
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+
+.FormattedTextAreaDisabled :global .sun-editor .sun-editor-editable:hover {
+    cursor: not-allowed;
+}

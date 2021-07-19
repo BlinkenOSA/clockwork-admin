@@ -7,7 +7,9 @@ import {useData} from "../../../utils/hooks/useData";
 
 const {Option} = Select;
 
-export const FormRemoteSelectWithEdit = ({api, fieldName, module, selectAPI, selectAPIParams={}, valueField, labelField, onChange, placeholder, disabled=false, form, ...props}) => {
+export const FormRemoteSelectWithEdit = (
+  { api, fieldName, module, selectAPI, selectAPIParams={}, valueField, labelField, onChange, placeholder,
+    disabled=false, form, mode='default', ...props }) => {
   const [params, setParams] = useState(selectAPIParams);
   const [selectData, setSelectData] = useState([]);
   const [drawerShown, setDrawerShown] = useState(false);
@@ -67,24 +69,31 @@ export const FormRemoteSelectWithEdit = ({api, fieldName, module, selectAPI, sel
         <Select
           showSearch
           allowClear
-          style={{ width: "calc(100% - 92px)" }}
+          style={{ width: mode !== "multiple" ? "calc(100% - 92px)" : "calc(100% - 46px)"}}
           filterOption={false}
           onSearch={handleSearch}
-          onSelect={handleSelect}
+          onChange={handleSelect}
           onClear={handleClear}
           placeholder={placeholder}
+          mode={mode}
           disabled={disabled}
           loading={loading}
           {...props}
         >
           {selectOptions}
         </Select>
-        <Button
-          onClick={() => {openForm('edit')}}
-          type={'default'}
-        >
-          <EditOutlined/>
-        </Button>
+        {
+          mode !== 'multiple' &&
+          <Button
+            disabled={!props.value}
+            onClick={() => {
+              openForm('edit')
+            }}
+            type={'default'}
+          >
+            <EditOutlined/>
+          </Button>
+        }
         <Button
           onClick={() => {openForm('create')}}
           type={'default'}

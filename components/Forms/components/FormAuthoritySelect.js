@@ -77,7 +77,7 @@ export const FormAuthoritySelect = ({api, type, nameField='name', field, form, c
         <Col span={4}>
           <Button
             className={style.SearchButton}
-            onClick={onSearch}
+            onClick={() => onSearch()}
             loading={loading}
           >
             Search

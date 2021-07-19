@@ -6,7 +6,8 @@ const {Option} = Select;
 
 const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelField,
                             onChange, placeholder, mode='default',
-                            disabled=false, ...props }) => {
+                            disabled=false, renderFunction, ...props }) => {
+
   const [params, setParams] = useState(selectAPIParams);
   const [selectData, setSelectData] = useState([]);
 
@@ -40,7 +41,11 @@ const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelFiel
   };
 
   const selectOptions = selectData.map(d => (
-    <Option key={d[valueField]} value={d[valueField]}>{d[labelField]}</Option>
+    <Option key={d[valueField]} value={d[valueField]}>
+      {
+        renderFunction ? renderFunction(d) : d[labelField]
+      }
+    </Option>
   ));
 
   return (

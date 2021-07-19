@@ -11,6 +11,11 @@
     min-height: 12px;
 }
 
+.Form :global .ant-form-item-extra {
+    font-size: 12px;
+    min-height: 12px;
+}
+
 .Footer {
     border-top: 0;
     background-color: #fafafa;
