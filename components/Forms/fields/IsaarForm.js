@@ -47,7 +47,7 @@ const Tab01 = ({readOnly}) => (
         name="date_existence_from"
         required
         rules={[{ required: true }]}
-        help={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}
+        extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}
       >
         <Input disabled={readOnly}/>
       </Form.Item>

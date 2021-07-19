@@ -74,7 +74,7 @@ export const AccessionForm = ({form, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={12}>
-        <Form.Item label="Transfer Date" name="transfer_date" help={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}>
+        <Form.Item label="Transfer Date" name="transfer_date" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}>
           <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
