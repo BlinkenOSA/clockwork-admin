@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getSession} from "next-auth/client";
+import {getSession, signOut} from "next-auth/client";
 
 const API = process.env.NEXT_PUBLIC_CLOCKWORK_API;
 
@@ -20,6 +20,10 @@ export const swrGET = async (url, params={}) => {
 export const get = async (url, params={}) => {
   const session = await getSession();
 
+  if (session?.error === "RefreshAccessTokenError") {
+    signOut({callbackUrl: '/auth/login'});
+  }
+
   return axios.get(
     `${API}${url}`,
     {
@@ -34,7 +38,29 @@ export const get = async (url, params={}) => {
 export const put = async (url, data={}) => {
   const session = await getSession();
 
+  if (session?.error === "RefreshAccessTokenError") {
+    signOut({callbackUrl: '/auth/login'});
+  }
+
   return axios.put(
+    `${API}${url}`,
+    data,
+    {
+      headers: {
+        Authorization: "Bearer " + session.accessToken
+      }
+    }
+  )
+};
+
+export const patch = async (url, data={}) => {
+  const session = await getSession();
+
+  if (session?.error === "RefreshAccessTokenError") {
+    signOut({callbackUrl: '/auth/login'});
+  }
+
+  return axios.patch(
     `${API}${url}`,
     data,
     {
@@ -47,6 +73,10 @@ export const put = async (url, data={}) => {
 
 export const post = async (url, data={}) => {
   const session = await getSession();
+
+  if (session?.error === "RefreshAccessTokenError") {
+    signOut({callbackUrl: '/auth/login'});
+  }
 
   return axios.post(
     `${API}${url}`,
@@ -61,6 +91,10 @@ export const post = async (url, data={}) => {
 
 export const remove = async (url) => {
   const session = await getSession();
+
+  if (session?.error === "RefreshAccessTokenError") {
+    signOut({callbackUrl: '/auth/login'});
+  }
 
   return axios.delete(
     `${API}${url}`,
