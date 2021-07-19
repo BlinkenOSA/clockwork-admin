@@ -1,8 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import useStickyState from "./useStickyState";
 import {createParams} from "../../components/Tables/functions/createParams";
-import {Modal, notification} from "antd";
-import {remove} from "../api";
 
 const PAGINATION_INIT = {
   showQuickJumper: true,
@@ -13,7 +11,17 @@ const PAGINATION_INIT = {
 
 export const useTable = (module) => {
   const [ params, setParams ] = useState({});
-  const [ tableState, setTableState ] = useStickyState({pagination: PAGINATION_INIT}, `ams-${module}-table`);
+  const [ tableState, setTableState ] = useStickyState({
+    pagination: PAGINATION_INIT,
+    expandedRows: []
+  }, `ams-${module}-table`);
+
+  const handleExpandedRowsChange = (expandedRows) => {
+    setTableState(prevTableState => ({
+      ...prevTableState,
+      expandedRows: expandedRows
+    }))
+  };
 
   const handleDataChange = (total) => {
     setTableState(prevTableState => ({
@@ -70,6 +78,7 @@ export const useTable = (module) => {
   return {
     params: params,
     tableState: tableState,
+    handleExpandedRowsChange: handleExpandedRowsChange,
     handleDataChange: handleDataChange,
     handleTableChange: handleTableChange,
     handleFilterChange: handleFilterChange,
