@@ -1,10 +1,15 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Col, Form, Input, Row, Tabs} from "antd";
 import FormSelect from "../components/FormSelect";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 import {Creators} from "./isad/Creators";
 import {FormRemoteSelectWithEdit} from "../components/FormRemoteSelectWithEdit";
 import {renderLabelFlag} from "../../../utils/functions/renderLabelFlag";
+import {Extents} from "./isad/Extents";
+import {FormFormattedText} from "../components/FormFormattedText";
+import {RelatedFindingAids} from "./isad/RelatedFindingAids";
+import {LocationOfOriginals} from "./isad/LocationOfOriginals";
+import {LocationOfCopies} from "./isad/LocationOfCopies";
 
 const {TabPane} = Tabs;
 
@@ -21,6 +26,9 @@ const LEVELS = [
 
 const Tab01 = ({form, readOnly}) => (
   <Row gutter={[12]}>
+    <Form.Item name="archival_unit" required rules={[{ required: true }]}>
+      <Input hidden={true}/>
+    </Form.Item>
     <Col xs={4}>
       <Form.Item label="Reference code" name="reference_code" required rules={[{ required: true }]}>
         <Input disabled={true}/>
@@ -34,10 +42,10 @@ const Tab01 = ({form, readOnly}) => (
     <Col xs={4}>
       <Form.Item
         label="Date (From)"
-        name="date_from"
+        name="year_from"
         required
         rules={[{ required: true }]}
-        help={'Date format: YYYY'}
+        extra={'Date format: YYYY'}
       >
         <Input disabled={readOnly}/>
       </Form.Item>
@@ -45,10 +53,8 @@ const Tab01 = ({form, readOnly}) => (
     <Col xs={4}>
       <Form.Item
         label="Date (To)"
-        name="date_to"
-        required
-        rules={[{ required: true }]}
-        help={'Date format: YYYY'}
+        name="year_to"
+        extra={'Date format: YYYY'}
       >
         <Input disabled={readOnly}/>
       </Form.Item>
@@ -154,13 +160,16 @@ const Tab01 = ({form, readOnly}) => (
   </Row>
 );
 
-const Tab02 = ({form, locale, readOnly}) => {
+const Tab02 = ({locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={24}>
         <Form.Item label={`Predominant date`} name="predominant_date">
           <Input disabled={readOnly}/>
         </Form.Item>
+      </Col>
+      <Col xs={24}>
+        <Extents disabled={readOnly} />
       </Col>
       <Col xs={12}>
         <Form.Item label="Estimated Amount of Carriers" name="carrier_estimated">
@@ -171,6 +180,192 @@ const Tab02 = ({form, locale, readOnly}) => {
         <Form.Item
           label={renderLabelFlag(locale, 'Estimated Amount of Carriers - Original Language')}
           name="carrier_estimated_original">
+          <Input.TextArea rows={3} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+    </Row>
+  )
+};
+
+const Tab03 = ({locale, readOnly}) => {
+  return (
+    <Row gutter={[12]}>
+      <Col xs={12}>
+        <Form.Item label={`Administrative history`} name="administrative_history">
+          <FormFormattedText disabled={readOnly} height={150} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Administrative History - Original Language')}
+          name="administrative_history_original">
+          <FormFormattedText disabled={readOnly} height={150} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Archival history`} name="archival_history">
+          <FormFormattedText disabled={readOnly} height={150} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Archival History - Original Language')}
+          name="archival_history_original">
+          <FormFormattedText disabled={readOnly} height={150} />
+        </Form.Item>
+      </Col>
+    </Row>
+  )
+};
+
+const Tab04 = ({locale, readOnly}) => {
+  return (
+    <Row gutter={[12]}>
+      <Col xs={12}>
+        <Form.Item label={`Scope and Content (Abstract)`} name="scope_and_content_abstract">
+          <FormFormattedText disabled={readOnly} height={150} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Scope and Content (Abstract) - Original Language')}
+          name="scope_and_content_abstract_original">
+          <FormFormattedText disabled={readOnly} height={150} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Scope and Content (Narrative)`} name="scope_and_content_narrative">
+          <FormFormattedText disabled={readOnly} height={150} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Scope and Content (Narrative) - Original Language')}
+          name="scope_and_content_narrative_original">
+          <FormFormattedText disabled={readOnly} height={150} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Appraisal`} name="appraisal">
+          <FormFormattedText disabled={readOnly} height={80} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Appraisal - Original Language')}
+          name="appraisal_original">
+          <FormFormattedText disabled={readOnly} height={80} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`System of Arrangement`} name="system_of_arrangement_information">
+          <FormFormattedText disabled={readOnly} height={80} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'System of Arrangement - Original Language')}
+          name="system_of_arrangement_information_original">
+          <FormFormattedText disabled={readOnly} height={80} />
+        </Form.Item>
+      </Col>
+    </Row>
+  )
+};
+
+const Tab05 = ({locale, readOnly}) => {
+  return (
+    <Row gutter={[12]}>
+      <Col xs={24}>
+        <Form.Item label={`Embargo`} name="embargo" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}>
+          <Input disabled={readOnly} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Physical characteristics`} name="physical_characteristics">
+          <FormFormattedText disabled={readOnly} height={100} />
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Physical characteristics - Original Language')}
+          name="physical_characteristics_original">
+          <FormFormattedText disabled={readOnly} height={100} />
+        </Form.Item>
+      </Col>
+      <Col xs={24}>
+        <RelatedFindingAids disabled={readOnly} />
+      </Col>
+    </Row>
+  )
+};
+
+const Tab06 = ({locale, readOnly}) => {
+  return (
+    <Row gutter={[12]}>
+      <Col xs={24}>
+        <LocationOfOriginals disabled={readOnly} />
+      </Col>
+      <Col xs={24}>
+        <LocationOfCopies disabled={readOnly} />
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Publication Note`} name="publication_note">
+          <Input.TextArea rows={4} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Publication Note - Original Language')}
+          name="publication_note_original">
+          <Input.TextArea rows={4} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+    </Row>
+  )
+};
+
+const Tab07 = ({locale, readOnly}) => {
+  return (
+    <Row gutter={[12]}>
+      <Col xs={12}>
+        <Form.Item label={`Note`} name="note">
+          <Input.TextArea rows={4} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Note - Original Language')}
+          name="note_original">
+          <Input.TextArea rows={4} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Internal Note`} name="internal_note">
+          <Input.TextArea rows={4} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Internal Note - Original Language')}
+          name="internal_note_original">
+          <Input.TextArea rows={4} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Archivists note`} name="archivists_note">
+          <Input.TextArea rows={4} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Archivists note - Original Language')}
+          name="archivists_original">
+          <Input.TextArea rows={4} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={24}>
+        <Form.Item label={`Rules and Conventions`} name="rules_and_conventions">
           <Input.TextArea rows={3} disabled={readOnly}/>
         </Form.Item>
       </Col>
@@ -190,14 +385,19 @@ export const IsadForm = ({form, locale, readOnly}) => {
             <Tab02 form={form} locale={locale} readOnly={readOnly}/>
           </TabPane>
           <TabPane tab={'Context'} key="context" forceRender={true} >
+            <Tab03 form={form} locale={locale} readOnly={readOnly}/>
           </TabPane>
           <TabPane tab={'Content'} key="content" forceRender={true}>
+            <Tab04 form={form} locale={locale} readOnly={readOnly}/>
           </TabPane>
           <TabPane tab={'Access & Use'} key="access_and_use" forceRender={true}>
+            <Tab05 form={form} locale={locale} readOnly={readOnly}/>
           </TabPane>
           <TabPane tab={'Allied Materials'} key="allied_materials" forceRender={true}>
+            <Tab06 form={form} locale={locale} readOnly={readOnly}/>
           </TabPane>
           <TabPane tab={'Notes'} key="notes" forceRender={true}>
+            <Tab07 form={form} locale={locale} readOnly={readOnly}/>
           </TabPane>
         </Tabs>
       </Col>
