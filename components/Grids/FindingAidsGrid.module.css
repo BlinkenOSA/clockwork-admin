@@ -1,0 +1,20 @@
+.TableWrapper {
+    min-width: calc(100vw - 100px);
+    min-height: calc(100vh - 128px);
+    overflow: hidden;
+}
+
+.TableWrapper :global .handsontable td.success {
+    background-color: #deffcf !important;
+}
+
+.TableWrapper :global .handsontable td.error {
+    background-color: #ffd1c5 !important;
+}
+
+.Spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 128px);
+}
