@@ -2,8 +2,11 @@ import React, {useEffect} from "react";
 import {Avatar} from "antd";
 import {useUser} from "../../utils/hooks/useUser";
 import ColorHash from 'color-hash'
+import {useLogin} from "../../utils/hooks/useLogin";
 
 const UserAvatar = ({displayUsername=true, ...rest}) => {
+  const [ session, loading ] = useLogin();
+
   const user = useUser();
 
   const colorHash = new ColorHash();
