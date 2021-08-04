@@ -2,6 +2,7 @@ import { DashboardOutlined, SwapOutlined, ApartmentOutlined, UserOutlined, Profi
   UnorderedListOutlined, BankOutlined, FlagOutlined, DeploymentUnitOutlined, GlobalOutlined, TeamOutlined,
   EnvironmentOutlined, TagOutlined, TagsOutlined, RightCircleOutlined, DesktopOutlined, InboxOutlined
 } from '@ant-design/icons';
+import React from "react";
 
 const configMenu = [
   {name: 'Dashboard', icon: <DashboardOutlined/>, link: '/dashboard'},
@@ -42,10 +43,7 @@ const configMenu = [
       {name: 'Restriction Reasons', icon: <RightCircleOutlined/>, link: '/controlled-list/restriction-reasons'},
     ]},
   {name: 'MLR', icon: <InboxOutlined/>, module: 'mlr', link: '/mlr'},
-  {name: 'Digitization', icon: <DesktopOutlined/>, module: 'digitization', submenu: [
-      {name: 'Digitization Log', link: '/digitization/digitization-log'},
-      {name: 'Digitization Plan', link: '/digitization/digitization-plan'}
-    ]},
+  {name: 'Digitization Log', icon: <DesktopOutlined/>, module: 'digitization', link: '/digitization'}
 ];
 
 export default configMenu;
