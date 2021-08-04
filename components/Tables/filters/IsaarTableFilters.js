@@ -1,11 +1,9 @@
 import React from "react";
-import {Form, Col, Row, Input, Select} from "antd";
+import {Form, Col, Row, Select} from "antd";
 import style from "../TableFilters.module.css";
+import FormFilterSearchInput from "./components/FormFilterSearchInput";
 
 const IsaarTableFilters = () => {
-  const { Search } = Input;
-  const { Option } = Select;
-
   const types = [
     { value: 'P', label: 'Personal'},
     { value: 'C', label: 'Corporate Body'},
@@ -21,7 +19,7 @@ const IsaarTableFilters = () => {
     <Row gutter={10} type="flex">
       <Col span={8}>
         <Form.Item name="search">
-          <Search
+          <FormFilterSearchInput
             placeholder={'Search...'}
             allowClear
             enterButton

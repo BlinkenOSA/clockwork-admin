@@ -1,10 +1,10 @@
 import React from "react";
 import {Form, Col, Row, Input, Select} from "antd";
 import style from "../TableFilters.module.css";
+import FormFilterSearchInput from "./components/FormFilterSearchInput";
+import FormFilterInput from "./components/FormFilterInput";
 
 const IsadTableFilter = () => {
-  const {Search} = Input;
-
   const statuses = [
     { value: 'draft', label: 'draft'},
     { value: 'final', label: 'final'},
@@ -15,7 +15,7 @@ const IsadTableFilter = () => {
     <Row gutter={10} type="flex">
       <Col span={8}>
         <Form.Item name="search">
-          <Search
+          <FormFilterSearchInput
             placeholder={'Search...'}
             allowClear
             enterButton
@@ -24,7 +24,7 @@ const IsadTableFilter = () => {
       </Col>
       <Col span={8}>
         <Form.Item name="fonds">
-          <Input
+          <FormFilterInput
             placeholder={'Filter by fonds'}
             allowClear
           />

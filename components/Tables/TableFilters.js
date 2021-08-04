@@ -6,6 +6,8 @@ import DefaultTableFilters from "./filters/DefaultTableFilters";
 import ArchivalUnitTableFilters from "./filters/ArchivalUnitTableFilters";
 import IsaarTableFilters from "./filters/IsaarTableFilters";
 import IsadTableFilter from "./filters/IsadTableFilter";
+import MLRTableFilter from "./filters/MLRTableFilter";
+import DigitizationTableFilter from "./filters/DigitizationTableFilter";
 
 const TableFilters = ({onFilterChange, module, ...props}) => {
   const renderFilters = () => {
@@ -18,6 +20,10 @@ const TableFilters = ({onFilterChange, module, ...props}) => {
         return <IsadTableFilter/>;
       case 'isaar':
         return <IsaarTableFilters/>;
+      case 'mlr':
+        return <MLRTableFilter />;
+      case 'digitization':
+        return <DigitizationTableFilter />;
       default:
         return <DefaultTableFilters />;
     }

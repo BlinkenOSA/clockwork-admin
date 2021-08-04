@@ -1,15 +1,14 @@
 import React from "react";
-import {Form, Col, Row, Input, Select, InputNumber} from "antd";
+import {Form, Col, Row} from "antd";
 import style from "../TableFilters.module.css";
+import FormFilterSearchInput from "./components/FormFilterSearchInput";
 
 const DefaultTableFilters = () => {
-  const {Search} = Input;
-
   return (
     <Row gutter={10} type="flex">
       <Col span={10}>
         <Form.Item name="search">
-          <Search
+          <FormFilterSearchInput
             placeholder={'Search...'}
             allowClear
             enterButton

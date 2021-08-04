@@ -1,15 +1,15 @@
 import React from "react";
 import {Form, Col, Row, Input, Select, InputNumber} from "antd";
 import style from "../TableFilters.module.css";
+import FormFilterInput from "./components/FormFilterInput";
+import FormFilterSearchInput from "./components/FormFilterSearchInput";
 
 const AccessionTableFilters = () => {
-  const {Search} = Input;
-
   return (
     <Row gutter={10} type="flex">
       <Col span={10}>
         <Form.Item name="search">
-          <Search
+          <FormFilterSearchInput
             placeholder={'Search...'}
             allowClear
             enterButton
@@ -31,7 +31,7 @@ const AccessionTableFilters = () => {
       </Col>
       <Col span={6}>
         <Form.Item name="fonds">
-          <Input
+          <FormFilterInput
             placeholder={'Filter by Fonds'}
             allowClear
           />
