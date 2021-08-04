@@ -46,8 +46,8 @@ export const useTable = (module) => {
     setParams(Object.assign({}, params, createParams({pagination, filters, sorter})));
   };
 
-  const handleFilterChange = (filterValues) => {
-    if (Object.entries(filterValues).length > 0) {
+  const handleFilterChange = (changedValues, allValues) => {
+    if (Object.entries(allValues).length > 0) {
 
       // set pagination
       setTableState(prevTableState => ({
@@ -58,7 +58,7 @@ export const useTable = (module) => {
         }
       }));
 
-      setParams(Object.assign({}, filterValues));
+      setParams(Object.assign({}, allValues));
     }
   };
 
