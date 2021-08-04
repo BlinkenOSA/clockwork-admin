@@ -29,9 +29,7 @@ export default function FindingAidsTableView() {
         <title>AMS - Archival Management System - Table View</title>
       </Head>
       <Breadcrumbs breadcrumbData={breadcrumbData} />
-      <FindingAidsGrid
-        seriesID={series}
-      />
+      <FindingAidsGrid seriesID={series} />
     </AppLayout>
   )
 }

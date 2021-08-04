@@ -1,8 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
 import AppLayout from "../../components/Layout/Layout";
-import {useLogin} from "../../utils/hooks/useLogin";
 import Breadcrumbs from "../../components/Layout/Breadcrumbs";
+import DashbboardView from "../../components/Dashboard/DashboardView";
+import {useLogin} from "../../utils/hooks/useLogin";
 
 export default function Dashboard() {
   const [ session, loading ] = useLogin();
@@ -13,6 +14,7 @@ export default function Dashboard() {
         <title>AMS - Archival Management System - Dashboard</title>
       </Head>
       <Breadcrumbs breadcrumbData={[]} />
+      <DashbboardView />
     </AppLayout>
   )
 }
