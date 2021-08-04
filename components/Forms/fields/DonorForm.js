@@ -12,37 +12,37 @@ export const DonorForm = ({readOnly}) => {
       </Col>
       <Col xs={8}>
         <Form.Item label="First Name" name="first_name">
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={8}>
         <Form.Item label="Middle Name" name="middle_name">
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={8}>
         <Form.Item label="Last Name" name="last_name">
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={24}>
         <Form.Item label="Corporation Name" name="corporation_name">
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={24}>
         <Form.Item label="Additional Information" name="extra_info">
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={12}>
         <Form.Item label="Postal Code" name="postal_code" required rules={[{ required: true }]}>
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={12}>
         <Form.Item label="Phone" name="phone">
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={12}>
@@ -57,32 +57,32 @@ export const DonorForm = ({readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item label="Fax" name="fax">
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={12}>
         <Form.Item label="City" name="city" required rules={[{ required: true }]}>
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={12}>
         <Form.Item label="Email" name="email">
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={12}>
         <Form.Item label="Address" name="address" required rules={[{ required: true }]}>
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={12}>
         <Form.Item label="Website" name="website">
-          <Input />
+          <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Col xs={24}>
         <Form.Item label="Note" name="note">
-          <Input.TextArea rows={5}/>
+          <Input.TextArea rows={5} disabled={readOnly}/>
         </Form.Item>
       </Col>
     </React.Fragment>

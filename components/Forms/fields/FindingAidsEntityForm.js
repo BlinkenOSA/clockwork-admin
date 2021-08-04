@@ -38,7 +38,7 @@ const createData = (maxValue) => {
 const Identifier = ({initialValues, type}) => (
   <Row gutter={[12]} style={{
     backgroundColor: '#f5f5f5',
-    padding: '10px',
+    padding: '10px 0px',
   }}>
     <Form.Item name="archival_unit" required rules={[{ required: true }]}>
       <Input hidden={true}/>
@@ -199,7 +199,7 @@ const Tab01 = ({locale, readOnly, type}) => (
 const IdentifierTemplate = ({initialValues, type}) => (
   <Row gutter={[12]} style={{
     backgroundColor: '#f5f5f5',
-    padding: '10px',
+    padding: '10px 0px',
   }}>
     <Form.Item name="archival_unit" required rules={[{ required: true }]}>
       <Input hidden={true}/>

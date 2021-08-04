@@ -85,7 +85,7 @@ export const FormRemoteSelectWithEdit = (
         {
           mode !== 'multiple' &&
           <Button
-            disabled={!props.value}
+            disabled={!props.value || disabled}
             onClick={() => {
               openForm('edit')
             }}
@@ -97,6 +97,7 @@ export const FormRemoteSelectWithEdit = (
         <Button
           onClick={() => {openForm('create')}}
           type={'default'}
+          disabled={disabled}
         >
           <PlusOutlined/>
         </Button>
