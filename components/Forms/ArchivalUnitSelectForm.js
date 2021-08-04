@@ -5,6 +5,7 @@ import FormRemoteSelect from "./components/FormRemoteSelect";
 import { ContainerOutlined, SnippetsOutlined } from '@ant-design/icons';
 import Link from "next/link";
 import {renderSeriesDropdown} from "../../utils/renders/renderSeriesDropdown";
+import {renderArchivalUnitDropdown} from "../../utils/renders/renderArchivalUnitDropdown";
 
 export const ArchivalUnitSelectForm = () => {
   const [form] = Form.useForm();
@@ -49,6 +50,7 @@ export const ArchivalUnitSelectForm = () => {
             <FormRemoteSelect
               valueField={'id'}
               labelField={'title_full'}
+              renderFunction={renderArchivalUnitDropdown}
               selectAPI={'/v1/archival_unit/select/'}
               selectAPIParams={{level: 'F'}}
               placeholder={'- Select Fonds -'}
@@ -60,6 +62,7 @@ export const ArchivalUnitSelectForm = () => {
             <FormRemoteSelect
               valueField={'id'}
               labelField={'title_full'}
+              renderFunction={renderArchivalUnitDropdown}
               selectAPI={fonds ? `/v1/archival_unit/select/${fonds}/` : undefined}
               placeholder={'- Select Subfonds -'}
             />
@@ -70,7 +73,7 @@ export const ArchivalUnitSelectForm = () => {
             <FormRemoteSelect
               valueField={'id'}
               labelField={'title_full'}
-              renderFunction={renderSeriesDropdown}
+              renderFunction={renderArchivalUnitDropdown}
               selectAPI={subfonds ? `/v1/archival_unit/select/${subfonds}/` : undefined}
               placeholder={'- Select Series -'}
             />
