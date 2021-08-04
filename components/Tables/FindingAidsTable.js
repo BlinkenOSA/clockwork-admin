@@ -1,7 +1,8 @@
-import {Button, Col, Dropdown, Menu, Modal, Row, Table, Tooltip} from "antd";
+import {Button, Col, Drawer, Dropdown, Menu, Modal, Row, Table, Tooltip} from "antd";
 import React, {useState, useEffect} from "react";
 import {
   CopyOutlined,
+  FormOutlined,
   EditOutlined,
   DeleteOutlined,
   GlobalOutlined,
@@ -18,6 +19,8 @@ import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import {renderArchivalUnitReferenceCode} from "../../utils/renders/renderArchivalUnitReferenceCode";
 import Link from "next/link";
+import _ from "lodash";
+import {PopupForm} from "../Forms/PopupForm";
 
 
 const FindingAidsTable = ({containerID, containerListRefresh, templateData, recordTotalPublished}) => {
@@ -26,6 +29,10 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
 
   const [ publishing, setPublishing ] = useState({});
   const [ confidentialSetting, setConfidentialSetting ] = useState({});
+
+  const [ selectedRecord, setSelectedRecord ] = useState(undefined);
+  const [ drawerShown, setDrawerShown ] = useState(false);
+  const [ action, setAction ] = useState('edit');
 
   useEffect(() => {
     if (data) {
@@ -49,7 +56,10 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
               onClick={() => onClone(record.id)}
             />
           </Tooltip>
-          <Link href={`/finding-aids/edit/${record.id}`}>
+          <Tooltip key={'quick_edit'} title={'Quick Edit'}>
+            <Button size="small" icon={<FormOutlined/>} onClick={() => onQuickEdit(record.id)} />
+          </Tooltip>
+          <Link href={`/finding-aids/entities/edit/${record.id}`}>
             <Tooltip key={'edit'} title={'Edit'}>
               <Button size="small" icon={<EditOutlined/>} />
             </Tooltip>
@@ -101,7 +111,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       title: 'Actions',
       width: 150,
       className: style.ActionColumn,
-      render: (record) => renderActionButtons(record, ['view', 'edit', 'delete'])
+      render: (record) => renderActionButtons(record, ['view', 'quick_edit', 'edit', 'delete'])
     }, {
       title: 'Publish',
       width: 135,
@@ -231,8 +241,6 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
         }
       });
     }
-
-
   };
 
   const onDelete = (id) => {
@@ -252,6 +260,16 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
         })
       }
     });
+  };
+
+  const onQuickEdit = (id) => {
+    setSelectedRecord(id);
+    setDrawerShown(true);
+  };
+
+  const onDrawerClose = () => {
+    refresh();
+    setDrawerShown(false);
   };
 
   const getTemplateButton = () => {
@@ -284,7 +302,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     return (
       <Row>
         <Col span={12}>
-          <Link href={`/finding-aids/create/${containerID}`}>
+          <Link href={`/finding-aids/entities/create/${containerID}`}>
             <Button type={'primary'}>
               New Folder / Item
             </Button>
@@ -312,6 +330,23 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
         pagination={tableState['pagination']}
         onChange={handleTableChange}
       />
+      <Drawer
+        title={_.capitalize(`Quick ${action} Finding Aids Record`)}
+        width={'50%'}
+        onClose={(e) => onDrawerClose()}
+        visible={drawerShown}
+        destroyOnClose={true}
+      >
+        <PopupForm
+          api={'/v1/finding_aids/'}
+          preCreateAPI={action === 'create' ? `/v1/finding_aids/pre_create/${containerID}` : null}
+          selectedRecord={selectedRecord}
+          module={'finding-aids-quick-edit'}
+          type={action}
+          label={'Finding Aids Record'}
+          onClose={onDrawerClose}
+        />
+      </Drawer>
     </React.Fragment>
   )
 };
