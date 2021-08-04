@@ -11,7 +11,7 @@ import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 
 
-const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=false, ...props}) => {
+const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=false, footer=true, ...props}) => {
   const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module);
 
   const [drawerShown, setDrawerShown] = useState(false);
@@ -146,7 +146,7 @@ const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=
         dataSource={data ? data.results : []}
         columns={getPopupColumns(columns, actions, module)}
         size={'small'}
-        footer={() => getFooter()}
+        footer={footer ? () => getFooter() : false}
         loading={{
           spinning: loading,
           indicator: <LoadingOutlined/>,

@@ -11,7 +11,7 @@ import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 
 
-const SimpleTable = ({api, columns, module, button, actions=[], ...props}) => {
+const SimpleTable = ({api, columns, module, button, actions=[], footer=true, ...props}) => {
   const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module);
   const { data, loading, refresh} = useData(api, params);
 
@@ -63,7 +63,7 @@ const SimpleTable = ({api, columns, module, button, actions=[], ...props}) => {
         dataSource={data ? data.results : []}
         columns={getColumns(columns, actions, module, onDelete)}
         size={'small'}
-        footer={() => getFooter()}
+        footer={footer ? () => getFooter() : false}
         loading={{
           spinning: loading,
           indicator: <LoadingOutlined/>,

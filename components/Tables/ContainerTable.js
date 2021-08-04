@@ -13,7 +13,7 @@ import {ContainerCreateForm} from "../Forms/ContainerCreateForm";
 import Link from "next/link";
 import FindingAidsTemplateTable from "./FindingAidsTemplateTable";
 import FindingAidsTable from "./FindingAidsTable";
-import dynamic from "next/dist/next-server/lib/dynamic";
+import dynamic from "next/dynamic";
 
 const FindingAidsGrid = dynamic(
   () => import('../Grids/FindingAidsGrid'),
@@ -330,6 +330,7 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
         visible={modalVisible}
         onOk={() => setModalVisible(false)}
         onCancel={() => setModalVisible(false)}
+        footer={null}
         maskClosable={false}
         destroyOnClose={true}
         width="100vw"
