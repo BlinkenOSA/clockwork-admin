@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
 import {Avatar} from "antd";
 import {useUser} from "../../utils/hooks/useUser";
+import ColorHash from 'color-hash'
 
 const UserAvatar = ({displayUsername=true, ...rest}) => {
   const user = useUser();
 
-  const ColorHash = require('color-hash');
   const colorHash = new ColorHash();
 
   if (!user) return <div>Loading...</div>;
