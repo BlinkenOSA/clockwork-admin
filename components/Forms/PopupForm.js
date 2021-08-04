@@ -22,13 +22,16 @@ import {ExtentUnitForm} from "./fields/ExtentUnitForm";
 import {RoleForm} from "./fields/RoleForm";
 import {useForm} from "../../utils/hooks/useForm";
 import {KeywordForm} from "./fields/KeywordForm";
+import {FindingAidsEntityQuickForm} from "./fields/FindingAidsEntityQuickForm";
+import {MLRForm} from "./fields/MLRForm";
+import {DigitizationForm} from "./fields/DigitizationForm";
 
 export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
   const afterFinish = () => {
     onClose();
   };
 
-  const {form, formLoading, errors, locale, onFinish, renderErrors, onValuesChange} =
+  const {form, formLoading, errors, onFinish, renderErrors, onValuesChange} =
     useForm(`${api}${selectedRecord}/`, type, label, afterFinish);
 
   const readOnly = type === 'view';
@@ -85,6 +88,12 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
         return <RoleForm form={form} />;
       case 'geo_role':
         return <RoleForm form={form} />;
+      case 'finding-aids-quick-edit':
+        return <FindingAidsEntityQuickForm form={form} />;
+      case 'mlr':
+        return <MLRForm form={form} readOnly={readOnly}/>;
+      case 'digitization':
+        return <DigitizationForm form={form} readOnly={readOnly} />;
       default:
         return (
           <Col xs={24}>
@@ -123,6 +132,12 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
             corporate_body_identifiers: [{}],
             places: [{}]
           }
+        }
+      case 'mlr':
+        if (data) {
+          return fillManyFields(data, ['locations']);
+        } else {
+          return {locations: [{}]}
         }
       default:
         if (data) {
