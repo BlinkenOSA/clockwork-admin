@@ -12,9 +12,17 @@
     background-color: #ffd1c5 !important;
 }
 
+.TableWrapper :global .handsontable td.search-result {
+    background-color: #ffcc5e !important;
+}
+
 .Spin {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 128px);
+}
+
+.FormItem {
+    margin-bottom: 10px;
 }
