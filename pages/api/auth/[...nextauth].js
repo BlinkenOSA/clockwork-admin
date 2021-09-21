@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers';
 import axios from 'axios'
-import {useRouter} from "next/router";
+
 
 const providers = [
   Providers.Credentials({
