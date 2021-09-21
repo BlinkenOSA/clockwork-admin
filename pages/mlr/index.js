@@ -45,7 +45,7 @@ export default function MLRList() {
       <Head>
         <title>AMS - Archival Management System - MLR></title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'mlr'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
           showFilter={true}

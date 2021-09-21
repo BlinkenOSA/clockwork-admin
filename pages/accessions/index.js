@@ -51,7 +51,7 @@ export default function AccessionList() {
       <Head>
         <title>AMS - Archival Management System - Accession Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'accessions'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <SimpleTable
           button={'New Accession'}

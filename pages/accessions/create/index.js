@@ -23,7 +23,7 @@ export default function AccessionCreate() {
       <Head>
         <title>AMS - Archival Management System - Create Accession Record</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'accessions'} breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm

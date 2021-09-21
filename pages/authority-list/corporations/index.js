@@ -32,7 +32,7 @@ export default function CorporationsList() {
       <Head>
         <title>AMS - Archival Management System - Corporations</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'corporations'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
           showFilter={true}

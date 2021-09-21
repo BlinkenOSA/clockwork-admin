@@ -32,7 +32,7 @@ export default function GenreList() {
       <Head>
         <title>AMS - Archival Management System - Subjects</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'subjects'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
           showFilter={true}

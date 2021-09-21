@@ -35,7 +35,7 @@ export default function FindingAidsCreate() {
       <Head>
         <title>AMS - Archival Management System - Create Finding Aids Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'finding-aids'} breadcrumbData={breadcrumbData} />
       {
         data ?
           <FindingAidsForm

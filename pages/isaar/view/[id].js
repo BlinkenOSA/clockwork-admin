@@ -32,7 +32,7 @@ export default function IsaarView() {
       <Head>
         <title>AMS - Archival Management System - View ISAAR-CPF Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'isaar'} breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm

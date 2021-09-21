@@ -32,7 +32,7 @@ export default function PlacesList() {
       <Head>
         <title>AMS - Archival Management System - Places</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'places'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
           showFilter={true}

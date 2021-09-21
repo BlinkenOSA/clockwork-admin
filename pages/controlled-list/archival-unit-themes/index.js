@@ -27,7 +27,7 @@ export default function AccessRightsList() {
       <Head>
         <title>AMS - Archival Management System - {name}s</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'controlled-lists'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
           module={'archival-unit-themes'}

@@ -36,7 +36,7 @@ export default function DonorList() {
       <Head>
         <title>AMS - Archival Management System - Donor Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'donors'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <SimpleTable
           button={'New Donor'}

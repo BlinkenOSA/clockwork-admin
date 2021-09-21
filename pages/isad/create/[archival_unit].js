@@ -31,7 +31,7 @@ export default function IsadEdit() {
       <Head>
         <title>AMS - Archival Management System - Create ISAD(G) Record</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'isad'} breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm

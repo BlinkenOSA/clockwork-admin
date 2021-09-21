@@ -23,7 +23,7 @@ export default function IsaarCreate() {
       <Head>
         <title>AMS - Archival Management System - Create ISAAR-CPF Record</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'isaar'} breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm

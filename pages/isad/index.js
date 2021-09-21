@@ -15,7 +15,7 @@ export default function ISADList() {
       <Head>
         <title>AMS - Archival Management System - ISAD(G) Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'isad'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <ISADTable />
       </Card>

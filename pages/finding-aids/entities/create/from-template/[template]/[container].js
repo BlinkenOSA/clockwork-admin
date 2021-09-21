@@ -47,7 +47,7 @@ export default function FindingAidsCreateFromTemplate() {
       <Head>
         <title>AMS - Archival Management System - Create Finding Aids Records from Template</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'finding-aids'} breadcrumbData={breadcrumbData} />
       {
         data && templateData['data'] ?
           <FindingAidsForm

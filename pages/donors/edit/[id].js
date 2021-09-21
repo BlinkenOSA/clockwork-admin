@@ -23,7 +23,7 @@ export default function DonorEdit() {
       <Head>
         <title>AMS - Archival Management System - Edit Donor Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'donors'} breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm

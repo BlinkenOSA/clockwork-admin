@@ -48,7 +48,7 @@ export default function ISAARList() {
       <Head>
         <title>AMS - Archival Management System - ISAAR-CPF Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'isaar'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <SimpleTable
           button={'New ISAAR-CPF'}

@@ -32,7 +32,7 @@ export default function IsaarEdit() {
       <Head>
         <title>AMS - Archival Management System - Edit ISAAR-CPF Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'isaar'} breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm

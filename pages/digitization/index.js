@@ -64,7 +64,7 @@ export default function DigitizationLogList() {
       <Head>
         <title>AMS - Archival Management System - Digitization Log></title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'digitization-log'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
           showFilter={true}

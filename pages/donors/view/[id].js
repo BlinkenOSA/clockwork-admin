@@ -23,7 +23,7 @@ export default function DonorView() {
       <Head>
         <title>AMS - Archival Management System - View Donor Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'donors'} breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm

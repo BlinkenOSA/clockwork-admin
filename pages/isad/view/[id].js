@@ -32,7 +32,7 @@ export default function IsadView() {
       <Head>
         <title>AMS - Archival Management System - View ISAD(G) Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'isad'} breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm

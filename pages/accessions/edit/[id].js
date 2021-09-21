@@ -28,7 +28,7 @@ export default function AccessionEdit() {
       <Head>
         <title>AMS - Archival Management System - Edit Accession Records</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'accessions'} breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm

@@ -27,7 +27,7 @@ export default function ArchivalUnitList() {
       <Head>
         <title>AMS - Archival Management System - Archival Units</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'archival-units'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <ArchivalUnitTable
           showFilter={true}

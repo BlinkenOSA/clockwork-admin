@@ -23,7 +23,7 @@ export default function FindingAidsContainerView() {
       <Head>
         <title>AMS - Archival Management System - Containers</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'finding-aids'} breadcrumbData={breadcrumbData} />
       <ContainerTable
         seriesID={series}
         seriesTitle={data ? `${data.title_full}` : ''}

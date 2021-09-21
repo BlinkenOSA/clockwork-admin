@@ -42,7 +42,7 @@ export default function CountryList() {
       <Head>
         <title>AMS - Archival Management System - Countries</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'countries'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
           showFilter={true}

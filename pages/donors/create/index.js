@@ -15,7 +15,7 @@ export default function DonorCreate() {
       <Head>
         <title>AMS - Archival Management System - Create Donor Record</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'donors'} breadcrumbData={breadcrumbData} />
       <SimpleForm
         api={`/v1/donor/`}
         module={'donors'}

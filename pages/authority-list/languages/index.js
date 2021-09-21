@@ -42,7 +42,7 @@ export default function LanguageList() {
       <Head>
         <title>AMS - Archival Management System - Languages</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'languages'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
           showFilter={true}
