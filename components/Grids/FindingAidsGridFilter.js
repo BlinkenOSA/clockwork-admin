@@ -2,7 +2,7 @@ import {Button, Col, Form, Input, Popconfirm, Row} from "antd";
 import React, {useEffect, useState} from "react";
 import style from './FindingAidsGrid.module.css';
 
-const FindingAidsGridFilter = ({onFilter, onReplace}) => {
+const FindingAidsGridFilter = ({onFilter, onReplace, onReplaceAll}) => {
   const [form] = Form.useForm();
 
   const [findDisabled, setFindDisabled] = useState(true);
@@ -17,6 +17,12 @@ const FindingAidsGridFilter = ({onFilter, onReplace}) => {
     const findValue = form.getFieldValue('find');
     const replaceValue = form.getFieldValue('replace');
     onReplace(findValue, replaceValue);
+  };
+
+  const onReplaceAllClick = () => {
+    const findValue = form.getFieldValue('find');
+    const replaceValue = form.getFieldValue('replace');
+    onReplaceAll(findValue, replaceValue);
   };
 
   const onValuesChange = (changedValues, allValues) => {
@@ -43,14 +49,19 @@ const FindingAidsGridFilter = ({onFilter, onReplace}) => {
           </Form.Item>
         </Col>
         <Col xs={2} style={{textAlign: 'left'}}>
+          <Button key="replace" style={{width: '100%'}} disabled={replaceDisabled} onClick={() => onReplaceClick(true)}>
+            Replace
+          </Button>
+        </Col>
+        <Col xs={2} style={{textAlign: 'left'}}>
           <Popconfirm
             title="Are you sure you would like to find and replace all the occurrences?"
-            onConfirm={() => onReplaceClick(true)}
+            onConfirm={() => onReplaceAllClick(true)}
             okText="Yes"
             cancelText="No"
           >
             <Button key="replace" style={{width: '100%'}} disabled={replaceDisabled}>
-              Replace
+              Replace All
             </Button>
           </Popconfirm>
         </Col>

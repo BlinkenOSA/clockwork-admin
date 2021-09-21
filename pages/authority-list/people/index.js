@@ -32,7 +32,7 @@ export default function PersonList() {
       <Head>
         <title>AMS - Archival Management System - People</title>
       </Head>
-      <Breadcrumbs breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'people'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>
         <PopupTable
           showFilter={true}

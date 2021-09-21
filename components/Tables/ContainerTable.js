@@ -1,6 +1,7 @@
 import {Button, Card, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
 import React, {useState, useEffect} from "react";
-import {ArrowUpOutlined, ArrowDownOutlined, EditOutlined, DeleteOutlined, LoadingOutlined, BarcodeOutlined, CloseOutlined} from "@ant-design/icons";
+import {ArrowUpOutlined, ArrowDownOutlined, EditOutlined, DeleteOutlined, LoadingOutlined, BarcodeOutlined,
+  CloseOutlined, TableOutlined, CaretRightOutlined, PrinterOutlined, CaretUpOutlined, CaretDownOutlined} from "@ant-design/icons";
 import style from './Table.module.css';
 import {put, remove} from "../../utils/api";
 import _ from 'lodash';
@@ -14,6 +15,7 @@ import Link from "next/link";
 import FindingAidsTemplateTable from "./FindingAidsTemplateTable";
 import FindingAidsTable from "./FindingAidsTable";
 import dynamic from "next/dynamic";
+import LabelTypeSelector from "../LabelTypeSelector/LabelTypeSelector";
 
 const FindingAidsGrid = dynamic(
   () => import('../Grids/FindingAidsGrid'),
@@ -242,27 +244,46 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
     return tableState['expandedRows'].includes(id) && {className: style.ExpandedParent}
   };
 
+  const getLabelPrintMenu = () => {
+
+  };
+
   const getFooter = () => {
     return (
       <Row gutter={[12]}>
-        <Col span={12}>
+        <Col span={16}>
           <Button type={'default'} onClick={() => setCreateFormOpen(!createFormOpen)}>
-            {createFormOpen ? `Close Container Form` : `Open Container Form`}
+            {
+              createFormOpen ?
+              <div><CaretUpOutlined/><span style={{marginLeft: '5px'}}>Container Form</span></div> :
+              <div><CaretRightOutlined/><span style={{marginLeft: '5px'}}>Container Form</span></div>
+            }
           </Button>
           <Button type={'default'} onClick={() => setFATemplateOpen(!faTemplateOpen)} style={{marginLeft: '10px'}}>
-            {faTemplateOpen ? `Close Templates` : `Open Templates`}
+            {
+              faTemplateOpen ?
+              <div><CaretDownOutlined/><span style={{marginLeft: '5px'}}>Templates</span></div> :
+              <div><CaretRightOutlined/><span style={{marginLeft: '5px'}}>Templates</span></div>
+            }
           </Button>
-          <Button type={'default'} onClick={() => setModalVisible(!modalVisible)} style={{marginLeft: '10px'}}>
-            Table View
-          </Button>
+          <Tooltip key={'table_view'} title={'Table View'}>
+            <Button type={'default'} onClick={() => setModalVisible(!modalVisible)} style={{marginLeft: '10px'}}>
+              <TableOutlined/> Table View
+            </Button>
+          </Tooltip>
+          <LabelTypeSelector seriesID={seriesID} />
         </Col>
-        <Col span={12} style={{textAlign: 'right'}}>
-          <Button type={'default'} onClick={() => onPublish('publish_all')}>
-            <ArrowUpOutlined/> Publish All
-          </Button>
-          <Button type={'default'} onClick={() => onPublish('unpublish_all')} style={{marginLeft: '10px'}}>
-            <ArrowDownOutlined/> Unpublish All
-          </Button>
+        <Col span={8} style={{textAlign: 'right'}}>
+          <Tooltip key={'publish_all'} title={'Publish All'}>
+            <Button type={'default'} onClick={() => onPublish('publish_all')}>
+              <ArrowUpOutlined/> Publish
+            </Button>
+          </Tooltip>
+          <Tooltip key={'unpublish_all'} title={'Unpublish All'}>
+            <Button type={'default'} onClick={() => onPublish('unpublish_all')} style={{marginLeft: '10px'}}>
+              <ArrowDownOutlined/> Unpublish
+            </Button>
+          </Tooltip>
           <Link href={'/finding-aids'}>
             <Button type={'default'} style={{marginLeft: '10px'}}>
               <CloseOutlined/> Close

@@ -16,6 +16,7 @@ const FindingAidsGrid = ({seriesID}) => {
   const hot = useRef(undefined);
   const filterText = useRef("");
   const total = useRef(0);
+  const currentFind = useRef({});
   const querySet = useRef([]);
 
   const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -109,11 +110,12 @@ const FindingAidsGrid = ({seriesID}) => {
   };
 
   const goToFoundRecord = (results) => {
-    const firstQueryResult = results.shift();
+    currentFind.current = results.shift();
     querySet.current = results;
-    hot.current.hotInstance.scrollViewportTo(firstQueryResult['row'], firstQueryResult['col']);
-    hot.current.hotInstance.selectCell(firstQueryResult['row'], firstQueryResult['col']);
+    hot.current.hotInstance.scrollViewportTo(currentFind['row'], 0);
+    hot.current.hotInstance.selectCell(currentFind.current['row'], currentFind.current['col']);
     hot.current.hotInstance.render();
+    message.info(`Result ${total.current - results.length} of ${total.current}`, 0.5)
   };
 
   const searchAndGoToRecord = (findValue, repeat=false) => {
@@ -122,18 +124,15 @@ const FindingAidsGrid = ({seriesID}) => {
     total.current = results.length;
     if (results.length > 0) {
       goToFoundRecord(results);
-    }
-    if (repeat) {
-      message.info("Starting from the beginning...")
     } else {
-      message.info(`Found data in ${total.current} cell.`)
+      message.info("No records can be found!", 1)
     }
   };
 
   const onFilter = (findValue) => {
     if (findValue !== filterText.current) {
       filterText.current = findValue;
-      searchAndGoToRecord(findValue)
+      searchAndGoToRecord(findValue);
     } else {
       if (querySet.current.length > 0) {
         goToFoundRecord(querySet.current)
@@ -144,6 +143,15 @@ const FindingAidsGrid = ({seriesID}) => {
   };
 
   const onReplace = (find, replace) => {
+    // Van currentFind
+    if (Object.keys(currentFind.current).length > 0) {
+      const data = hot.current.hotInstance.getDataAtCell(currentFind.current['row'], currentFind.current['col']);
+      const findRegEx = new RegExp(find, "ig");
+      hot.current.hotInstance.setDataAtCell(currentFind.current['row'], currentFind.current['col'], data.replace(findRegEx, replace));
+    }
+  };
+
+  const onReplaceAll = (find, replace) => {
     const search = hot.current.hotInstance.getPlugin('search');
     const results = search.query(find);
     results.forEach(result => {
@@ -175,7 +183,7 @@ const FindingAidsGrid = ({seriesID}) => {
 
   return (
     <React.Fragment>
-      <FindingAidsGridFilter onFilter={onFilter} onReplace={onReplace}/>
+      <FindingAidsGridFilter onFilter={onFilter} onReplace={onReplace} onReplaceAll={onReplaceAll} />
       <div className={style.TableWrapper}>
         <Row>
           <Col span={24}>
