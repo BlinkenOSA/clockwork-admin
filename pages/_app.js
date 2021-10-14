@@ -7,7 +7,7 @@ import {LoginCheck} from "../components/Login/LoginCheck";
 function MyApp({ Component, pageProps }) {
   return (
     <Provider session={pageProps.session}>
-      <LoginCheck />
+      <LoginCheck/>
       <Component {...pageProps} />
     </Provider>
   )

@@ -7,7 +7,7 @@ export const useLogin = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (session === null) {
+    if (session === null || session === undefined) {
       router.push('/auth/login')
     }
   }, [session]);

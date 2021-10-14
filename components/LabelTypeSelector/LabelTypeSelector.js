@@ -13,12 +13,15 @@ const LabelTypeSelector = ({seriesID}) => {
       <Menu>
         {
           data && data.map(d => (
-            <Menu.Item>
-              <a target="_blank" href={d['templateExists'] ? `${API}/v1/finding_aids/labels/${d['carrier_type_id']}/${seriesID}/` : '#'}>
-                {d['templateExists'] ? <CheckCircleTwoTone twoToneColor="#52c41a" /> : <CloseCircleTwoTone twoToneColor="#eb2f96" />}
-                {d['carrier_type']} ({d['total']})
-              </a>
-            </Menu.Item>
+            d['templateExists'] ?
+              <Menu.Item>
+                <a target="_blank" href={`${API}/v1/finding_aids/labels/${d['carrier_type_id']}/${seriesID}/`}>
+                  <CheckCircleTwoTone twoToneColor="#52c41a" /> {d['carrier_type']} ({d['total']})
+                </a>
+              </Menu.Item> :
+              <Menu.Item>
+                <CloseCircleTwoTone twoToneColor="#eb2f96" /> {d['carrier_type']} ({d['total']})
+              </Menu.Item>
           ))
         }
       </Menu>

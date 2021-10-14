@@ -3,7 +3,6 @@ import React from "react";
 import {useData} from "../../../utils/hooks/useData";
 import { Line } from '@ant-design/charts';
 import Spin from "antd/es/spin";
-import ColorHash from 'color-hash'
 import style from './AnalyticsDisplays.module.css';
 
 const Activity = () => {

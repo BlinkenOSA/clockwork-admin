@@ -244,10 +244,6 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
     return tableState['expandedRows'].includes(id) && {className: style.ExpandedParent}
   };
 
-  const getLabelPrintMenu = () => {
-
-  };
-
   const getFooter = () => {
     return (
       <Row gutter={[12]}>
