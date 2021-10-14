@@ -2,14 +2,11 @@ import React, {useEffect} from "react";
 import {Avatar, Dropdown, Menu} from "antd";
 import {useUser} from "../../utils/hooks/useUser";
 import ColorHash from 'color-hash'
-import {useLogin} from "../../utils/hooks/useLogin";
 import style from "./UserAvatar.module.css";
 import {UserOutlined, LogoutOutlined} from "@ant-design/icons";
 import {signOut} from "next-auth/client";
 
 const UserAvatar = ({displayUsername=true, ...rest}) => {
-  const [ session, loading ] = useLogin();
-
   const user = useUser();
 
   const colorHash = new ColorHash();

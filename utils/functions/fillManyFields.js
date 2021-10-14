@@ -8,6 +8,5 @@ export const fillManyFields = (data, fieldList) => {
       data[field] = [{}];
     }
   });
-
   return data;
 };
