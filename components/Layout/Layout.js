@@ -36,7 +36,7 @@ export default function AppLayout({children}) {
         <Content style={{ margin: '0 16px' }}>
           {children}
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>Vera & Donald Blinken Open Society Archives © 2021</Footer>
       </Layout>
     </Layout>
   )
