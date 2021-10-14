@@ -13,7 +13,7 @@ export const AccessionForm = ({form, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={12}>
-        <Form.Item label="Donor" name="donor">
+        <Form.Item label="Donor" name="donor" required rules={[{ required: true }]}>
           <FormRemoteSelectWithEdit
             fieldName={'donor'}
             form={form}
@@ -74,7 +74,9 @@ export const AccessionForm = ({form, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={12}>
-        <Form.Item label="Transfer Date" name="transfer_date" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}>
+        <Form.Item label="Transfer Date" name="transfer_date"
+                   extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}
+                   required rules={[{ required: true }]}>
           <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
