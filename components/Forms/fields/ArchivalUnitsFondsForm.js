@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Col, Input, Row} from "antd";
+import {Form, Col, Input, Row, InputNumber} from "antd";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 
 
@@ -11,9 +11,9 @@ export const ArchivalUnitsFondsForm = ({type, readOnly}) => {
           label="Fonds"
           name="fonds"
           required
-          rules={[{ required: true, type: 'number', min: 1 }]}
+          rules={[{ required: true, type: 'number', min: 1, max: 1000 }]}
         >
-          <Input />
+          <InputNumber />
         </Form.Item>
       </Col>
       <Col xs={14}>
@@ -28,7 +28,7 @@ export const ArchivalUnitsFondsForm = ({type, readOnly}) => {
       </Col>
       <Col xs={4}>
         <Form.Item name="level">
-          <Input value={'F'} hidden/>
+          <Input hidden/>
         </Form.Item>
       </Col>
       <Col xs={14}>

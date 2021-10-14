@@ -32,7 +32,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
   };
 
   const {form, formLoading, errors, onFinish, renderErrors, onValuesChange} =
-    useForm(`${api}${selectedRecord}/`, type, label, afterFinish);
+    useForm(type === 'create' ? api : `${api}${selectedRecord}/`, type, label, afterFinish);
 
   const readOnly = type === 'view';
 
@@ -107,6 +107,12 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
 
   const getInitialValue = () => {
     switch (module) {
+      case 'archival-units-fonds':
+        return {level: 'F'};
+      case 'archival-units-subfonds':
+        return {level: 'SF'};
+      case 'archival-units-series':
+        return {level: 'S'};
       case 'people':
         if (data) {
           return fillManyFields(data, ['person_other_formats']);
