@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import AppLayout from "../../../components/Layout/Layout";
-import Head from "next/dist/next-server/lib/head";
+import Head from "next/head";
 import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
 import {useRouter} from "next/router";
 import {SimpleForm} from "../../../components/Forms/SimpleForm";

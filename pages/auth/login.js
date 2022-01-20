@@ -2,7 +2,7 @@ import React from 'react';
 import {Card, Col, Divider, Layout, Row, Typography} from "antd";
 import LoginForm from "../../components/Login/LoginForm";
 import style from '../../components/Login/Login.module.css';
-import Head from "next/dist/next-server/lib/head";
+import Head from "next/head";
 
 const { Text, Title } = Typography;
 

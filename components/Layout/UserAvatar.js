@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Avatar, Dropdown, Menu} from "antd";
+import {Avatar, Dropdown, Menu, Spin} from "antd";
 import {useUser} from "../../utils/hooks/useUser";
 import ColorHash from 'color-hash'
 import style from "./UserAvatar.module.css";
@@ -10,8 +10,6 @@ const UserAvatar = ({displayUsername=true, ...rest}) => {
   const user = useUser();
 
   const colorHash = new ColorHash();
-
-  if (!user) return <div>Loading...</div>;
 
   const getInitials = () => {
     const fullName = `${user.first_name} ${user.last_name}`;
@@ -32,24 +30,41 @@ const UserAvatar = ({displayUsername=true, ...rest}) => {
     </Menu>
   );
 
-  return (
-    <Dropdown overlay={menu}>
-      <div className={style.Profile}>
-        <Avatar
-          style={{backgroundColor: colorHash.hex(user.username), marginRight: '10px'}}
-          {...rest}
-        >
-          { getInitials() }
-        </Avatar>
-        {
-          displayUsername &&
-          <span>
+  if (!user) {
+    return (
+      <Dropdown overlay={menu}> 
+        <div className={style.Profile}>
+          <Avatar
+            style={{backgroundColor: colorHash.hex('Loading'), marginRight: '10px'}}
+            {...rest}
+          >
+            L
+          </Avatar>
+          <Spin />
+        </div>
+      </Dropdown>
+    )
+  } else {
+    return (
+      <Dropdown overlay={menu}>
+        <div className={style.Profile}>
+          <Avatar
+            style={{backgroundColor: colorHash.hex(user.username), marginRight: '10px'}}
+            {...rest}
+          >
+            { getInitials() }
+          </Avatar>
+          {
+            displayUsername &&
+            <span>
             {user.first_name} {user.last_name} ({user.username})
           </span>
-        }
-      </div>
-    </Dropdown>
-  )
+          }
+        </div>
+      </Dropdown>
+    )
+  }
+
 };
 
 export default UserAvatar;

@@ -1,6 +1,6 @@
 import React from 'react'
 import AppLayout from "../../components/Layout/Layout";
-import Head from "next/dist/next-server/lib/head";
+import Head from "next/head";
 import Breadcrumbs from "../../components/Layout/Breadcrumbs";
 import {Col, Row} from "antd";
 import {ProfileDataForm} from "../../components/Forms/ProfileDataForm";

@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import {renderArchivalUnitDropdown} from "../../utils/renders/renderArchivalUnitDropdown";
 import FoldersItems from "./statDisplays/FoldersItems";
 import LinearMeter from "./statDisplays/LinearMeter";
-import dynamic from "next/dist/next-server/lib/dynamic";
+import dynamic from "next/dynamic";
 
 const CarrierTypes = dynamic(
   () => import('./statDisplays/CarrierTypes'),

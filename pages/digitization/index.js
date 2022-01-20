@@ -1,13 +1,8 @@
 import React from 'react'
 import AppLayout from "../../components/Layout/Layout";
-import Head from "next/dist/next-server/lib/head";
+import Head from "next/head";
 import Breadcrumbs from "../../components/Layout/Breadcrumbs";
 import {Card} from "antd";
-import ISADTable from "../../components/Tables/ISADTable";
-import SimpleTable from "../../components/Tables/SimpleTable";
-import {renderISAD} from "../../utils/renders/renderISAD";
-import {renderType} from "../../utils/renders/renderType";
-import {renderStatus} from "../../utils/renders/renderStatus";
 import PopupTable from "../../components/Tables/PopupTable";
 import {renderDigitalVersion} from "../../utils/renders/renderDigitalVersion";
 

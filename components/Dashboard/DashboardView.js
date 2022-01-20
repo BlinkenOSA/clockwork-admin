@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Radio, Card} from "antd";
 import DashboardContentStats from "./DashboardContentStats.js";
 import DashboardLogs from "./DashboardLogs";
-import dynamic from "next/dist/next-server/lib/dynamic";
+import dynamic from "next/dynamic";
 
 const Activity = dynamic(
   () => import('./analyticsDisplays/Activity'),
