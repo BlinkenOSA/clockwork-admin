@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Alert, Form, notification} from "antd";
 import {normalizeManyFields} from "../functions/normalizeManyFields";
 import {patch, post, put} from "../api";

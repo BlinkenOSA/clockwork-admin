@@ -1,8 +1,7 @@
-import {Col, Row} from "antd";
+import {Col, Row, Spin} from "antd";
 import React from "react";
 import {useData} from "../../../utils/hooks/useData";
 import { Bar } from '@ant-design/plots';
-import Spin from "antd/es/spin";
 import style from "./StatDisplays.module.css";
 import ColorHash from 'color-hash'
 

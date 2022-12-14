@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import useStickyState from "./useStickyState";
 import {createParams} from "../../components/Tables/functions/createParams";
 

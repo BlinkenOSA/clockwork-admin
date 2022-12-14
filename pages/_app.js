@@ -13,7 +13,7 @@ const themeOptions = {
     },
 }
 
-function MyApp({ Component, pageProps }) {
+function ClockworkApp({ Component, pageProps }) {
   return (
       <ConfigProvider theme={themeOptions}>
         <SessionProvider session={pageProps.session}>
@@ -43,4 +43,4 @@ const Auth = ({ children }) => {
     return children
 }
 
-export default MyApp
+export default ClockworkApp
