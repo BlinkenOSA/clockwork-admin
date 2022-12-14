@@ -1,75 +1,7 @@
 import NextAuth from 'next-auth'
-import Providers from 'next-auth/providers';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios'
 
-
-const providers = [
-  Providers.Credentials({
-    name: 'Credentials',
-    authorize: async (credentials) => {
-      try {
-        const response = await axios.post(`${process.env.NEXT_CLOCKWORK_API}/auth/jwt/create/`, {
-          username: credentials.username,
-          password: credentials.password,
-          headers: {
-            accept: '*/*',
-            'Content-Type': 'application/json'
-          }
-        });
-        return {
-          accessToken: response.data.access,
-          refreshToken: response.data.refresh
-        }
-      } catch (error) {
-        if (error.hasOwnProperty('errno')) {
-          throw new Error('serverProblem');
-        } else {
-          throw new Error('badCredentials');
-        }
-      }
-    }
-  })
-];
-
-const callbacks = {
-  async jwt(token, user, profile) {
-    // Signing in
-    if (user && profile) {
-      return {
-        accessToken: user.accessToken,
-        refreshToken: user.refreshToken,
-      }
-    }
-
-    // Check if access token valid
-    if (token) {
-      try {
-        await axios.post(`${process.env.NEXT_CLOCKWORK_API}/auth/jwt/verify/`, {
-          token: token.accessToken,
-          headers: {
-            accept: '*/*',
-            'Content-Type': 'application/json'
-          }
-        });
-        return token
-      } catch (error) {
-        return await refreshAccessToken(token)
-      }
-    } else {
-      token.error = "RefreshAccessTokenError";
-      return token
-    }
-  },
-
-  async session(session, token) {
-    if (token) {
-      session.accessToken = token.accessToken;
-      session.refreshToken = token.refreshToken;
-      session.error = token.error;
-    }
-    return session
-  }
-};
 
 /**
  * Takes a token and returns a new one with updated
@@ -97,15 +29,76 @@ async function refreshAccessToken(token) {
   }
 }
 
+const providers = [
+  CredentialsProvider({
+    name: 'Credentials',
+    authorize: async (credentials) => {
+      try {
+        const response = await axios.post(`${process.env.NEXT_CLOCKWORK_API}/auth/jwt/create/`, {
+          username: credentials.username,
+          password: credentials.password,
+          headers: {
+            accept: '*/*',
+            'Content-Type': 'application/json'
+          }
+        });
+        return {
+          accessToken: response.data.access,
+          refreshToken: response.data.refresh
+        }
+      } catch (error) {
+        if (error.hasOwnProperty('errno')) {
+          throw new Error('serverProblem');
+        } else {
+          throw new Error('badCredentials');
+        }
+      }
+    }
+  })
+];
+
+const callbacks = {
+  async jwt({ token, account, user }) {
+    // Signing in
+    if (user) {
+      return {
+        accessToken: user.accessToken,
+        refreshToken: user.refreshToken,
+      }
+    }
+
+    // Check if access token valid
+    try {
+      await axios.post(`${process.env.NEXT_CLOCKWORK_API}/auth/jwt/verify/`, {
+        token: token.accessToken,
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json'
+        }
+      });
+      return token
+    } catch (error) {
+      return await refreshAccessToken(token)
+    }
+  },
+
+  async session({ session, token }) {
+    session.accessToken = token.accessToken;
+    session.error = token.error;
+
+    return session
+  }
+};
+
 const options = {
   providers,
   callbacks,
+  session: { strategy: "jwt" },
   pages: {
-    signIn: '/dashboard',
+    signIn: '/auth/login',
     error: '/auth/login'
   }
 };
 
-export default (req, res) => NextAuth(req, res, options)
-
+export default NextAuth(options)
 

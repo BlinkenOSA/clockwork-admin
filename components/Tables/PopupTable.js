@@ -158,7 +158,7 @@ const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=
         title={_.capitalize(action)}
         width={'50%'}
         onClose={(e) => onClose()}
-        visible={drawerShown}
+        open={drawerShown}
         destroyOnClose={true}
       >
         <PopupForm

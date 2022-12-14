@@ -1,13 +1,16 @@
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import {Avatar, Dropdown, Menu, Spin} from "antd";
 import {useUser} from "../../utils/hooks/useUser";
 import ColorHash from 'color-hash'
 import style from "./UserAvatar.module.css";
 import {UserOutlined, LogoutOutlined} from "@ant-design/icons";
-import {signOut} from "next-auth/client";
+import {signOut} from "next-auth/react";
+import {useRouter} from "next/router";
+import {UserContext} from "../../utils/context/UserContext";
 
 const UserAvatar = ({displayUsername=true, ...rest}) => {
-  const user = useUser();
+  const user = useContext(UserContext);
+  const router = useRouter()
 
   const colorHash = new ColorHash();
 
@@ -17,36 +20,34 @@ const UserAvatar = ({displayUsername=true, ...rest}) => {
     return nameParts.map(part => part[0]).join('');
   };
 
-  const menu = (
-    <Menu>
-      <Menu.Item icon={<UserOutlined />}>
-        <a href="/profile">
-          Profile
-        </a>
-      </Menu.Item>
-      <Menu.Item icon={<LogoutOutlined />} onClick={() => signOut({callbackUrl: '/auth/login'})}>
-        Logout
-      </Menu.Item>
-    </Menu>
-  );
+  const items = [
+      {
+          key: 'profile',
+          label: 'Profile',
+          icon: <UserOutlined />
+      }, {
+          key: 'logout',
+          label: 'Logout',
+          icon: <LogoutOutlined />
+      }
+  ]
+
+  const onClick = ({ key }) => {
+      switch (key) {
+        case "profile":
+          router.push('/profile');
+          break;
+        case "logout":
+          signOut({callbackUrl: '/auth/login'})
+          break;
+      }
+  };
 
   if (!user) {
-    return (
-      <Dropdown overlay={menu}> 
-        <div className={style.Profile}>
-          <Avatar
-            style={{backgroundColor: colorHash.hex('Loading'), marginRight: '10px'}}
-            {...rest}
-          >
-            L
-          </Avatar>
-          <Spin />
-        </div>
-      </Dropdown>
-    )
+    return ''
   } else {
     return (
-      <Dropdown overlay={menu}>
+      <Dropdown menu={{items, onClick}}>
         <div className={style.Profile}>
           <Avatar
             style={{backgroundColor: colorHash.hex(user.username), marginRight: '10px'}}

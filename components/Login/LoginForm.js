@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Alert, Form, Input, Button } from 'antd';
-import { signIn } from 'next-auth/client'
+import { signIn } from "next-auth/react"
 import { useRouter } from 'next/router'
 
 const LoginForm = () => {
@@ -12,7 +12,14 @@ const LoginForm = () => {
   useEffect(() => {
     // Getting the error details from URL
     if (router.query.error) {
-      setLoginError(router.query.error)
+      switch(router.query.error) {
+        case 'SessionRequired':
+          setLoginError('Your session expired, please log in again!')
+          break;
+        default:
+          setLoginError(router.query.error)
+          break;
+      }
     }
   }, [router]);
 
@@ -27,26 +34,26 @@ const LoginForm = () => {
       }
     );
 
-    if (response.error !== null) {
+    if (response.error) {
       switch (response.error) {
-        case 'Error: serverProblem':
+        case 'serverProblem':
           setLoginError('There seems to be an issue with the backend server. Please try again later!');
           break;
-        case 'Error: badCredentials':
+        case 'badCredentials':
           setLoginError('Your login credentials are not valid. Please try again with different username and password!');
           break;
       }
       setLoading(false);
     } else {
-      await router.push('/')
+      await router.push(response.url)
     }
   };
 
   return (
     <React.Fragment>
       {
-        loginError &&
-        <Alert message={loginError} type="error" closable style={{margin: '20px 0'}}/>
+        loginError !== '' &&
+        <Alert message={loginError} type="error" closable style={{margin: '20px 0'}} onClose={() => setLoginError('')}/>
       }
       <Form
         style={{marginTop: '10px'}}

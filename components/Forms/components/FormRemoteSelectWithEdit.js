@@ -106,7 +106,7 @@ export const FormRemoteSelectWithEdit = (
         title={_.capitalize(action)}
         width={'50%'}
         onClose={(e) => onClose()}
-        visible={drawerShown}
+        open={drawerShown}
         destroyOnClose={true}
       >
         <PopupForm

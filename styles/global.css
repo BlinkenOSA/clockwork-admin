@@ -1,0 +1,27 @@
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 14px;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+body {
+    background-color: var(--backgroundColor);
+    -ms-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.collapse-css-transition {
+    transition: height 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.centerColumn {
+    text-align: center !important;
+}

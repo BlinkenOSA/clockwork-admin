@@ -1,7 +1,7 @@
 import {Col, Row} from "antd";
 import React from "react";
 import {useData} from "../../../utils/hooks/useData";
-import { Line } from '@ant-design/charts';
+import { Line } from '@ant-design/plots';
 import Spin from "antd/es/spin";
 import style from './AnalyticsDisplays.module.css';
 

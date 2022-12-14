@@ -52,6 +52,7 @@ export const ArchivalUnitsFondsForm = ({type, readOnly}) => {
           <FormRemoteSelect
             valueField={'id'}
             labelField={'theme'}
+            mode={'multiple'}
             placeholder={'- Select Themes -'}
             selectAPI={'/v1/controlled_list/select/archival_unit_themes/'}
             disabled={readOnly}

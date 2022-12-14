@@ -1,7 +1,7 @@
 import React from "react";
 import {useData} from "../../../utils/hooks/useData";
 import {Space, Spin, Tag, Timeline} from "antd";
-import { ClockCircleOutlined } from '@ant-design/icons';
+import { AiOutlineClockCircle } from 'react-icons/ai';
 import style from './LogDisplays.module.css';
 
 const AccessionLog = () => {
@@ -10,14 +10,18 @@ const AccessionLog = () => {
   const renderItem = (item) => {
     const renderArchivalUnit = () => {
       if (item['archival_unit_legacy_name'] === null) {
-        return <div>{item['archival_unit']['title_full']}</div>
+        if (item['archival_unit'] !== null) {
+          return <div>{item['archival_unit']['title_full']}</div>
+        } else {
+          return 'N/A'
+        }
       } else {
         return <div>{item['archival_unit_legacy_numbber']} {item['archival_unit_legacy_name']}</div>
       }
     };
 
     return (
-      <Timeline.Item label={item['transfer_date']} dot={<ClockCircleOutlined/>} className={style.LogTimelineItem}>
+      <Timeline.Item label={item['transfer_date']} dot={<AiOutlineClockCircle/>} className={style.LogTimelineItem}>
         <div style={{fontStyle: 'italic'}}>{item['seq']}</div>
         {renderArchivalUnit()}
         <Tag>{item['user_created']}</Tag>

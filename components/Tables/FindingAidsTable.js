@@ -334,7 +334,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
         title={_.capitalize(`Quick ${action} Finding Aids Record`)}
         width={'50%'}
         onClose={(e) => onDrawerClose()}
-        visible={drawerShown}
+        open={drawerShown}
         destroyOnClose={true}
       >
         <PopupForm

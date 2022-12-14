@@ -5,6 +5,7 @@
 
 .LogTimelineItem :global .ant-timeline-item-label {
     width: calc(20% - 16px) !important;
+    inset-block-start: -7px !important;
 }
 
 .LogTimelineItem :global .ant-timeline-item-tail {
@@ -13,6 +14,7 @@
 
 .LogTimelineItem :global .ant-timeline-item-head {
     left: 20% !important;
+    font-size: 18px;
 }
 
 .LogTimelineItem :global .ant-timeline-item-content {

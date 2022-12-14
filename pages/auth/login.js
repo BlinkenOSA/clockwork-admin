@@ -40,4 +40,6 @@ const Login = () => {
   )
 };
 
+Login.withoutLogin = true;
+
 export default Login;

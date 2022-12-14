@@ -57,7 +57,7 @@ export default function DigitizationLogList() {
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - Digitization Log></title>
+        <title>AMS - Archival Management System - Digitization Log</title>
       </Head>
       <Breadcrumbs module={'digitization-log'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>

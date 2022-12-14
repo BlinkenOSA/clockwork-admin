@@ -1,7 +1,7 @@
 import React from "react";
 import {useData} from "../../../utils/hooks/useData";
 import {Spin, Tag, Timeline} from "antd";
-import { ClockCircleOutlined } from '@ant-design/icons';
+import { AiOutlineClockCircle } from 'react-icons/ai';
 import style from './LogDisplays.module.css';
 import dayjs from "dayjs";
 
@@ -19,7 +19,7 @@ const IsadLog = ({type}) => {
     };
 
     return (
-      <Timeline.Item label={getLabel()} dot={<ClockCircleOutlined/>} className={style.LogTimelineItem}>
+      <Timeline.Item label={getLabel()} dot={<AiOutlineClockCircle/>} className={style.LogTimelineItem}>
         <div>{item['reference_code']}</div>
         <div>{item['title']}</div>
         <Tag>{item[`user_${type}d`]}</Tag>

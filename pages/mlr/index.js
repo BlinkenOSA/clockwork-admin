@@ -43,7 +43,7 @@ export default function MLRList() {
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - MLR></title>
+        <title>AMS - Archival Management System - MLR</title>
       </Head>
       <Breadcrumbs module={'mlr'} breadcrumbData={breadcrumbData} />
       <Card size="small" style={{marginBottom: '10px'}}>

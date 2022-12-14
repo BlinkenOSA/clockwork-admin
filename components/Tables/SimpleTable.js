@@ -1,6 +1,6 @@
-import {Button, Col, Modal, notification, Row, Table} from "antd";
+import {Button, Col, Modal, Row, Table} from "antd";
 import React, {useEffect} from "react";
-import {LoadingOutlined } from "@ant-design/icons";
+import {AiOutlineLoading } from "react-icons/ai";
 import {getColumns} from "./functions/getColumns";
 import TableFilters from "./TableFilters";
 import style from './Table.module.css';
@@ -66,7 +66,7 @@ const SimpleTable = ({api, columns, module, button, actions=[], footer=true, ...
         footer={footer ? () => getFooter() : false}
         loading={{
           spinning: loading,
-          indicator: <LoadingOutlined/>,
+          indicator: <AiOutlineLoading/>,
         }}
         pagination={tableState['pagination']}
         onChange={handleTableChange}

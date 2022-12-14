@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {get} from "../api";
-import useDeepCompareEffect from "use-deep-compare-effect";
-import {useDidMountEffect} from "./useDidMountEffect";
+import {useDeepCompareEffect, useUpdateEffect} from "react-use";
 
 export const useData = (api, params={}) => {
   const [data, setData] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
-  useDidMountEffect(() => {
+  useUpdateEffect(() => {
     setLoading(true);
     fetchData()
   }, [api]);
