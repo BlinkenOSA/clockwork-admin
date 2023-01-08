@@ -16,7 +16,8 @@ const configHelp = {
   'subjects': 'http://manual.osaarchivum.org/subjects',
   'controlled-lists': 'http://manual.osaarchivum.org/controlled-list',
   'mlr': 'http://manual.osaarchivum.org/mlr',
-  'digitization-log': 'http://manual.osaarchivum.org/digitization-log'
+  'digitization-log': 'http://manual.osaarchivum.org/digitization-log',
+  'researchers': 'http://manual.osaarchivum.org/researchers'
 };
 
 export default configHelp;

@@ -1,6 +1,5 @@
 import React, {useContext, useEffect} from "react";
 import {Avatar, Dropdown, Menu, Spin} from "antd";
-import {useUser} from "../../utils/hooks/useUser";
 import ColorHash from 'color-hash'
 import style from "./UserAvatar.module.css";
 import {UserOutlined, LogoutOutlined} from "@ant-design/icons";

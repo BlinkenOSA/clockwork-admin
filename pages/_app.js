@@ -1,4 +1,4 @@
-import {SessionProvider, useSession} from "next-auth/react"
+import {SessionProvider, signIn, useSession} from "next-auth/react"
 import 'antd/dist/reset.css'
 import '../styles/global.css';
 import '../styles/variables.css';
@@ -17,30 +17,41 @@ function ClockworkApp({ Component, pageProps }) {
   return (
       <ConfigProvider theme={themeOptions}>
         <SessionProvider session={pageProps.session}>
-          <UserProvider>
             {
                 Component.withoutLogin ? (
                     <Component {...pageProps} />
                     ) : (
                     <Auth>
-                        <Component {...pageProps} />
+                        <UserProvider>
+                          <Component {...pageProps} />
+                        </UserProvider>
                     </Auth>
                 )
             }
-          </UserProvider>
         </SessionProvider>
       </ConfigProvider>
   )
 }
 
 const Auth = ({ children }) => {
-    const { status } = useSession({ required: true })
+    const { data, status } = useSession({
+      required: true,
+      onUnauthenticated() {
+        signIn();
+      },
+    })
 
     if (status === "loading") {
         return <Loading />
     }
 
-    return children
+    if (data) {
+      if (data?.error === "RefreshAccessTokenError") {
+        signIn();
+      } else {
+        return children;
+      }
+    }
 }
 
 export default ClockworkApp

@@ -13,8 +13,7 @@ export const swrGET = async (url, params={}) => {
       headers: {
         Authorization: "Bearer " + session.accessToken
       }
-    }
-    ).then(res => res.data);
+    }).then(res => res.data);
 };
 
 export const get = async (url, params={}) => {

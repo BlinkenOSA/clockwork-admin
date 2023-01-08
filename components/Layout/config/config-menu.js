@@ -1,12 +1,16 @@
 import { DashboardOutlined, SwapOutlined, ApartmentOutlined, UserOutlined, ProfileOutlined, FileOutlined,
   UnorderedListOutlined, BankOutlined, FlagOutlined, DeploymentUnitOutlined, GlobalOutlined, TeamOutlined,
-  EnvironmentOutlined, TagOutlined, TagsOutlined, RightCircleOutlined, DesktopOutlined, InboxOutlined
+  EnvironmentOutlined, TagOutlined, TagsOutlined, RightCircleOutlined, IdcardOutlined
 } from '@ant-design/icons';
+import { IoSchoolOutline } from "react-icons/io5"
+import { MdOutlineScanner } from "react-icons/md"
+import { BsInboxes, BsBoxArrowInLeft } from "react-icons/bs"
+import { FaExchangeAlt } from "react-icons/fa"
 import React from "react";
 
 const configMenu = [
   {name: 'Dashboard', icon: <DashboardOutlined/>, link: '/dashboard'},
-  {name: 'Accession', icon: <SwapOutlined/>, module: 'acccession', submenu: [
+  {name: 'Accession', icon: <BsBoxArrowInLeft/>, module: 'acccession', submenu: [
       {name: 'Accession Records', link: '/accessions'},
       {name: 'Donors', link: '/donors'},
     ]},
@@ -42,8 +46,12 @@ const configMenu = [
       {name: 'Reproduction Rights', icon: <RightCircleOutlined/>, link: '/controlled-list/reproduction-rights'},
       {name: 'Restriction Reasons', icon: <RightCircleOutlined/>, link: '/controlled-list/restriction-reasons'},
     ]},
-  {name: 'MLR', icon: <InboxOutlined/>, module: 'mlr', link: '/mlr'},
-  {name: 'Digitization Log', icon: <DesktopOutlined/>, module: 'digitization', link: '/digitization'}
+  {name: 'MLR', icon: <BsInboxes/>, module: 'mlr', link: '/mlr'},
+  {name: 'Digitization Log', icon: <MdOutlineScanner/>, module: 'digitization', link: '/digitization'},
+  {name: 'Researchers Database', icon: <IoSchoolOutline/>, module: 'researcher', submenu: [
+      {name: 'Researchers', icon: <IdcardOutlined />, link: '/researchers-db/researchers'},
+      {name: 'Requests', icon: <FaExchangeAlt/>, link: '/researchers-db/requests'},
+    ]}
 ];
 
 export default configMenu;

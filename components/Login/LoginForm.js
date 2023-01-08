@@ -30,7 +30,7 @@ const LoginForm = () => {
         username: values.username,
         password: values.password,
         redirect: false,
-        callbackUrl: "/"
+        callbackUrl: router.query.hasOwnProperty('callbackURL') ? router.query.callbackURL : "/"
       }
     );
 
