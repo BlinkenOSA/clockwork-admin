@@ -9,12 +9,14 @@ import {IsaarForm} from "./fields/IsaarForm";
 import {IsadForm} from "./fields/IsadForm";
 import {FindingAidsEntityForm} from "./fields/FindingAidsEntityForm";
 import {useForm} from "../../utils/hooks/useForm";
+import {ResearcherForm} from "./fields/ResearcherForm";
 
 const MODULES = {
   'accessions': 'Accession',
   'donors': 'Donor',
   'isaar': 'ISAAR-CPF',
-  'isad': 'ISAD(G)'
+  'isad': 'ISAD(G)',
+  'researchers-db/researchers': 'Researcher'
 };
 
 export const SimpleForm = ({api, module, type, initialValues}) => {
@@ -44,6 +46,8 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
         return <IsadForm form={form} locale={locale} readOnly={readOnly}/>;
       case 'finding-aids':
         return <FindingAidsEntityForm form={form} locale={locale} readOnly={readOnly}/>;
+      case 'researchers-db/researchers':
+        return <ResearcherForm form={form} readOnly={readOnly}/>;
       default:
         break;
     }
