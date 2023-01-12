@@ -10,11 +10,11 @@ export default function DonorEdit() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, error } = useData(id ? `/v1/donor/${id}/` : undefined);
+  const { data, error } = useData(id ? `/v1/research/${id}/` : undefined);
 
   const breadcrumbData = [
-    {text: 'Donor Records'},
-    {text: 'Edit'},
+    {text: 'Researcher Records'},
+    {text: 'View'},
     {text: data ? `${data.name}` : ''}
   ];
 
@@ -27,8 +27,8 @@ export default function DonorEdit() {
       {
         data ?
         <SimpleForm
-          api={`/v1/donor/${id}/`}
-          module={'donors'}
+          api={`/v1/research/${id}/`}
+          module={'researchers-db/researchers'}
           type={'edit'}
           initialValues={data} /> : ''
       }

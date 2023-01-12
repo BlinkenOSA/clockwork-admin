@@ -19,7 +19,7 @@ export const FormFormattedText = ({value, disabled=false, initialValue, ...props
   return (
     <div className={`${disabled ? style.FormattedTextAreaDisabled : style.FormattedTextArea}`}>
       <SunEditor
-        defaultValue={value ? value : ''}
+        defaultValue={value ? value : undefined}
         autoFocus={false}
         showToolbar={!disabled}
         disable={disabled}
