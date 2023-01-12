@@ -2,7 +2,7 @@ import {Button, Card, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
 import React, {useState, useEffect} from "react";
 import {ArrowUpOutlined, ArrowDownOutlined, EditOutlined, DeleteOutlined, LoadingOutlined, BarcodeOutlined,
   CloseOutlined, TableOutlined, CaretRightOutlined, PrinterOutlined, CaretUpOutlined, CaretDownOutlined} from "@ant-design/icons";
-import style from './Table.module.css';
+import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
 import _ from 'lodash';
 import {PopupForm} from "../Forms/PopupForm";

@@ -2,7 +2,7 @@ import {Button, Modal, Table, Tooltip} from "antd";
 import React, {useEffect, useState} from "react";
 import {PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined, LoadingOutlined, ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
 import TableFilters from "./TableFilters";
-import style from './Table.module.css';
+import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
 import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";

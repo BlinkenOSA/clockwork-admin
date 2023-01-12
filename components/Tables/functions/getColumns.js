@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../Table.module.css'
+import style from '../Table.module.scss'
 import {Button, Tooltip} from "antd";
 import {EyeOutlined, EditOutlined, DeleteOutlined} from "@ant-design/icons";
 import Link from "next/link";

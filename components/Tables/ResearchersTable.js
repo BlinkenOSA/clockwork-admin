@@ -1,13 +1,15 @@
-import {Button, Modal, Table, Tooltip} from "antd";
+import {Badge, Button, Modal, Table, Tooltip} from "antd";
 import React, {useEffect, useState} from "react";
 import {PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined, LoadingOutlined, ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
 import TableFilters from "./TableFilters";
-import style from './Table.module.css';
+import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
 import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import Link from "next/link";
+import {renderResearcherActiveStatus} from "../../utils/renders/renderResearcherActiveStatus";
+import {renderResearcherApprovedStatus} from "../../utils/renders/renderResearcherApprovedStatus";
 
 const ResearchersTable = ({...props}) => {
   const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
@@ -19,7 +21,7 @@ const ResearchersTable = ({...props}) => {
     {
       title: 'Name',
       dataIndex: 'name',
-      key: 'name',
+      key: 'last_name',
       width: 300,
       sorter: true,
     }, {
@@ -27,7 +29,7 @@ const ResearchersTable = ({...props}) => {
       dataIndex: 'card_number',
       key: 'card_number',
       width: 100,
-      sorter: false,
+      sorter: true,
     }, {
       title: 'Email',
       dataIndex: 'email',
@@ -37,26 +39,32 @@ const ResearchersTable = ({...props}) => {
     }, {
       title: 'Country',
       dataIndex: 'country',
-      key: 'country',
-      sorter: false,
+      key: 'country__country',
+      sorter: true,
     }, {
       title: 'Citizenship',
       dataIndex: 'citizenship',
-      key: 'citizenship',
-      sorter: false,
+      key: 'citizenship__nationality',
+      sorter: true,
     }, {
       title: 'Created',
       dataIndex: 'date_created',
       key: 'date_created',
       width: 150,
-      sorter: false,
+      sorter: true,
     }, {
       key: 'crud',
       title: 'Create/Edit/Delete',
       width: 150,
       className: style.ActionColumn,
       render: (record) => renderActionButtons(record)
-    },
+    }, {
+      key: 'status',
+      title: 'Status',
+      className: 'centerColumn',
+      render: (record) => renderStatus(record),
+      width: 190
+    }
   ];
 
   useEffect(() => {
@@ -88,36 +96,7 @@ const ResearchersTable = ({...props}) => {
     )
   };
 
-  const renderStatusButtons = (record) => {
-    switch (record.status) {
-      case 'Published':
-        return (
-          <Tooltip key={'unplublish'} title={'Unpublish'}>
-            <Button
-              size="small"
-              icon={<ArrowDownOutlined />}
-              loading={publishing.hasOwnProperty(record.isad) ? publishing[record.isad] : false}
-              onClick={() => onPublish('unpublish', record.isad)}
-            />
-          </Tooltip>
-        );
-      case 'Draft':
-        return (
-          <Tooltip key={'publish'} title={'Publish'}>
-            <Button
-              size="small"
-              icon={<ArrowUpOutlined />}
-              loading={publishing.hasOwnProperty(record.isad) ? publishing[record.isad] : false}
-              onClick={() => onPublish('publish', record.isad)}
-            />
-          </Tooltip>
-        );
-      default:
-        break;
-    }
-  };
-
-  const onPublish = (action, id) => {
+  const onAction = (action, id) => {
     const { confirm } = Modal;
 
     confirm({
@@ -127,13 +106,61 @@ const ResearchersTable = ({...props}) => {
       cancelText: 'No',
       onOk() {
         setPublishing({[id]: true});
-        put(`/v1/isad/${action}/${id}/`).then(() => {
+        put(`/v1/research/researcher/${action}/${id}/`).then(() => {
           refresh();
           setPublishing({[id]: false});
         })
       }
     });
   };
+
+  const renderResearcherApprovedStatus = (record) => {
+    switch (record.approved) {
+      case true:
+        return (
+          <div onClick={() => onAction('disapprove', record.id)} className={style.ResearcherStatusButton}>
+            <Badge count={'Approved'} style={{ backgroundColor: '#376e18', borderRadius: '3px', fontSize: '0.8em' }} />
+          </div>
+        );
+      case false:
+        return (
+          <div onClick={() => onAction('approve', record.id)} className={style.ResearcherStatusButton}>
+            <Badge count={'Not Approved'} style={{ backgroundColor: '#fa8c16', borderRadius: '3px', fontSize: '0.8em' }} />
+          </div>
+        );
+      default:
+        break;
+    }
+  };
+
+
+  const renderResearcherActiveStatus = (record) => {
+    switch (record.active) {
+      case true:
+        return (
+          <div onClick={() => onAction('deactivate', record.id)} className={style.ResearcherStatusButton}>
+            <Badge count={'Active'} style={{ backgroundColor: '#376e18', borderRadius: '3px', fontSize: '0.8em' }} />
+          </div>
+        );
+      case false:
+        return (
+          <div onClick={() => onAction('activate', record.id)} className={style.ResearcherStatusButton}>
+            <Badge count={'Not Active'} style={{ backgroundColor: '#ba3300', borderRadius: '3px', fontSize: '0.8em' }} />
+          </div>
+        );
+      default:
+        break;
+    }
+  };
+
+  const renderStatus = (record) => {
+    return (
+      <div className={style.ResearcherStatus}>
+        {renderResearcherApprovedStatus(record)}
+        {renderResearcherActiveStatus(record)}
+      </div>
+    )
+  }
 
   const onDelete = (id) => {
     const { confirm } = Modal;
@@ -155,7 +182,7 @@ const ResearchersTable = ({...props}) => {
 
   return (
     <React.Fragment>
-      <TableFilters module={'researchers'} onFilterChange={handleFilterChange}/>
+      <TableFilters module={'researcher'} onFilterChange={handleFilterChange}/>
       <Table
         bordered={true}
         className={style.Table}

@@ -12,7 +12,7 @@ import {
   WarningOutlined,
   DownOutlined
 } from "@ant-design/icons";
-import style from './Table.module.css';
+import style from './Table.module.scss';
 import {post, put, remove} from "../../utils/api";
 import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";

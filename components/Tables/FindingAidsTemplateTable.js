@@ -5,7 +5,7 @@ import {
   EditOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import style from './Table.module.css';
+import style from './Table.module.scss';
 import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import Link from "next/link";

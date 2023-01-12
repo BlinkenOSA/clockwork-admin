@@ -1,10 +1,10 @@
 import React from 'react'
-import AppLayout from "../../../components/Layout/Layout";
+import AppLayout from "../../../../components/Layout/Layout";
 import Head from "next/head";
-import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
+import Breadcrumbs from "../../../../components/Layout/Breadcrumbs";
 import {useRouter} from "next/router";
-import {SimpleForm} from "../../../components/Forms/SimpleForm";
-import {useData} from "../../../utils/hooks/useData";
+import {SimpleForm} from "../../../../components/Forms/SimpleForm";
+import {useData} from "../../../../utils/hooks/useData";
 
 export default function DonorEdit() {
   const router = useRouter();

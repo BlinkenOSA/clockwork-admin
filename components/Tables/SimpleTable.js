@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import {AiOutlineLoading } from "react-icons/ai";
 import {getColumns} from "./functions/getColumns";
 import TableFilters from "./TableFilters";
-import style from './Table.module.css';
+import style from './Table.module.scss';
 import Link from "next/link";
 import {remove} from "../../utils/api";
 import {useData} from "../../utils/hooks/useData";
