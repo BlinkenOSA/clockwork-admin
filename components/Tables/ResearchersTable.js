@@ -1,6 +1,6 @@
 import {Badge, Button, Modal, Table, Tooltip} from "antd";
 import React, {useEffect, useState} from "react";
-import {PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined, LoadingOutlined, ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, EyeOutlined, LoadingOutlined, ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
@@ -8,12 +8,10 @@ import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import Link from "next/link";
-import {renderResearcherActiveStatus} from "../../utils/renders/renderResearcherActiveStatus";
-import {renderResearcherApprovedStatus} from "../../utils/renders/renderResearcherApprovedStatus";
 
 const ResearchersTable = ({...props}) => {
   const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
-  const { data, loading, refresh} = useData(`/v1/research/`, params);
+  const { data, loading, refresh} = useData(`/v1/research/researcher`, params);
 
   const [publishing, setPublishing] = useState({});
 
@@ -22,19 +20,19 @@ const ResearchersTable = ({...props}) => {
       title: 'Name',
       dataIndex: 'name',
       key: 'last_name',
-      width: 300,
+      width: 200,
       sorter: true,
     }, {
       title: 'Card No.',
       dataIndex: 'card_number',
       key: 'card_number',
-      width: 100,
+      width: 120,
       sorter: true,
     }, {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
-      width: 250,
+      width: 200,
       sorter: false,
     }, {
       title: 'Country',

@@ -1,8 +1,8 @@
 import React from 'react'
-import AppLayout from "../../../components/Layout/Layout";
+import AppLayout from "../../../../components/Layout/Layout";
 import Head from "next/head";
-import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
-import {SimpleForm} from "../../../components/Forms/SimpleForm";
+import Breadcrumbs from "../../../../components/Layout/Breadcrumbs";
+import {SimpleForm} from "../../../../components/Forms/SimpleForm";
 
 export default function DonorCreate() {
   const breadcrumbData = [

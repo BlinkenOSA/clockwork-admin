@@ -1,4 +1,4 @@
-import { DashboardOutlined, SwapOutlined, ApartmentOutlined, UserOutlined, ProfileOutlined, FileOutlined,
+import { DashboardOutlined, ApartmentOutlined, UserOutlined, ProfileOutlined, FileOutlined,
   UnorderedListOutlined, BankOutlined, FlagOutlined, DeploymentUnitOutlined, GlobalOutlined, TeamOutlined,
   EnvironmentOutlined, TagOutlined, TagsOutlined, RightCircleOutlined, IdcardOutlined
 } from '@ant-design/icons';
@@ -6,6 +6,10 @@ import { IoSchoolOutline } from "react-icons/io5"
 import { MdOutlineScanner } from "react-icons/md"
 import { BsInboxes, BsBoxArrowInLeft } from "react-icons/bs"
 import { FaExchangeAlt } from "react-icons/fa"
+import { HiOutlineLibrary } from "react-icons/hi"
+import { BiPieChartAlt2 } from "react-icons/bi"
+import { CgLoadbarAlt } from "react-icons/cg"
+import { ImCopy } from "react-icons/im"
 import React from "react";
 
 const configMenu = [
@@ -21,7 +25,8 @@ const configMenu = [
       {name: 'Folders / Items', link: '/finding-aids'},
       {name: 'Organizer', link: '/finding-aids/organizer'},
     ]},
-  {name: 'Authority List', icon: <TagsOutlined/>, module: 'authority-list', submenu: [
+  {name: 'Lists', icon: <ImCopy/>, module: 'list', submenu: [
+    {name: 'Authority List', icon: <TagsOutlined/>, module: '/list/authority-list', submenu: [
       {name: 'Corporations', icon: <BankOutlined/>, link: '/authority-list/corporations'},
       {name: 'Countries', icon: <FlagOutlined/>, link: '/authority-list/countries'},
       {name: 'Genres', icon: <DeploymentUnitOutlined/>, link: '/authority-list/genres'},
@@ -30,7 +35,7 @@ const configMenu = [
       {name: 'Places', icon: <EnvironmentOutlined/>, link: '/authority-list/places'},
       {name: 'Subjects', icon: <TagOutlined/>, link: '/authority-list/subjects'},
     ]},
-  {name: 'Controlled List', icon: <UnorderedListOutlined/>, module: 'controlled-list', submenu: [
+    {name: 'Controlled List', icon: <UnorderedListOutlined/>, module: '/list/controlled-list', submenu: [
       {name: 'Access Rights', icon: <RightCircleOutlined/>, link: '/controlled-list/access-rights'},
       {name: 'Archival Unit Themes', icon: <RightCircleOutlined/>, link: '/controlled-list/archival-unit-themes'},
       {name: 'Building', icon: <RightCircleOutlined/>, link: '/controlled-list/buildings'},
@@ -46,11 +51,15 @@ const configMenu = [
       {name: 'Reproduction Rights', icon: <RightCircleOutlined/>, link: '/controlled-list/reproduction-rights'},
       {name: 'Restriction Reasons', icon: <RightCircleOutlined/>, link: '/controlled-list/restriction-reasons'},
     ]},
+  ]},
   {name: 'MLR', icon: <BsInboxes/>, module: 'mlr', link: '/mlr'},
   {name: 'Digitization Log', icon: <MdOutlineScanner/>, module: 'digitization', link: '/digitization'},
   {name: 'Researchers Database', icon: <IoSchoolOutline/>, module: 'researcher', submenu: [
       {name: 'Researchers', icon: <IdcardOutlined />, link: '/researchers-db/researchers'},
-      {name: 'Requests', icon: <FaExchangeAlt/>, link: '/researchers-db/requests'},
+      {name: 'Researcher Visits', icon: <HiOutlineLibrary />, link: '/researchers-db/visits'},
+      {name: 'Researcher Statistics', icon: <BiPieChartAlt2 />, link: '/researchers-db/stats'},
+      {name: 'Requests', icon: <FaExchangeAlt />, link: '/researchers-db/requests'},
+      {name: 'Request Progress', icon: <CgLoadbarAlt />, link: '/researchers-db/requests'},
     ]}
 ];
 

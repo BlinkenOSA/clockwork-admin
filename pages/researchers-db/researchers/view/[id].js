@@ -10,7 +10,7 @@ export default function ResearcherView() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, error } = useData(id ? `/v1/research/${id}/` : undefined);
+  const { data, error } = useData(id ? `/v1/research/researcher/${id}/` : undefined);
 
   const breadcrumbData = [
     {text: 'Researcher Records'},

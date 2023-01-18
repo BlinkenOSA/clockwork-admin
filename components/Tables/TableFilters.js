@@ -9,6 +9,7 @@ import IsadTableFilter from "./filters/IsadTableFilter";
 import MLRTableFilter from "./filters/MLRTableFilter";
 import DigitizationTableFilter from "./filters/DigitizationTableFilter";
 import ResearcherTableFilter from "./filters/ResearchTableFilter";
+import ResearchersVisitsTableFilter from "./filters/ResearchersVisitsTableFilter";
 
 const TableFilters = ({onFilterChange, module, ...props}) => {
   const renderFilters = () => {
@@ -27,6 +28,8 @@ const TableFilters = ({onFilterChange, module, ...props}) => {
         return <DigitizationTableFilter />;
       case 'researcher':
         return <ResearcherTableFilter />
+      case 'researcher-visits':
+        return <ResearchersVisitsTableFilter />
       default:
         return <DefaultTableFilters />;
     }
