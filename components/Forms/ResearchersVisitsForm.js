@@ -1,10 +1,11 @@
-import {AutoComplete, Col, Form, Input, Row} from "antd";
+import {Button, Col, Form, notification, Row} from "antd";
 import style from "./Forms.module.css";
-import React from "react";
+import React, {useState} from "react";
 import {post} from "../../utils/api";
 import FormRemoteSelect from "./components/FormRemoteSelect";
 
 export const ResearchersVisitsForm = ({refresh}) => {
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
   const validateMessages = {
@@ -12,10 +13,17 @@ export const ResearchersVisitsForm = ({refresh}) => {
   };
 
   const onFinish = (values) => {
-    post(`/v1/container/create/`, values).then(response => {
+    setLoading(true)
+    post(`/v1/research/visits/check-in/${values['researcher']}`).then(response => {
       refresh();
+      setLoading(false)
     }).catch((error) => {
-
+      setLoading(false)
+      notification.error({
+        duration: 3,
+        message: 'Error!',
+        description: error.response.data,
+      });
     })
   };
 
@@ -31,7 +39,7 @@ export const ResearchersVisitsForm = ({refresh}) => {
     >
       <Row gutter={[12]}>
         <Col span={8}>
-          <Form.Item name="researcher">
+          <Form.Item name="researcher" required rules={[{ required: true }]}>
             <FormRemoteSelect
               valueField={'id'}
               labelField={'name'}
@@ -39,6 +47,15 @@ export const ResearchersVisitsForm = ({refresh}) => {
               selectAPI={'/v1/research/researcher/select/'}
             />
           </Form.Item>
+        </Col>
+        <Col xs={4}>
+          <Button
+            loading={loading}
+            type={'primary'}
+            htmlType={'submit'}
+          >
+            Check In
+          </Button>
         </Col>
       </Row>
     </Form>

@@ -1,26 +1,19 @@
-import {Badge, Button, Card, Col, Modal, Row, Table, Tooltip} from "antd";
-import React, {useEffect, useState} from "react";
+import { Button, Card, Col, Modal, notification, Row, Table } from "antd";
+import React, {useState} from "react";
 import {
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
   LoadingOutlined,
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-  CaretUpOutlined, CaretRightOutlined, CaretDownOutlined, TableOutlined, CloseOutlined
+  CaretUpOutlined, CaretRightOutlined,
 } from "@ant-design/icons";
-import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import Collapse from "@kunukn/react-collapse";
-import {ContainerCreateForm} from "../Forms/ContainerCreateForm";
-import LabelTypeSelector from "../LabelTypeSelector/LabelTypeSelector";
-import Link from "next/link";
 import {ResearchersVisitsForm} from "../Forms/ResearchersVisitsForm";
+import {put, remove} from "../../utils/api";
+import {deleteAlert} from "./functions/deleteAlert";
 
 const ResearchersTable = ({...props}) => {
-  const { params, tableState, handleTableChange, handleFilterChange } = useTable('isad');
+  const { params, tableState, handleTableChange} = useTable('researchers-visits');
   const { data, loading, refresh} = useData(`/v1/research/visits`, params);
 
   const [createFormOpen, setCreateFormOpen] = useState(true);
@@ -40,12 +33,47 @@ const ResearchersTable = ({...props}) => {
       sorter: true,
     }, {
       title: 'Check Out',
-      dataIndex: 'check_out',
       key: 'check_out',
       width: 120,
       sorter: true,
+      render: (record) => renderCheckOut(record)
     },
   ];
+
+  const onCheckOut = (data) => {
+    const { confirm } = Modal;
+
+    confirm({
+      title: `Are you sure you would like to check out ${data['researcher']} for today?`,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        put(`/v1/research/visits/check-out/${data['id']}`).then(response => {
+          refresh();
+        }).catch((error) => {
+          notification.error({
+            duration: 3,
+            message: 'Error!',
+            description: 'There was an error trying to check out the researcher!',
+          });
+        })
+      }
+    });
+  }
+
+  const renderCheckOut = (record) => {
+    const checkOut = record['check_out']
+    if (checkOut) {
+        return checkOut
+    } else {
+      return (
+        <div onClick={(e) => onCheckOut(record)}>
+          <Button type={'default'} size={'small'}>Check Out</Button>
+        </div>
+      )
+    }
+  }
 
   const getFooter = () => {
     return (
