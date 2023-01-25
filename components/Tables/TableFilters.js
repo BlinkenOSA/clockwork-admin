@@ -10,6 +10,7 @@ import MLRTableFilter from "./filters/MLRTableFilter";
 import DigitizationTableFilter from "./filters/DigitizationTableFilter";
 import ResearcherTableFilter from "./filters/ResearchTableFilter";
 import ResearchersVisitsTableFilter from "./filters/ResearchersVisitsTableFilter";
+import RequestsTableFilter from "./filters/RequestsTableFilter";
 
 const TableFilters = ({onFilterChange, module, ...props}) => {
   const renderFilters = () => {
@@ -30,6 +31,8 @@ const TableFilters = ({onFilterChange, module, ...props}) => {
         return <ResearcherTableFilter />
       case 'researcher-visits':
         return <ResearchersVisitsTableFilter />
+      case 'requests':
+        return <RequestsTableFilter />
       default:
         return <DefaultTableFilters />;
     }

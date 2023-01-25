@@ -9,7 +9,7 @@ import {UserProvider} from "../utils/context/UserContext";
 
 const themeOptions = {
     token: {
-        borderRadius: '2px',
+        borderRadius: 2,
     },
 }
 

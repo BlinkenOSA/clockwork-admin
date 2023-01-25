@@ -59,7 +59,6 @@ const configMenu = [
       {name: 'Researcher Visits', icon: <HiOutlineLibrary />, link: '/researchers-db/visits'},
       {name: 'Researcher Statistics', icon: <BiPieChartAlt2 />, link: '/researchers-db/stats'},
       {name: 'Requests', icon: <FaExchangeAlt />, link: '/researchers-db/requests'},
-      {name: 'Request Progress', icon: <CgLoadbarAlt />, link: '/researchers-db/requests'},
     ]}
 ];
 

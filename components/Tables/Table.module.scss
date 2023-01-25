@@ -100,3 +100,24 @@
         cursor: pointer;
     }
 }
+
+.BadgeWithUndoButton {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+
+    .Badge {
+        cursor: pointer;
+        height: 20px;
+        line-height: 0px;
+    }
+
+    .UndoButton {
+        height: 20px;
+        border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
