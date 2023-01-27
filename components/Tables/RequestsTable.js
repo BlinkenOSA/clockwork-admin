@@ -1,6 +1,7 @@
-import {Badge, Button, Modal, Table, Tooltip} from "antd";
-import React, {useEffect} from "react";
+import {Badge, Button, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
+import React, {useEffect, useState} from "react";
 import {
+  PlusOutlined,
   PrinterOutlined,
   UndoOutlined,
   LoadingOutlined,
@@ -12,6 +13,8 @@ import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import moment from "moment";
+import {PopupForm} from "../Forms/PopupForm";
+import _ from 'lodash';
 
 const ORIGIN = {
   'FA': 'Archival',
@@ -22,6 +25,10 @@ const ORIGIN = {
 const ResearchersTable = ({...props}) => {
   const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
   const { data, loading, refresh} = useData(`/v1/research/requests`, params);
+
+  const [drawerShown, setDrawerShown] = useState(false);
+  const [action, setAction] = useState('create');
+  const [selectedRecord, setSelectedRecord] = useState(undefined);
 
   const columns = [
     {
@@ -147,14 +154,34 @@ const ResearchersTable = ({...props}) => {
     });
   };
 
+  const onCreate = () => {
+    setAction('create');
+    setDrawerShown(true);
+  }
+
+  const onClose = () => {
+    refresh();
+    setDrawerShown(false);
+  }
+
   const getFooter = () => {
     return (
-      <a href={'/researchers-db/requests/print'} target={'_blank'}>
-        <Button type={'primary'}>
-          <PrinterOutlined />
-          Print requests
-        </Button>
-      </a>
+      <Row gutter={12}>
+        <Col span={16}>
+          <span onClick={() => onCreate()} target={'_blank'} >
+            <Button type={'primary'}>
+              <PlusOutlined />
+              Print requests
+            </Button>
+          </span>
+          <a href={'/researchers-db/requests/print'} target={'_blank'} style={{marginLeft: '10px'}}>
+            <Button type={'default'}>
+              <PrinterOutlined />
+              Print requests
+            </Button>
+          </a>
+        </Col>
+      </Row>
     )
   }
 
@@ -176,6 +203,22 @@ const ResearchersTable = ({...props}) => {
         pagination={tableState['pagination']}
         onChange={handleTableChange}
       />
+      <Drawer
+        title={_.capitalize(action)}
+        width={'50%'}
+        onClose={(e) => onClose()}
+        open={drawerShown}
+        destroyOnClose={true}
+      >
+        <PopupForm
+          api={`/v1/research/requests`}
+          label={'requests'}
+          selectedRecord={selectedRecord}
+          module={'requests'}
+          type={action}
+          onClose={onClose}
+        />
+      </Drawer>
     </React.Fragment>
   )
 };

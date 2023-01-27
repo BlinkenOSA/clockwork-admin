@@ -2,7 +2,7 @@ import {Button, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
 import React, {useState, useEffect} from "react";
 import {EditOutlined, DeleteOutlined, PlusOutlined, LoadingOutlined} from "@ant-design/icons";
 import TableFilters from "./TableFilters";
-import style from './Table.module.css';
+import style from './Table.module.scss';
 import {remove} from "../../utils/api";
 import _ from 'lodash';
 import {PopupForm} from "../Forms/PopupForm";

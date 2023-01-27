@@ -25,6 +25,7 @@ import {KeywordForm} from "./fields/KeywordForm";
 import {FindingAidsEntityQuickForm} from "./fields/FindingAidsEntityQuickForm";
 import {MLRForm} from "./fields/MLRForm";
 import {DigitizationForm} from "./fields/DigitizationForm";
+import {RequestsForm} from "./fields/RequestsForm";
 
 export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
   const afterFinish = () => {
@@ -94,6 +95,8 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
         return <MLRForm form={form} readOnly={readOnly}/>;
       case 'digitization':
         return <DigitizationForm form={form} readOnly={readOnly} />;
+      case 'requests':
+        return <RequestsForm form={form} readOnly={readOnly} />;
       default:
         return (
           <Col xs={24}>

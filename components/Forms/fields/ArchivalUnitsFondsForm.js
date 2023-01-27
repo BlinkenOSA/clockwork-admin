@@ -13,7 +13,7 @@ export const ArchivalUnitsFondsForm = ({type, readOnly}) => {
           required
           rules={[{ required: true, type: 'number', min: 1, max: 1000 }]}
         >
-          <InputNumber />
+          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
       </Col>
       <Col xs={14}>
