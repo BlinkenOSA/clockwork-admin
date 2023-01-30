@@ -111,22 +111,22 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
   const getInitialValue = () => {
     switch (module) {
       case 'archival-units-fonds':
-        return {level: 'F'};
+        return { level: 'F' };
       case 'archival-units-subfonds':
-        return {level: 'SF'};
+        return { level: 'SF' };
       case 'archival-units-series':
-        return {level: 'S'};
+        return { level: 'S' };
       case 'people':
         if (data) {
           return fillManyFields(data, ['person_other_formats']);
         } else {
-          return {person_other_formats: [{}]}
+          return { person_other_formats: [{}] }
         }
       case 'corporations':
         if (data) {
           return fillManyFields(data, ['corporation_other_formats']);
         } else {
-          return {corporation_other_formats: [{}]}
+          return { corporation_other_formats: [{}] }
         }
       case 'isaar':
         if (data) {
@@ -146,7 +146,13 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
         if (data) {
           return fillManyFields(data, ['locations']);
         } else {
-          return {locations: [{}]}
+          return { locations: [{}] }
+        }
+      case 'requests':
+        if (data) {
+          return fillManyFields(data, ['request_items'])
+        } else {
+          return { request_items: [{}] }
         }
       default:
         if (data) {

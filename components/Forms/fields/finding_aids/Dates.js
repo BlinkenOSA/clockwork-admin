@@ -16,7 +16,6 @@ export const Dates = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'date_from']}
-                    fieldKey={[field.fieldKey, 'date_from']}
                   >
                     <Input placeholder={'Date from'} disabled={disabled}/>
                   </Form.Item>
@@ -25,7 +24,6 @@ export const Dates = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'date_to']}
-                    fieldKey={[field.fieldKey, 'date_to']}
                   >
                     <Input placeholder={'Date to'} disabled={disabled}/>
                   </Form.Item>
@@ -34,7 +32,6 @@ export const Dates = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'date_type']}
-                    fieldKey={[field.fieldKey, 'date_type']}
                   >
                     <FormRemoteSelect
                       valueField={'id'}
@@ -47,7 +44,7 @@ export const Dates = ({disabled}) => (
                 </Col>
                 <Col xs={2}>
                   <Button
-                    type="secondary"
+                    type="default"
                     onClick={() => remove(field.name)}
                     disabled={disabled}
                     icon={<CloseOutlined />}

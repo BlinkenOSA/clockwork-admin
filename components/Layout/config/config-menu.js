@@ -8,7 +8,6 @@ import { BsInboxes, BsBoxArrowInLeft } from "react-icons/bs"
 import { FaExchangeAlt } from "react-icons/fa"
 import { HiOutlineLibrary } from "react-icons/hi"
 import { BiPieChartAlt2 } from "react-icons/bi"
-import { CgLoadbarAlt } from "react-icons/cg"
 import { ImCopy } from "react-icons/im"
 import React from "react";
 
@@ -23,7 +22,6 @@ const configMenu = [
   {name: 'ISAD(G)', icon: <ProfileOutlined/>, module: 'isad', link: '/isad'},
   {name: 'Finding Aids', icon: <FileOutlined/>, module: 'finding-aids', submenu: [
       {name: 'Folders / Items', link: '/finding-aids'},
-      {name: 'Organizer', link: '/finding-aids/organizer'},
     ]},
   {name: 'Lists', icon: <ImCopy/>, module: 'list', submenu: [
     {name: 'Authority List', icon: <TagsOutlined/>, module: '/list/authority-list', submenu: [

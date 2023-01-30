@@ -15,7 +15,6 @@ export const PersonOtherNames = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'language']}
-                    fieldKey={[field.name, 'language']}
                   >
                     <FormRemoteSelect
                       valueField={'id'}
@@ -30,7 +29,6 @@ export const PersonOtherNames = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'name']}
-                    fieldKey={[field.name, 'name']}
                   >
                     <Input placeholder={'Name'} disabled={disabled}/>
                   </Form.Item>
@@ -48,7 +46,7 @@ export const PersonOtherNames = ({disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

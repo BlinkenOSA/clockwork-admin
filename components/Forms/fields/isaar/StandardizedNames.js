@@ -15,7 +15,6 @@ export const StandardizedNames = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'name']}
-                    fieldKey={[field.fieldKey, 'name']}
                   >
                     <Input placeholder={'Standardized form of name'} disabled={disabled}/>
                   </Form.Item>
@@ -24,7 +23,6 @@ export const StandardizedNames = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'standard']}
-                    fieldKey={[field.fieldKey, 'standard']}
                   >
                     <Input placeholder={'Parallel form of name'} disabled={disabled}/>
                   </Form.Item>
@@ -42,7 +40,7 @@ export const StandardizedNames = ({disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

@@ -16,7 +16,6 @@ export const Languages = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'language']}
-                    fieldKey={[field.fieldKey, 'language']}
                   >
                     <FormRemoteSelect
                       valueField={'id'}
@@ -31,7 +30,6 @@ export const Languages = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'language_usage']}
-                    fieldKey={[field.fieldKey, 'language_usage']}
                   >
                     <FormRemoteSelect
                       valueField={'id'}
@@ -55,7 +53,7 @@ export const Languages = ({disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

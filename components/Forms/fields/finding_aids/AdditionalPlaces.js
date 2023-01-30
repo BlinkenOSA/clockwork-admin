@@ -16,7 +16,6 @@ export const AdditionalPlaces = ({form, disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'associated_place']}
-                    fieldKey={[field.fieldKey, 'associated_place']}
                   >
                     <FormRemoteSelectWithEdit
                       fieldName={'associated_place'}
@@ -35,7 +34,6 @@ export const AdditionalPlaces = ({form, disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'role']}
-                    fieldKey={[field.fieldKey, 'role']}
                   >
                     <FormRemoteSelectWithEdit
                       fieldName={'role'}
@@ -63,7 +61,7 @@ export const AdditionalPlaces = ({form, disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

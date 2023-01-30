@@ -289,7 +289,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
 
     if (templateData.length > 0) {
       return (
-        <Dropdown overlay={menu}>
+        <Dropdown menu={menu}>
           <Button style={{marginLeft: '10px'}} disabled={templateData.length === 0}>
             New from Template <DownOutlined />
           </Button>

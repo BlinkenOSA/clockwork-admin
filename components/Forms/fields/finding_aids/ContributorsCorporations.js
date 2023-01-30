@@ -16,7 +16,6 @@ export const ContributorsCorporations = ({form, disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'associated_corporation']}
-                    fieldKey={[field.fieldKey, 'associated_corporation']}
                   >
                     <FormRemoteSelectWithEdit
                       fieldName={'associated_corporation'}
@@ -35,7 +34,6 @@ export const ContributorsCorporations = ({form, disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'role']}
-                    fieldKey={[field.fieldKey, 'role']}
                   >
                     <FormRemoteSelectWithEdit
                       fieldName={'role'}
@@ -63,7 +61,7 @@ export const ContributorsCorporations = ({form, disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

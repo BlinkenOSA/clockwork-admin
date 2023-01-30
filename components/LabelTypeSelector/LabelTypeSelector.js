@@ -9,28 +9,33 @@ const LabelTypeSelector = ({seriesID}) => {
   const { data, loading } = useData(seriesID ? `/v1/finding_aids/carriers/${seriesID}/` : null);
 
   const menu = () => {
-    return (
-      <Menu>
-        {
-          data && data.map(d => (
-            d['templateExists'] ?
-              <Menu.Item>
-                <a target="_blank" href={`${API}/v1/finding_aids/labels/${d['carrier_type_id']}/${seriesID}/`}>
-                  <CheckCircleTwoTone twoToneColor="#52c41a" /> {d['carrier_type']} ({d['total']})
-                </a>
-              </Menu.Item> :
-              <Menu.Item>
-                <CloseCircleTwoTone twoToneColor="#eb2f96" /> {d['carrier_type']} ({d['total']})
-              </Menu.Item>
-          ))
-        }
-      </Menu>
-    )
-  };
+    const getLabel = (d) => {
+      if (d['templateExists']) {
+        return (
+          <a target="_blank" href={`${API}/v1/finding_aids/labels/${d['carrier_type_id']}/${seriesID}/`}>
+            <CheckCircleTwoTone twoToneColor="#52c41a" /> {d['carrier_type']} ({d['total']})
+          </a>
+        )
+      } else {
+        return (
+          <React.Fragment>
+            <CloseCircleTwoTone twoToneColor="#eb2f96" /> {d['carrier_type']} ({d['total']})
+          </React.Fragment>
+        )
+      }
+    }
+
+    return data && data.map((d, idx) => {
+      return {
+        key: `menu_${idx}`,
+        label: getLabel(d)
+      }
+    })
+  }
 
   return (
     <Tooltip key={'label_print'} title={'Label Print'}>
-      <Dropdown overlay={menu} placement="bottomCenter">
+      <Dropdown menu={{items: menu()}} placement="bottom">
         <Button type={'default'} style={{marginLeft: '10px'}}>
           <PrinterOutlined/> Label Print
         </Button>

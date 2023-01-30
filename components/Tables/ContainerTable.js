@@ -344,7 +344,7 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
       <Modal
         title={seriesTitle}
         centered
-        visible={modalVisible}
+        open={modalVisible}
         onOk={() => setModalVisible(false)}
         onCancel={() => setModalVisible(false)}
         footer={null}

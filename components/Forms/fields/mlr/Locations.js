@@ -16,7 +16,6 @@ export const Locations = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'building']}
-                    fieldKey={[field.name, 'building']}
                   >
                     <FormRemoteSelect
                       valueField={'id'}
@@ -31,7 +30,6 @@ export const Locations = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'module']}
-                    fieldKey={[field.name, 'module']}
                   >
                     <Input placeholder={'Module'} disabled={disabled}/>
                   </Form.Item>
@@ -40,7 +38,6 @@ export const Locations = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'row']}
-                    fieldKey={[field.name, 'row']}
                   >
                     <Input placeholder={'Row'} disabled={disabled}/>
                   </Form.Item>
@@ -49,7 +46,6 @@ export const Locations = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'section']}
-                    fieldKey={[field.name, 'section']}
                   >
                     <Input placeholder={'Section'} disabled={disabled}/>
                   </Form.Item>
@@ -58,7 +54,6 @@ export const Locations = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'shelf']}
-                    fieldKey={[field.name, 'shelf']}
                   >
                     <Input placeholder={'Shelf'} disabled={disabled}/>
                   </Form.Item>
@@ -76,7 +71,7 @@ export const Locations = ({disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

@@ -16,7 +16,6 @@ export const OtherFormsOfNames = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'name']}
-                    fieldKey={[field.fieldKey, 'name']}
                   >
                     <Input placeholder={'Other form of name'} disabled={disabled}/>
                   </Form.Item>
@@ -25,7 +24,6 @@ export const OtherFormsOfNames = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'year_from']}
-                    fieldKey={[field.fieldKey, 'year_from']}
                   >
                     <Input placeholder={'Year from'} disabled={disabled}/>
                   </Form.Item>
@@ -34,7 +32,6 @@ export const OtherFormsOfNames = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'year_to']}
-                    fieldKey={[field.fieldKey, 'year_to']}
                   >
                     <Input placeholder={'Year to'} disabled={disabled}/>
                   </Form.Item>
@@ -43,7 +40,6 @@ export const OtherFormsOfNames = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'relationship']}
-                    fieldKey={[field.fieldKey, 'relationship']}
                   >
                     <FormRemoteSelect
                       valueField={'id'}
@@ -67,7 +63,7 @@ export const OtherFormsOfNames = ({disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

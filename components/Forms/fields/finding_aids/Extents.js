@@ -16,7 +16,6 @@ export const Extents = ({form, disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'extent_number']}
-                    fieldKey={[field.fieldKey, 'extent_number']}
                   >
                     <Input placeholder={'Extent Number'} disabled={disabled}/>
                   </Form.Item>
@@ -25,7 +24,6 @@ export const Extents = ({form, disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'extent_unit']}
-                    fieldKey={[field.fieldKey, 'extent_unit']}
                   >
                     <FormRemoteSelectWithEdit
                       fieldName={'extent_unit'}
@@ -54,7 +52,7 @@ export const Extents = ({form, disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

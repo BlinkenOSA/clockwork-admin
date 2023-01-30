@@ -15,7 +15,6 @@ export const CorporateBodyIdentifiers = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'identifier']}
-                    fieldKey={[field.fieldKey, 'identifier']}
                   >
                     <Input placeholder={'Corporate body identifier'} disabled={disabled}/>
                   </Form.Item>
@@ -24,7 +23,6 @@ export const CorporateBodyIdentifiers = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'rule']}
-                    fieldKey={[field.fieldKey, 'rule']}
                   >
                     <Input placeholder={'Rule'} disabled={disabled}/>
                   </Form.Item>
@@ -42,7 +40,7 @@ export const CorporateBodyIdentifiers = ({disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

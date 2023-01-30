@@ -16,7 +16,6 @@ export const AdditionalCountries = ({form, disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'associated_country']}
-                    fieldKey={[field.fieldKey, 'associated_country']}
                   >
                     <FormRemoteSelectWithEdit
                       fieldName={'associated_country'}
@@ -35,7 +34,6 @@ export const AdditionalCountries = ({form, disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'role']}
-                    fieldKey={[field.fieldKey, 'role']}
                   >
                     <FormRemoteSelectWithEdit
                       fieldName={'role'}
@@ -63,7 +61,7 @@ export const AdditionalCountries = ({form, disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

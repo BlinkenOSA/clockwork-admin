@@ -15,7 +15,6 @@ export const ParallelFormsOfName = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'name']}
-                    fieldKey={[field.fieldKey, 'name']}
                   >
                     <Input placeholder={'Parallel form of name'} disabled={disabled}/>
                   </Form.Item>
@@ -33,7 +32,7 @@ export const ParallelFormsOfName = ({disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

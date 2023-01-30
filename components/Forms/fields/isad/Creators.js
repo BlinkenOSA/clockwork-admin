@@ -15,7 +15,6 @@ export const Creators = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'creator']}
-                    fieldKey={[field.fieldKey, 'creator']}
                   >
                     <Input disabled={disabled}/>
                   </Form.Item>
@@ -33,7 +32,7 @@ export const Creators = ({disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

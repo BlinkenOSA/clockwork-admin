@@ -2,25 +2,23 @@ import React from 'react'
 import AppLayout from "../../../../components/Layout/Layout";
 import Head from "next/head";
 import Breadcrumbs from "../../../../components/Layout/Breadcrumbs";
-import {SimpleForm} from "../../../../components/Forms/SimpleForm";
+import {ArchivalUnitSelectForm} from "../../../../components/Forms/ArchivalUnitSelectForm";
+import {RequestsForm} from "../../../../components/Forms/fields/RequestsForm";
 
-export default function DonorCreate() {
+export default function RequestCreate() {
   const breadcrumbData = [
-    {text: 'Donor Records'},
-    {text: 'Create'},
+    {text: 'Researchers Database'},
+    {text: 'Requests'},
+    {text: 'Create'}
   ];
 
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - Create Donor Record</title>
+        <title>AMS - Archival Management System - Finding Aids / Select Archival Unit</title>
       </Head>
-      <Breadcrumbs module={'donors'} breadcrumbData={breadcrumbData} />
-      <SimpleForm
-        api={`/v1/donor/`}
-        module={'donors'}
-        type={'create'}
-      />
+      <Breadcrumbs module={'requests'} breadcrumbData={breadcrumbData} />
+      <RequestsForm />
     </AppLayout>
   )
 }

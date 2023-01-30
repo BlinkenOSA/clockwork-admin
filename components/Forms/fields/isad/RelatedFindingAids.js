@@ -15,7 +15,6 @@ export const RelatedFindingAids = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'url']}
-                    fieldKey={[field.fieldKey, 'url']}
                   >
                     <Input placeholder={'URL'} disabled={disabled}/>
                   </Form.Item>
@@ -24,7 +23,6 @@ export const RelatedFindingAids = ({disabled}) => (
                   <Form.Item
                     {...field}
                     name={[field.name, 'info']}
-                    fieldKey={[field.fieldKey, 'info']}
                   >
                     <Input placeholder={'Info'} disabled={disabled}/>
                   </Form.Item>
@@ -42,7 +40,7 @@ export const RelatedFindingAids = ({disabled}) => (
             {!disabled &&
             <Form.Item>
               <Button
-                type="secondary"
+                type="default"
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >

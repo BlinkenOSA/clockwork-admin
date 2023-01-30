@@ -1,13 +1,17 @@
 import {message, Col, Row, Spin, Input, Button, Form} from "antd";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef} from "react";
 import {useData} from "../../utils/hooks/useData";
-import 'handsontable/dist/handsontable.full.css';
+import 'handsontable/dist/handsontable.full.min.css';
 import style from "./FindingAidsGrid.module.css";
 import { LoadingOutlined } from '@ant-design/icons';
 
 import { HotTable } from '@handsontable/react';
+import { registerAllModules } from 'handsontable/registry';
+
 import {get, patch} from "../../utils/api";
 import FindingAidsGridFilter from "./FindingAidsGridFilter";
+
+registerAllModules();
 
 const FindingAidsGrid = ({seriesID}) => {
   const { data, loading, refresh } = useData(seriesID ? `/v1/finding_aids/grid/list/${seriesID}/` : undefined, {});
@@ -41,24 +45,28 @@ const FindingAidsGrid = ({seriesID}) => {
     {data: 'archival_reference_code', readOnly: true, width: 200},
     {data: 'title', width: 300},
     {data: 'title_original', width: 300},
-    {data: 'original_locale', width: 100, type: 'autocomplete', source: getLocales},
+    {data: 'original_locale', width: 100, type: 'dropdown', source: getLocales},
     {data: 'contents_summary', width: 300},
     {data: 'contents_summary_original', width: 300},
     {data: 'date_from', width: 100},
     {data: 'date_to', width: 100},
     {data: 'time_start', width: 100},
     {data: 'time_end', width: 100},
-    {data: 'notes', width: 200},
-    {data: 'notes_original', width: 200},
+    {data: 'note', width: 200},
+    {data: 'note_original', width: 200},
   ];
 
-  const afterChange = (change, source) => {
+  const afterChange = (changes, source) => {
     const getNewValue = (prop, newValue) => {
       // Locale setting
       if (prop === 'original_locale') {
-        const filteredData = localeData['data'].filter(x => x.id === newValue)[0];
-        if (filteredData.hasOwnProperty("id")) {
-          return filteredData["id"]
+        if (newValue) {
+          const filteredData = localeData['data'].filter(x => x.id === newValue)[0];
+          if (filteredData.hasOwnProperty("id")) {
+            return filteredData["id"]
+          } else {
+            return newValue
+          }
         } else {
           return newValue
         }
@@ -67,46 +75,48 @@ const FindingAidsGrid = ({seriesID}) => {
       return newValue
     };
 
-    if (source === 'loadData') {
+    if (source === 'loadData' || changes == null) {
       return;
     }
 
-    const [row, prop, oldValue, newValue] = change[0];
-    const value = getNewValue(prop, newValue);
+    changes.forEach(change => {
+      const [row, prop, oldValue, newValue] = change;
+      const value = getNewValue(prop, newValue);
 
-    if (!oldValue && value === "") {
-      return;
-    }
+      if (!oldValue && value === "") {
+        return;
+      }
 
-    if (oldValue !== value) {
-      const id = (data[row]['id']);
-      const col = columns.findIndex(d => d.data === prop);
+      if (oldValue !== value) {
+        const id = data[row]['id'];
+        const col = columns.findIndex(d => d.data === prop);
 
-      patch(`/v1/finding_aids/${id}/`, {[prop]: value}).then(response => {
-        hot.current.hotInstance.setCellMeta(row, col, 'className', 'success');
-        hot.current.hotInstance.render();
-        message.success('Record successfully updated!', 1);
-      }).catch(error => {
-        hot.current.hotInstance.setCellMeta(row, col, 'className', 'error');
-        hot.current.hotInstance.render();
-        switch (error.response.status) {
-          case 400:
-            const errorData = error.response.data;
-            if (errorData.hasOwnProperty(prop)) {
-              message.error(errorData[prop]);
-            } else {
-              message.error('Record update failed! (Wrong data format)', 3);
-            }
-            break;
-          case 500:
-            message.error('Record update failed! (Server error)', 3);
-            break;
-          default:
-            message.error('Record update failed!', 3);
-            break;
-        }
-      })
-    }
+        patch(`/v1/finding_aids/${id}/`, {[prop]: value}).then(response => {
+          hot.current.hotInstance.setCellMeta(row, col, 'className', 'success');
+          hot.current.hotInstance.render();
+          message.success('Record successfully updated!', 1);
+        }).catch(error => {
+          hot.current.hotInstance.setCellMeta(row, col, 'className', 'error');
+          hot.current.hotInstance.render();
+          switch (error.response.status) {
+            case 400:
+              const errorData = error.response.data;
+              if (errorData.hasOwnProperty(prop)) {
+                message.error(errorData[prop]);
+              } else {
+                message.error('Record update failed! (Wrong data format)', 3);
+              }
+              break;
+            case 500:
+              message.error('Record update failed! (Server error)', 3);
+              break;
+            default:
+              message.error('Record update failed!', 3);
+              break;
+          }
+        })
+      }
+    })
   };
 
   const goToFoundRecord = (results) => {
@@ -162,25 +172,6 @@ const FindingAidsGrid = ({seriesID}) => {
     message.info(`${results.length} occurences of '${find}' was changed to '${replace}'.`)
   };
 
-  const gridSettings = {
-    data: data,
-    columns: columns,
-    rowHeaders: false,
-    colHeaders: colHeaders,
-    dropdownMenu: ['filter_by_condition', 'filter_by_value', 'filter_action_bar'],
-    contextMenu: false,
-    filters: true,
-    licenseKey: 'non-commercial-and-evaluation',
-    minHeight: 500,
-    fixedRowsTop: [0, 1],
-    fixedColumnsLeft: 1,
-    search: true,
-    selectionMode: 'single',
-    manualColumnResize: true,
-    manualRowResize: true,
-    afterChange: afterChange
-  };
-
   return (
     <React.Fragment>
       <FindingAidsGridFilter onFilter={onFilter} onReplace={onReplace} onReplaceAll={onReplaceAll} />
@@ -192,7 +183,24 @@ const FindingAidsGrid = ({seriesID}) => {
               <div className={style.Spin}>
                 <Spin size="large" indicator={loadingIcon} />
               </div> :
-              <HotTable ref={hot} settings={gridSettings} />
+              <HotTable
+                ref={hot}
+                data={data}
+                columns={columns}
+                rowHeaders={false}
+                colHeaders={colHeaders}
+                dropdownMenu={['filter_by_condition', 'filter_by_value', 'filter_action_bar']}
+                contextMenu={false}
+                filters={true}
+                licenseKey={'non-commercial-and-evaluation'}
+                minHeight={500}
+                fixedRowsTop={0}
+                search={true}
+                selectionMode={'single'}
+                manualColumnResize={true}
+                manualRowResize={true}
+                afterChange={afterChange}
+              />
             }
           </Col>
         </Row>

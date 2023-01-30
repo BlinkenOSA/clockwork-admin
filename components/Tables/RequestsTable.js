@@ -48,7 +48,7 @@ const ResearchersTable = ({...props}) => {
       title: 'MLR',
       dataIndex: 'mlr',
       key: 'mlr',
-      width: 120,
+      width: 150,
       sorter: false,
     }, {
       title: 'Researcher',
@@ -72,7 +72,7 @@ const ResearchersTable = ({...props}) => {
     }, {
       title: 'Status',
       key: 'status',
-      width: 150,
+      width: 120,
       className: style.ActionColumn,
       render: (record) => renderStatus(record),
       sorter: false,
@@ -168,16 +168,16 @@ const ResearchersTable = ({...props}) => {
     return (
       <Row gutter={12}>
         <Col span={16}>
-          <span onClick={() => onCreate()} target={'_blank'} >
+          <a href={'/researchers-db/requests/create'}>
             <Button type={'primary'}>
               <PlusOutlined />
-              Print requests
+              Create Request
             </Button>
-          </span>
+          </a>
           <a href={'/researchers-db/requests/print'} target={'_blank'} style={{marginLeft: '10px'}}>
             <Button type={'default'}>
               <PrinterOutlined />
-              Print requests
+              Print Requests
             </Button>
           </a>
         </Col>
