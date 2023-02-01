@@ -10,6 +10,7 @@ import {IsadForm} from "./fields/IsadForm";
 import {FindingAidsEntityForm} from "./fields/FindingAidsEntityForm";
 import {useForm} from "../../utils/hooks/useForm";
 import {ResearcherForm} from "./fields/ResearcherForm";
+import {RequestsForm} from "./fields/RequestsForm";
 
 const MODULES = {
   'accessions': 'Accession',
@@ -48,6 +49,8 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
         return <FindingAidsEntityForm form={form} locale={locale} readOnly={readOnly}/>;
       case 'researchers-db/researchers':
         return <ResearcherForm form={form} readOnly={readOnly}/>;
+      case 'researchers-db/requests':
+        return <RequestsForm form={form} readOnly={readOnly}/>;
       default:
         break;
     }

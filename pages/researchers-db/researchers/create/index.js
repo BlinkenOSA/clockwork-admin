@@ -6,21 +6,26 @@ import {SimpleForm} from "../../../../components/Forms/SimpleForm";
 
 export default function DonorCreate() {
   const breadcrumbData = [
-    {text: 'Donor Records'},
+    {text: 'Researcher'},
     {text: 'Create'},
   ];
+
+  const initialValues = {
+    occupation_type: 'student',
+    publish: 'no'
+  }
 
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - Create Donor Record</title>
+        <title>AMS - Archival Management System - Create Researcher</title>
       </Head>
       <Breadcrumbs module={'donors'} breadcrumbData={breadcrumbData} />
       <SimpleForm
-        api={`/v1/donor/`}
-        module={'donors'}
-        type={'create'}
-      />
+        api={`/v1/research/researcher/`}
+        module={'researchers-db/researchers'}
+        type={'edit'}
+        initialValues={initialValues} />
     </AppLayout>
   )
 }

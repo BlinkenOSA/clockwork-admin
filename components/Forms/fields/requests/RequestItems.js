@@ -4,7 +4,7 @@ import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import FormRemoteSelect from "../../components/FormRemoteSelect";
 import FormSelect from "../../components/FormSelect";
 
-const ITEM_TYPES = [
+const ITEM_ORIGINS = [
   { value: 'FA', label: 'Archival'},
   { value: 'L', label: 'Library'},
   { value: 'FL', label: 'Film Library'}
@@ -13,55 +13,68 @@ const ITEM_TYPES = [
 export const RequestItems = ({form}) => {
   const request_items = Form.useWatch('request_items', form);
 
-  const getSpecificFields = (field, row) => {
-    switch (request_items[row]['item_type']) {
-      case 'FA':
-        return (
-          <React.Fragment>
-            <Col xs={4}>
-              <Form.Item
-                {...field}
-                name={[field.name, 'container']}
-              >
-                <FormRemoteSelect
-                  valueField={'id'}
-                  labelField={'reference_code'}
-                  placeholder={'- Select Series -'}
-                  selectAPI={'/v1/research/requests/series/select/'}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={4}>
-              <Form.Item
-                {...field}
-                name={[field.name, 'container_no']}
-              >
-                <FormRemoteSelect
-                  valueField={'id'}
-                  labelField={'container_no'}
-                  placeholder={'- Select Container -'}
-                  selectAPI={'/v1/research/requests/container/select/'}
-                />
-              </Form.Item>
-            </Col>
-          </React.Fragment>
-        )
-      case 'L':
-      case 'FL':
-        return (
-          <React.Fragment>
-            <Col xs={4}>
-              <Form.Item
-                {...field}
-                name={[field.name, 'title']}
-              >
-                <Input placeholder={'Title'}/>
-              </Form.Item>
-            </Col>
-          </React.Fragment>
-        )
+  const isDisabled = (field, row) => {
+    if (request_items) {
+      if (request_items[row]) {
+        const item_type = request_items[row]['item_origin']
+
+        switch (field) {
+          case 'archival_unit':
+            return item_type !== 'FA'
+          case 'container':
+            return item_type !== 'FA'
+          case 'identifier':
+            return item_type === 'FA'
+          case 'title':
+            return item_type === 'FA'
+        }
+      }
+    }
+
+    return true
+  }
+
+  const getSeriesID = (row) => {
+    if (request_items) {
+      if (request_items[row]) {
+        return request_items[row]['archival_unit']
+      }
     }
   }
+
+  const checkRequiredIfArchival = (form, itemTypeField) => ({
+    validator(_, value) {
+      itemTypeField.unshift('request_items')
+      const itemType = form.getFieldValue(itemTypeField)
+      if (itemType) {
+        if (itemType === 'FA') {
+          if (value) {
+            return Promise.resolve();
+          } else {
+            return Promise.reject(new Error('This value is required when the item type is Archival!'));
+          }
+        }
+      }
+      return Promise.resolve()
+    }
+  })
+
+  const checkRequiredIfLibrary = (form, itemTypeField) => ({
+    validator(_, value) {
+      itemTypeField.unshift('request_items')
+      const itemType = form.getFieldValue(itemTypeField)
+      if (itemType) {
+        if (itemType !== 'FA') {
+          if (value) {
+            return Promise.resolve();
+          } else {
+            return Promise.reject(new Error('This value is required when the item type is Library or Film Library!'));
+          }
+        }
+      }
+      return Promise.resolve()
+    }
+  })
 
   return (
     <React.Fragment>
@@ -74,17 +87,70 @@ export const RequestItems = ({form}) => {
                 fields.map((field, idx) => (
                 <Row gutter={12} key={idx}>
                   <Col xs={4}>
-                    <Form.Item name={[field.name, 'item_type']}>
+                    <Form.Item name={[field.name, 'item_origin']} required rules={[{ required: true }]}>
                       <FormSelect
-                        placeholder={'Item Type'}
+                        placeholder={'Item Origin'}
                         allowClear
-                        data={ITEM_TYPES}
+                        data={ITEM_ORIGINS}
                         labelField={'label'}
                         valueField={'value'}
                       />
                     </Form.Item>
                   </Col>
-                  { getSpecificFields(field, idx) }
+                  <Col xs={4}>
+                    <Form.Item
+                      {...field}
+                      name={[field.name, 'archival_unit']}
+                      rules={[(form) => checkRequiredIfArchival(form, [field.name, 'item_type'])]}
+                    >
+                      <FormRemoteSelect
+                        valueField={'id'}
+                        labelField={'reference_code'}
+                        placeholder={'- Select Series -'}
+                        selectAPI={'/v1/research/requests/series/select/'}
+                        disabled={isDisabled('archival_unit', idx)}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={4}>
+                    <Form.Item
+                      {...field}
+                      name={[field.name, 'container']}
+                      rules={[(form) => checkRequiredIfArchival(form, [field.name, 'item_type'])]}
+                    >
+                      <FormRemoteSelect
+                        valueField={'id'}
+                        labelField={'container_label'}
+                        placeholder={'- Select Container -'}
+                        selectAPI={`/v1/research/requests/container/select/${getSeriesID(idx)}`}
+                        disabled={isDisabled('container', idx)}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={4}>
+                    <Form.Item
+                      {...field}
+                      name={[field.name, 'identifier']}
+                      rules={[(form) => checkRequiredIfLibrary(form, [field.name, 'item_type'])]}
+                    >
+                      <Input
+                        placeholder={'Identifier'}
+                        disabled={isDisabled('identifier', idx)}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={6}>
+                    <Form.Item
+                      {...field}
+                      name={[field.name, 'title']}
+                      rules={[(form) => checkRequiredIfLibrary(form, [field.name, 'item_type'])]}
+                    >
+                      <Input
+                        placeholder={'Title'}
+                        disabled={isDisabled('title', idx)}
+                      />
+                    </Form.Item>
+                  </Col>
                   <Col xs={2}>
                     <Button
                       type="default"

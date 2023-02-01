@@ -3,6 +3,7 @@ import {Form, Col, Input, Radio} from "antd";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 import FormSelect from "../components/FormSelect";
 import FormRadioGroup from "../components/FormRadioGroup";
+import style from "../Forms.module.css";
 
 const OCCUPATION = [
   { id: 'ceu', occupation: 'CEU'},
@@ -15,17 +16,24 @@ const OCCUPATION_TYPE = [
   { value: 'faculty', label: 'Faculty'}
 ]
 
-export const ResearcherForm = ({readOnly}) => {
+const YES_NO = [
+  { value: 'yes', label: 'Yes' },
+  { value: 'no', label: 'No' }
+]
+
+export const ResearcherForm = ({form, readOnly}) => {
+  const cardNumber = form.getFieldValue('card_number')
+
   return (
     <React.Fragment>
       <Col xs={8}>
-        <Form.Item label="First Name" name="first_name">
+        <Form.Item label="First Name" name="first_name" rules={[{ required: true }]}>
           <Input disabled={readOnly}/>
         </Form.Item>
         <Form.Item label="Middle Name" name="middle_name">
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Last Name" name="last_name">
+        <Form.Item label="Last Name" name="last_name" rules={[{ required: true }]}>
           <Input disabled={readOnly}/>
         </Form.Item>
         <Form.Item label="Address in Hungary" name="address_hungary">
@@ -40,7 +48,7 @@ export const ResearcherForm = ({readOnly}) => {
         <Form.Item label="City abroad" name="city_abroad">
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Country" name="country">
+        <Form.Item label="Country" name="country" rules={[{ required: true }]}>
           <FormRemoteSelect
             valueField={'id'}
             labelField={'country'}
@@ -50,13 +58,13 @@ export const ResearcherForm = ({readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={8}>
-        <Form.Item label="Passport or ID Number" name="id_number">
+        <Form.Item label="Passport or ID Number" name="id_number" rules={[{ required: true }]}>
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Email" name="email">
+        <Form.Item label="Email" name="email" rules={[{ required: true }]}>
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Citizenship" name="citizenship">
+        <Form.Item label="Citizenship" name="citizenship" rules={[{ required: true }]}>
           <FormRemoteSelect
             valueField={'id'}
             labelField={'nationality'}
@@ -64,7 +72,7 @@ export const ResearcherForm = ({readOnly}) => {
             disabled={readOnly}
           />
         </Form.Item>
-        <Form.Item label="Occupation" name="occupation">
+        <Form.Item label="Occupation" name="occupation" rules={[{ required: true }]}>
           <FormSelect
             valueField={'id'}
             labelField={'occupation'}
@@ -102,10 +110,17 @@ export const ResearcherForm = ({readOnly}) => {
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
         <Form.Item label="The research will be published" name="publish">
-          <Radio.Group style={{display: 'flex'}}>
-            <Radio value={'yes'} style={{flex: 1}}>Yes</Radio>
-            <Radio value={'no'} style={{flex: 1}}>No</Radio>
-          </Radio.Group>
+          <FormRadioGroup
+            options={YES_NO}
+            valueField={'value'}
+            labelField={'label'}
+            disabled={readOnly}
+          />
+        </Form.Item>
+        <Form.Item label="Card Number" name="card_number">
+          <div className={style.CardNumber}>
+            {cardNumber}
+          </div>
         </Form.Item>
       </Col>
     </React.Fragment>

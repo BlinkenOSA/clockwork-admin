@@ -15,19 +15,19 @@ export default function DonorEdit() {
   const breadcrumbData = [
     {text: 'Researcher Records'},
     {text: 'View'},
-    {text: data ? `${data.name}` : ''}
+    {text: data ? `${data.last_name}, ${data.first_name}` : ''}
   ];
 
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - Edit Donor Records</title>
+        <title>AMS - Archival Management System - Edit Researcher</title>
       </Head>
       <Breadcrumbs module={'donors'} breadcrumbData={breadcrumbData} />
       {
         data ?
         <SimpleForm
-          api={`/v1/research/${id}/`}
+          api={`/v1/research/researcher/${id}/`}
           module={'researchers-db/researchers'}
           type={'edit'}
           initialValues={data} /> : ''

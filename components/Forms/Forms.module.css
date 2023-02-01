@@ -37,3 +37,8 @@
 .FooterInfo :global p {
     margin-bottom: 0;
 }
+
+.CardNumber {
+    font-size: 40px;
+    text-align: center;
+}

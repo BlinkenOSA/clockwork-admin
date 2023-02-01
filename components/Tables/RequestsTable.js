@@ -128,9 +128,11 @@ const ResearchersTable = ({...props}) => {
       case '2':
         return (generateBadges('Pending', '#fa8c16'));
       case '3':
-        return (generateBadges('Delivered', '#376e18'));
+        return (generateBadges('Delivered', 'rgba(45,184,227,0.66)'));
       case '4':
-        return (generateBadges('Reshelved', '#18306e'));
+        return (generateBadges('Returned', '#83c04d'));
+      case '5':
+        return (generateBadges('Reshelved', '#376e18', false));
       default:
         break;
     }
@@ -153,11 +155,6 @@ const ResearchersTable = ({...props}) => {
       }
     });
   };
-
-  const onCreate = () => {
-    setAction('create');
-    setDrawerShown(true);
-  }
 
   const onClose = () => {
     refresh();

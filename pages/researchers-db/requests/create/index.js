@@ -2,8 +2,7 @@ import React from 'react'
 import AppLayout from "../../../../components/Layout/Layout";
 import Head from "next/head";
 import Breadcrumbs from "../../../../components/Layout/Breadcrumbs";
-import {ArchivalUnitSelectForm} from "../../../../components/Forms/ArchivalUnitSelectForm";
-import {RequestsForm} from "../../../../components/Forms/fields/RequestsForm";
+import {SimpleForm} from "../../../../components/Forms/SimpleForm";
 
 export default function RequestCreate() {
   const breadcrumbData = [
@@ -12,13 +11,20 @@ export default function RequestCreate() {
     {text: 'Create'}
   ];
 
+  const initialValues = { request_items: [{}] }
+
   return (
     <AppLayout>
       <Head>
         <title>AMS - Archival Management System - Finding Aids / Select Archival Unit</title>
       </Head>
       <Breadcrumbs module={'requests'} breadcrumbData={breadcrumbData} />
-      <RequestsForm />
+      <SimpleForm
+        api={`/v1/research/requests/create/`}
+        module={'researchers-db/requests'}
+        type={'create'}
+        initialValues={initialValues}
+      />
     </AppLayout>
   )
 }

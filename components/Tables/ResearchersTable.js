@@ -1,6 +1,14 @@
-import {Badge, Button, Modal, Table, Tooltip} from "antd";
+import {Badge, Button, Col, Modal, Row, Table, Tooltip} from "antd";
 import React, {useEffect, useState} from "react";
-import {DeleteOutlined, EditOutlined, EyeOutlined, LoadingOutlined, ArrowDownOutlined, ArrowUpOutlined} from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  LoadingOutlined,
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  PlusOutlined, PrinterOutlined
+} from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
@@ -178,6 +186,21 @@ const ResearchersTable = ({...props}) => {
     });
   };
 
+  const getFooter = () => {
+    return (
+      <Row gutter={12}>
+        <Col span={16}>
+          <a href={'/researchers-db/researchers/create'}>
+            <Button type={'primary'}>
+              <PlusOutlined />
+              New Researcher
+            </Button>
+          </a>
+        </Col>
+      </Row>
+    )
+  }
+
   return (
     <React.Fragment>
       <TableFilters module={'researcher'} onFilterChange={handleFilterChange}/>
@@ -194,6 +217,7 @@ const ResearchersTable = ({...props}) => {
         }}
         pagination={tableState['pagination']}
         onChange={handleTableChange}
+        footer={() => getFooter()}
       />
     </React.Fragment>
   )
