@@ -3,6 +3,7 @@ import {Button, Col, Form, Input, Row, Select} from "antd";
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import FormRemoteSelect from "../../components/FormRemoteSelect";
 import FormSelect from "../../components/FormSelect";
+import {checkRequiredIfArchival, checkRequiredIfLibrary} from "../../validations/requestItemFormValidation";
 
 const ITEM_ORIGINS = [
   { value: 'FA', label: 'Archival'},
@@ -42,40 +43,6 @@ export const RequestItems = ({form}) => {
     }
   }
 
-  const checkRequiredIfArchival = (form, itemTypeField) => ({
-    validator(_, value) {
-      itemTypeField.unshift('request_items')
-      const itemType = form.getFieldValue(itemTypeField)
-      if (itemType) {
-        if (itemType === 'FA') {
-          if (value) {
-            return Promise.resolve();
-          } else {
-            return Promise.reject(new Error('This value is required when the item type is Archival!'));
-          }
-        }
-      }
-      return Promise.resolve()
-    }
-  })
-
-  const checkRequiredIfLibrary = (form, itemTypeField) => ({
-    validator(_, value) {
-      itemTypeField.unshift('request_items')
-      const itemType = form.getFieldValue(itemTypeField)
-      if (itemType) {
-        if (itemType !== 'FA') {
-          if (value) {
-            return Promise.resolve();
-          } else {
-            return Promise.reject(new Error('This value is required when the item type is Library or Film Library!'));
-          }
-        }
-      }
-      return Promise.resolve()
-    }
-  })
-
   return (
     <React.Fragment>
       <div className={'ant-form-item-label'}>Requested Items</div>
@@ -101,7 +68,7 @@ export const RequestItems = ({form}) => {
                     <Form.Item
                       {...field}
                       name={[field.name, 'archival_unit']}
-                      rules={[(form) => checkRequiredIfArchival(form, [field.name, 'item_type'])]}
+                      rules={[(form) => checkRequiredIfArchival(form, [field.name, 'item_type'], true)]}
                     >
                       <FormRemoteSelect
                         valueField={'id'}
@@ -116,7 +83,7 @@ export const RequestItems = ({form}) => {
                     <Form.Item
                       {...field}
                       name={[field.name, 'container']}
-                      rules={[(form) => checkRequiredIfArchival(form, [field.name, 'item_type'])]}
+                      rules={[(form) => checkRequiredIfArchival(form, [field.name, 'item_type'], true)]}
                     >
                       <FormRemoteSelect
                         valueField={'id'}
@@ -131,7 +98,7 @@ export const RequestItems = ({form}) => {
                     <Form.Item
                       {...field}
                       name={[field.name, 'identifier']}
-                      rules={[(form) => checkRequiredIfLibrary(form, [field.name, 'item_type'])]}
+                      rules={[(form) => checkRequiredIfLibrary(form, [field.name, 'item_type'], true)]}
                     >
                       <Input
                         placeholder={'Identifier'}
@@ -143,7 +110,7 @@ export const RequestItems = ({form}) => {
                     <Form.Item
                       {...field}
                       name={[field.name, 'title']}
-                      rules={[(form) => checkRequiredIfLibrary(form, [field.name, 'item_type'])]}
+                      rules={[(form) => checkRequiredIfLibrary(form, [field.name, 'item_type'], true)]}
                     >
                       <Input
                         placeholder={'Title'}

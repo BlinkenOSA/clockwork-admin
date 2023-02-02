@@ -4,7 +4,7 @@ import {
   PlusOutlined,
   PrinterOutlined,
   UndoOutlined,
-  LoadingOutlined,
+  LoadingOutlined, EyeOutlined, EditOutlined, DeleteOutlined,
 } from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
@@ -15,6 +15,7 @@ import {deleteAlert} from "./functions/deleteAlert";
 import moment from "moment";
 import {PopupForm} from "../Forms/PopupForm";
 import _ from 'lodash';
+import Link from "next/link";
 
 const ORIGIN = {
   'FA': 'Archival',
@@ -27,7 +28,6 @@ const ResearchersTable = ({...props}) => {
   const { data, loading, refresh} = useData(`/v1/research/requests`, params);
 
   const [drawerShown, setDrawerShown] = useState(false);
-  const [action, setAction] = useState('create');
   const [selectedRecord, setSelectedRecord] = useState(undefined);
 
   const columns = [
@@ -35,13 +35,13 @@ const ResearchersTable = ({...props}) => {
       title: 'Request Date',
       dataIndex: 'request_date',
       key: 'request__request_date',
-      width: 120,
+      width: 100,
       render: (data) => renderDate(data) ,
       sorter: false,
     }, {
       title: 'Identifier',
       key: 'archival_reference_number',
-      width: 100,
+      width: 130,
       render: (record) => renderIdentifier(record),
       sorter: false,
     }, {
@@ -54,13 +54,13 @@ const ResearchersTable = ({...props}) => {
       title: 'Researcher',
       dataIndex: 'researcher',
       key: 'researcher',
-      width: 120,
+      width: 100,
       sorter: false,
     }, {
-      title: 'Item Origin',
+      title: 'Origin',
       dataIndex: 'item_origin',
       key: 'item_origin',
-      width: 100,
+      width: 80,
       render: (data) => { return ORIGIN[data] },
       sorter: false,
     }, {
@@ -76,6 +76,12 @@ const ResearchersTable = ({...props}) => {
       className: style.ActionColumn,
       render: (record) => renderStatus(record),
       sorter: false,
+    }, {
+      key: 'actions',
+      title: 'Actions',
+      width: 60,
+      className: style.ActionColumn,
+      render: (record) => renderActions(record)
     }
   ];
 
@@ -95,6 +101,30 @@ const ResearchersTable = ({...props}) => {
     } else {
       return record['identifier']
     }
+  }
+
+  const renderActions = (record) => {
+    const detectDisabled = () => {
+      return record['status'] !== '1' && record['status'] !== '2'
+    }
+
+    return (
+      <Button.Group>
+        <Tooltip key={'edit'} title={'Edit'}>
+          <Button
+            size="small"
+            icon={<EditOutlined/>}
+            disabled={detectDisabled()}
+            onClick={() => {
+              setSelectedRecord(record.id)
+              setDrawerShown(true)
+            }}/>
+        </Tooltip>
+        <Tooltip key={'delete'} title={'Delete'}>
+          <Button size="small" icon={<DeleteOutlined/>} onClick={() => onDelete(record.id)}/>
+        </Tooltip>
+      </Button.Group>
+    )
   }
 
   const onStatusChange = (action, id) => {
@@ -142,12 +172,12 @@ const ResearchersTable = ({...props}) => {
     const { confirm } = Modal;
 
     confirm({
-      title: 'Are you sure you would like to delete this record?',
+      title: 'Are you sure you would like to delete this request?',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        remove(`/v1//researchers-db/researchers/${id}/`).then(() => {
+        remove(`/v1/research/request_item/${id}/`).then(() => {
           handleDelete(data.length);
           deleteAlert();
           refresh();
@@ -201,18 +231,18 @@ const ResearchersTable = ({...props}) => {
         onChange={handleTableChange}
       />
       <Drawer
-        title={_.capitalize(action)}
+        title={_.capitalize('edit')}
         width={'50%'}
         onClose={(e) => onClose()}
         open={drawerShown}
         destroyOnClose={true}
       >
         <PopupForm
-          api={`/v1/research/requests`}
-          label={'requests'}
+          api={`/v1/research/request_item/`}
+          label={'Request Item'}
           selectedRecord={selectedRecord}
-          module={'requests'}
-          type={action}
+          module={'request_item'}
+          type={'edit'}
           onClose={onClose}
         />
       </Drawer>

@@ -17,7 +17,8 @@ const MODULES = {
   'donors': 'Donor',
   'isaar': 'ISAAR-CPF',
   'isad': 'ISAD(G)',
-  'researchers-db/researchers': 'Researcher'
+  'researchers-db/researchers': 'Researcher',
+  'researchers-db/requests': 'Request'
 };
 
 export const SimpleForm = ({api, module, type, initialValues}) => {

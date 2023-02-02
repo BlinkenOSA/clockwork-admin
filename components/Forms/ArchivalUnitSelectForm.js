@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import {Button, Card, Col, Form, Row} from "antd";
 import style from "./Forms.module.css";
 import FormRemoteSelect from "./components/FormRemoteSelect";
-import { ContainerOutlined, SnippetsOutlined } from '@ant-design/icons';
+import { ContainerOutlined } from '@ant-design/icons';
 import Link from "next/link";
-import {renderSeriesDropdown} from "../../utils/renders/renderSeriesDropdown";
 import {renderArchivalUnitDropdown} from "../../utils/renders/renderArchivalUnitDropdown";
 
 export const ArchivalUnitSelectForm = () => {

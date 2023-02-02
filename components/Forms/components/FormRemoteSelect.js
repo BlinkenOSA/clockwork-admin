@@ -6,7 +6,7 @@ const {Option} = Select;
 
 const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelField,
                             onChange, placeholder, mode='default',
-                            disabled=false, renderFunction, ...props }) => {
+                            disabled=false, renderFunction, searchMinLength=2, ...props }) => {
 
   const [params, setParams] = useState(selectAPIParams);
   const [selectData, setSelectData] = useState([]);
