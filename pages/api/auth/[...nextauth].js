@@ -32,6 +32,7 @@ async function refreshAccessToken(token) {
 const providers = [
   CredentialsProvider({
     name: 'Credentials',
+    secret: process.env.SECRET,
     authorize: async (credentials) => {
       try {
         const response = await axios.post(`${process.env.NEXT_CLOCKWORK_API}/auth/jwt/create/`, {
