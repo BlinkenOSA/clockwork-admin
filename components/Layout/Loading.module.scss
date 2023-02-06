@@ -1,0 +1,33 @@
+.Page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Loading {
+    font-size: 84px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    text-align: center;
+
+    span {
+        animation: loading01 0.2s infinite alternate;
+        @for $i from 1 through 6 {
+            &:nth-child(#{$i+1}) {
+                animation-delay: #{$i*.1}s;
+            }
+        }
+    }
+
+    @keyframes loading01 {
+        0% {
+            filter: blur(0);
+            opacity: 1;
+        }
+        100% {
+            filter: blur(5px);
+            opacity: .2;
+        }
+    }
+}

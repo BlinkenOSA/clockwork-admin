@@ -1,0 +1,30 @@
+.LogTimeline {
+    margin-top: 20px;
+    font-size: 10px !important;
+}
+
+.LogTimelineItem :global .ant-timeline-item-label {
+    width: calc(20% - 16px) !important;
+    inset-block-start: -7px !important;
+}
+
+.LogTimelineItem :global .ant-timeline-item-tail {
+    left: 20% !important;
+}
+
+.LogTimelineItem :global .ant-timeline-item-head {
+    left: 20% !important;
+    font-size: 18px;
+}
+
+.LogTimelineItem :global .ant-timeline-item-content {
+    left: calc(20% - 6px) !important;
+    width: calc(80% - 16px) !important;
+}
+
+.Spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 128px);
+}

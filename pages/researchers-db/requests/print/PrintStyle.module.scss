@@ -1,0 +1,53 @@
+.Wrapper {
+  min-height: 100vh;
+  color: #000000;
+  font-size: 16px;
+
+  .Content {
+    margin: 0 auto;
+    max-width: 800px;
+
+    h1 {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 40px;
+    }
+
+    h2 {
+      margin-top: 40px;
+      margin-bottom: 5px;
+      font-size: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      page-break-inside:auto;
+      width: 100%;
+
+      thead {
+        display:table-header-group
+      }
+
+      td {
+        border: 1px solid black;
+        padding: 5px;
+      }
+
+      th {
+        border: 1px solid black;
+        padding: 5px;
+        text-align: left;
+        background-color: #CCCCCC;
+      }
+
+      tr {
+        page-break-inside:avoid;
+        page-break-after:auto
+      }
+
+      tfoot {
+        display:table-footer-group
+      }
+    }
+  }
+}
