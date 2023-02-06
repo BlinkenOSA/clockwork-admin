@@ -30,8 +30,8 @@ export const ContainerForm = ({form, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={24}>
-        <Form.Item name="digital_version_exists">
-          <Checkbox>Digital version exists</Checkbox>
+        <Form.Item name="digital_version_exists" valuePropName={'checked'}>
+          <Checkbox disabled={readOnly}>Digital version exists</Checkbox>
         </Form.Item>
       </Col>
     </React.Fragment>

@@ -46,9 +46,9 @@ const ResearchersTable = ({...props}) => {
       sorter: false,
     }, {
       title: 'MLR',
-      dataIndex: 'mlr',
       key: 'mlr',
       width: 150,
+      render: (record) => renderMLR(record),
       sorter: false,
     }, {
       title: 'Researcher',
@@ -58,10 +58,9 @@ const ResearchersTable = ({...props}) => {
       sorter: false,
     }, {
       title: 'Origin',
-      dataIndex: 'item_origin',
       key: 'item_origin',
       width: 80,
-      render: (data) => { return ORIGIN[data] },
+      render: (record) => renderOrigin(record),
       sorter: false,
     }, {
       title: 'Carrier Type',
@@ -103,6 +102,15 @@ const ResearchersTable = ({...props}) => {
     }
   }
 
+  const renderOrigin = (record) => {
+    if (record['has_digital_version']) {
+      return `${ORIGIN[record['item_origin']]} (Digital)`
+    } else {
+      return ORIGIN[record['item_origin']]
+    }
+
+  }
+
   const renderActions = (record) => {
     const detectDisabled = () => {
       return record['status'] !== '1' && record['status'] !== '2'
@@ -131,6 +139,18 @@ const ResearchersTable = ({...props}) => {
     put(`/v1/research/requests/${action}/${id}/`).then(() => {
       refresh();
     })
+  }
+
+  const renderMLR = (record) => {
+    if (record['has_digital_version']) {
+      return (
+        <div>
+          <div>{record['mlr']}</div>
+          <Badge count={record['digital_version_barcode']} style={{ backgroundColor: '#e06d3c', borderRadius: '3px', fontSize: '0.8em' }} />
+        </div>
+      )
+    }
+    return record['mlr']
   }
 
   const renderStatus = (record) => {
@@ -163,6 +183,8 @@ const ResearchersTable = ({...props}) => {
         return (generateBadges('Returned', '#83c04d'));
       case '5':
         return (generateBadges('Reshelved', '#376e18', false));
+      case '9':
+        return (generateBadges('Served', '#223f00', false));
       default:
         break;
     }

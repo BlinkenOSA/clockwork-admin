@@ -13,7 +13,8 @@ const STATUSES = [
   { value: '2', label: 'Pending'},
   { value: '3', label: 'Delivered'},
   { value: '4', label: 'Reshelved'},
-  { value: '5', label: 'Returned'}
+  { value: '5', label: 'Returned'},
+  { value: '9', label: 'Served'}
 ]
 
 const RequestsTableFilter = () => {
