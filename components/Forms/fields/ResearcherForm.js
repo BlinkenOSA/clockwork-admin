@@ -64,7 +64,7 @@ export const ResearcherForm = ({form, readOnly}) => {
         <Form.Item label="Email" name="email" rules={[{ required: true }]}>
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Citizenship" name="citizenship" rules={[{ required: true }]}>
+        <Form.Item label="Citizenship" name="citizenship">
           <FormRemoteSelect
             valueField={'id'}
             labelField={'nationality'}

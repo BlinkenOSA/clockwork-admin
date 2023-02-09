@@ -26,6 +26,18 @@ const ResearchersTable = ({...props}) => {
       width: 200,
       sorter: true,
     }, {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'researcher__email',
+      width: 150,
+      sorter: true,
+    }, {
+      title: 'Card No.',
+      dataIndex: 'card_number',
+      key: 'researcher__card_number',
+      width: 100,
+      sorter: true,
+    }, {
       title: 'Check In',
       dataIndex: 'check_in',
       key: 'check_in',
