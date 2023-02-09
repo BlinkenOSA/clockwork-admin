@@ -12,8 +12,8 @@ const STATUSES = [
   { value: '1', label: 'In Queue'},
   { value: '2', label: 'Pending'},
   { value: '3', label: 'Delivered'},
-  { value: '4', label: 'Reshelved'},
-  { value: '5', label: 'Returned'},
+  { value: '4', label: 'Returned'},
+  { value: '5', label: 'Reshelved'},
   { value: '9', label: 'Served'}
 ]
 
