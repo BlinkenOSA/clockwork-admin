@@ -177,7 +177,7 @@ const ResearchersTable = ({...props}) => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        remove(`/v1//researchers-db/researchers/${id}/`).then(() => {
+        remove(`/v1/research/researcher/${id}/`).then(() => {
           handleDelete(data.length);
           deleteAlert();
           refresh();
