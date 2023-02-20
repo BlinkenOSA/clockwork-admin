@@ -153,7 +153,11 @@ const ISADTable = ({...props}) => {
 
   return (
     <React.Fragment>
-      <TableFilters module={'isad'} onFilterChange={handleFilterChange}/>
+      <TableFilters
+        module={'isad'}
+        onFilterChange={handleFilterChange}
+        filters={tableState['filters']}
+      />
       <Table
         bordered={true}
         className={style.Table}

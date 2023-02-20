@@ -136,7 +136,11 @@ const ArchivalUnitTable = ({columns}) => {
 
   return (
     <React.Fragment>
-      <TableFilters module={'archival-units'} onFilterChange={handleFilterChange}/>
+      <TableFilters
+        module={'archival-units'}
+        onFilterChange={handleFilterChange}
+        filters={tableState['filters']}
+      />
       <Table
         bordered={true}
         className={style.Table}

@@ -136,7 +136,11 @@ const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=
   return (
     <React.Fragment>
       {showFilter &&
-        <TableFilters module={module} onFilterChange={handleFilterChange}/>
+        <TableFilters
+          module={module}
+          onFilterChange={handleFilterChange}
+          filters={tableState['filters']}
+        />
       }
       <Table
         bordered={true}
