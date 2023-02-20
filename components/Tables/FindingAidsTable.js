@@ -24,8 +24,8 @@ import {PopupForm} from "../Forms/PopupForm";
 
 
 const FindingAidsTable = ({containerID, containerListRefresh, templateData, recordTotalPublished}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleDelete } = useTable(`finding-aids-table-${containerID}`);
-  const { data, loading, refresh } = useData(containerID ? `/v1/finding_aids/list/${containerID}/` : undefined, params);
+  const api = containerID ? `/v1/finding_aids/list/${containerID}/` : undefined;
+  const { data, loading, refresh, tableState, handleDataChange, handleTableChange, handleDelete } = useTable(`finding-aids-table-${containerID}`, api);
 
   const [ publishing, setPublishing ] = useState({});
   const [ confidentialSetting, setConfidentialSetting ] = useState({});

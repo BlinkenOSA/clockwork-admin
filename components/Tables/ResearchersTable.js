@@ -5,21 +5,18 @@ import {
   EditOutlined,
   EyeOutlined,
   LoadingOutlined,
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-  PlusOutlined, PrinterOutlined
+  PlusOutlined
 } from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import Link from "next/link";
 
 const ResearchersTable = ({...props}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
-  const { data, loading, refresh} = useData(`/v1/research/researcher`, params);
+  const { data, loading, refresh, tableState,
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('researchers', `/v1/research/researcher`);
 
   const [publishing, setPublishing] = useState({});
 

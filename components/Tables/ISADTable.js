@@ -4,7 +4,6 @@ import {PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined, LoadingOutlined
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import {renderArchivalUnit} from "../../utils/renders/renderArchivalUnit";
@@ -12,8 +11,8 @@ import {renderStatus} from "../../utils/renders/renderStatus";
 import Link from "next/link";
 
 const ISADTable = ({...props}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
-  const { data, loading, refresh} = useData(`/v1/isad/`, params);
+  const { data, loading, refresh, tableState,
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad', `/v1/isad/`);
 
   const [publishing, setPublishing] = useState({});
 

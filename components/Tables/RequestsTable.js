@@ -24,8 +24,8 @@ const ORIGIN = {
 }
 
 const ResearchersTable = ({...props}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
-  const { data, loading, refresh} = useData(`/v1/research/requests`, params);
+  const { data, loading, refresh , tableState,
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad', `/v1/research/requests`);
 
   const [drawerShown, setDrawerShown] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(undefined);

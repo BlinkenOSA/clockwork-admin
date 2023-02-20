@@ -12,7 +12,7 @@ import ResearcherTableFilter from "./filters/ResearchTableFilter";
 import ResearchersVisitsTableFilter from "./filters/ResearchersVisitsTableFilter";
 import RequestsTableFilter from "./filters/RequestsTableFilter";
 
-const TableFilters = ({onFilterChange, module, ...props}) => {
+const TableFilters = ({onFilterChange, module, filters, ...props}) => {
   const renderFilters = () => {
     switch (module) {
       case 'accessions':
@@ -43,6 +43,7 @@ const TableFilters = ({onFilterChange, module, ...props}) => {
       <Form
         name={`${module}-tableFilter`}
         onValuesChange={onFilterChange}
+        initialValues={filters}
       >
         {renderFilters()}
       </Form>

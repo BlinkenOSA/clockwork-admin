@@ -13,8 +13,7 @@ import {put, remove} from "../../utils/api";
 import {deleteAlert} from "./functions/deleteAlert";
 
 const ResearchersTable = ({...props}) => {
-  const { params, tableState, handleTableChange} = useTable('researchers-visits');
-  const { data, loading, refresh} = useData(`/v1/research/visits`, params);
+  const { data, loading, refresh, tableState, handleTableChange} = useTable('researchers-visits', `/v1/research/visits`);
 
   const [createFormOpen, setCreateFormOpen] = useState(true);
 

@@ -1,6 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import useStickyState from "./useStickyState";
 import {createParams} from "../../components/Tables/functions/createParams";
+import {useDeepCompareEffect} from "react-use";
+import {useData} from "./useData";
+import {get} from "../api";
 
 const PAGINATION_INIT = {
   showQuickJumper: true,
@@ -9,12 +12,36 @@ const PAGINATION_INIT = {
   showTotal: (total, range) => {return `${range[0]}-${range[1]} of ${total} items`}
 };
 
-export const useTable = (module) => {
-  const [ params, setParams ] = useState({});
+export const useTable = (module, api) => {
+  const [ params, setParams ] = useState(undefined);
+  const [ loading, setLoading ] = useState(true);
+  const [ data, setData ] = useState([]);
+
   const [ tableState, setTableState ] = useStickyState({
+    filters: {},
     pagination: PAGINATION_INIT,
     expandedRows: []
   }, `ams-${module}-table`);
+
+  useEffect(() => {
+    if (params) {
+      fetchData()
+    }
+  }, [params])
+
+  useDeepCompareEffect(() => {
+    setParams(Object.assign({}, params, createParams(tableState)));
+  }, [tableState])
+
+  const fetchData = () => {
+    get(api, params).then(response => {
+      setLoading(false);
+      setData(response.data)
+    }).catch(error => {
+      setData(undefined);
+      setLoading(false);
+    })
+  }
 
   const handleExpandedRowsChange = (expandedRows) => {
     setTableState(prevTableState => ({
@@ -43,7 +70,6 @@ export const useTable = (module) => {
       ...filters,
       ...sorter
     }));
-    setParams(Object.assign({}, params, createParams({pagination, filters, sorter})));
   };
 
   const handleFilterChange = (changedValues, allValues) => {
@@ -55,10 +81,9 @@ export const useTable = (module) => {
         pagination: {
           ...prevTableState.pagination,
           current: 1
-        }
+        },
+        filters: allValues
       }));
-
-      setParams(Object.assign({}, allValues));
     }
   };
 
@@ -76,7 +101,9 @@ export const useTable = (module) => {
   };
 
   return {
-    params: params,
+    data: data,
+    loading: loading,
+    refresh: fetchData,
     tableState: tableState,
     handleExpandedRowsChange: handleExpandedRowsChange,
     handleDataChange: handleDataChange,
