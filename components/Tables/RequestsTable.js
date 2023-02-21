@@ -236,7 +236,11 @@ const ResearchersTable = ({...props}) => {
 
   return (
     <React.Fragment>
-      <TableFilters module={'requests'} onFilterChange={handleFilterChange}/>
+      <TableFilters
+        module={'requests'}
+        onFilterChange={handleFilterChange}
+        filters={tableState['filters']}
+      />
       <Table
         bordered={true}
         className={style.Table}

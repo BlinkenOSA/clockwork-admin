@@ -4,17 +4,18 @@ import {useData} from "../../../utils/hooks/useData";
 
 const {Option} = Select;
 
-const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelField,
+const FormRemoteSelectInfiniteScroll = ({ selectAPI, selectAPIParams={}, valueField, labelField,
                             onChange, placeholder, mode='default',
                             disabled=false, renderFunction, searchMinLength=2, ...props }) => {
 
   const [params, setParams] = useState(selectAPIParams);
   const [selectData, setSelectData] = useState([]);
+  const [selectLoading, setSelectLoading] = useState(false);
 
   const {data, loading} = useData(selectAPI, params);
 
   useEffect(() => {
-    data && setSelectData(data)
+    data && setSelectData(data['results'])
   }, [data]);
 
   const handleSearch = (value) => {
@@ -40,13 +41,23 @@ const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelFiel
     onChange(undefined);
   };
 
+  const onScroll = async (event) => {
+    const target = event.target;
+    if (!loading && target.scrollTop + target.offsetHeight === target.scrollHeight) {
+      setSelectLoading(true);
+      console.log("Load...");
+      target.scrollTo(0, target.scrollHeight);
+    }
+  }
+
   const selectOptions = selectData.map(d => (
     <Option key={d[valueField]} value={d[valueField]}>
       {
         renderFunction ? renderFunction(d) : d[labelField]
       }
     </Option>
-  ));
+    )
+  )
 
   return (
     <Select
@@ -56,6 +67,7 @@ const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelFiel
       onSearch={handleSearch}
       onChange={handleSelect}
       onClear={handleClear}
+      onPopupScroll={onScroll}
       placeholder={placeholder}
       mode={mode}
       disabled={disabled}
@@ -67,4 +79,4 @@ const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelFiel
   )
 };
 
-export default FormRemoteSelect;
+export default FormRemoteSelectInfiniteScroll;

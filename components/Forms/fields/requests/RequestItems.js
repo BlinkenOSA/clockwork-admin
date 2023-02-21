@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import {Button, Col, Form, Input, Row, Select} from "antd";
-import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
+import {PlusOutlined, CloseOutlined, CopyOutlined} from '@ant-design/icons';
 import FormRemoteSelect from "../../components/FormRemoteSelect";
 import FormSelect from "../../components/FormSelect";
 import {checkRequiredIfArchival, checkRequiredIfLibrary} from "../../validations/requestItemFormValidation";
+import FormRemoteSelectInfiniteScroll from "../../components/FormRemoteSelectInfiniteScroll";
 
 const ITEM_ORIGINS = [
   { value: 'FA', label: 'Archival'},
@@ -43,6 +44,11 @@ export const RequestItems = ({form}) => {
     }
   }
 
+  const clone = (add, field) => {
+    console.log(field)
+    add(field)
+  }
+
   return (
     <React.Fragment>
       <div className={'ant-form-item-label'}>Requested Items</div>
@@ -70,7 +76,7 @@ export const RequestItems = ({form}) => {
                       name={[field.name, 'archival_unit']}
                       rules={[(form) => checkRequiredIfArchival(form, [field.name, 'item_type'], true)]}
                     >
-                      <FormRemoteSelect
+                      <FormRemoteSelectInfiniteScroll
                         valueField={'id'}
                         labelField={'reference_code'}
                         placeholder={'- Select Series -'}
@@ -89,7 +95,8 @@ export const RequestItems = ({form}) => {
                         valueField={'id'}
                         labelField={'container_label'}
                         placeholder={'- Select Container -'}
-                        selectAPI={`/v1/research/requests/container/select/${getSeriesID(idx)}`}
+                        selectAPI={getSeriesID(idx) ? `/v1/research/requests/container/select/${getSeriesID(idx)}` : undefined}
+                        searchMinLength={0}
                         disabled={isDisabled('container', idx)}
                       />
                     </Form.Item>
@@ -121,8 +128,14 @@ export const RequestItems = ({form}) => {
                   <Col xs={2}>
                     <Button
                       type="default"
+                      onClick={() => clone(add, field.name)}
+                      icon={<CopyOutlined />}
+                    />
+                    <Button
+                      type="default"
                       onClick={() => remove(field.name)}
                       icon={<CloseOutlined />}
+                      style={{marginLeft: '10px'}}
                     />
                   </Col>
                 </Row>
