@@ -6,8 +6,8 @@ export const allowedGroups = {
   '/isaar': "ISAAR",
   '/isad': 'ISAD(G)',
   '/finding-aids': 'Finding Aids',
-  '/authority-list': 'Authority List',
-  '/controlled-list': 'Controlled List',
+  '/authority-list': 'Authority Lists',
+  '/controlled-list': 'Controlled Lists',
   '/mlr': 'MLR',
   '/digitzation-log': '__ALL__',
   '/researchers-db': 'Research'

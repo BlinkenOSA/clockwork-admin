@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import useStickyState from "./useStickyState";
 import {createParams} from "../../components/Tables/functions/createParams";
 import {useDeepCompareEffect} from "react-use";
-import {useData} from "./useData";
 import {get} from "../api";
 
 const PAGINATION_INIT = {
@@ -67,7 +66,6 @@ export const useTable = (module, api) => {
         ...prevTableState.pagination.showTotal,
         ...pagination
       },
-      ...filters,
       ...sorter
     }));
   };
@@ -75,7 +73,7 @@ export const useTable = (module, api) => {
   const handleFilterChange = (changedValues, allValues) => {
     if (Object.entries(allValues).length > 0) {
 
-      // set pagination
+      // set pagination & filters
       setTableState(prevTableState => ({
         ...prevTableState,
         pagination: {

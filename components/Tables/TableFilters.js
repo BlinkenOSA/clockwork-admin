@@ -42,6 +42,7 @@ const TableFilters = ({onFilterChange, module, filters, ...props}) => {
     <div className={style.Filter}>
       <Form
         name={`${module}-tableFilter`}
+        initialValues={filters}
         onValuesChange={onFilterChange}
         initialValues={filters}
       >
