@@ -53,6 +53,7 @@ export const ArchivalUnitSelectForm = () => {
               selectAPI={'/v1/archival_unit/select/'}
               selectAPIParams={{level: 'F'}}
               placeholder={'- Select Fonds -'}
+              searchMinLength={0}
             />
           </Form.Item>
         </Col>
@@ -64,6 +65,7 @@ export const ArchivalUnitSelectForm = () => {
               renderFunction={renderArchivalUnitDropdown}
               selectAPI={fonds ? `/v1/archival_unit/select/${fonds}/` : undefined}
               placeholder={'- Select Subfonds -'}
+              searchMinLength={0}
             />
           </Form.Item>
         </Col>
@@ -75,6 +77,7 @@ export const ArchivalUnitSelectForm = () => {
               renderFunction={renderArchivalUnitDropdown}
               selectAPI={subfonds ? `/v1/archival_unit/select/${subfonds}/` : undefined}
               placeholder={'- Select Series -'}
+              searchMinLength={0}
             />
           </Form.Item>
         </Col>

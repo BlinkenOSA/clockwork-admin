@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Select, Spin} from "antd";
 import {useData} from "../../../utils/hooks/useData";
+import {useList} from "react-use";
+import {get} from "../../../utils/api";
 
 const {Option} = Select;
 
@@ -9,44 +11,80 @@ const FormRemoteSelectInfiniteScroll = ({ selectAPI, selectAPIParams={}, valueFi
                             disabled=false, renderFunction, searchMinLength=2, ...props }) => {
 
   const [params, setParams] = useState(selectAPIParams);
-  const [selectData, setSelectData] = useState([]);
+
   const [selectLoading, setSelectLoading] = useState(false);
+  const [selectAPIurl, setSelectAPIurl] = useState(selectAPI);
+  const [selectData, { set, push }] = useList(undefined);
+  const [isDataLast, setIsDataLast] = useState(false)
 
   const {data, loading} = useData(selectAPI, params);
 
   useEffect(() => {
-    data && setSelectData(data['results'])
+    set([])
+  }, [selectAPI])
+
+
+  useEffect(() => {
+    data && push(...data['results']);
+    if (data) {
+      if (data['next']) {
+        setSelectAPIurl(data['next'])
+        setIsDataLast(false)
+      } else {
+        setIsDataLast(true)
+      }
+    }
   }, [data]);
+
+
+  const createParams = () => {
+    const url = new URL(selectAPIurl);
+    const URLParams = new URLSearchParams(url.search);
+
+    setParams(prevParams => ({
+      ...prevParams,
+      page: URLParams.get('page')
+    }))
+  }
+
 
   const handleSearch = (value) => {
     if (value.length > searchMinLength || value.length === 0) {
       setParams(prevParams => ({
         ...prevParams,
+        page: 1,
         search: value
       }))
+      set([])
     }
   };
 
+  const resetSelectOptions = () => {
+    setParams(prevParams => ({
+      ...prevParams,
+      page: 1,
+      search: ''
+    }));
+    set([])
+  }
+
   const handleSelect = (value) => {
-    if (params.hasOwnProperty('search') && params['search'] !== "") {
-      setParams(prevParams => ({
-        ...prevParams,
-        search: ''
-      }));
-    }
     onChange(value)
   };
 
   const handleClear = () => {
+    resetSelectOptions()
     onChange(undefined);
   };
 
   const onScroll = async (event) => {
-    const target = event.target;
-    if (!loading && target.scrollTop + target.offsetHeight === target.scrollHeight) {
-      setSelectLoading(true);
-      console.log("Load...");
-      target.scrollTo(0, target.scrollHeight);
+    if (!isDataLast) {
+      const target = event.target;
+      if (!loading && target.scrollTop + target.offsetHeight === target.scrollHeight) {
+        setSelectLoading(true);
+        target.scrollTo(0, target.scrollHeight);
+        createParams()
+      }
     }
   }
 
@@ -58,6 +96,7 @@ const FormRemoteSelectInfiniteScroll = ({ selectAPI, selectAPIParams={}, valueFi
     </Option>
     )
   )
+
 
   return (
     <Select
@@ -72,6 +111,7 @@ const FormRemoteSelectInfiniteScroll = ({ selectAPI, selectAPIParams={}, valueFi
       mode={mode}
       disabled={disabled}
       loading={loading}
+      labelInValue={true}
       {...props}
     >
       {selectOptions}

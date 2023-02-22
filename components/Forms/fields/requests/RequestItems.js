@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import {Button, Col, Form, Input, Row, Select} from "antd";
 import {PlusOutlined, CloseOutlined, CopyOutlined} from '@ant-design/icons';
-import FormRemoteSelect from "../../components/FormRemoteSelect";
 import FormSelect from "../../components/FormSelect";
 import {checkRequiredIfArchival, checkRequiredIfLibrary} from "../../validations/requestItemFormValidation";
 import FormRemoteSelectInfiniteScroll from "../../components/FormRemoteSelectInfiniteScroll";
+import {useDeepCompareEffect, usePrevious} from "react-use";
 
 const ITEM_ORIGINS = [
   { value: 'FA', label: 'Archival'},
@@ -14,21 +14,33 @@ const ITEM_ORIGINS = [
 
 export const RequestItems = ({form}) => {
   const request_items = Form.useWatch('request_items', form);
+  const prevItems = usePrevious(request_items);
+
+  useDeepCompareEffect(() => {
+    console.log(prevItems)
+    console.log(request_items)
+  }, [request_items])
 
   const isDisabled = (field, row) => {
     if (request_items) {
       if (request_items[row]) {
         const item_type = request_items[row]['item_origin']
 
-        switch (field) {
-          case 'archival_unit':
-            return item_type !== 'FA'
-          case 'container':
-            return item_type !== 'FA'
-          case 'identifier':
-            return item_type === 'FA'
-          case 'title':
-            return item_type === 'FA'
+        if (item_type) {
+          switch (field) {
+            case 'archival_unit':
+              return item_type !== 'FA'
+            case 'container':
+              return item_type !== 'FA'
+            case 'identifier':
+              return item_type === 'FA'
+            case 'title':
+              return item_type === 'FA'
+            default:
+              return true
+          }
+        } else {
+          return true
         }
       }
     }
@@ -39,14 +51,19 @@ export const RequestItems = ({form}) => {
   const getSeriesID = (row) => {
     if (request_items) {
       if (request_items[row]) {
-        return request_items[row]['archival_unit']
+        if (request_items[row]['archival_unit']) {
+          return request_items[row]['archival_unit']['value']
+        }
       }
     }
   }
 
-  const clone = (add, field) => {
-    console.log(field)
-    add(field)
+  const clone = (add, row) => {
+    if (request_items) {
+      if (request_items[row]) {
+        add(request_items[row])
+      }
+    }
   }
 
   return (
@@ -91,7 +108,7 @@ export const RequestItems = ({form}) => {
                       name={[field.name, 'container']}
                       rules={[(form) => checkRequiredIfArchival(form, [field.name, 'item_type'], true)]}
                     >
-                      <FormRemoteSelect
+                      <FormRemoteSelectInfiniteScroll
                         valueField={'id'}
                         labelField={'container_label'}
                         placeholder={'- Select Container -'}
