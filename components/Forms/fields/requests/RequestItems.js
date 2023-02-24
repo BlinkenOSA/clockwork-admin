@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Col, Form, Input, Row, Select} from "antd";
 import {PlusOutlined, CloseOutlined, CopyOutlined} from '@ant-design/icons';
 import FormSelect from "../../components/FormSelect";
@@ -14,12 +14,6 @@ const ITEM_ORIGINS = [
 
 export const RequestItems = ({form}) => {
   const request_items = Form.useWatch('request_items', form);
-  const prevItems = usePrevious(request_items);
-
-  useDeepCompareEffect(() => {
-    console.log(prevItems)
-    console.log(request_items)
-  }, [request_items])
 
   const isDisabled = (field, row) => {
     if (request_items) {

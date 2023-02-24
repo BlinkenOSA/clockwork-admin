@@ -44,7 +44,6 @@ const TableFilters = ({onFilterChange, module, filters, ...props}) => {
         name={`${module}-tableFilter`}
         initialValues={filters}
         onValuesChange={onFilterChange}
-        initialValues={filters}
       >
         {renderFilters()}
       </Form>

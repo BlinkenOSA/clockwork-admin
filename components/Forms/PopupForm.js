@@ -38,7 +38,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
 
   const readOnly = type === 'view';
 
-  const {data, loading} = useData(selectedRecord ? `${preCreateAPI ? preCreateAPI : api}${selectedRecord}/` : undefined);
+  const {data} = useData(selectedRecord ? `${preCreateAPI ? preCreateAPI : api}${selectedRecord}/` : undefined);
 
   useEffect(() => {
     form.setFieldsValue(data)

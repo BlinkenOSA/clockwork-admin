@@ -1,9 +1,8 @@
 import React from 'react';
-import {Form, Col, Row, DatePicker, Input} from "antd";
-import FormRemoteSelect from "../components/FormRemoteSelect";
-import {RequestItems} from "./requests/RequestItems";
+import {Form, Col, Row, Input} from "antd";
 import FormSelect from "../components/FormSelect";
 import {checkRequiredIfArchival, checkRequiredIfLibrary} from "../validations/requestItemFormValidation";
+import FormRemoteSelectInfiniteScroll from "../components/FormRemoteSelectInfiniteScroll";
 
 const ITEM_ORIGINS = [
   { value: 'FA', label: 'Archival'},
@@ -27,6 +26,18 @@ export const RequestItemForm = ({form}) => {
         return item_type === 'FA'
       default:
         return true
+    }
+  }
+
+  const getSeriesID = () => {
+    if (archival_unit) {
+      if (archival_unit.hasOwnProperty('value')) {
+        return archival_unit['value']
+      } else {
+        return undefined
+      }
+    } else {
+      return undefined
     }
   }
 
@@ -72,7 +83,7 @@ export const RequestItemForm = ({form}) => {
             name={'archival_unit'}
             rules={[(form) => checkRequiredIfArchival(form, 'item_origin')]}
           >
-            <FormRemoteSelect
+            <FormRemoteSelectInfiniteScroll
               valueField={'id'}
               labelField={'reference_code'}
               placeholder={'- Select Series -'}
@@ -87,11 +98,11 @@ export const RequestItemForm = ({form}) => {
             name={'container'}
             rules={[(form) => checkRequiredIfArchival(form, 'item_origin')]}
           >
-            <FormRemoteSelect
+            <FormRemoteSelectInfiniteScroll
               valueField={'id'}
               labelField={'container_label'}
               placeholder={'- Select Container -'}
-              selectAPI={`/v1/research/requests/container/select/${archival_unit}`}
+              selectAPI={getSeriesID() ? `/v1/research/requests/container/select/${getSeriesID()}` : undefined}
               disabled={isDisabled('container')}
             />
           </Form.Item>
