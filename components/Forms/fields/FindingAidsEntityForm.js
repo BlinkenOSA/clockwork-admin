@@ -12,6 +12,7 @@ import {ContributorsCorporations} from "./finding_aids/ContributorsCorporations"
 import {AdditionalCountries} from "./finding_aids/AdditionalCountries";
 import {AdditionalPlaces} from "./finding_aids/AdditionalPlaces";
 import {FormRemoteSelectWithEdit} from "../components/FormRemoteSelectWithEdit";
+import FormTranslateButton from "../components/FormTranslateButton";
 
 const {TabPane} = Tabs;
 
@@ -102,7 +103,7 @@ const Identifier = ({initialValues, type}) => (
   </Row>
 );
 
-const Tab01 = ({locale, readOnly, type}) => (
+const Tab01 = ({form, locale, readOnly}) => (
   <Row gutter={[12]}>
     <Col xs={6}>
       <Form.Item label="Legacy ID" name="legacy_id" >
@@ -137,16 +138,29 @@ const Tab01 = ({locale, readOnly, type}) => (
       </Form.Item>
     </Col>
     <Col xs={12}>
-      <Form.Item label="Title" name="title" required rules={[{ required: true }]}>
+      <Form.Item label="Title" name="title" required rules={[{ required: true }]} style={{marginBottom: '2px'}}>
         <Input disabled={readOnly}/>
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toOriginal'}
+        fieldName={'title'}
+        toField={'original_title'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={12}>
       <Form.Item
         label={renderLabelFlag(locale, 'Title - Original Language')}
-        name="original_title" >
+        name="original_title"
+        style={{marginBottom: '2px'}}>
         <Input disabled={readOnly}/>
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toEnglish'}
+        fieldName={'original_title'}
+        toField={'title'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={12}>
       <Form.Item label={`Date From`} name="date_from" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'} required rules={[{ required: true }]}>
