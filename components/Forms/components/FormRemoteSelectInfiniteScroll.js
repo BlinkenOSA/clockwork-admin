@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Select, Spin} from "antd";
 import {useData} from "../../../utils/hooks/useData";
-import {useList} from "react-use";
+import {useList, useUpdateEffect} from "react-use";
 import {get} from "../../../utils/api";
 
 const {Option} = Select;
@@ -10,25 +10,41 @@ const FormRemoteSelectInfiniteScroll = ({ selectAPI, selectAPIParams={}, valueFi
                             onChange, placeholder, mode='default',
                             disabled=false, renderFunction, searchMinLength=2, ...props }) => {
 
+  const [data, setData] = useState(undefined);
   const [params, setParams] = useState(selectAPIParams);
 
-  const [selectLoading, setSelectLoading] = useState(false);
-  const [selectAPIurl, setSelectAPIurl] = useState(selectAPI);
+  const [loading, setLoading] = useState(false);
+
+  const [selectAPIurl, setSelectAPIurl] = useState(undefined);
+  const [selectAPINextURL, setSelectAPINextURL] = useState(undefined)
+
   const [selectData, { set, push }] = useList(undefined);
   const [isDataLast, setIsDataLast] = useState(false)
 
-  const {data, loading} = useData(selectAPI, params);
-
   useEffect(() => {
-    set([])
+    if (selectAPI) {
+      if (selectAPIurl) {
+        onChange(undefined)
+      }
+      setSelectAPIurl(selectAPI)
+    } else {
+      resetSelectOptions()
+    }
   }, [selectAPI])
 
+  useUpdateEffect(() => {
+    fetchData()
+  }, [params])
 
-  useEffect(() => {
+  useUpdateEffect(() => {
+    resetSelectOptions()
+  }, [selectAPIurl])
+
+  useUpdateEffect(() => {
     data && push(...data['results']);
     if (data) {
       if (data['next']) {
-        setSelectAPIurl(data['next'])
+        setSelectAPINextURL(data['next'])
         setIsDataLast(false)
       } else {
         setIsDataLast(true)
@@ -36,9 +52,18 @@ const FormRemoteSelectInfiniteScroll = ({ selectAPI, selectAPIParams={}, valueFi
     }
   }, [data]);
 
+  const fetchData = () => {
+    get(selectAPIurl, params).then(response => {
+      setLoading(false);
+      setData(response.data)
+    }).catch(error => {
+      setData(undefined);
+      setLoading(false);
+    })
+  }
 
   const createParams = () => {
-    const url = new URL(selectAPIurl);
+    const url = new URL(selectAPINextURL);
     const URLParams = new URLSearchParams(url.search);
 
     setParams(prevParams => ({
@@ -47,29 +72,21 @@ const FormRemoteSelectInfiniteScroll = ({ selectAPI, selectAPIParams={}, valueFi
     }))
   }
 
-
   const handleSearch = (value) => {
     if (value.length > searchMinLength || value.length === 0) {
-      setParams(prevParams => ({
-        ...prevParams,
-        page: 1,
-        search: value
-      }))
+      setParams({search: value})
       set([])
     }
   };
 
   const resetSelectOptions = () => {
-    setParams(prevParams => ({
-      ...prevParams,
-      page: 1,
-      search: ''
-    }));
+    setParams({});
     set([])
   }
 
   const handleSelect = (value) => {
     onChange(value)
+    resetSelectOptions()
   };
 
   const handleClear = () => {
@@ -81,7 +98,6 @@ const FormRemoteSelectInfiniteScroll = ({ selectAPI, selectAPIParams={}, valueFi
     if (!isDataLast) {
       const target = event.target;
       if (!loading && target.scrollTop + target.offsetHeight === target.scrollHeight) {
-        setSelectLoading(true);
         target.scrollTo(0, target.scrollHeight);
         createParams()
       }
