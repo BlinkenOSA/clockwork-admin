@@ -145,20 +145,20 @@ const Tab01 = ({form, locale, readOnly}) => (
         form={form}
         mode={'toOriginal'}
         fieldName={'title'}
-        toField={'original_title'}
+        toField={'title_original'}
         disabled={readOnly}/>
     </Col>
     <Col xs={12}>
       <Form.Item
         label={renderLabelFlag(locale, 'Title - Original Language')}
-        name="original_title"
+        name="title_original"
         style={{marginBottom: 0}}>
         <Input disabled={readOnly}/>
       </Form.Item>
       <FormTranslateButton
         form={form}
         mode={'toEnglish'}
-        fieldName={'original_title'}
+        fieldName={'title_original'}
         toField={'title'}
         disabled={readOnly}/>
     </Col>
