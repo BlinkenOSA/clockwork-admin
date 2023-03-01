@@ -10,6 +10,7 @@ import {FormFormattedText} from "../components/FormFormattedText";
 import {RelatedFindingAids} from "./isad/RelatedFindingAids";
 import {LocationOfOriginals} from "./isad/LocationOfOriginals";
 import {LocationOfCopies} from "./isad/LocationOfCopies";
+import FormTranslateButton from "../components/FormTranslateButton";
 
 const {TabPane} = Tabs;
 
@@ -160,7 +161,7 @@ const Tab01 = ({form, readOnly}) => (
   </Row>
 );
 
-const Tab02 = ({locale, readOnly}) => {
+const Tab02 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={24}>
@@ -172,108 +173,199 @@ const Tab02 = ({locale, readOnly}) => {
         <Extents disabled={readOnly} />
       </Col>
       <Col xs={12}>
-        <Form.Item label="Estimated Amount of Carriers" name="carrier_estimated">
+        <Form.Item label="Estimated Amount of Carriers" name="carrier_estimated" style={{marginBottom: 0}}>
           <Input.TextArea rows={3} disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'carrier_estimated'}
+          toField={'carrier_estimated_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Estimated Amount of Carriers - Original Language')}
-          name="carrier_estimated_original">
+          name="carrier_estimated_original"
+          style={{marginBottom: 0}}>
           <Input.TextArea rows={3} disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'carrier_estimated_original'}
+          toField={'carrier_estimated'}
+          disabled={readOnly}/>
       </Col>
     </Row>
   )
 };
 
-const Tab03 = ({locale, readOnly}) => {
+const Tab03 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={12}>
-        <Form.Item label={`Administrative history`} name="administrative_history">
+        <Form.Item label={`Administrative history`} name="administrative_history" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'administrative_history'}
+          toField={'administrative_history_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Administrative History - Original Language')}
-          name="administrative_history_original">
+          name="administrative_history_original"
+          style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'administrative_history_original'}
+          toField={'administrative_history'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Archival history`} name="archival_history">
+        <Form.Item label={`Archival history`} name="archival_history" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'archival_history'}
+          toField={'archival_history_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Archival History - Original Language')}
-          name="archival_history_original">
+          name="archival_history_original"
+          style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
+          <FormTranslateButton
+            form={form}
+            mode={'toEnglish'}
+            fieldName={'archival_history_original'}
+            toField={'archival_history'}
+            disabled={readOnly}/>
         </Form.Item>
       </Col>
     </Row>
   )
 };
 
-const Tab04 = ({locale, readOnly}) => {
+const Tab04 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={12}>
-        <Form.Item label={`Scope and Content (Abstract)`} name="scope_and_content_abstract">
+        <Form.Item label={`Scope and Content (Abstract)`} name="scope_and_content_abstract" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'scope_and_content_abstract'}
+          toField={'scope_and_content_abstract_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Scope and Content (Abstract) - Original Language')}
-          name="scope_and_content_abstract_original">
+          name="scope_and_content_abstract_original"
+          style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'scope_and_content_abstract_original'}
+          toField={'scope_and_content_abstract'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Scope and Content (Narrative)`} name="scope_and_content_narrative">
+        <Form.Item label={`Scope and Content (Narrative)`} name="scope_and_content_narrative" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'scope_and_content_narrative'}
+          toField={'scope_and_content_narrative_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Scope and Content (Narrative) - Original Language')}
-          name="scope_and_content_narrative_original">
+          name="scope_and_content_narrative_original"
+          style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'scope_and_content_narrative_original'}
+          toField={'scope_and_content_narrative'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Appraisal`} name="appraisal">
+        <Form.Item label={`Appraisal`} name="appraisal" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={80} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'appraisal'}
+          toField={'appraisal_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Appraisal - Original Language')}
-          name="appraisal_original">
+          name="appraisal_original"
+          style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={80} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'appraisal_original'}
+          toField={'appraisal'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`System of Arrangement`} name="system_of_arrangement_information">
+        <Form.Item label={`System of Arrangement`} name="system_of_arrangement_information" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={80} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'system_of_arrangement_information'}
+          toField={'system_of_arrangement_information_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'System of Arrangement - Original Language')}
-          name="system_of_arrangement_information_original">
+          name="system_of_arrangement_information_original"
+          style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={80} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'system_of_arrangement_information_original'}
+          toField={'system_of_arrangement_information'}
+          disabled={readOnly}/>
       </Col>
     </Row>
   )
 };
 
-const Tab05 = ({locale, readOnly}) => {
+const Tab05 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={24}>
@@ -282,16 +374,29 @@ const Tab05 = ({locale, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Physical characteristics`} name="physical_characteristics">
+        <Form.Item label={`Physical characteristics`} name="physical_characteristics" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={100} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'physical_characteristics'}
+          toField={'physical_characteristics_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Physical characteristics - Original Language')}
-          name="physical_characteristics_original">
+          name="physical_characteristics_original"
+          style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={100} />
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'physical_characteristics_original'}
+          toField={'physical_characteristics'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={24}>
         <RelatedFindingAids disabled={readOnly} />
@@ -300,7 +405,7 @@ const Tab05 = ({locale, readOnly}) => {
   )
 };
 
-const Tab06 = ({locale, readOnly}) => {
+const Tab06 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={24}>
@@ -310,59 +415,111 @@ const Tab06 = ({locale, readOnly}) => {
         <LocationOfCopies disabled={readOnly} />
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Publication Note`} name="publication_note">
+        <Form.Item label={`Publication Note`} name="publication_note" style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'publication_note'}
+          toField={'publication_note_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Publication Note - Original Language')}
-          name="publication_note_original">
+          name="publication_note_original"
+          style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'publication_note_original'}
+          toField={'publication_note'}
+          disabled={readOnly}/>
       </Col>
     </Row>
   )
 };
 
-const Tab07 = ({locale, readOnly}) => {
+const Tab07 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={12}>
-        <Form.Item label={`Note`} name="note">
+        <Form.Item label={`Note`} name="note" style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'note'}
+          toField={'note_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Note - Original Language')}
-          name="note_original">
+          name="note_original"
+          style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'note_original'}
+          toField={'note'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Internal Note`} name="internal_note">
+        <Form.Item label={`Internal Note`} name="internal_note" style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'internal_note'}
+          toField={'internal_note_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Internal Note - Original Language')}
-          name="internal_note_original">
+          name="internal_note_original"
+          style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'internal_note_original'}
+          toField={'internal_note'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Archivists note`} name="archivists_note">
+        <Form.Item label={`Archivists note`} name="archivists_note" style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'archivists_note'}
+          toField={'archivists_note_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Archivists note - Original Language')}
-          name="archivists_original">
+          name="archivists_original"
+          style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'archivists_original_original'}
+          toField={'archivists_original'}
+          disabled={readOnly}/>
       </Col>
       <Col xs={24}>
         <Form.Item label={`Rules and Conventions`} name="rules_and_conventions">

@@ -138,7 +138,7 @@ const Tab01 = ({form, locale, readOnly}) => (
       </Form.Item>
     </Col>
     <Col xs={12}>
-      <Form.Item label="Title" name="title" required rules={[{ required: true }]} style={{marginBottom: '2px'}}>
+      <Form.Item label="Title" name="title" required rules={[{ required: true }]} style={{marginBottom: 0}}>
         <Input disabled={readOnly}/>
       </Form.Item>
       <FormTranslateButton
@@ -152,7 +152,7 @@ const Tab01 = ({form, locale, readOnly}) => (
       <Form.Item
         label={renderLabelFlag(locale, 'Title - Original Language')}
         name="original_title"
-        style={{marginBottom: '2px'}}>
+        style={{marginBottom: 0}}>
         <Input disabled={readOnly}/>
       </Form.Item>
       <FormTranslateButton
@@ -181,16 +181,29 @@ const Tab01 = ({form, locale, readOnly}) => (
       <Dates disabled={readOnly} />
     </Col>
     <Col xs={12}>
-      <Form.Item label={`Contents Summary`} name="contents_summary">
+      <Form.Item label={`Contents Summary`} name="contents_summary" style={{marginBottom: 0}}>
         <FormFormattedText disabled={readOnly} height={120} />
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toOriginal'}
+        fieldName={'contents_summary'}
+        toField={'contents_summary_original'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={12}>
       <Form.Item
         label={renderLabelFlag(locale, 'Contents Summary - Original Language')}
-        name="contents_summary_original">
+        name="contents_summary_original"
+        style={{marginBottom: 0}}>
         <FormFormattedText disabled={readOnly} height={120} />
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toEnglish'}
+        fieldName={'contents_summary_original'}
+        toField={'contents_summary'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={4}>
       <Form.Item label="Confidential" name="confidential" valuePropName={'checked'}>
@@ -257,7 +270,7 @@ const IdentifierTemplate = ({initialValues, type}) => (
   </Row>
 );
 
-const Tab01Template = ({locale, readOnly, type}) => (
+const Tab01Template = ({form, locale, readOnly, type}) => (
   <Row gutter={[12]}>
     <Form.Item name="is_template" >
       <Input hidden={true}/>
@@ -295,16 +308,29 @@ const Tab01Template = ({locale, readOnly, type}) => (
       </Form.Item>
     </Col>
     <Col xs={12}>
-      <Form.Item label="Title" name="title">
+      <Form.Item label="Title" name="title" style={{marginBottom: 0}}>
         <Input disabled={readOnly}/>
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toOriginal'}
+        fieldName={'title'}
+        toField={'original_title'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={12}>
       <Form.Item
         label={renderLabelFlag(locale, 'Title - Original Language')}
-        name="original_title" >
+        name="original_title"
+        style={{marginBottom: 0}}>
         <Input disabled={readOnly}/>
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toEnglish'}
+        fieldName={'original_title'}
+        toField={'title'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={12}>
       <Form.Item label={`Date From`} name="date_from" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}>
@@ -388,31 +414,57 @@ const Tab02 = ({form, locale, readOnly}) => (
       </Form.Item>
     </Col>
     <Col xs={12}>
-      <Form.Item label={`Physical Description`} name="physical_description">
+      <Form.Item label={`Physical Description`} name="physical_description" style={{marginBottom: 0}}>
         <FormFormattedText disabled={readOnly} height={100} />
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toOriginal'}
+        fieldName={'physical_description'}
+        toField={'physical_description_original'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={12}>
       <Form.Item
         label={renderLabelFlag(locale, 'Physical Description - Original Language')}
-        name="physical_description_original">
+        name="physical_description_original"
+        style={{marginBottom: 0}}>
         <FormFormattedText disabled={readOnly} height={100} />
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toEnglish'}
+        fieldName={'physical_description_original'}
+        toField={'physical_description'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={24}>
       <Languages disabled={readOnly} />
     </Col>
     <Col xs={12}>
-      <Form.Item label={`Language Statement`} name="language_statement">
+      <Form.Item label={`Language Statement`} name="language_statement" style={{marginBottom: 0}}>
         <FormFormattedText disabled={readOnly} height={100} />
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toOriginal'}
+        fieldName={'language_statement'}
+        toField={'language_statement_original'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={12}>
       <Form.Item
         label={renderLabelFlag(locale, 'Language Statement - Original Language')}
-        name="language_statement_original">
+        name="language_statement_original"
+        style={{marginBottom: 0}}>
         <FormFormattedText disabled={readOnly} height={100} />
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toEnglish'}
+        fieldName={'language_statement_original'}
+        toField={'language_statement'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={24}>
       <Extents form={form} disabled={readOnly} />
@@ -518,19 +570,32 @@ const Tab04 = ({form, readOnly}) => (
   </Row>
 );
 
-const Tab05 = ({locale, readOnly}) => (
+const Tab05 = ({form, locale, readOnly}) => (
   <Row gutter={[12]}>
     <Col xs={12}>
       <Form.Item label={`Note`} name="note">
-        <FormFormattedText disabled={readOnly} height={200} />
+        <FormFormattedText disabled={readOnly} height={200} style={{marginBottom: 0}}/>
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toOriginal'}
+        fieldName={'note'}
+        toField={'note_original'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={12}>
       <Form.Item
         label={renderLabelFlag(locale, 'Note - Original Language')}
-        name="note_original">
+        name="note_original"
+        style={{marginBottom: 0}}>
         <FormFormattedText disabled={readOnly} height={200} />
       </Form.Item>
+      <FormTranslateButton
+        form={form}
+        mode={'toEnglish'}
+        fieldName={'note_original'}
+        toField={'note'}
+        disabled={readOnly}/>
     </Col>
     <Col xs={24}>
       <Form.Item label={`Internal Note`} name="internal_note">
