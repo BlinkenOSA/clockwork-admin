@@ -174,7 +174,7 @@ const FindingAidsGrid = ({seriesID}) => {
 
   return (
     <React.Fragment>
-      <FindingAidsGridFilter onFilter={onFilter} onReplace={onReplace} onReplaceAll={onReplaceAll} />
+      <FindingAidsGridFilter onFilter={onFilter} onReplace={onReplace} onReplaceAll={onReplaceAll} seriesID={seriesID}/>
       <div className={style.TableWrapper}>
         <Row>
           <Col span={24}>
