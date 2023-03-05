@@ -1,12 +1,18 @@
 import {Button, Col, Form, Input, Popconfirm, Row} from "antd";
 import React, {useEffect, useState} from "react";
 import style from './FindingAidsGrid.module.css';
+import {getFile} from '../../utils/api';
+import {RiFileExcel2Line} from 'react-icons/ri';
 
-const FindingAidsGridFilter = ({onFilter, onReplace, onReplaceAll}) => {
+const FindingAidsGridFilter = ({seriesID, onFilter, onReplace, onReplaceAll}) => {
   const [form] = Form.useForm();
 
   const [findDisabled, setFindDisabled] = useState(true);
   const [replaceDisabled, setReplaceDisabled] = useState(true);
+
+  const onExportClick = () => {
+    getFile(`/v1/finding_aids/grid/list/export/${seriesID}/`, 'export.xlsx')
+  }
 
   const onFilterClick = () => {
     const findValue = form.getFieldValue('find');
@@ -64,6 +70,12 @@ const FindingAidsGridFilter = ({onFilter, onReplace, onReplaceAll}) => {
               Replace All
             </Button>
           </Popconfirm>
+        </Col>
+        <Col xs={4}> </Col>
+        <Col xs={2} style={{textAlign: 'right'}}>
+          <Button key="export" style={{width: '100%'}} onClick={() => {onExportClick()}}>
+            <span><RiFileExcel2Line/> Export</span>
+          </Button>
         </Col>
       </Row>
     </Form>

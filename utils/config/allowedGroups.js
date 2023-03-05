@@ -2,6 +2,7 @@ export const allowedGroups = {
   '/': '__ALL__',
   '/dashboard': '__ALL__',
   '/accessions': 'Accessions',
+  '/donors': 'Accessions',
   '/archival-units': "Archival Units",
   '/isaar': "ISAAR",
   '/isad': 'ISAD(G)',
