@@ -18,11 +18,11 @@ const TableFilters = ({onFilterChange, module, filters, ...props}) => {
       case 'accessions':
         return <AccessionTableFilters />;
       case 'archival-units':
-        return <ArchivalUnitTableFilters/>;
+        return <ArchivalUnitTableFilters />;
       case 'isad':
-        return <IsadTableFilter/>;
+        return <IsadTableFilter />;
       case 'isaar':
-        return <IsaarTableFilters/>;
+        return <IsaarTableFilters />;
       case 'mlr':
         return <MLRTableFilter />;
       case 'digitization':
