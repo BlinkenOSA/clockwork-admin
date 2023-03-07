@@ -372,11 +372,6 @@ const Tab01Template = ({form, locale, readOnly, type}) => (
         <Input disabled={readOnly} />
       </Form.Item>
     </Col>
-    <Col xs={4}>
-      <Form.Item label="Digital Version Exists" name="digital_version_exists" valuePropName={'checked'}>
-        <Checkbox style={{marginLeft: '20px'}} disabled={readOnly} />
-      </Form.Item>
-    </Col>
   </Row>
 );
 
@@ -605,6 +600,20 @@ const Tab05 = ({form, locale, readOnly}) => (
   </Row>
 );
 
+const Tab06 = ({form, locale, readOnly}) => {
+  const digital_version_exists = Form.useWatch('digital_version_exists', form);
+
+  return (
+    <Row>
+      <Col xs={24}>
+        <Form.Item label="Digital Version Exists" name="digital_version_exists" valuePropName={'checked'}>
+          <Checkbox style={{marginLeft: '20px'}} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+    </Row>
+  )
+}
+
 export const FindingAidsEntityForm = ({form, locale, type, initialValues, isTemplate=false}) => {
   const readOnly = type === 'view';
 
@@ -637,6 +646,9 @@ export const FindingAidsEntityForm = ({form, locale, type, initialValues, isTemp
           </TabPane>
           <TabPane tab={'Notes'} key="notes" forceRender={true}>
             <Tab05 form={form} locale={locale} readOnly={readOnly} />
+          </TabPane>
+          <TabPane tab={'Digital Version'} key="digital_version" forceRender={true}>
+            <Tab06 form={form} locale={locale} readOnly={readOnly} />
           </TabPane>
         </Tabs>
       </Col>
