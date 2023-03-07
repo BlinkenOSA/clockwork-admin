@@ -25,3 +25,11 @@ body {
 .centerColumn {
     text-align: center !important;
 }
+
+.ant-select-disabled .ant-select-selector {
+    color: #333 !important;
+}
+
+.ant-input-disabled {
+    color: #333 !important;
+}
