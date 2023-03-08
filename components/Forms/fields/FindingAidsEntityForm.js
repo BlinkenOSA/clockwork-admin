@@ -629,9 +629,12 @@ export const FindingAidsEntityForm = ({form, locale, type, initialValues, isTemp
           <TabPane tab={'Notes'} key="notes" forceRender={true}>
             <Tab05 form={form} locale={locale} readOnly={readOnly} />
           </TabPane>
-          <TabPane tab={'Digital Version'} key="digital_version" forceRender={true}>
-            <DigitalVersionTab form={form} initialValues={initialValues} locale={locale} readOnly={readOnly} />
-          </TabPane>
+          {
+            !isTemplate &&
+            <TabPane tab={'Digital Version'} key="digital_version" forceRender={true}>
+              <DigitalVersionTab form={form} initialValues={initialValues} locale={locale} readOnly={readOnly} />
+            </TabPane>
+          }
         </Tabs>
       </Col>
     </React.Fragment>
