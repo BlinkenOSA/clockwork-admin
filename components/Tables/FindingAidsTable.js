@@ -273,23 +273,18 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
   };
 
   const getTemplateButton = () => {
-    const menu = (
-      <Menu>
-        {
-          templateData.map(data => {
-            return (
-              <Menu.Item key={data.id}>
-                <Link href={`/finding-aids/entities/create/from-template/${data.id}/${containerID}`}>{data.template_name}</Link>
-              </Menu.Item>
-            )
-          })
+    const menu = () => {
+      return templateData.map(data => {
+        return {
+          key: data.id,
+          label: <Link href={`/finding-aids/entities/create/from-template/${data.id}/${containerID}`}>{data.template_name}</Link>
         }
-      </Menu>
-    );
+      })
+    }
 
     if (templateData.length > 0) {
       return (
-        <Dropdown menu={menu}>
+        <Dropdown menu={{items: menu()}}>
           <Button style={{marginLeft: '10px'}} disabled={templateData.length === 0}>
             New from Template <DownOutlined />
           </Button>
