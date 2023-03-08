@@ -15,7 +15,7 @@ export const LanguageForm = ({readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={8}>
-        <Form.Item label="ISO 639 2" name="iso_639_3">
+        <Form.Item label="ISO 639 3" name="iso_639_3">
           <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
