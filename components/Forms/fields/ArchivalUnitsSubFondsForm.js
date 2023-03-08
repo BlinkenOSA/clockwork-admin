@@ -3,7 +3,9 @@ import {Form, Col, Input, Row, InputNumber} from "antd";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 
 
-export const ArchivalUnitsSubFondsForm = ({type, readOnly}) => {
+export const ArchivalUnitsSubFondsForm = ({form, type, readOnly}) => {
+  const subfonds = Form.useWatch('subfonds', form)
+
   return (
     <React.Fragment>
       <Col xs={4}>
@@ -32,7 +34,18 @@ export const ArchivalUnitsSubFondsForm = ({type, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={14}>
-        <Form.Item label="Title" name="title">
+        <Form.Item label="Title" name="title" rules={[{
+          validator: (rule, value) => {
+            if (subfonds !== 0) {
+              if (value.length === 0) {
+                return Promise.reject(
+                  new Error("Empty title is only allowed for 0 subfonds!"),
+                );
+              }
+            }
+            return Promise.resolve();
+          }
+        }]}>
           <Input />
         </Form.Item>
       </Col>
