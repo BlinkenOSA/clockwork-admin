@@ -32,7 +32,7 @@ export const ArchivalUnitsSubFondsForm = ({type, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={14}>
-        <Form.Item label="Title" name="title" required rules={[{ required: true }]}>
+        <Form.Item label="Title" name="title">
           <Input />
         </Form.Item>
       </Col>
