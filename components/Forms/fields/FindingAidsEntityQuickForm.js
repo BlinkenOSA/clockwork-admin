@@ -111,7 +111,7 @@ export const FindingAidsEntityQuickForm = ({form, locale, type}) => {
           <Col xs={12}>
             <Form.Item
               label={renderLabelFlag(locale, 'Title - Original Language')}
-              name="original_title"
+              name="title_original"
               style={{marginBottom: 0}}>
               <Input disabled={readOnly}/>
             </Form.Item>
