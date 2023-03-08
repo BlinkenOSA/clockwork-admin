@@ -1,5 +1,5 @@
 import React from "react";
-import {Checkbox, Col, Form, Input, Row, Tabs} from "antd";
+import {Badge, Checkbox, Col, Form, Input, Row, Tabs} from "antd";
 import FormSelect from "../components/FormSelect";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 import {renderLabelFlag} from "../../../utils/functions/renderLabelFlag";
@@ -13,6 +13,7 @@ import {AdditionalCountries} from "./finding_aids/AdditionalCountries";
 import {AdditionalPlaces} from "./finding_aids/AdditionalPlaces";
 import {FormRemoteSelectWithEdit} from "../components/FormRemoteSelectWithEdit";
 import FormTranslateButton from "../components/FormTranslateButton";
+import DigitalVersionTab from "./finding_aids/DigitalVersionTab";
 
 const {TabPane} = Tabs;
 
@@ -213,11 +214,6 @@ const Tab01 = ({form, locale, readOnly}) => (
     <Col xs={20}>
       <Form.Item label="Confidential Display Text" name="confidential_display_text">
         <Input disabled={readOnly} />
-      </Form.Item>
-    </Col>
-    <Col xs={4}>
-      <Form.Item label="Digital Version Exists" name="digital_version_exists" valuePropName={'checked'}>
-        <Checkbox style={{marginLeft: '20px'}} disabled={readOnly} />
       </Form.Item>
     </Col>
   </Row>
@@ -600,20 +596,6 @@ const Tab05 = ({form, locale, readOnly}) => (
   </Row>
 );
 
-const Tab06 = ({form, locale, readOnly}) => {
-  const digital_version_exists = Form.useWatch('digital_version_exists', form);
-
-  return (
-    <Row>
-      <Col xs={24}>
-        <Form.Item label="Digital Version Exists" name="digital_version_exists" valuePropName={'checked'}>
-          <Checkbox style={{marginLeft: '20px'}} disabled={readOnly}/>
-        </Form.Item>
-      </Col>
-    </Row>
-  )
-}
-
 export const FindingAidsEntityForm = ({form, locale, type, initialValues, isTemplate=false}) => {
   const readOnly = type === 'view';
 
@@ -648,7 +630,7 @@ export const FindingAidsEntityForm = ({form, locale, type, initialValues, isTemp
             <Tab05 form={form} locale={locale} readOnly={readOnly} />
           </TabPane>
           <TabPane tab={'Digital Version'} key="digital_version" forceRender={true}>
-            <Tab06 form={form} locale={locale} readOnly={readOnly} />
+            <DigitalVersionTab form={form} initialValues={initialValues} locale={locale} readOnly={readOnly} />
           </TabPane>
         </Tabs>
       </Col>
