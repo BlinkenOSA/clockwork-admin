@@ -4,6 +4,7 @@ import FormSelect from "../components/FormSelect";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 import {renderLabelFlag} from "../../../utils/functions/renderLabelFlag";
 import {FormFormattedText} from "../components/FormFormattedText";
+import FormTranslateButton from "../components/FormTranslateButton";
 
 
 const L1_LEVELS = [
@@ -97,16 +98,29 @@ export const FindingAidsEntityQuickForm = ({form, locale, type}) => {
             </Form.Item>
           </Col>
           <Col xs={12}>
-            <Form.Item label="Title" name="title" required rules={[{ required: true }]}>
+            <Form.Item label="Title" name="title" required rules={[{ required: true }]} style={{marginBottom: 0}}>
               <Input disabled={readOnly}/>
             </Form.Item>
+            <FormTranslateButton
+              form={form}
+              mode={'toOriginal'}
+              fieldName={'title'}
+              toField={'title_original'}
+              disabled={readOnly}/>
           </Col>
           <Col xs={12}>
             <Form.Item
               label={renderLabelFlag(locale, 'Title - Original Language')}
-              name="original_title" >
+              name="original_title"
+              style={{marginBottom: 0}}>
               <Input disabled={readOnly}/>
             </Form.Item>
+            <FormTranslateButton
+              form={form}
+              mode={'toEnglish'}
+              fieldName={'title_original'}
+              toField={'title'}
+              disabled={readOnly}/>
           </Col>
           <Col xs={12}>
             <Form.Item label={`Date From`} name="date_from" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'} required rules={[{ required: true }]}>
@@ -124,16 +138,29 @@ export const FindingAidsEntityQuickForm = ({form, locale, type}) => {
             </Form.Item>
           </Col>
           <Col xs={24}>
-            <Form.Item label={`Contents Summary`} name="contents_summary">
+            <Form.Item label={`Contents Summary`} name="contents_summary" style={{marginBottom: 0}}>
               <FormFormattedText disabled={readOnly} height={120} />
             </Form.Item>
+            <FormTranslateButton
+              form={form}
+              mode={'toOriginal'}
+              fieldName={'contents_summary'}
+              toField={'contents_summary_original'}
+              disabled={readOnly}/>
           </Col>
           <Col xs={24}>
             <Form.Item
               label={renderLabelFlag(locale, 'Contents Summary - Original Language')}
-              name="contents_summary_original">
+              name="contents_summary_original"
+              style={{marginBottom: 0}}>
               <FormFormattedText disabled={readOnly} height={120} />
             </Form.Item>
+            <FormTranslateButton
+              form={form}
+              mode={'toEnglish'}
+              fieldName={'contents_summary_original'}
+              toField={'contents_summary'}
+              disabled={readOnly}/>
           </Col>
         </Row>
       </Col>
