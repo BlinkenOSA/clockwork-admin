@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Col, Form, Input, Row, Tabs} from "antd";
 import FormSelect from "../components/FormSelect";
 import FormRemoteSelect from "../components/FormRemoteSelect";
@@ -11,8 +11,7 @@ import {RelatedFindingAids} from "./isad/RelatedFindingAids";
 import {LocationOfOriginals} from "./isad/LocationOfOriginals";
 import {LocationOfCopies} from "./isad/LocationOfCopies";
 import FormTranslateButton from "../components/FormTranslateButton";
-
-const {TabPane} = Tabs;
+import {useRouter} from "next/router";
 
 const ACCRUALS = [
   { id: true, accrual: 'Expected'},
@@ -530,33 +529,52 @@ const Tab07 = ({form, locale, readOnly}) => {
   )
 };
 
-export const IsadForm = ({form, locale, readOnly}) => {
+export const IsadForm = ({form, readOnly, onActiveTabChange}) => {
+
+  useEffect(() => {
+    onActiveTabChange('required_values')
+  }, [])
+
+  const onChange = (activeKey) => {
+    onActiveTabChange(activeKey)
+  }
+
+  const items = [
+    {
+      key: 'required_values',
+      label: 'Required Values',
+      children: <Tab01 form={form} readOnly={readOnly}/>
+    }, {
+      key: 'identity',
+      label: 'Identity',
+      children: <Tab02 form={form} readOnly={readOnly}/>
+    }, {
+      key: 'context',
+      label: 'Context',
+      children: <Tab03 form={form} readOnly={readOnly}/>
+    }, {
+      key: 'content',
+      label: 'Content',
+      children: <Tab04 form={form} readOnly={readOnly}/>
+    }, {
+      key: 'access_and_use',
+      label: 'Access & Use',
+      children: <Tab05 form={form} readOnly={readOnly}/>
+    }, {
+      key: 'allied_materials',
+      label: 'Allied Materials',
+      children: <Tab06 form={form} readOnly={readOnly}/>
+    }, {
+      key: 'notes',
+      label: 'Notes',
+      children: <Tab07 form={form} readOnly={readOnly}/>
+    },
+  ]
+
   return (
     <React.Fragment>
       <Col xs={24}>
-        <Tabs defaultActiveKey="required_values">
-          <TabPane tab={'Required Values'} key="required_values" forceRender={true}>
-            <Tab01 form={form} readOnly={readOnly}/>
-          </TabPane>
-          <TabPane tab={'Identity'} key="identity" forceRender={true}>
-            <Tab02 form={form} locale={locale} readOnly={readOnly}/>
-          </TabPane>
-          <TabPane tab={'Context'} key="context" forceRender={true} >
-            <Tab03 form={form} locale={locale} readOnly={readOnly}/>
-          </TabPane>
-          <TabPane tab={'Content'} key="content" forceRender={true}>
-            <Tab04 form={form} locale={locale} readOnly={readOnly}/>
-          </TabPane>
-          <TabPane tab={'Access & Use'} key="access_and_use" forceRender={true}>
-            <Tab05 form={form} locale={locale} readOnly={readOnly}/>
-          </TabPane>
-          <TabPane tab={'Allied Materials'} key="allied_materials" forceRender={true}>
-            <Tab06 form={form} locale={locale} readOnly={readOnly}/>
-          </TabPane>
-          <TabPane tab={'Notes'} key="notes" forceRender={true}>
-            <Tab07 form={form} locale={locale} readOnly={readOnly}/>
-          </TabPane>
-        </Tabs>
+        <Tabs defaultActiveKey="required_values" items={items} onChange={onChange} />
       </Col>
     </React.Fragment>
   )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AppLayout from "../../../components/Layout/Layout";
 import Head from "next/head";
 import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
@@ -10,6 +10,8 @@ import {fillManyFields} from "../../../utils/functions/fillManyFields";
 export default function IsaarView() {
   const router = useRouter();
   const { id } = router.query;
+
+  const [activeTabKey, setActiveTabKey] = useState('')
 
   const { data, error } = useData(id ? `/v1/isaar/${id}/` : undefined);
 
@@ -27,18 +29,23 @@ export default function IsaarView() {
     {text: data ? `${data.name}` : ''}
   ];
 
+  const onActiveTabChange = (activeKey) => {
+    setActiveTabKey(activeKey)
+  }
+
   return (
     <AppLayout>
       <Head>
         <title>AMS - Archival Management System - View ISAAR-CPF Records</title>
       </Head>
-      <Breadcrumbs module={'isaar'} breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'isaar/form'} breadcrumbData={breadcrumbData} activeTabKey={activeTabKey}/>
       {
         data ?
         <SimpleForm
           module={'isaar'}
           type={'view'}
-          initialValues={data ? fillManyFields(data, manyFieldList) : undefined} /> : ''
+          initialValues={data ? fillManyFields(data, manyFieldList) : undefined}
+          onActiveTabChange={onActiveTabChange} /> : ''
       }
     </AppLayout>
   )
