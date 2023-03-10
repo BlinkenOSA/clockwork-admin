@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AppLayout from "../../../../../../components/Layout/Layout";
 import Head from "next/head";
 import Breadcrumbs from "../../../../../../components/Layout/Breadcrumbs";
@@ -13,6 +13,8 @@ export default function FindingAidsCreateFromTemplate() {
 
   const { data, error } = useData(container ? `/v1/finding_aids/pre_create/${container}/` : undefined);
   const templateData = useData(container ? `/v1/finding_aids/templates/${template}/` : undefined);
+
+  const [activeTabKey, setActiveTabKey] = useState('')
 
   const manyFieldList = [
     'dates',
@@ -38,23 +40,28 @@ export default function FindingAidsCreateFromTemplate() {
     templateData['data']['folder_no'] = data['folder_no'];
     templateData['data']['uuid'] = data['uuid'];
     templateData['data']['archival_reference_code'] = data['archival_reference_code'];
-    console.log(templateData['data']);
     return fillManyFields(templateData['data'], manyFieldList);
   };
+
+  const onActiveTabChange = (activeKey) => {
+    setActiveTabKey(activeKey)
+  }
 
   return (
     <AppLayout>
       <Head>
         <title>AMS - Archival Management System - Create Finding Aids Records from Template</title>
       </Head>
-      <Breadcrumbs module={'finding-aids'} breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'finding-aids/form'} breadcrumbData={breadcrumbData} activeTabKey={activeTabKey} />
       {
         data && templateData['data'] ?
           <FindingAidsForm
             seriesID={data['archival_unit']}
             containerID={container}
             type={'create'}
-            initialValues={data && templateData['data'] ? generateInitialData() : undefined} /> : ''
+            initialValues={data && templateData['data'] ? generateInitialData() : undefined}
+            onActiveTabChange={onActiveTabChange}
+          /> : ''
       }
     </AppLayout>
   )

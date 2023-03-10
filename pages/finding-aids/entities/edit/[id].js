@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AppLayout from "../../../../components/Layout/Layout";
 import Head from "next/head";
 import Breadcrumbs from "../../../../components/Layout/Breadcrumbs";
@@ -10,6 +10,8 @@ import {FindingAidsForm} from "../../../../components/Forms/FindingAidsForm";
 export default function FindingAidsEdit() {
   const router = useRouter();
   const { id } = router.query;
+
+  const [activeTabKey, setActiveTabKey] = useState('')
 
   const { data, error } = useData(id ? `/v1/finding_aids/${id}/` : undefined);
 
@@ -32,19 +34,25 @@ export default function FindingAidsEdit() {
     {text: data ? `${data.title}` : ''}
   ];
 
+  const onActiveTabChange = (activeKey) => {
+    setActiveTabKey(activeKey)
+  }
+
   return (
     <AppLayout>
       <Head>
         <title>AMS - Archival Management System - Edit Finding Aids Records</title>
       </Head>
-      <Breadcrumbs module={'finding-aids'}  breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'finding-aids/form'}  breadcrumbData={breadcrumbData} activeTabKey={activeTabKey} />
       {
         data ?
         <FindingAidsForm
           recordID={id}
           seriesID={data ? data.archival_unit : undefined}
           type={'edit'}
-          initialValues={data ? fillManyFields(data, manyFieldList) : undefined} /> : ''
+          initialValues={data ? fillManyFields(data, manyFieldList) : undefined}
+          onActiveTabChange={onActiveTabChange}
+        /> : ''
       }
     </AppLayout>
   )

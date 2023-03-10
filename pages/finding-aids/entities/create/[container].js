@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AppLayout from "../../../../components/Layout/Layout";
 import Head from "next/head";
 import Breadcrumbs from "../../../../components/Layout/Breadcrumbs";
@@ -12,6 +12,8 @@ export default function FindingAidsCreate() {
   const { container } = router.query;
 
   const { data, error } = useData(container ? `/v1/finding_aids/pre_create/${container}/` : undefined);
+
+  const [activeTabKey, setActiveTabKey] = useState('')
 
   const manyFieldList = [
     'dates',
@@ -30,19 +32,25 @@ export default function FindingAidsCreate() {
     {text: 'Create'},
   ];
 
+  const onActiveTabChange = (activeKey) => {
+    setActiveTabKey(activeKey)
+  }
+
   return (
     <AppLayout>
       <Head>
         <title>AMS - Archival Management System - Create Finding Aids Records</title>
       </Head>
-      <Breadcrumbs module={'finding-aids'} breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'finding-aids/form'} breadcrumbData={breadcrumbData} activeTabKey={activeTabKey} />
       {
         data ?
           <FindingAidsForm
             seriesID={data['archival_unit']}
             containerID={container}
             type={'create'}
-            initialValues={data ? fillManyFields(data, manyFieldList) : undefined} /> : ''
+            initialValues={data ? fillManyFields(data, manyFieldList) : undefined}
+            onActiveTabChange={onActiveTabChange}
+          /> : ''
       }
     </AppLayout>
   )

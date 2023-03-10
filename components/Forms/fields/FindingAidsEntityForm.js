@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Badge, Checkbox, Col, Form, Input, Row, Tabs} from "antd";
 import FormSelect from "../components/FormSelect";
 import FormRemoteSelect from "../components/FormRemoteSelect";
@@ -14,6 +14,7 @@ import {AdditionalPlaces} from "./finding_aids/AdditionalPlaces";
 import {FormRemoteSelectWithEdit} from "../components/FormRemoteSelectWithEdit";
 import FormTranslateButton from "../components/FormTranslateButton";
 import DigitalVersionTab from "./finding_aids/DigitalVersionTab";
+import {renderTabTitle} from "../../../utils/functions/renderTabTitle";
 
 const {TabPane} = Tabs;
 
@@ -596,8 +597,56 @@ const Tab05 = ({form, locale, readOnly}) => (
   </Row>
 );
 
-export const FindingAidsEntityForm = ({form, locale, type, initialValues, isTemplate=false}) => {
+export const FindingAidsEntityForm = ({form, locale, type, initialValues, onActiveTabChange, isTemplate=false}) => {
   const readOnly = type === 'view';
+
+  useEffect(() => {
+    onActiveTabChange('basic')
+  }, [])
+
+  const onChange = (activeKey) => {
+    onActiveTabChange(activeKey)
+  }
+
+  let items = [
+    {
+      key: 'basic',
+      label: 'Basic Metadata',
+      children: isTemplate ?
+          <Tab01Template form={form} locale={locale} readOnly={readOnly} type={type} /> :
+          <Tab01 form={form} locale={locale} readOnly={readOnly} type={type} />
+    }, {
+      key: 'extra',
+      label: 'Extra Metadata',
+      children: <Tab02 form={form} locale={locale} readOnly={readOnly} />
+    }, {
+      key: 'contributors',
+      label: 'Contributors',
+      children: <Tab03 form={form} locale={locale} readOnly={readOnly} />
+    }, {
+      key: 'subjects',
+      label: 'Subjects',
+      children: <Tab04 form={form} locale={locale} readOnly={readOnly} />
+    }, {
+      key: 'notes',
+      label: 'Notes',
+      children: <Tab05 form={form} locale={locale} readOnly={readOnly}/>
+    }
+  ]
+
+  const getItems = () => {
+    const digitalVersion = {
+      key: 'digital_version',
+      label: 'Digital Version',
+      children: <DigitalVersionTab form={form} initialValues={initialValues} locale={locale} readOnly={readOnly} />
+    }
+
+    if (!isTemplate) {
+      items.push(digitalVersion)
+    }
+
+    return items
+  }
 
   return (
     <React.Fragment>
@@ -609,33 +658,7 @@ export const FindingAidsEntityForm = ({form, locale, type, initialValues, isTemp
         }
       </Col>
       <Col xs={24}>
-        <Tabs defaultActiveKey="basic">
-          <TabPane tab={'Basic Metadata'} key="basic" forceRender={true}>
-            {
-              isTemplate ?
-              <Tab01Template form={form} locale={locale} readOnly={readOnly} type={type} /> :
-              <Tab01 form={form} locale={locale} readOnly={readOnly} type={type} />
-            }
-          </TabPane>
-          <TabPane tab={'Extra Metadata'} key="extra" forceRender={true}>
-            <Tab02 form={form} locale={locale} readOnly={readOnly} />
-          </TabPane>
-          <TabPane tab={'Contributors'} key="contributors" forceRender={true} >
-            <Tab03 form={form} locale={locale} readOnly={readOnly} />
-          </TabPane>
-          <TabPane tab={'Subjects'} key="subjects" forceRender={true}>
-            <Tab04 form={form} locale={locale} readOnly={readOnly} />
-          </TabPane>
-          <TabPane tab={'Notes'} key="notes" forceRender={true}>
-            <Tab05 form={form} locale={locale} readOnly={readOnly} />
-          </TabPane>
-          {
-            !isTemplate &&
-            <TabPane tab={'Digital Version'} key="digital_version" forceRender={true}>
-              <DigitalVersionTab form={form} initialValues={initialValues} locale={locale} readOnly={readOnly} />
-            </TabPane>
-          }
-        </Tabs>
+        <Tabs defaultActiveKey="basic" items={getItems()} />
       </Col>
     </React.Fragment>
   )

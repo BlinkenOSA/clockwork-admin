@@ -15,7 +15,7 @@ export default function FindingAidsSeriesSelect() {
       <Head>
         <title>AMS - Archival Management System - Finding Aids / Select Archival Unit</title>
       </Head>
-      <Breadcrumbs module={'finding-aids'} breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'finding-aids/archival-unit-select'} breadcrumbData={breadcrumbData} />
       <ArchivalUnitSelectForm />
     </AppLayout>
   )
