@@ -1,15 +1,20 @@
-import {Button, Card, Col, Form, Input, notification, Row} from "antd";
+import {Button, Col, Form, Input, Row} from "antd";
 import style from "./Forms.module.css";
 import React, {useState} from "react";
 import FormRemoteSelect from "./components/FormRemoteSelect";
 import {useData} from "../../utils/hooks/useData";
 import {post} from "../../utils/api";
+import {useUpdateEffect} from "react-use";
 
 export const ContainerCreateForm = ({seriesID, containerListRefresh}) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
   const {data, refresh} = useData(seriesID ? `/v1/container/precreate/${seriesID}/` : undefined);
+
+  useUpdateEffect(() => {
+    form.setFieldValue('container_no', data['container_no'])
+  }, [data])
 
   const validateMessages = {
     required: 'This field is required!'

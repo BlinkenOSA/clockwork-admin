@@ -1,5 +1,5 @@
 .Table {
-    margin-bottom: -12px;
+    margin-bottom: 0;
 }
 
 .ActionColumn {
@@ -53,8 +53,8 @@
 }
 
 .FindingAidsTable {
-    margin-left: 14px;
-    margin-bottom: -10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 
     .PublishColumn {
         border-right: none !important;
@@ -62,6 +62,11 @@
 
     :global .ant-table-tbody td {
         border-bottom: 1px solid #f0f0f0 !important;
+    }
+
+    :global .ant-table-pagination.ant-pagination {
+        margin-top: 16px !important;
+        margin-bottom: -10px !important;
     }
 }
 

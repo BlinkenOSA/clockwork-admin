@@ -33,3 +33,8 @@ body {
 .ant-input-disabled {
     color: #333 !important;
 }
+
+.ant-table-pagination.ant-pagination {
+    margin-top: 16px !important;
+    margin-bottom: 4px !important;
+}

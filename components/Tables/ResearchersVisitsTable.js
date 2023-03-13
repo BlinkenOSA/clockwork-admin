@@ -105,7 +105,7 @@ const ResearchersTable = ({...props}) => {
   return (
     <React.Fragment>
       <Collapse isOpen={createFormOpen}>
-        <Card size="small" style={{marginBottom: '10px'}} title={'New Researcher Visit'}>
+        <Card size="small" style={{marginBottom: '10px'}} bodyStyle={{paddingBottom: 0}} title={'New Researcher Visit'}>
           <ResearchersVisitsForm refresh={refresh}/>
         </Card>
       </Collapse>

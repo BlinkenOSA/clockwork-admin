@@ -116,21 +116,24 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
       }
     };
 
-    return (
-      <Button.Group>
-        {renderContainerPublishButton()}
-        {record.total_number !== 0 &&
-        <Button
-          size="small"
-          disabled
-          className={style.PublishInfo}
-          loading={publishing}
-        >
-          { record.total_number } / { record.total_published_number }
-        </Button>
-        }
-      </Button.Group>
-    )
+    if (record.total_number !== 0) {
+      return (
+        <Button.Group>
+          {renderContainerPublishButton()}
+          <Button
+            size="small"
+            disabled
+            className={style.PublishInfo}
+            loading={publishing}
+          >
+            { record.total_number } / { record.total_published_number }
+          </Button>
+        </Button.Group>
+      )
+    } else {
+      return ''
+    }
+
   };
 
   const columns = [
