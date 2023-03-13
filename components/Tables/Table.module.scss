@@ -60,13 +60,18 @@
         border-right: none !important;
     }
 
-    :global .ant-table-tbody td {
-        border-bottom: 1px solid #f0f0f0 !important;
-    }
-
     :global .ant-table-pagination.ant-pagination {
         margin-top: 16px !important;
         margin-bottom: -10px !important;
+    }
+
+    :global tbody.ant-table-tbody tr.ant-table-placeholder td.ant-table-cell {
+        border-inline-end: 0 !important;
+    }
+
+    :global .ant-table-footer {
+        border-top: 1px solid rgba(5, 5, 5, 0.06) !important;
+        border-right: 0 !important;
     }
 }
 

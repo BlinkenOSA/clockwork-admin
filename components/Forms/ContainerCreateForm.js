@@ -6,7 +6,7 @@ import {useData} from "../../utils/hooks/useData";
 import {post} from "../../utils/api";
 import {useUpdateEffect} from "react-use";
 
-export const ContainerCreateForm = ({seriesID, containerListRefresh}) => {
+export const ContainerCreateForm = ({seriesID, containerListRefresh, deletedContainer}) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
@@ -15,6 +15,10 @@ export const ContainerCreateForm = ({seriesID, containerListRefresh}) => {
   useUpdateEffect(() => {
     form.setFieldValue('container_no', data['container_no'])
   }, [data])
+
+  useUpdateEffect(() => {
+    refresh()
+  }, [deletedContainer])
 
   const validateMessages = {
     required: 'This field is required!'

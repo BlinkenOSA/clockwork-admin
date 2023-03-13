@@ -38,6 +38,8 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [deletedContainer, setDeletedContainer] = useState(undefined);
+
   const templateData = useData(seriesID ? `/v1/finding_aids/templates/select/${seriesID}/` : undefined);
 
   useEffect(() => {
@@ -217,6 +219,7 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
           handleDelete(data.length);
           deleteAlert();
           refresh();
+          setDeletedContainer(id);
         })
       }
     });
@@ -299,7 +302,7 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
     <React.Fragment>
       <Collapse isOpen={createFormOpen}>
         <Card size="small" style={{marginBottom: '10px'}} title={'Create Containers'}>
-          <ContainerCreateForm seriesID={seriesID} containerListRefresh={refresh}/>
+          <ContainerCreateForm seriesID={seriesID} containerListRefresh={refresh} deletedContainer={deletedContainer}/>
         </Card>
       </Collapse>
       <Card size="small" style={{marginBottom: '10px'}}>
