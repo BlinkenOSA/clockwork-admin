@@ -48,14 +48,6 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     return (
       <React.Fragment>
         <Button.Group>
-          <Tooltip key={'clone'} title={'Clone'}>
-            <Button
-              size="small"
-              icon={<CopyOutlined />}
-              style={{marginRight: '5px'}}
-              onClick={() => onClone(record.id)}
-            />
-          </Tooltip>
           <Tooltip key={'quick_edit'} title={'Quick Edit'}>
             <Button size="small" icon={<FormOutlined/>} onClick={() => onQuickEdit(record.id)} />
           </Tooltip>
@@ -82,6 +74,14 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
               </Tooltip>
             </a>
           }
+          <Tooltip key={'clone'} title={'Clone'}>
+            <Button
+              size="small"
+              icon={<CopyOutlined />}
+              style={{marginLeft: '5px'}}
+              onClick={() => onClone(record.id)}
+            />
+          </Tooltip>
         </Button.Group>
       </React.Fragment>
     )
@@ -262,8 +262,15 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     });
   };
 
+  const onQuickCreate = () => {
+    setSelectedRecord(undefined);
+    setAction('create')
+    setDrawerShown(true);
+  };
+
   const onQuickEdit = (id) => {
     setSelectedRecord(id);
+    setAction('edit')
     setDrawerShown(true);
   };
 
