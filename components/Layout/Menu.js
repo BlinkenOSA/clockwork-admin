@@ -1,7 +1,7 @@
 import {Menu} from "antd";
 import React, {useContext} from "react";
 import config from './config/config-menu';
-import style from "./Menu.module.css";
+import style from "./Menu.module.scss";
 import {useRouter} from "next/router";
 import {UserContext} from "../../utils/context/UserContext";
 
@@ -91,7 +91,9 @@ const AppMenu = ({collapsed}) => {
   return (
     <React.Fragment>
       <div className={style.Logo}>
+        <a href={'/'}>
         {collapsed ? <React.Fragment><b>C</b>WK</React.Fragment> : <React.Fragment><b>Clock</b>Work AMS</React.Fragment>}
+        </a>
       </div>
       <Menu
         theme="dark"
