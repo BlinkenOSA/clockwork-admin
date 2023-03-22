@@ -47,6 +47,11 @@ const AppMenu = ({collapsed}) => {
       returnItem = true
     }
 
+    /* Check if menu should be displayed to everyone */
+    if (group.includes('__ALL__')) {
+      returnItem = true
+    }
+
     /* Check if user in the allowed group */
     const contains = user['groups'].some(element => {
       return group.includes(element);
