@@ -51,7 +51,7 @@ const configMenu = [
     ]},
   ]},
   {name: 'MLR', icon: <BsInboxes/>, module: 'mlr', group: ['MLR'], link: '/mlr'},
-  {name: 'Digitization Log', icon: <MdOutlineScanner/>, module: 'digitization', group: ['Digitization'], link: '/digitization'},
+  {name: 'Digitization Log', icon: <MdOutlineScanner/>, module: 'digitization', group: ['__ALL__'], link: '/digitization'},
   {name: 'Researchers Database', icon: <IoSchoolOutline/>, module: 'researcher', group: ['Research'], submenu: [
       {name: 'Researchers', icon: <IdcardOutlined />, group: ['Research'], link: '/researchers-db/researchers'},
       {name: 'Researcher Visits', icon: <HiOutlineLibrary />, group: ['Research'], link: '/researchers-db/visits'},
