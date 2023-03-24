@@ -385,7 +385,7 @@ const Tab05 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Physical characteristics and technical requirements - Original language')}
+          label={renderLabelFlag(locale, '3.4.4 Physical characteristics and technical requirements - Original language')}
           name="physical_characteristics_original"
           style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={100} />

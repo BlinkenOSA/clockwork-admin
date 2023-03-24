@@ -1,6 +1,7 @@
 import React from "react";
 
 const configHelp = {
+  'dashbaord': 'http://manual.osaarchivum.org/dashboard',
   'accessions': 'http://manual.osaarchivum.org/accession-records-1',
   'donors': 'http://manual.osaarchivum.org/donors',
   'archival-units': 'http://manual.osaarchivum.org/archival-unit',
