@@ -4,7 +4,7 @@ import {CloseOutlined, PlusOutlined} from '@ant-design/icons';
 
 export const Creators = ({disabled}) => (
   <React.Fragment>
-    <div className={'ant-form-item-label'}>Creators</div>
+    <div className={'ant-form-item-label'}>3.2.1 Creators</div>
     <Form.List name={'creators'}>
       {(fields, { add, remove }) => {
         return (

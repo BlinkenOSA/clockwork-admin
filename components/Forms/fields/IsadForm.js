@@ -30,18 +30,18 @@ const Tab01 = ({form, readOnly}) => (
       <Input hidden={true}/>
     </Form.Item>
     <Col xs={4}>
-      <Form.Item label="Reference code" name="reference_code" required rules={[{ required: true }]}>
+      <Form.Item label="3.1.1 Reference code" name="reference_code" required rules={[{ required: true }]}>
         <Input disabled={true}/>
       </Form.Item>
     </Col>
     <Col xs={20}>
-      <Form.Item label="Title" name="title" required rules={[{ required: true }]}>
+      <Form.Item label="3.1.2 Title" name="title" required rules={[{ required: true }]}>
         <Input disabled={true}/>
       </Form.Item>
     </Col>
     <Col xs={4}>
       <Form.Item
-        label="Date (From)"
+        label="3.1.3 Date (from)"
         name="year_from"
         required
         rules={[{ required: true }]}
@@ -52,7 +52,7 @@ const Tab01 = ({form, readOnly}) => (
     </Col>
     <Col xs={4}>
       <Form.Item
-        label="Date (To)"
+        label="3.1.3 Date (to)"
         name="year_to"
         extra={'Date format: YYYY'}
       >
@@ -60,7 +60,7 @@ const Tab01 = ({form, readOnly}) => (
       </Form.Item>
     </Col>
     <Col xs={8}>
-      <Form.Item label="Description level" name="description_level" required rules={[{ required: true }]}>
+      <Form.Item label="3.1.4 Level of description" name="description_level" required rules={[{ required: true }]}>
         <FormSelect
           data={LEVELS}
           valueField={'id'}
@@ -84,7 +84,7 @@ const Tab01 = ({form, readOnly}) => (
       <Creators disabled={readOnly} />
     </Col>
     <Col xs={12}>
-      <Form.Item label="ISAAR" name="isaar">
+      <Form.Item label="3.2.1 Creator (ISAAR)" name="isaar">
         <FormRemoteSelectWithEdit
           fieldName={'isaar'}
           form={form}
@@ -97,7 +97,7 @@ const Tab01 = ({form, readOnly}) => (
           disabled={readOnly}
         />
       </Form.Item>
-      <Form.Item label="Language" name="language">
+      <Form.Item label="3.4.3 Language / scripts of material" name="language">
         <FormRemoteSelect
           valueField={'id'}
           labelField={'language'}
@@ -108,7 +108,7 @@ const Tab01 = ({form, readOnly}) => (
       </Form.Item>
     </Col>
     <Col xs={12}>
-      <Form.Item label="Access Rights" name="access_rights">
+      <Form.Item label="3.4.1 Access rights" name="access_rights">
         <FormRemoteSelect
           valueField={'id'}
           labelField={'statement'}
@@ -118,7 +118,7 @@ const Tab01 = ({form, readOnly}) => (
       </Form.Item>
     </Col>
     <Col xs={12}>
-      <Form.Item label="Reproduction rights" name="reproduction_rights">
+      <Form.Item label="3.4.2 Reproduction rights" name="reproduction_rights">
         <FormRemoteSelect
           valueField={'id'}
           labelField={'statement'}
@@ -138,7 +138,7 @@ const Tab01 = ({form, readOnly}) => (
       </Form.Item>
     </Col>
     <Col xs={12}>
-      <Form.Item label="Accruals" name="accruals">
+      <Form.Item label="3.3.3 Accruals" name="accruals">
         <FormSelect
           data={ACCRUALS}
           valueField={'id'}
@@ -164,7 +164,7 @@ const Tab02 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={24}>
-        <Form.Item label={`Predominant date`} name="predominant_date">
+        <Form.Item label={`3.1.3 Predominant date`} name="predominant_date">
           <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
@@ -172,7 +172,7 @@ const Tab02 = ({form, locale, readOnly}) => {
         <Extents disabled={readOnly} />
       </Col>
       <Col xs={12}>
-        <Form.Item label="Estimated Amount of Carriers" name="carrier_estimated" style={{marginBottom: 0}}>
+        <Form.Item label="Estimated amount of carriers" name="carrier_estimated" style={{marginBottom: 0}}>
           <Input.TextArea rows={3} disabled={readOnly}/>
         </Form.Item>
         <FormTranslateButton
@@ -184,7 +184,7 @@ const Tab02 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Estimated Amount of Carriers - Original Language')}
+          label={renderLabelFlag(locale, 'Estimated amount of carriers - Original language')}
           name="carrier_estimated_original"
           style={{marginBottom: 0}}>
           <Input.TextArea rows={3} disabled={readOnly}/>
@@ -204,7 +204,7 @@ const Tab03 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={12}>
-        <Form.Item label={`Administrative history`} name="administrative_history" style={{marginBottom: 0}}>
+        <Form.Item label={`3.2.2 Administrative / Biographical history`} name="administrative_history" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
         <FormTranslateButton
@@ -216,7 +216,7 @@ const Tab03 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Administrative History - Original Language')}
+          label={renderLabelFlag(locale, '3.2.2 Administrative history - Original language')}
           name="administrative_history_original"
           style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
@@ -229,7 +229,7 @@ const Tab03 = ({form, locale, readOnly}) => {
           disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Archival history`} name="archival_history" style={{marginBottom: 0}}>
+        <Form.Item label={`3.2.3 Archival history`} name="archival_history" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
         <FormTranslateButton
@@ -241,7 +241,7 @@ const Tab03 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Archival History - Original Language')}
+          label={renderLabelFlag(locale, '3.2.3 Archival history - Original language')}
           name="archival_history_original"
           style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
@@ -261,7 +261,7 @@ const Tab04 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={12}>
-        <Form.Item label={`Scope and Content (Abstract)`} name="scope_and_content_abstract" style={{marginBottom: 0}}>
+        <Form.Item label={`3.3.1 Scope and content (abstract)`} name="scope_and_content_abstract" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
         <FormTranslateButton
@@ -273,7 +273,7 @@ const Tab04 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Scope and Content (Abstract) - Original Language')}
+          label={renderLabelFlag(locale, '3.3.1 Scope and content (abstract) - Original Language')}
           name="scope_and_content_abstract_original"
           style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
@@ -286,7 +286,7 @@ const Tab04 = ({form, locale, readOnly}) => {
           disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Scope and Content (Narrative)`} name="scope_and_content_narrative" style={{marginBottom: 0}}>
+        <Form.Item label={`3.3.1 Scope and content (narrative)`} name="scope_and_content_narrative" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
         </Form.Item>
         <FormTranslateButton
@@ -298,7 +298,7 @@ const Tab04 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Scope and Content (Narrative) - Original Language')}
+          label={renderLabelFlag(locale, '3.3.1 Scope and content (narrative) - Original Language')}
           name="scope_and_content_narrative_original"
           style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
@@ -311,7 +311,7 @@ const Tab04 = ({form, locale, readOnly}) => {
           disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Appraisal`} name="appraisal" style={{marginBottom: 0}}>
+        <Form.Item label={`3.3.2 Appraisal`} name="appraisal" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={80} />
         </Form.Item>
         <FormTranslateButton
@@ -323,7 +323,7 @@ const Tab04 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Appraisal - Original Language')}
+          label={renderLabelFlag(locale, '3.3.2 Appraisal - Original language')}
           name="appraisal_original"
           style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={80} />
@@ -336,7 +336,7 @@ const Tab04 = ({form, locale, readOnly}) => {
           disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`System of Arrangement`} name="system_of_arrangement_information" style={{marginBottom: 0}}>
+        <Form.Item label={`3.3.4 System of arrangement information`} name="system_of_arrangement_information" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={80} />
         </Form.Item>
         <FormTranslateButton
@@ -348,7 +348,7 @@ const Tab04 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'System of Arrangement - Original Language')}
+          label={renderLabelFlag(locale, '3.3.4 System of arrangement information - Original language')}
           name="system_of_arrangement_information_original"
           style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={80} />
@@ -373,7 +373,7 @@ const Tab05 = ({form, locale, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Physical characteristics`} name="physical_characteristics" style={{marginBottom: 0}}>
+        <Form.Item label={`3.4.4 Physical characteristics and technical requirements`} name="physical_characteristics" style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={100} />
         </Form.Item>
         <FormTranslateButton
@@ -385,7 +385,7 @@ const Tab05 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Physical characteristics - Original Language')}
+          label={renderLabelFlag(locale, 'Physical characteristics and technical requirements - Original language')}
           name="physical_characteristics_original"
           style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={100} />
@@ -414,7 +414,7 @@ const Tab06 = ({form, locale, readOnly}) => {
         <LocationOfCopies disabled={readOnly} />
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Publication Note`} name="publication_note" style={{marginBottom: 0}}>
+        <Form.Item label={`3.5.4 Publication note`} name="publication_note" style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
         <FormTranslateButton
@@ -426,7 +426,7 @@ const Tab06 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Publication Note - Original Language')}
+          label={renderLabelFlag(locale, '3.5.4 Publication note - Original Language')}
           name="publication_note_original"
           style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
@@ -446,7 +446,7 @@ const Tab07 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={12}>
-        <Form.Item label={`Note`} name="note" style={{marginBottom: 0}}>
+        <Form.Item label={`3.6.1 Note`} name="note" style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
         <FormTranslateButton
@@ -458,7 +458,7 @@ const Tab07 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Note - Original Language')}
+          label={renderLabelFlag(locale, '3.6.1 Note - Original language')}
           name="note_original"
           style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
@@ -471,7 +471,7 @@ const Tab07 = ({form, locale, readOnly}) => {
           disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Internal Note`} name="internal_note" style={{marginBottom: 0}}>
+        <Form.Item label={`Internal note`} name="internal_note" style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
         <FormTranslateButton
@@ -483,7 +483,7 @@ const Tab07 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Internal Note - Original Language')}
+          label={renderLabelFlag(locale, 'Internal note - Original language')}
           name="internal_note_original"
           style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
@@ -496,7 +496,7 @@ const Tab07 = ({form, locale, readOnly}) => {
           disabled={readOnly}/>
       </Col>
       <Col xs={12}>
-        <Form.Item label={`Archivists note`} name="archivists_note" style={{marginBottom: 0}}>
+        <Form.Item label={`3.7.1 Archivists note`} name="archivists_note" style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
         <FormTranslateButton
@@ -508,7 +508,7 @@ const Tab07 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item
-          label={renderLabelFlag(locale, 'Archivists note - Original Language')}
+          label={renderLabelFlag(locale, '3.7.1 Archivists note - Original language')}
           name="archivists_original"
           style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
@@ -521,7 +521,7 @@ const Tab07 = ({form, locale, readOnly}) => {
           disabled={readOnly}/>
       </Col>
       <Col xs={24}>
-        <Form.Item label={`Rules and Conventions`} name="rules_and_conventions">
+        <Form.Item label={`3.7.2 Rules and conventions`} name="rules_and_conventions">
           <Input.TextArea rows={3} disabled={readOnly}/>
         </Form.Item>
       </Col>
