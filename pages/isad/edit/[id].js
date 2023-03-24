@@ -42,7 +42,7 @@ export default function IsadEdit() {
       {
         data ?
         <SimpleForm
-          api={`/v1/isad/`}
+          api={`/v1/isad/${id}`}
           module={'isad'}
           type={'edit'}
           onActiveTabChange={onActiveTabChange}

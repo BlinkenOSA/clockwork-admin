@@ -42,7 +42,7 @@ export default function IsadView() {
       {
         data ?
         <SimpleForm
-          api={'/v1/isad/'}
+          api={`/v1/isad/${id}`}
           module={'isad'}
           type={'view'}
           initialValues={data ? fillManyFields(data, manyFieldList) : undefined}
