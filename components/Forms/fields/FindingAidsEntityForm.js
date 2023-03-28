@@ -14,7 +14,6 @@ import {AdditionalPlaces} from "./finding_aids/AdditionalPlaces";
 import {FormRemoteSelectWithEdit} from "../components/FormRemoteSelectWithEdit";
 import FormTranslateButton from "../components/FormTranslateButton";
 import DigitalVersionTab from "./finding_aids/DigitalVersionTab";
-import {renderTabTitle} from "../../../utils/functions/renderTabTitle";
 
 const {TabPane} = Tabs;
 

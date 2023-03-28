@@ -1,11 +1,27 @@
-import {Badge, Checkbox, Col, Form, Input, Row} from "antd";
-import React from "react";
+import {Badge, Checkbox, Col, Divider, Form, Input, Row, Switch} from "antd";
+import React, {useEffect} from "react";
+import ResearchCloudLink from "./ResearchCloudLink";
 
 const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
-  const digital_version_exists = Form.useWatch('digital_version_exists', form);
-  const archival_reference_code = Form.useWatch('archival_reference_code', form);
+  const digitalVersionExists = Form.useWatch('digital_version_exists', form);
+  const archivalReferenceCode = Form.useWatch('archival_reference_code', form);
 
   const {digital_version_exists_container} = initialValues
+
+  useEffect(() => {
+    if (!digitalVersionExists) {
+      form.setFieldValue("digital_version_research_cloud", false)
+      form.setFieldValue("digital_version_online", false)
+    }
+  }, [digitalVersionExists])
+
+  const getDisabled = () => {
+    if (readOnly) {
+      return true
+    } else {
+      return !digitalVersionExists
+    }
+  }
 
   const renderContainerDigitalVersion = () => {
     const {digital_version} = digital_version_exists_container
@@ -19,7 +35,9 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
             } />
           </div>
         )
-      } else {
+      }
+
+      if (digital_version_exists_container['digital_version_research_cloud']) {
         return (
           <div>
             <Badge count={'Available on Research Cloud'} style={
@@ -28,6 +46,15 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
           </div>
         )
       }
+
+      return (
+        <div>
+          <Badge count={'Digitized'} style={
+            { backgroundColor: '#223f00', borderRadius: '3px', fontSize: '0.8em', marginTop: '8px' }
+          } />
+        </div>
+      )
+
     } else {
       return (
         <div>
@@ -43,13 +70,13 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
     const {digital_version} = digital_version_exists_container
 
     const renderContainerLevelIdentifier = () => {
-      return archival_reference_code;
+      return archivalReferenceCode;
     }
 
     const renderFolderItemLevelIdentifier = () => {
-      let unit = archival_reference_code.split(':')[0]
-      let container = archival_reference_code.replace(unit, '').split('/')[0]
-      let folder = archival_reference_code.replace(unit, '').split('/')[1]
+      let unit = archivalReferenceCode.split(':')[0]
+      let container = archivalReferenceCode.replace(unit, '').split('/')[0]
+      let folder = archivalReferenceCode.replace(unit, '').split('/')[1]
 
       container = container.replace(":", "").padStart(3, "0")
       folder = folder.padStart(3, "0")
@@ -57,7 +84,7 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
       return `${unit.replace(" ", "_")}_${container}_${folder}`;
     }
 
-    if (digital_version_exists) {
+    if (digitalVersionExists) {
       return renderFolderItemLevelIdentifier()
     } else {
       if (digital_version) {
@@ -73,27 +100,47 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
   }
 
   return (
-    <Row gutter={[12]}>
-      <Col xs={4}>
-        <label>Digital Version (Container Level)</label>
-        {renderContainerDigitalVersion()}
-
-      </Col>
-      <Col xs={8}>
-        <label>Digital Version Identifier</label>
-        <Input value={renderDigitalVersionIdentifier()} disabled={true} />
-      </Col>
-      <Col xs={4}>
-        <Form.Item label="Digital Version Exists" name="digital_version_exists" valuePropName={'checked'}>
-          <Checkbox style={{marginLeft: '20px'}} disabled={readOnly}/>
-        </Form.Item>
-      </Col>
-      <Col xs={4}>
-        <Form.Item label="Digital Version Online" name="digital_version_online" valuePropName={'checked'}>
-          <Checkbox style={{marginLeft: '20px'}} disabled={readOnly}/>
-        </Form.Item>
-      </Col>
-    </Row>
+    <React.Fragment>
+      <Row gutter={12} style={{
+        backgroundColor: '#f5f5f5',
+        padding: '10px 0px',
+      }}>
+        <Col xs={8}>
+          <label>Digital Version Identifier</label>
+          <Input value={renderDigitalVersionIdentifier()} disabled={true} />
+        </Col>
+        <Col xs={8}>
+          <label>Digital Version (Container Level)</label>
+          {renderContainerDigitalVersion()}
+        </Col>
+        <Col xs={8}>
+          <ResearchCloudLink
+            referenceCode={archivalReferenceCode}
+            identifier={renderDigitalVersionIdentifier()}
+          />
+        </Col>
+      </Row>
+      <Row gutter={12}>
+        <Col xs={24}>
+          <Divider />
+        </Col>
+        <Col xs={8}>
+          <Form.Item label="Digital Version (Folder / Item level)" name="digital_version_exists" valuePropName={'checked'}>
+            <Switch checkedChildren={'Yes'} unCheckedChildren={'No'} disabled={readOnly}/>
+          </Form.Item>
+        </Col>
+        <Col xs={8}>
+          <Form.Item label="Digital Version in Research Cloud" name="digital_version_research_cloud" valuePropName={'checked'}>
+            <Switch checkedChildren={'Yes'} unCheckedChildren={'No'} disabled={getDisabled()}/>
+          </Form.Item>
+        </Col>
+        <Col xs={8}>
+          <Form.Item label="Digital Version Online" name="digital_version_online" valuePropName={'checked'}>
+            <Switch checkedChildren={'Yes'} unCheckedChildren={'No'} disabled={getDisabled()}/>
+          </Form.Item>
+        </Col>
+      </Row>
+    </React.Fragment>
   )
 }
 
