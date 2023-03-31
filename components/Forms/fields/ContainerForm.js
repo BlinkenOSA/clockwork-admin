@@ -1,9 +1,12 @@
 import React, {useEffect} from 'react';
-import {Form, Col, Input, Checkbox, Divider, Switch} from "antd";
+import {Form, Col, Input, Checkbox, Divider, Switch, Button} from "antd";
 import FormRemoteSelect from "../components/FormRemoteSelect";
+import ResearchCloudLink from "./finding_aids/ResearchCloudLink";
 
 export const ContainerForm = ({form, readOnly}) => {
   const digitalVersionExists = Form.useWatch('digital_version_exists', form);
+  const digitalVersionResearchCloud = Form.useWatch('digital_version_research_cloud', form)
+  const digitalVersionResearchCloudPath = Form.useWatch('digital_version_research_cloud_path', form)
 
   useEffect(() => {
     if (!digitalVersionExists) {
@@ -19,6 +22,8 @@ export const ContainerForm = ({form, readOnly}) => {
       return !digitalVersionExists
     }
   }
+
+
 
   return (
     <React.Fragment>
@@ -62,7 +67,20 @@ export const ContainerForm = ({form, readOnly}) => {
           <Switch checkedChildren={'Yes'} unCheckedChildren={'No'} disabled={getDisabled()} />
         </Form.Item>
       </Col>
-      <Col xs={24}>
+      {
+        digitalVersionResearchCloud &&
+        <React.Fragment>
+          <Col xs={20}>
+            <Form.Item label="Digital Version Research Cloud URL" name="digital_version_research_cloud_path">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col xs={4}>
+            <ResearchCloudLink path={digitalVersionResearchCloudPath}/>
+          </Col>
+        </React.Fragment>
+      }
+      <Col xs={8}>
         <Form.Item label="Digital Version Creation Date" name="digital_version_creation_date">
           <Input disabled={true} />
         </Form.Item>

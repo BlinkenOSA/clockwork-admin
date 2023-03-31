@@ -1,14 +1,24 @@
 import {Button} from "antd";
 
-const ResearchCloudLink = ({referenceCode, identifier}) => {
-  const url = 'https://ceuedu.sharepoint.com/sites/osa-researchcloud/Shared Documents/Forms/AllItems.aspx?' +
-    'id=/sites/osa-researchcloud/Shared Documents/'
+const ResearchCloudLink = ({path, buttonText='Open'}) => {
+  const getLink = () => {
+    const getParentPath = () => {
+      if (path) {
+        return path.slice(0, path.lastIndexOf("/"))
+      } else {
+        return ''
+      }
+    }
 
-  console.log(referenceCode)
+    const basePath = 'sites/osa-researchcloud/Shared Documents'
+    const url = `https://ceuedu.sharepoint.com/${basePath}/Forms/AllItems.aspx?id=/${basePath}/${path}&parent=${basePath}/${getParentPath()}`
+
+    return encodeURI(url)
+  }
 
   return (
-    <a href={encodeURI(url)} target={'_blank'}>
-      <Button style={{marginTop: '22px'}}>Open in Research Cloud</Button>
+    <a href={getLink()} target={'_blank'}>
+      <Button style={{marginTop: '24px', width: '100%'}}>{buttonText}</Button>
     </a>
   )
 }

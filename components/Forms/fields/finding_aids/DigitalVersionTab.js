@@ -68,9 +68,18 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
 
   const renderDigitalVersionIdentifier = () => {
     const {digital_version} = digital_version_exists_container
+    const {digital_version_barcode} = digital_version_exists_container
 
     const renderContainerLevelIdentifier = () => {
-      return archivalReferenceCode;
+      if (archivalReferenceCode) {
+        let unit = archivalReferenceCode.split(':')[0]
+        let container = archivalReferenceCode.replace(unit, '').split('/')[0]
+        container = container.replace(":", "").padStart(3, "0")
+
+        return `${unit.replace(" ", "_")}_${container}`;
+      } else {
+        return ''
+      }
     }
 
     const renderFolderItemLevelIdentifier = () => {
@@ -88,8 +97,8 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
       return renderFolderItemLevelIdentifier()
     } else {
       if (digital_version) {
-        if (digital_version_exists_container['digital_version_barcode']) {
-          return digital_version_exists_container['digital_version_barcode']
+        if (digital_version_barcode) {
+          return digital_version_barcode
         } else {
           return renderContainerLevelIdentifier()
         }
@@ -113,12 +122,15 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
           <label>Digital Version (Container Level)</label>
           {renderContainerDigitalVersion()}
         </Col>
-        <Col xs={8}>
-          <ResearchCloudLink
-            referenceCode={archivalReferenceCode}
-            identifier={renderDigitalVersionIdentifier()}
-          />
-        </Col>
+        {
+          digital_version_exists_container['digital_version_research_cloud'] &&
+          <Col xs={8}>
+            <ResearchCloudLink
+              path={digital_version_exists_container['digital_version_research_cloud_path']}
+              buttonText={'Open in Research Cloud'}
+            />
+          </Col>
+        }
       </Row>
       <Row gutter={12}>
         <Col xs={24}>
