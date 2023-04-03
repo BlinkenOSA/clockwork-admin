@@ -15,8 +15,6 @@ import {FormRemoteSelectWithEdit} from "../components/FormRemoteSelectWithEdit";
 import FormTranslateButton from "../components/FormTranslateButton";
 import DigitalVersionTab from "./finding_aids/DigitalVersionTab";
 
-const {TabPane} = Tabs;
-
 const L1_LEVELS = [
   { id: 'F', level: 'Folders'},
   { id: 'I', level: 'Items'},
