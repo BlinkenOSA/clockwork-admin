@@ -388,7 +388,7 @@ const Tab02 = ({form, locale, readOnly}) => (
       </Form.Item>
     </Col>
     <Col xs={4}>
-      <Form.Item label={`Time End`} name="time_start" extra={'Format: hh:mm:ss'}>
+      <Form.Item label={`Time End`} name="time_end" extra={'Format: hh:mm:ss'}>
         <Input disabled={readOnly} />
       </Form.Item>
     </Col>
