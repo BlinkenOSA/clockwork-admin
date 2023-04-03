@@ -27,6 +27,7 @@ import {MLRForm} from "./fields/MLRForm";
 import {DigitizationForm} from "./fields/DigitizationForm";
 import {RequestsForm} from "./fields/RequestsForm";
 import {RequestItemForm} from "./fields/RequestsItemForm";
+import {NationalityForm} from "./fields/NationalityForm";
 
 export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
   const afterFinish = () => {
@@ -88,6 +89,8 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
         return <RoleForm form={form} />;
       case 'corporation_role':
         return <RoleForm form={form} />;
+      case 'nationality':
+        return <NationalityForm form={form} />;
       case 'geo_role':
         return <RoleForm form={form} />;
       case 'finding-aids-quick-edit':

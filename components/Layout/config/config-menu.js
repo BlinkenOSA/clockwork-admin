@@ -44,6 +44,7 @@ const configMenu = [
       {name: 'Geo Roles', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/geo-roles'},
       {name: 'Keyword', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/keywords'},
       {name: 'Language Usages', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/language-usages'},
+      {name: 'Nationalities', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/nationalities'},
       {name: 'Person Roles', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/person-roles'},
       {name: 'Primary Types', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/primary-types'},
       {name: 'Reproduction Rights', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/reproduction-rights'},
