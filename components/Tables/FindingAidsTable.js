@@ -204,6 +204,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       onOk() {
         post(`/v1/finding_aids/clone/${id}/`).then(() => {
           refresh();
+          containerListRefresh();
         })
       }
     });
