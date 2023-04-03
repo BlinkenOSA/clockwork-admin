@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AppLayout from "../../../../components/Layout/Layout";
 import Head from "next/head";
 import Breadcrumbs from "../../../../components/Layout/Breadcrumbs";
@@ -40,7 +40,8 @@ export default function FindingAidsTemplateCreate() {
           <FindingAidsTemplateForm
             seriesID={series}
             type={'create'}
-            initialValues={data ? fillManyFields(data, manyFieldList) : undefined} /> : ''
+            initialValues={data ? fillManyFields(data, manyFieldList) : undefined}
+          /> : ''
       }
     </AppLayout>
   )
