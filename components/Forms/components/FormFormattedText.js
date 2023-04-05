@@ -9,7 +9,8 @@ export const FormFormattedText = ({value, disabled=false, initialValue, ...props
       ['bold', 'underline', 'italic'],
       ['list', 'link'],
       ['outdent', 'indent'],
-      ['undo', 'redo']
+      ['undo', 'redo'],
+      ['removeFormat']
     ],
     defaultStyle: 'font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; ' +
       'font-size: 14px; color: #5c6873;',
