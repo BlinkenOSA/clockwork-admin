@@ -33,6 +33,22 @@ export default function DigitizationLogList() {
       sorter: true,
       render: renderDigitalVersion
     }, {
+      title: 'Research Cloud',
+      dataIndex: 'digital_version_research_cloud',
+      key: 'digital_version_research_cloud',
+      width: 150,
+      className: 'centerColumn',
+      sorter: true,
+      render: renderDigitalVersion
+    }, {
+      title: 'Online',
+      dataIndex: 'digital_version_online',
+      key: 'digital_version_online',
+      width: 150,
+      className: 'centerColumn',
+      sorter: true,
+      render: renderDigitalVersion
+    }, {
       title: 'Creation Date',
       dataIndex: 'digital_version_creation_date',
       key: 'digital_version_creation_date',
@@ -66,7 +82,7 @@ export default function DigitizationLogList() {
           footer={false}
           module={'digitization'}
           label={'Digitization Log'}
-          api={`/v1/digitization/`}
+          api={`/v1/digitization/container/`}
           columns={columns}
           actions={['view']}
         />
