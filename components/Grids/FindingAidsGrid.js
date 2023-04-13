@@ -10,6 +10,7 @@ import { registerAllModules } from 'handsontable/registry';
 
 import {get, patch} from "../../utils/api";
 import FindingAidsGridFilter from "./FindingAidsGridFilter";
+import FindingAidsHideColumns from "./FindingAidsHideColumns";
 
 registerAllModules();
 
@@ -25,16 +26,6 @@ const FindingAidsGrid = ({seriesID}) => {
 
   const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-  const colHeaders = [
-    'Archival Reference Code',
-    'Title', 'Title (Original)',
-    'Locale',
-    'Contents Summary', 'Contents Summary (Original)',
-    'Date (From)', 'Date (To)',
-    'Start Time', 'End Time',
-    'Note', 'Note (Original)'
-  ];
-
   const getLocales = (query, process) => {
     get(`/v1/controlled_list/select/locales`, query ? {search: query} : undefined)
       .then(response => response.data.map(ld => {return ld['id']}))
@@ -42,18 +33,18 @@ const FindingAidsGrid = ({seriesID}) => {
   };
 
   const columns = [
-    {data: 'archival_reference_code', readOnly: true, width: 200},
-    {data: 'title', width: 300},
-    {data: 'title_original', width: 300},
-    {data: 'original_locale', width: 100, type: 'dropdown', source: getLocales},
-    {data: 'contents_summary', width: 300},
-    {data: 'contents_summary_original', width: 300},
-    {data: 'date_from', width: 100},
-    {data: 'date_to', width: 100},
-    {data: 'time_start', width: 100},
-    {data: 'time_end', width: 100},
-    {data: 'note', width: 200},
-    {data: 'note_original', width: 200},
+    {data: 'archival_reference_code', label: 'Archival Reference Code', readOnly: true, width: 200},
+    {data: 'title', label: 'Title', width: 300},
+    {data: 'title_original', label: 'Title (Original)', width: 300},
+    {data: 'original_locale', label: 'Locale', width: 100, type: 'dropdown', source: getLocales},
+    {data: 'contents_summary', label: 'Contents Summary', width: 300},
+    {data: 'contents_summary_original', label: 'Contents Summary (Original)', width: 300},
+    {data: 'date_from', label: 'Date (From)', width: 100},
+    {data: 'date_to', label: 'Date (To)', width: 100},
+    {data: 'time_start', label: 'Start Time', width: 100},
+    {data: 'time_end', label: 'End Time', width: 100},
+    {data: 'note', label: 'Note', width: 200},
+    {data: 'note_original', label: 'Note (Original)', width: 200},
   ];
 
   const afterChange = (changes, source) => {
@@ -188,9 +179,9 @@ const FindingAidsGrid = ({seriesID}) => {
                 data={data}
                 columns={columns}
                 rowHeaders={false}
-                colHeaders={colHeaders}
+                colHeaders={(index) => columns[index]['label']}
+                manualColumnMove={true}
                 dropdownMenu={['filter_by_condition', 'filter_by_value', 'filter_action_bar']}
-                contextMenu={false}
                 filters={true}
                 licenseKey={'non-commercial-and-evaluation'}
                 minHeight={500}
