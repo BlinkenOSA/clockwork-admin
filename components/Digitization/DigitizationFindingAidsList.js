@@ -52,16 +52,14 @@ export default function DigitizationFindingAidsList() {
   ];
 
   return (
-    <Card size="small" style={{marginBottom: '10px'}}>
-      <PopupTable
-        showFilter={true}
-        footer={false}
-        module={'digitization-finding_aids'}
-        label={'Digitization Log'}
-        api={`/v1/digitization/finding_aids/`}
-        columns={columns}
-        actions={['view']}
-      />
-    </Card>
+    <PopupTable
+      showFilter={true}
+      footer={false}
+      module={'digitization-finding_aids'}
+      label={'Digitization Log'}
+      api={`/v1/digitization/finding_aids/`}
+      columns={columns}
+      actions={['view']}
+    />
   )
 }

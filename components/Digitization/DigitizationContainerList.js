@@ -64,16 +64,14 @@ export default function DigitizationContainerList() {
   ];
 
   return (
-    <Card size="small" style={{marginBottom: '10px'}}>
-      <PopupTable
-        showFilter={true}
-        footer={false}
-        module={'digitization'}
-        label={'Digitization Log'}
-        api={`/v1/digitization/container/`}
-        columns={columns}
-        actions={['view']}
-      />
-    </Card>
+    <PopupTable
+      showFilter={true}
+      footer={false}
+      module={'digitization'}
+      label={'Digitization Log'}
+      api={`/v1/digitization/container/`}
+      columns={columns}
+      actions={['view']}
+    />
   )
 }
