@@ -1,6 +1,6 @@
-import {Button} from "antd";
+import {Badge, Button} from "antd";
 
-const ResearchCloudLink = ({path, buttonText='Open'}) => {
+const ResearchCloudLink = ({path, buttonText='Open', isBadge=false}) => {
   const getLink = () => {
     const getParentPath = () => {
       if (path) {
@@ -16,11 +16,20 @@ const ResearchCloudLink = ({path, buttonText='Open'}) => {
     return encodeURI(url)
   }
 
-  return (
-    <a href={getLink()} target={'_blank'}>
-      <Button style={{marginTop: '24px', width: '100%'}}>{buttonText}</Button>
-    </a>
-  )
+  if (isBadge) {
+    return (
+      <a href={getLink()} target={'_blank'}>
+        <Badge count={buttonText} style={{ backgroundColor: '#376e18', borderRadius: '3px', fontSize: '0.8em' }} />
+      </a>
+    )
+  } else {
+    return (
+      <a href={getLink()} target={'_blank'}>
+        <Button style={{marginTop: '24px', width: '100%'}}>{buttonText}</Button>
+      </a>
+    )
+  }
+
 }
 
 export default ResearchCloudLink;
