@@ -23,12 +23,12 @@ const DigitizationTableFilter = () => {
           </Form.Item>
         </Col>
         <Col xs={6}>
-          <Form.Item name="carrier_type">
+          <Form.Item name="primary_type">
             <FormRemoteSelect
               valueField={'id'}
               labelField={'type'}
-              placeholder={'- Select Carrier Type -'}
-              selectAPI={'/v1/controlled_list/select/carrier_types/'}
+              placeholder={'- Select Primary Type -'}
+              selectAPI={'/v1/controlled_list/select/primary_types/'}
             />
           </Form.Item>
         </Col>
