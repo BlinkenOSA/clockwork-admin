@@ -1,5 +1,5 @@
 import { Button, Card, Col, Modal, notification, Row, Table } from "antd";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   LoadingOutlined,
   CaretUpOutlined, CaretRightOutlined,
@@ -13,7 +13,7 @@ import {put, remove} from "../../utils/api";
 import {deleteAlert} from "./functions/deleteAlert";
 
 const ResearchersTable = ({...props}) => {
-  const { data, loading, refresh, tableState, handleTableChange} = useTable('researcherVisits', `/v1/research/visits`);
+  const { data, loading, refresh, tableState, handleDataChange, handleTableChange} = useTable('researcherVisits', `/v1/research/visits`);
 
   const [createFormOpen, setCreateFormOpen] = useState(true);
 
@@ -50,6 +50,12 @@ const ResearchersTable = ({...props}) => {
       render: (record) => renderCheckOut(record)
     },
   ];
+
+  useEffect(() => {
+    if (data) {
+      handleDataChange(data.count)
+    }
+  }, [data]);
 
   const onCheckOut = (data) => {
     const { confirm } = Modal;
