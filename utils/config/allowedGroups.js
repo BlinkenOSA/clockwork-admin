@@ -10,6 +10,6 @@ export const allowedGroups = {
   '/authority-list': 'Authority Lists',
   '/controlled-list': 'Controlled Lists',
   '/mlr': 'MLR',
-  '/digitzation': '__ALL__',
+  '/digitization': '__ALL__',
   '/researchers-db': 'Research'
 }
