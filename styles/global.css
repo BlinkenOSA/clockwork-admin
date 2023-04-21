@@ -38,3 +38,7 @@ body {
     margin-top: 16px !important;
     margin-bottom: 4px !important;
 }
+
+.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-has-trigger {
+    height: calc(100vh - 48px) !important;
+}
