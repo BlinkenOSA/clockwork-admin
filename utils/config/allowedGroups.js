@@ -1,6 +1,7 @@
 export const allowedGroups = {
   '/': '__ALL__',
   '/dashboard': '__ALL__',
+  '/profile': '__ALL__',
   '/accessions': 'Accessions',
   '/donors': 'Accessions',
   '/archival-units': "Archival Units",
