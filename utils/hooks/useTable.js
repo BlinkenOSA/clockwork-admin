@@ -13,7 +13,7 @@ const PAGINATION_INIT = {
 
 export const useTable = (module, api) => {
   const [ params, setParams ] = useState(undefined);
-  const [ loading, setLoading ] = useState(true);
+  const [ loading, setLoading ] = useState(false);
   const [ data, setData ] = useState([]);
 
   const [ tableState, setTableState ] = useStickyState({
@@ -33,9 +33,10 @@ export const useTable = (module, api) => {
   }, [tableState])
 
   const fetchData = () => {
+    setLoading(true)
     get(api, params).then(response => {
-      setLoading(false);
       setData(response.data)
+      setLoading(false);
     }).catch(error => {
       setData(undefined);
       setLoading(false);
@@ -86,7 +87,7 @@ export const useTable = (module, api) => {
   };
 
   const handleDelete = (dataLength) => {
-    if(dataLength === 1) {
+    if (dataLength === 1) {
       // set pagination
       setTableState(prevTableState => ({
         ...prevTableState,
