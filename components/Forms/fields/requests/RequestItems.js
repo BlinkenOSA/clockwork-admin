@@ -28,6 +28,8 @@ export const RequestItems = ({form}) => {
               return item_type !== 'FA'
             case 'identifier':
               return item_type === 'FA'
+            case 'quantity':
+              return item_type === 'FA'
             case 'title':
               return item_type === 'FA'
             default:
@@ -112,7 +114,7 @@ export const RequestItems = ({form}) => {
                       />
                     </Form.Item>
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={2}>
                     <Form.Item
                       {...field}
                       name={[field.name, 'identifier']}
@@ -124,7 +126,7 @@ export const RequestItems = ({form}) => {
                       />
                     </Form.Item>
                   </Col>
-                  <Col xs={6}>
+                  <Col xs={5}>
                     <Form.Item
                       {...field}
                       name={[field.name, 'title']}
@@ -133,6 +135,18 @@ export const RequestItems = ({form}) => {
                       <Input
                         placeholder={'Title'}
                         disabled={isDisabled('title', idx)}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={3}>
+                    <Form.Item
+                      {...field}
+                      name={[field.name, 'quantity']}
+                      rules={[(form) => checkRequiredIfLibrary(form, [field.name, 'quantity'], true)]}
+                    >
+                      <Input
+                        placeholder={'Quantity'}
+                        disabled={isDisabled('quantity', idx)}
                       />
                     </Form.Item>
                   </Col>
