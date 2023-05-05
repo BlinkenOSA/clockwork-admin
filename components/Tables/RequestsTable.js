@@ -9,13 +9,13 @@ import {
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import moment from "moment";
 import {PopupForm} from "../Forms/PopupForm";
 import _ from 'lodash';
-import Link from "next/link";
+import {AiOutlineLoading} from "react-icons/ai";
+
 
 const ORIGIN = {
   'FA': 'Archival',
@@ -37,7 +37,14 @@ const ResearchersTable = ({...props}) => {
       key: 'request__request_date',
       width: 100,
       render: (data) => renderDate(data) ,
-      sorter: false,
+      sorter: true,
+    }, {
+      title: 'Created at',
+      dataIndex: 'created_date',
+      key: 'request__created_date',
+      width: 100,
+      render: (data) => renderDate(data) ,
+      sorter: true,
     }, {
       title: 'Identifier',
       key: 'archival_reference_number',
@@ -250,7 +257,7 @@ const ResearchersTable = ({...props}) => {
         size={'small'}
         loading={{
           spinning: loading,
-          indicator: <LoadingOutlined/>,
+          indicator: <AiOutlineLoading/>,
         }}
         footer={() => getFooter()}
         pagination={tableState['pagination']}
