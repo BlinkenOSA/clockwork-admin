@@ -47,10 +47,10 @@ const ResearchersTable = ({...props}) => {
       sorter: true,
     }, {
       title: 'Identifier',
-      key: 'archival_reference_number',
+      key: 'ordering',
       width: 130,
       render: (record) => renderIdentifier(record),
-      sorter: false,
+      sorter: true,
     }, {
       title: 'MLR',
       key: 'mlr',
@@ -60,9 +60,9 @@ const ResearchersTable = ({...props}) => {
     }, {
       title: 'Researcher',
       dataIndex: 'researcher',
-      key: 'researcher',
+      key: 'request__researcher__last_name',
       width: 100,
-      sorter: false,
+      sorter: true,
     }, {
       title: 'Origin',
       key: 'item_origin',
@@ -75,6 +75,12 @@ const ResearchersTable = ({...props}) => {
       key: 'carrier_type',
       width: 100,
       sorter: false,
+    }, {
+      title: 'Request Size',
+      dataIndex: 'request_size',
+      key: 'requestitem__count',
+      width: 60,
+      sorter: true,
     }, {
       title: 'Status',
       key: 'status',
