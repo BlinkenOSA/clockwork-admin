@@ -35,14 +35,7 @@ const ResearchersTable = ({...props}) => {
       title: 'Request Date',
       dataIndex: 'request_date',
       key: 'request__request_date',
-      width: 100,
-      render: (data) => renderDate(data) ,
-      sorter: true,
-    }, {
-      title: 'Created at',
-      dataIndex: 'created_date',
-      key: 'request__created_date',
-      width: 100,
+      width: 120,
       render: (data) => renderDate(data) ,
       sorter: true,
     }, {
@@ -54,7 +47,7 @@ const ResearchersTable = ({...props}) => {
     }, {
       title: 'MLR',
       key: 'mlr',
-      width: 150,
+      width: 130,
       render: (record) => renderMLR(record),
       sorter: false,
     }, {
@@ -75,12 +68,6 @@ const ResearchersTable = ({...props}) => {
       key: 'carrier_type',
       width: 100,
       sorter: false,
-    }, {
-      title: 'Request Size',
-      dataIndex: 'request_size',
-      key: 'requestitem__count',
-      width: 60,
-      sorter: true,
     }, {
       title: 'Status',
       key: 'status',

@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import {Form, Col, Row, Select, Button} from "antd";
 import FormRemoteSelect from "../../Forms/components/FormRemoteSelect";
 import FormRadioGroup from "../../Forms/components/FormRadioGroup";
+import FormFilterSearchInput from "./components/FormFilterSearchInput";
+import style from "../TableFilters.module.css";
 
 const ITEM_TYPES = [
   { value: 'FA', label: 'Archival'},
@@ -29,7 +31,16 @@ const RequestsTableFilter = () => {
   return (
     <React.Fragment>
       <Row gutter={10}>
-        <Col span={6}>
+        <Col span={8}>
+          <Form.Item name="search">
+            <FormFilterSearchInput
+              placeholder={'Search...'}
+              allowClear
+              enterButton
+              className={style.Search}/>
+          </Form.Item>
+        </Col>
+        <Col span={8}>
           <Form.Item name="request_date">
             <FormRadioGroup
               options={REQUEST_DATE}
@@ -40,7 +51,9 @@ const RequestsTableFilter = () => {
             />
           </Form.Item>
         </Col>
-        <Col span={6}>
+      </Row>
+      <Row gutter={10}>
+        <Col span={8}>
           <Form.Item name="status">
             <Select
               placeholder={'Filter by Status'}
@@ -49,7 +62,7 @@ const RequestsTableFilter = () => {
             />
           </Form.Item>
         </Col>
-        <Col span={6}>
+        <Col span={8}>
           <Form.Item name="item_origin">
             <Select
               placeholder={'Filter by Item Type'}
@@ -58,7 +71,7 @@ const RequestsTableFilter = () => {
             />
           </Form.Item>
         </Col>
-        <Col span={6}>
+        <Col span={8}>
           <Form.Item name="researcher">
             <FormRemoteSelect
               valueField={'id'}
