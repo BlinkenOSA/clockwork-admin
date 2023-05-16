@@ -41,9 +41,9 @@ export default function IsadEdit() {
       {
         data ?
         <SimpleForm
-          api={`/v1/isad/`}
+          api={`/v1/isad/create/`}
           module={'isad'}
-          type={'edit'}
+          type={'create'}
           initialValues={data ? fillManyFields(data, manyFieldList) : undefined}
           onActiveTabChange={onActiveTabChange} /> : ''
       }
