@@ -21,8 +21,21 @@ const YES_NO = [
   { value: 'no', label: 'No' }
 ]
 
+const HOW_DO_YOU_KNOW_CHOICES = [
+  { value: 'web', label: 'OSA web page'},
+  { value: 'event', label: 'Event at OSA'},
+  { value: 'verzio', label: 'Verzio'},
+  { value: 'ceu', label: 'CEU'},
+  { value: 'contacts', label: 'Personal contacts'},
+  { value: 'media', label: 'Media'},
+  { value: 'other', label: 'Other'}
+]
+
 export const ResearcherForm = ({form, readOnly}) => {
   const cardNumber = form.getFieldValue('card_number')
+  const howDoYouKnowOSA = Form.useWatch('how_do_you_know_osa')
+
+  console.log(howDoYouKnowOSA)
 
   return (
     <React.Fragment>
@@ -106,6 +119,20 @@ export const ResearcherForm = ({form, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={8}>
+        <Form.Item label="How do you know about OSA" name="how_do_you_know_osa">
+          <FormSelect
+            data={HOW_DO_YOU_KNOW_CHOICES}
+            valueField={'value'}
+            labelField={'label'}
+            disabled={readOnly}
+          />
+        </Form.Item>
+        {
+          howDoYouKnowOSA === 'other' &&
+          <Form.Item label="How do you know about OSA (Other)" name="how_do_you_know_osa_other">
+            <Input.TextArea rows={4} disabled={readOnly}/>
+          </Form.Item>
+        }
         <Form.Item label="Research subject" name="research_subject">
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
