@@ -36,6 +36,7 @@ export const PlaceForm = ({form, readOnly}) => {
               api={'/v1/authority_list/wikidata/'}
               form={form}
               field={'wikidata_id'}
+              nameField={'place'}
               columnTitle={'Wikipedia ID'}
               columnField={'wikidata_id'}
               urlField={'wikidata_url'}

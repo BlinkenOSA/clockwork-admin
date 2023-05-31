@@ -40,6 +40,7 @@ export const CountryForm = ({form, readOnly}) => {
               api={'/v1/authority_list/wikidata/'}
               form={form}
               field={'wikidata_id'}
+              nameField={'country'}
               columnTitle={'Wikipedia ID'}
               columnField={'wikidata_id'}
               urlField={'wikidata_url'}

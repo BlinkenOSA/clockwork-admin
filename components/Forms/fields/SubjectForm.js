@@ -34,6 +34,7 @@ export const SubjectForm = ({form, readOnly}) => {
             <FormAuthoritySelect
               api={'/v1/authority_list/wikidata/'}
               form={form}
+              nameField={'subject'}
               field={'wikidata_id'}
               columnTitle={'Wikipedia ID'}
               columnField={'wikidata_id'}

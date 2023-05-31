@@ -34,6 +34,7 @@ export const GenreForm = ({form, readOnly}) => {
             <FormAuthoritySelect
               api={'/v1/authority_list/wikidata/'}
               form={form}
+              nameField={'genre'}
               field={'wikidata_id'}
               columnTitle={'Wikipedia ID'}
               columnField={'wikidata_id'}
