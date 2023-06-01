@@ -5,8 +5,13 @@ import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
 export const LanguageForm = ({form, readOnly}) => {
   return (
     <React.Fragment>
-      <Col xs={8}>
+      <Col xs={24}>
         <Form.Item label="Language Name" name="language" required rules={[{ required: true }]}>
+          <Input disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={8}>
+        <Form.Item label="ISO 639 1" name="iso_639_1">
           <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
