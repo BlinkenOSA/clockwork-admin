@@ -1,7 +1,8 @@
 import React from 'react';
 import {Form, Col, Input} from "antd";
+import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
 
-export const LanguageForm = ({readOnly}) => {
+export const LanguageForm = ({form, readOnly}) => {
   return (
     <React.Fragment>
       <Col xs={8}>
@@ -28,6 +29,19 @@ export const LanguageForm = ({readOnly}) => {
         <Form.Item label="Wikipedia URL" name="wikipedia_url">
           <Input disabled={readOnly}/>
         </Form.Item>
+      </Col>
+      <Col xs={24}>
+        <FormAuthoritySelect
+          api={'/v1/authority_list/wikidata/'}
+          form={form}
+          field={'wikidata_id'}
+          nameField={'language'}
+          columnTitle={'Wikipedia ID'}
+          columnField={'wikidata_id'}
+          urlField={'wikidata_url'}
+          isWikidata={true}
+          type={'corporation'}
+        />
       </Col>
     </React.Fragment>
   )
