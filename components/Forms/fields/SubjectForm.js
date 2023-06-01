@@ -36,7 +36,7 @@ export const SubjectForm = ({form, readOnly}) => {
               form={form}
               nameField={'subject'}
               field={'wikidata_id'}
-              columnTitle={'Wikipedia ID'}
+              columnTitle={'Wikidata ID'}
               columnField={'wikidata_id'}
               urlField={'wikidata_url'}
               isWikidata={true}

@@ -37,7 +37,7 @@ export const PlaceForm = ({form, readOnly}) => {
               form={form}
               field={'wikidata_id'}
               nameField={'place'}
-              columnTitle={'Wikipedia ID'}
+              columnTitle={'Wikidata ID'}
               columnField={'wikidata_id'}
               urlField={'wikidata_url'}
               isWikidata={true}

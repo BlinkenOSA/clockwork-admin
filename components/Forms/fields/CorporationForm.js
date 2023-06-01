@@ -39,7 +39,7 @@ export const CorporationForm = ({form, readOnly}) => {
               api={'/v1/authority_list/wikidata/'}
               form={form}
               field={'wikidata_id'}
-              columnTitle={'Wikipedia ID'}
+              columnTitle={'Wikidata ID'}
               columnField={'wikidata_id'}
               urlField={'wikidata_url'}
               isWikidata={true}

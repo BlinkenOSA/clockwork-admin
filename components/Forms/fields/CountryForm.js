@@ -41,7 +41,7 @@ export const CountryForm = ({form, readOnly}) => {
               form={form}
               field={'wikidata_id'}
               nameField={'country'}
-              columnTitle={'Wikipedia ID'}
+              columnTitle={'Wikidata ID'}
               columnField={'wikidata_id'}
               urlField={'wikidata_url'}
               isWikidata={true}

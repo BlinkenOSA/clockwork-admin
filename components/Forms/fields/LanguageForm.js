@@ -41,7 +41,7 @@ export const LanguageForm = ({form, readOnly}) => {
           form={form}
           field={'wikidata_id'}
           nameField={'language'}
-          columnTitle={'Wikipedia ID'}
+          columnTitle={'Wikidata ID'}
           columnField={'wikidata_id'}
           urlField={'wikidata_url'}
           isWikidata={true}
