@@ -113,7 +113,7 @@ const ResearchersTable = ({...props}) => {
 
   const renderActions = (record) => {
     const detectDisabled = () => {
-      return record['status'] !== '1' && record['status'] !== '2'
+      return record['status'] !== '1' && record['status'] !== '2' && record['status'] !== '3'
     }
 
     return (
@@ -176,9 +176,9 @@ const ResearchersTable = ({...props}) => {
       case '1':
         return (generateBadges('In Queue', '#ba3300', false));
       case '2':
-        return (generateBadges('Pending', '#fa8c16'));
+        return (generateBadges('Pending', '#fa8c16', false));
       case '3':
-        return (generateBadges('Delivered', 'rgba(45,184,227,0.66)'));
+        return (generateBadges('Delivered', 'rgba(45,184,227,0.66)', false));
       case '4':
         return (generateBadges('Returned', '#83c04d'));
       case '5':
