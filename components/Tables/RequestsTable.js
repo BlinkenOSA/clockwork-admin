@@ -182,9 +182,9 @@ const ResearchersTable = ({...props}) => {
       case '4':
         return (generateBadges('Returned', '#83c04d'));
       case '5':
-        return (generateBadges('Reshelved', '#376e18', false));
+        return (generateBadges('Reshelved', '#376e18'));
       case '9':
-        return (generateBadges('Served', '#223f00', false));
+        return (generateBadges('Served', '#223f00'));
       default:
         break;
     }
