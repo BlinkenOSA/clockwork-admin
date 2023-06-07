@@ -26,11 +26,20 @@ const FindingAidsGrid = ({seriesID}) => {
 
   const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
+  const ACCESS_RIGHTS = [
+    {value: '1', label: 'Not Restricted'},
+    {value: '3', label: 'Restricted'}
+  ]
+
   const getLocales = (query, process) => {
     get(`/v1/controlled_list/select/locales`, query ? {search: query} : undefined)
       .then(response => response.data.map(ld => {return ld['id']}))
       .then(data => process(data));
   };
+
+  const getAccessRights = (query, process) => {
+    return process(ACCESS_RIGHTS.map(ar => ar['label']))
+  }
 
   const columns = [
     {data: 'archival_reference_code', label: 'Archival Reference Code', readOnly: true, width: 200},
@@ -41,6 +50,8 @@ const FindingAidsGrid = ({seriesID}) => {
     {data: 'contents_summary_original', label: 'Contents Summary (Original)', width: 300},
     {data: 'date_from', label: 'Date (From)', width: 100},
     {data: 'date_to', label: 'Date (To)', width: 100},
+    {data: 'access_rights', label: 'Access Rights', width: 100, type: 'dropdown', source: getAccessRights},
+    {data: 'access_rights_restriction_date', label: 'Restriction Date', width: 100, type: 'date'},
     {data: 'time_start', label: 'Start Time', width: 100},
     {data: 'time_end', label: 'End Time', width: 100},
     {data: 'note', label: 'Note', width: 200},
@@ -72,7 +83,7 @@ const FindingAidsGrid = ({seriesID}) => {
 
     changes.forEach(change => {
       const [row, prop, oldValue, newValue] = change;
-      const value = getNewValue(prop, newValue);
+      let value = getNewValue(prop, newValue);
 
       if (!oldValue && value === "") {
         return;
@@ -81,6 +92,14 @@ const FindingAidsGrid = ({seriesID}) => {
       if (oldValue !== value) {
         const id = data[row]['id'];
         const col = columns.findIndex(d => d.data === prop);
+
+        // access_rights
+        if (prop === 'access_rights') {
+          const filtered = ACCESS_RIGHTS.filter(ar => ar['label'] === value)
+          if (filtered.length > 0) {
+            value = filtered[0]['value']
+          }
+        }
 
         patch(`/v1/finding_aids/${id}/`, {[prop]: value}).then(response => {
           hot.current.hotInstance.setCellMeta(row, col, 'className', 'success');

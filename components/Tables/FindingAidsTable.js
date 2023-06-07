@@ -290,7 +290,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       })
     }
 
-    if (templateData.length > 0) {
+    if (templateData && templateData.length > 0) {
       return (
         <Dropdown menu={{items: menu()}}>
           <Button style={{marginLeft: '10px'}} disabled={templateData.length === 0}>
