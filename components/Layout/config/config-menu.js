@@ -42,6 +42,7 @@ const configMenu = [
       {name: 'Date Types', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/date-types'},
       {name: 'Extent Units', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/extent-units'},
       {name: 'Geo Roles', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/geo-roles'},
+      {name: 'Identifier Types', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/identifier-types'},
       {name: 'Keyword', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/keywords'},
       {name: 'Language Usages', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/language-usages'},
       {name: 'Nationalities', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/nationalities'},
