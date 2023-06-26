@@ -429,97 +429,114 @@ const Tab01Template = ({form, locale, readOnly, type}) => (
   </Row>
 );
 
-const Tab02 = ({form, locale, readOnly}) => (
-  <Row gutter={[12]}>
-    <Col xs={12}>
-      <Form.Item label="Form/Genre" name="genre">
-        <FormRemoteSelect
-          valueField={'id'}
-          labelField={'genre'}
-          mode={'multiple'}
-          selectAPI={'/v1/authority_list/select/genres/'}
-          disabled={readOnly}
-        />
-      </Form.Item>
-    </Col>
-    <Col xs={4}>
-      <Form.Item label={`Time Start`} name="time_start" extra={'Format: hh:mm:ss'}>
-        <Input disabled={readOnly} />
-      </Form.Item>
-    </Col>
-    <Col xs={4}>
-      <Form.Item label={`Time End`} name="time_end" extra={'Format: hh:mm:ss'}>
-        <Input disabled={readOnly} />
-      </Form.Item>
-    </Col>
-    <Col xs={4}>
-      <Form.Item label={`Duration`} name="duration" >
-        <Input disabled={true} />
-      </Form.Item>
-    </Col>
-    <Col xs={24}>
-      <Form.Item label={`Physical Condition`} name="physical_condition">
-        <FormFormattedText disabled={readOnly} height={100} />
-      </Form.Item>
-    </Col>
-    <Col xs={12}>
-      <Form.Item label={`Physical Description`} name="physical_description" style={{marginBottom: 0}}>
-        <FormFormattedText disabled={readOnly} height={100} />
-      </Form.Item>
-      <FormTranslateButton
-        form={form}
-        mode={'toOriginal'}
-        fieldName={'physical_description'}
-        toField={'physical_description_original'}
-        disabled={readOnly}/>
-    </Col>
-    <Col xs={12}>
-      <Form.Item
-        label={renderLabelFlag(locale, 'Physical Description - Original Language')}
-        name="physical_description_original"
-        style={{marginBottom: 0}}>
-        <FormFormattedText disabled={readOnly} height={100} />
-      </Form.Item>
-      <FormTranslateButton
-        form={form}
-        mode={'toEnglish'}
-        fieldName={'physical_description_original'}
-        toField={'physical_description'}
-        disabled={readOnly}/>
-    </Col>
-    <Col xs={24}>
-      <Languages disabled={readOnly} />
-    </Col>
-    <Col xs={12}>
-      <Form.Item label={`Language Statement`} name="language_statement" style={{marginBottom: 0}}>
-        <FormFormattedText disabled={readOnly} height={100} />
-      </Form.Item>
-      <FormTranslateButton
-        form={form}
-        mode={'toOriginal'}
-        fieldName={'language_statement'}
-        toField={'language_statement_original'}
-        disabled={readOnly}/>
-    </Col>
-    <Col xs={12}>
-      <Form.Item
-        label={renderLabelFlag(locale, 'Language Statement - Original Language')}
-        name="language_statement_original"
-        style={{marginBottom: 0}}>
-        <FormFormattedText disabled={readOnly} height={100} />
-      </Form.Item>
-      <FormTranslateButton
-        form={form}
-        mode={'toEnglish'}
-        fieldName={'language_statement_original'}
-        toField={'language_statement'}
-        disabled={readOnly}/>
-    </Col>
-    <Col xs={24}>
-      <Extents form={form} disabled={readOnly} />
-    </Col>
-  </Row>
-);
+const Tab02 = ({form, locale, readOnly}) => {
+  const timeStart = Form.useWatch('time_start', form)
+  const timeEnd = Form.useWatch('time_end', form)
+
+  useEffect(() => {
+    const ts = dayjs(timeStart, 'HH:mm:ss')
+    const te = dayjs(timeEnd, 'HH:mm:ss')
+
+    if (ts.isValid() && te.isValid()) {
+      const duration = te.diff(ts)
+      form.setFieldValue('duration', dayjs(duration).subtract(1, 'hour').format('HH:mm:ss'))
+    } else {
+      form.setFieldValue('duration', 'Invalid time format')
+    }
+  }, [timeStart, timeEnd])
+
+  return (
+    <Row gutter={[12]}>
+      <Col xs={12}>
+        <Form.Item label="Form/Genre" name="genre">
+          <FormRemoteSelect
+            valueField={'id'}
+            labelField={'genre'}
+            mode={'multiple'}
+            selectAPI={'/v1/authority_list/select/genres/'}
+            disabled={readOnly}
+          />
+        </Form.Item>
+      </Col>
+      <Col xs={4}>
+        <Form.Item label={`Time Start`} name="time_start" extra={'Format: hh:mm:ss'}>
+          <Input disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={4}>
+        <Form.Item label={`Time End`} name="time_end" extra={'Format: hh:mm:ss'}>
+          <Input disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={4}>
+        <Form.Item label={`Duration`} name="duration">
+          <Input disabled={true}/>
+        </Form.Item>
+      </Col>
+      <Col xs={24}>
+        <Form.Item label={`Physical Condition`} name="physical_condition">
+          <FormFormattedText disabled={readOnly} height={100}/>
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Physical Description`} name="physical_description" style={{marginBottom: 0}}>
+          <FormFormattedText disabled={readOnly} height={100}/>
+        </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'physical_description'}
+          toField={'physical_description_original'}
+          disabled={readOnly}/>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Physical Description - Original Language')}
+          name="physical_description_original"
+          style={{marginBottom: 0}}>
+          <FormFormattedText disabled={readOnly} height={100}/>
+        </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'physical_description_original'}
+          toField={'physical_description'}
+          disabled={readOnly}/>
+      </Col>
+      <Col xs={24}>
+        <Languages disabled={readOnly}/>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Language Statement`} name="language_statement" style={{marginBottom: 0}}>
+          <FormFormattedText disabled={readOnly} height={100}/>
+        </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'language_statement'}
+          toField={'language_statement_original'}
+          disabled={readOnly}/>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Language Statement - Original Language')}
+          name="language_statement_original"
+          style={{marginBottom: 0}}>
+          <FormFormattedText disabled={readOnly} height={100}/>
+        </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'language_statement_original'}
+          toField={'language_statement'}
+          disabled={readOnly}/>
+      </Col>
+      <Col xs={24}>
+        <Extents form={form} disabled={readOnly}/>
+      </Col>
+    </Row>
+  )
+};
 
 const Tab03 = ({form, readOnly}) => (
   <Row gutter={[12]}>
