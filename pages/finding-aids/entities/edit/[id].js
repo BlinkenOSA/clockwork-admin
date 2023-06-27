@@ -17,6 +17,7 @@ export default function FindingAidsEdit() {
 
   const manyFieldList = [
     'dates',
+    'identifiers',
     'languages',
     'extents',
     'associated_people',

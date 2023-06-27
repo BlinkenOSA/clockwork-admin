@@ -16,6 +16,7 @@ import FormTranslateButton from "../components/FormTranslateButton";
 import DigitalVersionTab from "./finding_aids/DigitalVersionTab";
 import FormDatePicker from "../components/FormDatePicker";
 import dayjs from "dayjs";
+import {Identifiers} from "./finding_aids/Identifiers";
 
 const L1_LEVELS = [
   { id: 'F', level: 'Folders'},
@@ -447,6 +448,9 @@ const Tab02 = ({form, locale, readOnly}) => {
 
   return (
     <Row gutter={[12]}>
+      <Col xs={24}>
+        <Identifiers disabled={readOnly} />
+      </Col>
       <Col xs={12}>
         <Form.Item label="Form/Genre" name="genre">
           <FormRemoteSelect

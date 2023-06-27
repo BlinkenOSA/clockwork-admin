@@ -18,6 +18,7 @@ export default function FindingAidsCreateFromTemplate() {
 
   const manyFieldList = [
     'dates',
+    'identifiers',
     'languages',
     'extents',
     'associated_people',
