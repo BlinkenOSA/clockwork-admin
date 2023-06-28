@@ -244,13 +244,13 @@ const Tab03 = ({form, locale, readOnly}) => {
           name="archival_history_original"
           style={{marginBottom: 0}}>
           <FormFormattedText disabled={readOnly} height={150} />
-          <FormTranslateButton
-            form={form}
-            mode={'toEnglish'}
-            fieldName={'archival_history_original'}
-            toField={'archival_history'}
-            disabled={readOnly}/>
         </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'archival_history_original'}
+          toField={'archival_history'}
+          disabled={readOnly}/>
       </Col>
     </Row>
   )
