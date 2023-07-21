@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {Form, Col, Input, Checkbox, Divider, Switch, Button} from "antd";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 import ResearchCloudLink from "./finding_aids/ResearchCloudLink";
+import {FormFormattedText} from "../components/FormFormattedText";
 
 export const ContainerForm = ({form, readOnly}) => {
   const digitalVersionExists = Form.useWatch('digital_version_exists', form);
@@ -49,6 +50,12 @@ export const ContainerForm = ({form, readOnly}) => {
       <Col xs={24}>
         <Form.Item label="Container label" name="container_label">
           <Input disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Divider />
+      <Col xs={24}>
+        <Form.Item label={`Internal Note`} name="internal_note">
+          <Input.TextArea rows={3} disabled={readOnly}/>
         </Form.Item>
       </Col>
       <Divider />

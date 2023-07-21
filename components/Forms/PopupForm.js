@@ -199,6 +199,24 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
             }
           </Col>
         </Row>
+        {data && data.hasOwnProperty('date_created') &&
+          <div className={style.FooterInfo}>
+            <Row gutter={10} type="flex">
+              <Col>
+                <p>
+                  <strong>Record created: </strong>
+                  {data['date_created']}
+                  {data['user_created'] ? ` by '${data['user_created']}'` : ''}
+                </p>
+                <p>
+                  <strong>Record updated: </strong>
+                  {data['date_updated']}
+                  {data['user_updated'] ? ` by '${data['user_updated']}'` : ''}
+                </p>
+              </Col>
+            </Row>
+          </div>
+        }
       </Form>
     </React.Fragment>
   )
