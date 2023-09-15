@@ -73,10 +73,10 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
     const renderContainerLevelIdentifier = () => {
       if (archivalReferenceCode) {
         let unit = archivalReferenceCode.split(':')[0]
-        let container = archivalReferenceCode.replace(unit, '').split('/')[0]
-        container = container.replace(":", "").padStart(3, "0")
+        let container = archivalReferenceCode.replaceAll(unit, '').split('/')[0]
+        container = container.replaceAll(":", "").padStart(4, "0")
 
-        return `${unit.replace(" ", "_")}_${container}`;
+        return `${unit.replaceAll(" ", "_")}-${container}`;
       } else {
         return ''
       }
@@ -84,13 +84,13 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
 
     const renderFolderItemLevelIdentifier = () => {
       let unit = archivalReferenceCode.split(':')[0]
-      let container = archivalReferenceCode.replace(unit, '').split('/')[0]
-      let folder = archivalReferenceCode.replace(unit, '').split('/')[1]
+      let container = archivalReferenceCode.replaceAll(unit, '').split('/')[0]
+      let folder = archivalReferenceCode.replaceAll(unit, '').split('/')[1]
 
-      container = container.replace(":", "").padStart(3, "0")
+      container = container.replaceAll(":", "").padStart(4, "0")
       folder = folder.padStart(3, "0")
 
-      return `${unit.replace(" ", "_")}_${container}_${folder}`;
+      return `${unit.replaceAll(" ", "_")}-${container}-${folder}`;
     }
 
     if (digitalVersionExists) {
