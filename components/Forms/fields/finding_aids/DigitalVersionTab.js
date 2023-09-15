@@ -9,7 +9,7 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
   const {digital_version_exists_container} = initialValues
 
   useEffect(() => {
-    if (!digitalVersionExists) {
+    if (digitalVersionExists && !digitalVersionExists) {
       form.setFieldValue("digital_version_research_cloud", false)
       form.setFieldValue("digital_version_online", false)
     }
