@@ -24,8 +24,8 @@ const DESCRIPTION_LEVELS = [
 ];
 
 const ACCESS_RIGHTS = [
-  { id: '1', right: 'Not Restricted'},
-  { id: '3', right: 'Restricted'},
+  { id: 1, right: 'Not Restricted'},
+  { id: 3, right: 'Restricted'},
 ];
 
 const Identifier = ({initialValues, type}) => (
@@ -167,7 +167,7 @@ export const FindingAidsEntityQuickForm = ({form, locale, type}) => {
             </Form.Item>
           </Col>
           <Col xs={12}>
-            <Form.Item label="Access Rights" name="access_rights">
+            <Form.Item label="Access Rights" name="access_rights" required rules={[{ required: true }]}>
               <FormSelect
                 data={ACCESS_RIGHTS}
                 valueField={'id'}

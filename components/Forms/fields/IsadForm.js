@@ -112,7 +112,7 @@ const Tab01 = ({form, readOnly}) => (
           valueField={'id'}
           labelField={'statement'}
           selectAPI={'/v1/controlled_list/select/access_rights/'}
-          disabled={readOnly}
+          disabled={true}
         />
       </Form.Item>
     </Col>

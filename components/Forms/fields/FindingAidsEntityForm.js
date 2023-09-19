@@ -33,8 +33,8 @@ const DESCRIPTION_LEVELS = [
 ];
 
 const ACCESS_RIGHTS = [
-  { id: '1', right: 'Not Restricted'},
-  { id: '3', right: 'Restricted'},
+  { id: 1, right: 'Not Restricted'},
+  { id: 3, right: 'Restricted'},
 ];
 
 const createData = (maxValue) => {
@@ -211,7 +211,7 @@ const Tab01 = ({form, locale, readOnly}) => {
         <Dates disabled={readOnly} />
       </Col>
       <Col xs={12}>
-        <Form.Item label="Access Rights" name="access_rights">
+        <Form.Item label="Access Rights" name="access_rights" required rules={[{ required: true }]}>
           <FormSelect
             data={ACCESS_RIGHTS}
             valueField={'id'}
@@ -325,110 +325,163 @@ const IdentifierTemplate = ({initialValues, type}) => (
   </Row>
 );
 
-const Tab01Template = ({form, locale, readOnly, type}) => (
-  <Row gutter={[12]}>
-    <Form.Item name="is_template" >
-      <Input hidden={true}/>
-    </Form.Item>
-    <Col xs={6}>
-      <Form.Item label="Legacy ID" name="legacy_id" >
-        <Input disabled={readOnly}/>
+const Tab01Template = ({form, locale, readOnly, type}) => {
+  const accessRights = Form.useWatch('access_rights', form)
+  const dateFrom = Form.useWatch('date_from', form)
+  const restrictionDate = Form.useWatch('access_rights_restriction_date', form)
+
+  const setRestrictionDate = (number) => {
+    let dObj;
+    if (restrictionDate) {
+      dObj = dayjs(restrictionDate)
+    } else {
+      if (dateFrom) {
+        try {
+          dObj = dayjs(`${dateFrom.slice(0, 4)}-12-31`)
+        } catch (error) {
+          // Invalid date
+        }
+      }
+    }
+    if (dObj.isValid()) {
+      form.setFieldValue('access_rights_restriction_date', dObj.add(number, 'year').format('YYYY-MM-DD'))
+    }
+  }
+
+  return (
+    <Row gutter={[12]}>
+      <Form.Item name="is_template">
+        <Input hidden={true}/>
       </Form.Item>
-    </Col>
-    <Col xs={6}>
-      <Form.Item label="Primary Type" name="primary_type">
-        <FormRemoteSelect
-          valueField={'id'}
-          labelField={'type'}
-          placeholder={'- Choose primary type -'}
-          selectAPI={'/v1/controlled_list/select/primary_types/'}
-          disabled={readOnly}
-        />
-      </Form.Item>
-    </Col>
-    <Col xs={6}>
-      <Form.Item label="Original locale" name="original_locale">
-        <FormRemoteSelect
-          valueField={'id'}
-          labelField={'locale_name'}
-          placeholder={'- Choose language -'}
-          selectAPI={'/v1/controlled_list/select/locales/'}
-          disabled={readOnly}
-        />
-      </Form.Item>
-    </Col>
-    <Col xs={6}>
-      <Form.Item label="UUID" name="uuid">
-        <Input disabled={true}/>
-      </Form.Item>
-    </Col>
-    <Col xs={12}>
-      <Form.Item label="Title" name="title" style={{marginBottom: 0}}>
-        <Input disabled={readOnly}/>
-      </Form.Item>
-      <FormTranslateButton
-        form={form}
-        mode={'toOriginal'}
-        fieldName={'title'}
-        toField={'original_title'}
-        disabled={readOnly}/>
-    </Col>
-    <Col xs={12}>
-      <Form.Item
-        label={renderLabelFlag(locale, 'Title - Original Language')}
-        name="original_title"
-        style={{marginBottom: 0}}>
-        <Input disabled={readOnly}/>
-      </Form.Item>
-      <FormTranslateButton
-        form={form}
-        mode={'toEnglish'}
-        fieldName={'original_title'}
-        toField={'title'}
-        disabled={readOnly}/>
-    </Col>
-    <Col xs={12}>
-      <Form.Item label={`Date From`} name="date_from" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}>
-        <Input disabled={readOnly} />
-      </Form.Item>
-    </Col>
-    <Col xs={8}>
-      <Form.Item label={`Date To`} name="date_to" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}>
-        <Input disabled={readOnly} />
-      </Form.Item>
-    </Col>
-    <Col xs={4}>
-      <Form.Item label={`Date Ca. Span`} name="date_ca_span">
-        <Input disabled={readOnly} />
-      </Form.Item>
-    </Col>
-    <Col xs={24}>
-      <Dates disabled={readOnly} />
-    </Col>
-    <Col xs={12}>
-      <Form.Item label={`Contents Summary`} name="contents_summary">
-        <FormFormattedText disabled={readOnly} height={120} />
-      </Form.Item>
-    </Col>
-    <Col xs={12}>
-      <Form.Item
-        label={renderLabelFlag(locale, 'Contents Summary - Original Language')}
-        name="contents_summary_original">
-        <FormFormattedText disabled={readOnly} height={120} />
-      </Form.Item>
-    </Col>
-    <Col xs={4}>
-      <Form.Item label="Confidential" name="confidential" valuePropName={'checked'}>
-        <Checkbox style={{marginLeft: '20px'}} disabled={readOnly} />
-      </Form.Item>
-    </Col>
-    <Col xs={20}>
-      <Form.Item label="Confidential Display Text" name="confidential_display_text">
-        <Input disabled={readOnly} />
-      </Form.Item>
-    </Col>
-  </Row>
-);
+      <Col xs={6}>
+        <Form.Item label="Legacy ID" name="legacy_id">
+          <Input disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={6}>
+        <Form.Item label="Primary Type" name="primary_type">
+          <FormRemoteSelect
+            valueField={'id'}
+            labelField={'type'}
+            placeholder={'- Choose primary type -'}
+            selectAPI={'/v1/controlled_list/select/primary_types/'}
+            disabled={readOnly}
+          />
+        </Form.Item>
+      </Col>
+      <Col xs={6}>
+        <Form.Item label="Original locale" name="original_locale">
+          <FormRemoteSelect
+            valueField={'id'}
+            labelField={'locale_name'}
+            placeholder={'- Choose language -'}
+            selectAPI={'/v1/controlled_list/select/locales/'}
+            disabled={readOnly}
+          />
+        </Form.Item>
+      </Col>
+      <Col xs={6}>
+        <Form.Item label="UUID" name="uuid">
+          <Input disabled={true}/>
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label="Title" name="title" style={{marginBottom: 0}}>
+          <Input disabled={readOnly}/>
+        </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toOriginal'}
+          fieldName={'title'}
+          toField={'original_title'}
+          disabled={readOnly}/>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Title - Original Language')}
+          name="original_title"
+          style={{marginBottom: 0}}>
+          <Input disabled={readOnly}/>
+        </Form.Item>
+        <FormTranslateButton
+          form={form}
+          mode={'toEnglish'}
+          fieldName={'original_title'}
+          toField={'title'}
+          disabled={readOnly}/>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Date From`} name="date_from" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}>
+          <Input disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={8}>
+        <Form.Item label={`Date To`} name="date_to" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'}>
+          <Input disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={4}>
+        <Form.Item label={`Date Ca. Span`} name="date_ca_span">
+          <Input disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={24}>
+        <Dates disabled={readOnly}/>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label="Access Rights" name="access_rights">
+          <FormSelect
+            data={ACCESS_RIGHTS}
+            valueField={'id'}
+            labelField={'right'}
+            allowClear={false}
+          />
+        </Form.Item>
+        <label>Restriction Date</label>
+        <Space.Compact block>
+          <Button onClick={() => setRestrictionDate(5)} disabled={readOnly || accessRights === '2'}>
+            +5Y
+          </Button>
+          <Button onClick={() => setRestrictionDate(-5)} disabled={readOnly || accessRights === '2'}>
+            -5Y
+          </Button>
+          <Form.Item name="access_rights_restriction_date" style={{width: '100%'}}>
+            <FormDatePicker
+              format={'YYYY-MM-DD'}
+              disabled={readOnly || accessRights === '2'}/>
+          </Form.Item>
+        </Space.Compact>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label="Restriction Explanation" name="access_rights_restriction_explanation">
+          <Input.TextArea rows={4} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item label={`Contents Summary`} name="contents_summary">
+          <FormFormattedText disabled={readOnly} height={120}/>
+        </Form.Item>
+      </Col>
+      <Col xs={12}>
+        <Form.Item
+          label={renderLabelFlag(locale, 'Contents Summary - Original Language')}
+          name="contents_summary_original">
+          <FormFormattedText disabled={readOnly} height={120}/>
+        </Form.Item>
+      </Col>
+      <Col xs={4}>
+        <Form.Item label="Confidential" name="confidential" valuePropName={'checked'}>
+          <Checkbox style={{marginLeft: '20px'}} disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+      <Col xs={20}>
+        <Form.Item label="Confidential Display Text" name="confidential_display_text">
+          <Input disabled={readOnly}/>
+        </Form.Item>
+      </Col>
+    </Row>
+  );
+}
 
 const Tab02 = ({form, locale, readOnly}) => {
   const timeStart = Form.useWatch('time_start', form)
