@@ -508,14 +508,14 @@ const Tab07 = ({form, locale, readOnly}) => {
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, '3.7.1 Archivists note - Original language')}
-          name="archivists_original"
+          name="archivists_note_original"
           style={{marginBottom: 0}}>
           <Input.TextArea rows={4} disabled={readOnly}/>
         </Form.Item>
         <FormTranslateButton
           form={form}
           mode={'toEnglish'}
-          fieldName={'archivists_original_original'}
+          fieldName={'archivists_note_original'}
           toField={'archivists_original'}
           disabled={readOnly}/>
       </Col>
