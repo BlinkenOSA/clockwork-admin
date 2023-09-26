@@ -1,7 +1,11 @@
-import SunEditor from "suneditor-react";
 import 'suneditor/dist/css/suneditor.min.css';
 import React from "react";
 import style from "./FormFormattedText.module.css";
+import dynamic from "next/dynamic";
+
+const SunEditor = dynamic(() => import("suneditor-react"), {
+  ssr: false,
+});
 
 export const FormFormattedText = ({value, disabled=false, initialValue, ...props}) => {
   const options = {
