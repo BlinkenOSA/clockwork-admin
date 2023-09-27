@@ -494,8 +494,6 @@ const Tab02 = ({form, locale, readOnly}) => {
     if (ts.isValid() && te.isValid()) {
       const duration = te.diff(ts)
       form.setFieldValue('duration', dayjs(duration).subtract(1, 'hour').format('HH:mm:ss'))
-    } else {
-      form.setFieldValue('duration', 'Invalid time format')
     }
   }, [timeStart, timeEnd])
 
