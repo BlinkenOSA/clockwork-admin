@@ -491,10 +491,29 @@ const Tab02 = ({form, locale, readOnly}) => {
     const ts = dayjs(timeStart, 'HH:mm:ss')
     const te = dayjs(timeEnd, 'HH:mm:ss')
 
-    if (ts.isValid() && te.isValid()) {
-      const duration = te.diff(ts)
-      form.setFieldValue('duration', dayjs(duration).subtract(1, 'hour').format('HH:mm:ss'))
+    if (timeStart) {
+      if (timeEnd) {
+        if (ts.isValid() && te.isValid()) {
+          if (ts.isBefore(te)) {
+            const duration = te.diff(ts)
+            form.setFieldValue('duration', dayjs(duration).subtract(1, 'hour').format('HH:mm:ss'))
+          } else {
+            form.setFieldValue('duration', '')
+          }
+        } else {
+          form.setFieldValue('duration', '')
+        }
+      } else {
+        if (ts.isValid()) {
+          form.setFieldValue('duration', timeStart)
+        } else {
+          form.setFieldValue('duration', '')
+        }
+      }
+    } else {
+      form.setFieldValue('duration', '')
     }
+
   }, [timeStart, timeEnd])
 
   return (
