@@ -43,7 +43,6 @@ export default function FindingAidsCreateFromTemplate() {
     templateData['data']['uuid'] = data['uuid'];
     templateData['data']['archival_reference_code'] = data['archival_reference_code'];
     const tData = removeIDFromManyFields(templateData['data'], manyFieldList)
-    console.log(tData)
     return fillManyFields(tData, manyFieldList);
   };
 
