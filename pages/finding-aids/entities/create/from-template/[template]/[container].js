@@ -6,6 +6,7 @@ import {useRouter} from "next/router";
 import {useData} from "../../../../../../utils/hooks/useData";
 import {fillManyFields} from "../../../../../../utils/functions/fillManyFields";
 import {FindingAidsForm} from "../../../../../../components/Forms/FindingAidsForm";
+import {removeIDFromManyFields} from "../../../../../../utils/functions/removeIDFromManyFields";
 
 export default function FindingAidsCreateFromTemplate() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function FindingAidsCreateFromTemplate() {
     {text: data ? `${data['archival_unit_title_full']}` : ''},
     {text: data ? `${data['container']}` : ''},
     {text: 'Folders - Items'},
-    {text: templateData ? `Create from Template: ${templateData['template_name']}`: ''},
+    {text: templateData && templateData['data'] ? `Create from Template: ${templateData['data']['template_name']}`: ''},
   ];
 
   const generateInitialData = () => {
@@ -41,7 +42,9 @@ export default function FindingAidsCreateFromTemplate() {
     templateData['data']['folder_no'] = data['folder_no'];
     templateData['data']['uuid'] = data['uuid'];
     templateData['data']['archival_reference_code'] = data['archival_reference_code'];
-    return fillManyFields(templateData['data'], manyFieldList);
+    const tData = removeIDFromManyFields(templateData['data'], manyFieldList)
+    console.log(tData)
+    return fillManyFields(tData, manyFieldList);
   };
 
   const onActiveTabChange = (activeKey) => {
