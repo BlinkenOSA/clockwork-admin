@@ -76,7 +76,7 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
         let container = archivalReferenceCode.replaceAll(unit, '').split('/')[0]
         container = container.replaceAll(":", "").padStart(4, "0")
 
-        return `${unit.replaceAll(" ", "_")}-${container}`;
+        return `${unit.replaceAll(" ", "_")}_${container}`;
       } else {
         return ''
       }
@@ -90,7 +90,7 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
       container = container.replaceAll(":", "").padStart(4, "0")
       folder = folder.padStart(3, "0")
 
-      return `${unit.replaceAll(" ", "_")}-${container}-${folder}`;
+      return `${unit.replaceAll(" ", "_")}_${container}_${folder}`;
     }
 
     if (digitalVersionExists) {
