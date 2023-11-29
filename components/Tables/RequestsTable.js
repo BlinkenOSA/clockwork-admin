@@ -52,9 +52,9 @@ const ResearchersTable = ({...props}) => {
       sorter: false,
     }, {
       title: 'Researcher',
-      dataIndex: 'researcher',
       key: 'request__researcher__last_name',
       width: 100,
+      render: (record) => renderResearcher(record),
       sorter: true,
     }, {
       title: 'Origin',
@@ -109,6 +109,19 @@ const ResearchersTable = ({...props}) => {
       return ORIGIN[record['item_origin']]
     }
 
+  }
+
+  const renderResearcher = (record) => {
+    if (record['researcher_email']) {
+      return (
+          <>
+            <div>{record['researcher']}</div>
+            <div className={style.Italic}>{record['researcher_email']}</div>
+          </>
+      )
+    } else {
+      return record['researcher']
+    }
   }
 
   const renderActions = (record) => {
