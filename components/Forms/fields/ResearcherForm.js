@@ -55,13 +55,13 @@ export const ResearcherForm = ({form, readOnly}) => {
         <Form.Item label="City in Hungary" name="city_hungary">
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Address abroad" name="address_abroad">
+        <Form.Item label="Permanent Address" name="address_abroad">
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="City abroad" name="city_abroad">
+        <Form.Item label="City - Permanent Address" name="city_abroad">
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Country" name="country" rules={[{ required: true }]}>
+        <Form.Item label="Country - Permanent Address" name="country" rules={[{ required: true }]}>
           <FormRemoteSelect
             valueField={'id'}
             labelField={'country'}
