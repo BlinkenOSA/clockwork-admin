@@ -96,7 +96,16 @@ const ResearchersTable = ({...props}) => {
 
   const renderIdentifier = (record) => {
     if (record['item_origin'] === 'FA') {
-      return record['archival_reference_number']
+      if (record['has_restricted_content']) {
+        return (
+          <div>
+            <div>{record['archival_reference_number']}</div>
+            <Badge count={'Has Restricted Material'} style={{ backgroundColor: '#e03c3c', borderRadius: '3px', fontSize: '0.8em' }} />
+          </div>
+        )
+      } else {
+        return record['archival_reference_number']
+      }
     } else {
       return record['identifier']
     }
