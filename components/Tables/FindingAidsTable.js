@@ -89,7 +89,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
 
   const columns = [
     {
-      title: 'Archiaval Reference Code',
+      title: 'Archival Reference Code',
       dataIndex: 'archival_reference_code',
       key: 'archival_reference_code',
       sorter: false,
