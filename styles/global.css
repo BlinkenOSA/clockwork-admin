@@ -25,3 +25,20 @@ body {
 .centerColumn {
     text-align: center !important;
 }
+
+.ant-select-disabled .ant-select-selector {
+    color: #333 !important;
+}
+
+.ant-input-disabled {
+    color: #333 !important;
+}
+
+.ant-table-pagination.ant-pagination {
+    margin-top: 16px !important;
+    margin-bottom: 4px !important;
+}
+
+.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-has-trigger {
+    height: calc(100vh - 48px) !important;
+}

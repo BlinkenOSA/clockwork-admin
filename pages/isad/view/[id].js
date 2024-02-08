@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AppLayout from "../../../components/Layout/Layout";
 import Head from "next/head";
 import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
@@ -10,6 +10,8 @@ import {fillManyFields} from "../../../utils/functions/fillManyFields";
 export default function IsadView() {
   const router = useRouter();
   const { id } = router.query;
+
+  const [activeTabKey, setActiveTabKey] = useState('')
 
   const { data, error } = useData(id ? `/v1/isad/${id}/` : undefined);
 
@@ -27,19 +29,25 @@ export default function IsadView() {
     {text: data ? `${data.title_full}` : ''}
   ];
 
+  const onActiveTabChange = (activeKey) => {
+    setActiveTabKey(activeKey)
+  }
+
   return (
     <AppLayout>
       <Head>
         <title>AMS - Archival Management System - View ISAD(G) Records</title>
       </Head>
-      <Breadcrumbs module={'isad'} breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'isad/form'} breadcrumbData={breadcrumbData} activeTabKey={activeTabKey} />
       {
         data ?
         <SimpleForm
-          api={'/v1/isad/'}
+          api={`/v1/isad/${id}`}
           module={'isad'}
           type={'view'}
-          initialValues={data ? fillManyFields(data, manyFieldList) : undefined} /> : ''
+          initialValues={data ? fillManyFields(data, manyFieldList) : undefined}
+          onActiveTabChange={onActiveTabChange}
+        /> : ''
       }
     </AppLayout>
   )

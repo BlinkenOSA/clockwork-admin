@@ -6,14 +6,13 @@ import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import Link from "next/link";
 import {remove} from "../../utils/api";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 
 
 const SimpleTable = ({api, columns, module, button, actions=[], footer=true, ...props}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module);
-  const { data, loading, refresh} = useData(api, params);
+  const { data, loading, refresh, tableState,
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module, api);
 
   useEffect(() => {
     if (data) {
@@ -55,7 +54,11 @@ const SimpleTable = ({api, columns, module, button, actions=[], footer=true, ...
 
   return (
     <React.Fragment>
-      <TableFilters module={module} onFilterChange={handleFilterChange}/>
+      <TableFilters
+        module={module}
+        onFilterChange={handleFilterChange}
+        filters={tableState['filters']}
+      />
       <Table
         bordered={true}
         className={style.Table}

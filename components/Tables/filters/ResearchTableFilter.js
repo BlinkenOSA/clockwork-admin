@@ -31,7 +31,7 @@ const ResearcherTableFilter = () => {
           <FormRemoteSelect
             valueField={'id'}
             labelField={'country'}
-            placeholder={'- Select Carrier Type -'}
+            placeholder={'- Select Country -'}
             selectAPI={'/v1/research/researcher/country-used/select/'}
           />
         </Form.Item>

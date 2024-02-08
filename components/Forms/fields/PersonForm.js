@@ -38,6 +38,18 @@ export const PersonForm = ({form, readOnly}) => {
               type={'person'}
             />
           </TabPane>
+          <TabPane tab="WikiData" key="wikidata">
+            <FormAuthoritySelect
+              api={'/v1/authority_list/wikidata/'}
+              form={form}
+              field={'wikidata_id'}
+              columnTitle={'Wikidata ID'}
+              columnField={'wikidata_id'}
+              urlField={'wikidata_url'}
+              isWikidata={true}
+              type={'person'}
+            />
+          </TabPane>
           <TabPane tab="Wikipedia Link" key="wikipedia_link">
             <FormAuthoritySelect
               api={'/v1/authority_list/wikipedia/'}

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Alert, Form, notification} from "antd";
 import {normalizeManyFields} from "../functions/normalizeManyFields";
 import {patch, post, put} from "../api";
+import {normalizeSelectFields} from "../functions/normalizeSelectFields";
 
 export const useForm = (api, formType, messageText, afterFinish, afterValuesChange) => {
   const [formLoading, setFormLoading] = useState(false);
@@ -13,6 +14,7 @@ export const useForm = (api, formType, messageText, afterFinish, afterValuesChan
   const onFinish = (values) => {
     setFormLoading(true);
     values = normalizeManyFields(values);
+    values = normalizeSelectFields(values);
 
     switch (formType) {
       case 'edit':

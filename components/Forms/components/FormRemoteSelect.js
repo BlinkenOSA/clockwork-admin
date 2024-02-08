@@ -18,7 +18,7 @@ const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelFiel
   }, [data]);
 
   const handleSearch = (value) => {
-    if (value.length > 2 || value.length === 0) {
+    if (value.length > searchMinLength || value.length === 0) {
       setParams(prevParams => ({
         ...prevParams,
         search: value

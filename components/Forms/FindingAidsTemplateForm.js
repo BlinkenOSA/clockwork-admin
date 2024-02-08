@@ -9,6 +9,12 @@ import {useRouter} from "next/router";
 export const FindingAidsTemplateForm = ({type, recordID, seriesID, initialValues}) => {
   const router = useRouter();
 
+  const [activeTabKey, setActiveTabKey] = useState('')
+
+  const onActiveTabChange = (activeKey) => {
+    setActiveTabKey(activeKey)
+  }
+
   const getAPI = () => {
     switch (type) {
       case 'create':
@@ -52,6 +58,7 @@ export const FindingAidsTemplateForm = ({type, recordID, seriesID, initialValues
               form={form}
               locale={locale}
               type={type}
+              onActiveTabChange={onActiveTabChange}
             />
           </Row>
         </Card>

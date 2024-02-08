@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Col, Form, Input, Row, Select} from "antd";
-import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
-import FormRemoteSelect from "../../components/FormRemoteSelect";
+import {PlusOutlined, CloseOutlined, CopyOutlined} from '@ant-design/icons';
 import FormSelect from "../../components/FormSelect";
 import {checkRequiredIfArchival, checkRequiredIfLibrary} from "../../validations/requestItemFormValidation";
+import FormRemoteSelectInfiniteScroll from "../../components/FormRemoteSelectInfiniteScroll";
+import {useDeepCompareEffect, usePrevious} from "react-use";
 
 const ITEM_ORIGINS = [
   { value: 'FA', label: 'Archival'},
@@ -19,15 +20,23 @@ export const RequestItems = ({form}) => {
       if (request_items[row]) {
         const item_type = request_items[row]['item_origin']
 
-        switch (field) {
-          case 'archival_unit':
-            return item_type !== 'FA'
-          case 'container':
-            return item_type !== 'FA'
-          case 'identifier':
-            return item_type === 'FA'
-          case 'title':
-            return item_type === 'FA'
+        if (item_type) {
+          switch (field) {
+            case 'archival_unit':
+              return item_type !== 'FA'
+            case 'container':
+              return item_type !== 'FA'
+            case 'identifier':
+              return item_type === 'FA'
+            case 'quantity':
+              return item_type === 'FA'
+            case 'title':
+              return item_type === 'FA'
+            default:
+              return true
+          }
+        } else {
+          return true
         }
       }
     }
@@ -38,7 +47,17 @@ export const RequestItems = ({form}) => {
   const getSeriesID = (row) => {
     if (request_items) {
       if (request_items[row]) {
-        return request_items[row]['archival_unit']
+        if (request_items[row]['archival_unit']) {
+          return request_items[row]['archival_unit']['value']
+        }
+      }
+    }
+  }
+
+  const clone = (add, row) => {
+    if (request_items) {
+      if (request_items[row]) {
+        add(request_items[row])
       }
     }
   }
@@ -70,7 +89,7 @@ export const RequestItems = ({form}) => {
                       name={[field.name, 'archival_unit']}
                       rules={[(form) => checkRequiredIfArchival(form, [field.name, 'item_type'], true)]}
                     >
-                      <FormRemoteSelect
+                      <FormRemoteSelectInfiniteScroll
                         valueField={'id'}
                         labelField={'reference_code'}
                         placeholder={'- Select Series -'}
@@ -85,16 +104,17 @@ export const RequestItems = ({form}) => {
                       name={[field.name, 'container']}
                       rules={[(form) => checkRequiredIfArchival(form, [field.name, 'item_type'], true)]}
                     >
-                      <FormRemoteSelect
+                      <FormRemoteSelectInfiniteScroll
                         valueField={'id'}
                         labelField={'container_label'}
                         placeholder={'- Select Container -'}
-                        selectAPI={`/v1/research/requests/container/select/${getSeriesID(idx)}`}
+                        selectAPI={getSeriesID(idx) ? `/v1/research/requests/container/select/${getSeriesID(idx)}` : undefined}
+                        searchMinLength={0}
                         disabled={isDisabled('container', idx)}
                       />
                     </Form.Item>
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={2}>
                     <Form.Item
                       {...field}
                       name={[field.name, 'identifier']}
@@ -106,7 +126,7 @@ export const RequestItems = ({form}) => {
                       />
                     </Form.Item>
                   </Col>
-                  <Col xs={6}>
+                  <Col xs={5}>
                     <Form.Item
                       {...field}
                       name={[field.name, 'title']}
@@ -118,11 +138,29 @@ export const RequestItems = ({form}) => {
                       />
                     </Form.Item>
                   </Col>
+                  <Col xs={3}>
+                    <Form.Item
+                      {...field}
+                      name={[field.name, 'quantity']}
+                      rules={[(form) => checkRequiredIfLibrary(form, [field.name, 'quantity'], true)]}
+                    >
+                      <Input
+                        placeholder={'Quantity'}
+                        disabled={isDisabled('quantity', idx)}
+                      />
+                    </Form.Item>
+                  </Col>
                   <Col xs={2}>
+                    <Button
+                      type="default"
+                      onClick={() => clone(add, field.name)}
+                      icon={<CopyOutlined />}
+                    />
                     <Button
                       type="default"
                       onClick={() => remove(field.name)}
                       icon={<CloseOutlined />}
+                      style={{marginLeft: '10px'}}
                     />
                   </Col>
                 </Row>

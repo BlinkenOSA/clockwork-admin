@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Col, Form, Input, Row, Tabs} from "antd";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 import FormSelect from "../components/FormSelect";
@@ -150,24 +150,39 @@ const Tab04 = ({readOnly}) => (
   </Row>
 );
 
-export const IsaarForm = ({form, readOnly}) => {
+export const IsaarForm = ({form, readOnly, onActiveTabChange}) => {
+  useEffect(() => {
+    onActiveTabChange('required_values')
+  }, [])
+
+  const onChange = (activeKey) => {
+    onActiveTabChange(activeKey)
+  }
+
+  const items = [
+    {
+      key: 'required_values',
+      label: renderTabTitle(form, FIELD_NAMES['tab01'], "Required Values"),
+      children: <Tab01 form={form} readOnly={readOnly}/>
+    }, {
+      key: 'identity',
+      label: renderTabTitle(form, FIELD_NAMES['tab02'], "Identity"),
+      children: <Tab02 form={form} readOnly={readOnly}/>
+    }, {
+      key: 'description',
+      label: renderTabTitle(form, FIELD_NAMES['tab03'], "Description"),
+      children: <Tab03 form={form} readOnly={readOnly}/>
+    }, {
+      key: 'control',
+      label: 'Control',
+      children: <Tab04 form={form} readOnly={readOnly}/>
+    }
+  ]
+
   return (
     <React.Fragment>
       <Col xs={24}>
-        <Tabs defaultActiveKey="required_values">
-          <TabPane tab={renderTabTitle(form, FIELD_NAMES['tab01'], "Required Values")} key="required_values" forceRender={true}>
-            <Tab01 readOnly={readOnly}/>
-          </TabPane>
-          <TabPane tab={renderTabTitle(form, FIELD_NAMES['tab02'], "Identity")} key="identity" forceRender={true}>
-            <Tab02 readOnly={readOnly}/>
-          </TabPane>
-          <TabPane tab={renderTabTitle(form, FIELD_NAMES['tab03'], "Description")} key="Description" forceRender={true} >
-            <Tab03 readOnly={readOnly}/>
-          </TabPane>
-          <TabPane tab="Control" key="Control" forceRender={true}>
-            <Tab04 readOnly={readOnly}/>
-          </TabPane>
-        </Tabs>
+        <Tabs defaultActiveKey="required_values" items={items} onChange={onChange} />
       </Col>
     </React.Fragment>
   )

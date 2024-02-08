@@ -1,4 +1,4 @@
-export const createParams = ({ pagination={}, filters={}, sorter={} }) => {
+export const createParams = ({ pagination={}, filters={}, ...sorter}) => {
   let paginationParams, sorterParams = {};
 
   // Sorting
@@ -34,5 +34,5 @@ export const createParams = ({ pagination={}, filters={}, sorter={} }) => {
     paginationParams = loadPagination(pagination);
   }
 
-  return Object.assign({}, paginationParams, sorterParams);
+  return Object.assign({}, paginationParams, sorterParams, filters);
 };

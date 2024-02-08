@@ -1,10 +1,11 @@
 import {Button, Col, Form, Input, Tooltip, Row, Table} from "antd";
 import React, {useState} from "react";
 import { SelectOutlined } from '@ant-design/icons';
-import style from "./FormAuthoritySelect.module.css";
+import style from "./FormAuthoritySelect.module.scss";
 import {useData} from "../../../utils/hooks/useData";
+import ReactHtmlParser from 'react-html-parser';
 
-const AuthoritySelectTable = ({tableColumnTitle, tableColumnField, dataSource, ...props}) => {
+const AuthoritySelectTable = ({tableColumnTitle, tableColumnField, urlField, dataSource, ...props}) => {
   const renderSelectButton = (data) => {
     return(
       <Tooltip title={'Select entry'}>
@@ -17,14 +18,19 @@ const AuthoritySelectTable = ({tableColumnTitle, tableColumnField, dataSource, .
 
   const renderTitle = (data) => {
     return(
-      <a href={data} target={'_blank'} rel="noopener noreferrer">{data}</a>
+      <a href={urlField ? data[urlField] : data[tableColumnField]} target={'_blank'} rel="noopener noreferrer">
+        {data[tableColumnField]}
+      </a>
     )
   };
+
+  const renderName = (data) => {
+    return (ReactHtmlParser(data))
+  }
 
   const columns = [
     {
       title: tableColumnTitle,
-      dataIndex: tableColumnField,
       key: tableColumnField,
       width: 400,
       sorter: false,
@@ -34,6 +40,7 @@ const AuthoritySelectTable = ({tableColumnTitle, tableColumnField, dataSource, .
       dataIndex: 'name',
       key: 'name',
       sorter: false,
+      render: renderName
     }, {
       title: 'Actions',
       width: 150,
@@ -54,13 +61,15 @@ const AuthoritySelectTable = ({tableColumnTitle, tableColumnField, dataSource, .
   )
 };
 
-export const FormAuthoritySelect = ({api, type, nameField='name', field, form, columnTitle, columnField}) => {
+export const FormAuthoritySelect = ({api, type, nameField='name', field, form, columnTitle, columnField,
+                                      isWikidata=false, urlField}) => {
   const [searchValue, setSearchValue] = useState('');
 
-  const {data, loading} = useData(api, {query: searchValue, type: type});
+  const {data, loading} = useData(api, {query: searchValue, type: isWikidata ? undefined : type});
 
   const onSearch = () => {
     const search = form.getFieldValue(nameField);
+
     if (search !== '') {
       setSearchValue(search);
     }
@@ -91,6 +100,7 @@ export const FormAuthoritySelect = ({api, type, nameField='name', field, form, c
             onSelect={(val) => form.setFieldsValue({[field]: val})}
             tableColumnTitle={columnTitle}
             tableColumnField={columnField}
+            urlField={urlField}
           />
         </Col>
       </Row>

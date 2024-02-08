@@ -23,7 +23,10 @@ const FindingAidsGrid = dynamic(
 );
 
 const ContainerTable = ({seriesID, seriesTitle}) => {
-  const { params, tableState, handleExpandedRowsChange, handleDataChange, handleTableChange, handleDelete } = useTable(`container-table-${seriesID ? seriesID : 0}`);
+  const api = seriesID ? `/v1/container/list/${seriesID}/` : undefined;
+  const { data, loading, refresh, tableState,
+    handleExpandedRowsChange, handleDataChange, handleTableChange, handleDelete } = useTable(
+      `container-table-${seriesID ? seriesID : 0}`, api);
 
   const [drawerShown, setDrawerShown] = useState(false);
   const [action, setAction] = useState('edit');
@@ -35,7 +38,8 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { data, loading, refresh } = useData(seriesID ? `/v1/container/list/${seriesID}/` : undefined, params);
+  const [deletedContainer, setDeletedContainer] = useState(undefined);
+
   const templateData = useData(seriesID ? `/v1/finding_aids/templates/select/${seriesID}/` : undefined);
 
   useEffect(() => {
@@ -114,21 +118,24 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
       }
     };
 
-    return (
-      <Button.Group>
-        {renderContainerPublishButton()}
-        {record.total_number !== 0 &&
-        <Button
-          size="small"
-          disabled
-          className={style.PublishInfo}
-          loading={publishing}
-        >
-          { record.total_number } / { record.total_published_number }
-        </Button>
-        }
-      </Button.Group>
-    )
+    if (record.total_number !== 0) {
+      return (
+        <Button.Group>
+          {renderContainerPublishButton()}
+          <Button
+            size="small"
+            disabled
+            className={style.PublishInfo}
+            loading={publishing}
+          >
+            { record.total_number } / { record.total_published_number }
+          </Button>
+        </Button.Group>
+      )
+    } else {
+      return ''
+    }
+
   };
 
   const columns = [
@@ -212,6 +219,7 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
           handleDelete(data.length);
           deleteAlert();
           refresh();
+          setDeletedContainer(id);
         })
       }
     });
@@ -294,7 +302,7 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
     <React.Fragment>
       <Collapse isOpen={createFormOpen}>
         <Card size="small" style={{marginBottom: '10px'}} title={'Create Containers'}>
-          <ContainerCreateForm seriesID={seriesID} containerListRefresh={refresh}/>
+          <ContainerCreateForm seriesID={seriesID} containerListRefresh={refresh} deletedContainer={deletedContainer}/>
         </Card>
       </Collapse>
       <Card size="small" style={{marginBottom: '10px'}}>

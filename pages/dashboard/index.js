@@ -10,7 +10,7 @@ export default function Dashboard() {
       <Head>
         <title>AMS - Archival Management System - Dashboard</title>
       </Head>
-      <Breadcrumbs breadcrumbData={[]} />
+      <Breadcrumbs module={'dashboard'} breadcrumbData={[]} />
       <DashbboardView />
     </AppLayout>
   )

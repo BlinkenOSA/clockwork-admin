@@ -31,6 +31,19 @@ export const PlaceForm = ({form, readOnly}) => {
               type={'place'}
             />
           </TabPane>
+          <TabPane tab="WikiData" key="wikidata">
+            <FormAuthoritySelect
+              api={'/v1/authority_list/wikidata/'}
+              form={form}
+              field={'wikidata_id'}
+              nameField={'place'}
+              columnTitle={'Wikidata ID'}
+              columnField={'wikidata_id'}
+              urlField={'wikidata_url'}
+              isWikidata={true}
+              type={'place'}
+            />
+          </TabPane>
           <TabPane tab="Wikipedia Link" key="wikipedia_link">
             <FormAuthoritySelect
               api={'/v1/authority_list/wikipedia/'}

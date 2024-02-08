@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {get} from "../api";
 import {useDeepCompareEffect, useUpdateEffect} from "react-use";
 

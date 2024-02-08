@@ -12,51 +12,53 @@ import { ImCopy } from "react-icons/im"
 import React from "react";
 
 const configMenu = [
-  {name: 'Dashboard', icon: <DashboardOutlined/>, link: '/dashboard'},
-  {name: 'Accession', icon: <BsBoxArrowInLeft/>, module: 'acccession', submenu: [
-      {name: 'Accession Records', link: '/accessions'},
-      {name: 'Donors', link: '/donors'},
+  {name: 'Dashboard', icon: <DashboardOutlined/>, link: '/dashboard', group: ['__ALL__']},
+  {name: 'Accession', icon: <BsBoxArrowInLeft/>, module: 'acccession', group: ['Accessions'], submenu: [
+      {name: 'Accession Records', group: ['Accessions'], link: '/accessions'},
+      {name: 'Donors', group: ['Accessions'], link: '/donors'},
     ]},
-  {name: 'Archival Unit', icon: <ApartmentOutlined/>, module: 'archival-unit', link: '/archival-units'},
-  {name: 'ISAAR-CPF', icon: <UserOutlined/>, module: 'isaar', link: '/isaar'},
-  {name: 'ISAD(G)', icon: <ProfileOutlined/>, module: 'isad', link: '/isad'},
-  {name: 'Finding Aids', icon: <FileOutlined/>, module: 'finding-aids', submenu: [
-      {name: 'Folders / Items', link: '/finding-aids'},
+  {name: 'Archival Unit', icon: <ApartmentOutlined/>, module: 'archival-unit', group: ['Archival Units'], link: '/archival-units'},
+  {name: 'ISAAR-CPF', icon: <UserOutlined/>, module: 'isaar', group: ['ISAAR'], link: '/isaar'},
+  {name: 'ISAD(G)', icon: <ProfileOutlined/>, module: 'isad', group: ['ISAD(G)'], link: '/isad'},
+  {name: 'Finding Aids', icon: <FileOutlined/>, module: 'finding-aids', group: ['Finding Aids'], submenu: [
+      {name: 'Folders / Items', group: ['Finding Aids'], link: '/finding-aids'},
     ]},
-  {name: 'Lists', icon: <ImCopy/>, module: 'list', submenu: [
-    {name: 'Authority List', icon: <TagsOutlined/>, module: '/list/authority-list', submenu: [
-      {name: 'Corporations', icon: <BankOutlined/>, link: '/authority-list/corporations'},
-      {name: 'Countries', icon: <FlagOutlined/>, link: '/authority-list/countries'},
-      {name: 'Genres', icon: <DeploymentUnitOutlined/>, link: '/authority-list/genres'},
-      {name: 'Languages', icon: <GlobalOutlined/>, link: '/authority-list/languages'},
-      {name: 'People', icon: <TeamOutlined/>, link: '/authority-list/people'},
-      {name: 'Places', icon: <EnvironmentOutlined/>, link: '/authority-list/places'},
-      {name: 'Subjects', icon: <TagOutlined/>, link: '/authority-list/subjects'},
+  {name: 'Lists', icon: <ImCopy/>, module: 'list', group: ['Authority Lists', 'Controlled Lists'], submenu: [
+    {name: 'Authority List', icon: <TagsOutlined/>, module: '/list/authority-list', group: ['Authority Lists'], submenu: [
+      {name: 'Corporations', icon: <BankOutlined/>, group: ['Authority Lists'], link: '/authority-list/corporations'},
+      {name: 'Countries', icon: <FlagOutlined/>, group: ['Authority Lists'], link: '/authority-list/countries'},
+      {name: 'Genres', icon: <DeploymentUnitOutlined/>, group: ['Authority Lists'], link: '/authority-list/genres'},
+      {name: 'Languages', icon: <GlobalOutlined/>, group: ['Authority Lists'], link: '/authority-list/languages'},
+      {name: 'People', icon: <TeamOutlined/>, group: ['Authority Lists'], link: '/authority-list/people'},
+      {name: 'Places', icon: <EnvironmentOutlined/>, group: ['Authority Lists'], link: '/authority-list/places'},
+      {name: 'Subjects', icon: <TagOutlined/>, group: ['Authority Lists'], link: '/authority-list/subjects'},
     ]},
-    {name: 'Controlled List', icon: <UnorderedListOutlined/>, module: '/list/controlled-list', submenu: [
-      {name: 'Access Rights', icon: <RightCircleOutlined/>, link: '/controlled-list/access-rights'},
-      {name: 'Archival Unit Themes', icon: <RightCircleOutlined/>, link: '/controlled-list/archival-unit-themes'},
-      {name: 'Building', icon: <RightCircleOutlined/>, link: '/controlled-list/buildings'},
-      {name: 'Carrier Types', icon: <RightCircleOutlined/>, link: '/controlled-list/carrier-types'},
-      {name: 'Corporation Roles', icon: <RightCircleOutlined/>, link: '/controlled-list/corporation-roles'},
-      {name: 'Date Types', icon: <RightCircleOutlined/>, link: '/controlled-list/date-types'},
-      {name: 'Extent Units', icon: <RightCircleOutlined/>, link: '/controlled-list/extent-units'},
-      {name: 'Geo Roles', icon: <RightCircleOutlined/>, link: '/controlled-list/geo-roles'},
-      {name: 'Keyword', icon: <RightCircleOutlined/>, link: '/controlled-list/keywords'},
-      {name: 'Language Usages', icon: <RightCircleOutlined/>, link: '/controlled-list/language-usages'},
-      {name: 'Person Roles', icon: <RightCircleOutlined/>, link: '/controlled-list/person-roles'},
-      {name: 'Primary Types', icon: <RightCircleOutlined/>, link: '/controlled-list/primary-types'},
-      {name: 'Reproduction Rights', icon: <RightCircleOutlined/>, link: '/controlled-list/reproduction-rights'},
-      {name: 'Restriction Reasons', icon: <RightCircleOutlined/>, link: '/controlled-list/restriction-reasons'},
+    {name: 'Controlled List', icon: <UnorderedListOutlined/>, module: '/list/controlled-list', group: ['Controlled Lists'], submenu: [
+      {name: 'Access Rights', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/access-rights'},
+      {name: 'Archival Unit Themes', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/archival-unit-themes'},
+      {name: 'Building', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/buildings'},
+      {name: 'Carrier Types', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/carrier-types'},
+      {name: 'Corporation Roles', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/corporation-roles'},
+      {name: 'Date Types', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/date-types'},
+      {name: 'Extent Units', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/extent-units'},
+      {name: 'Geo Roles', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/geo-roles'},
+      {name: 'Identifier Types', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/identifier-types'},
+      {name: 'Keyword', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/keywords'},
+      {name: 'Language Usages', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/language-usages'},
+      {name: 'Nationalities', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/nationalities'},
+      {name: 'Person Roles', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/person-roles'},
+      {name: 'Primary Types', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/primary-types'},
+      {name: 'Reproduction Rights', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/reproduction-rights'},
+      {name: 'Restriction Reasons', icon: <RightCircleOutlined/>, group: ['Controlled Lists'], link: '/controlled-list/restriction-reasons'},
     ]},
   ]},
-  {name: 'MLR', icon: <BsInboxes/>, module: 'mlr', link: '/mlr'},
-  {name: 'Digitization Log', icon: <MdOutlineScanner/>, module: 'digitization', link: '/digitization'},
-  {name: 'Researchers Database', icon: <IoSchoolOutline/>, module: 'researcher', submenu: [
-      {name: 'Researchers', icon: <IdcardOutlined />, link: '/researchers-db/researchers'},
-      {name: 'Researcher Visits', icon: <HiOutlineLibrary />, link: '/researchers-db/visits'},
-      {name: 'Researcher Statistics', icon: <BiPieChartAlt2 />, link: '/researchers-db/stats'},
-      {name: 'Requests', icon: <FaExchangeAlt />, link: '/researchers-db/requests'},
+  {name: 'MLR', icon: <BsInboxes/>, module: 'mlr', group: ['MLR'], link: '/mlr'},
+  {name: 'Digitization Log', icon: <MdOutlineScanner/>, module: 'digitization', group: ['__ALL__'], link: '/digitization'},
+  {name: 'Researchers Database', icon: <IoSchoolOutline/>, module: 'researcher', group: ['Research'], submenu: [
+      {name: 'Researchers', icon: <IdcardOutlined />, group: ['Research'], link: '/researchers-db/researchers'},
+      {name: 'Researcher Visits', icon: <HiOutlineLibrary />, group: ['Research'], link: '/researchers-db/visits'},
+      {name: 'Researcher Statistics', icon: <BiPieChartAlt2 />, group: ['Research'], link: '/researchers-db/stats'},
+      {name: 'Requests', icon: <FaExchangeAlt />, group: ['Research'], link: '/researchers-db/requests'},
     ]}
 ];
 

@@ -4,7 +4,7 @@ import {CloseOutlined, PlusOutlined} from '@ant-design/icons';
 
 export const RelatedFindingAids = ({disabled}) => (
   <React.Fragment>
-    <div className={'ant-form-item-label'}>Related Finding Aids</div>
+    <div className={'ant-form-item-label'}>3.5.3 Related finding aids</div>
     <Form.List name={'related_finding_aids'}>
       {(fields, { add, remove }) => {
         return (

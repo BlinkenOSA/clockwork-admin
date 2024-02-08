@@ -6,24 +6,20 @@ const FormFilterSearchInput = ({value, onChange, ...props}) => {
 
   const {Search} = Input;
 
-  const onPressEnter = (e) => {
-    onChange?.(e.target.value)
+  const onSearch = (value, e) => {
+    onChange?.(value)
   };
 
   const onValueChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
-    if (value === "") {
-      onChange?.(value)
-    }
   };
 
   return (
     <Search
       value={inputValue}
-      onPressEnter={onPressEnter}
+      onSearch={onSearch}
       onChange={onValueChange}
-      enterButton
       {...props}
     />
   )
