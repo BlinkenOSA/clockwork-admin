@@ -45,6 +45,12 @@ const ResearchersTable = ({...props}) => {
       render: (record) => renderIdentifier(record),
       sorter: true,
     }, {
+      title: 'Folders / Items',
+      key: 'parts',
+      width: 130,
+      render: (record) => renderFoldersItems(record),
+      sorter: false,
+    }, {
       title: 'MLR',
       key: 'mlr',
       width: 130,
@@ -71,7 +77,7 @@ const ResearchersTable = ({...props}) => {
     }, {
       title: 'Status',
       key: 'status',
-      width: 120,
+      width: 100,
       className: style.ActionColumn,
       render: (record) => renderStatus(record),
       sorter: false,
@@ -173,6 +179,20 @@ const ResearchersTable = ({...props}) => {
       )
     }
     return record['mlr']
+  }
+
+  const renderFoldersItems = (record) => {
+    const renderRecords = () => (
+        record['parts'].map(rec => {
+            return (
+                <div className={rec['is_restricted'] ? style.Restricted : ''}>
+                  {rec['reference_code']}
+                </div>
+            )
+        })
+    )
+
+    return renderRecords()
   }
 
   const renderStatus = (record) => {
