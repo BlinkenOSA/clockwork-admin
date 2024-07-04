@@ -760,24 +760,29 @@ export const FindingAidsEntityForm = ({form, locale, type, initialValues, onActi
     {
       key: 'basic',
       label: 'Basic Metadata',
+      forceRender: true,
       children: isTemplate ?
           <Tab01Template form={form} locale={locale} readOnly={readOnly} type={type} /> :
           <Tab01 form={form} locale={locale} readOnly={readOnly} type={type} />
     }, {
       key: 'extra',
       label: 'Extra Metadata',
+      forceRender: true,
       children: <Tab02 form={form} locale={locale} readOnly={readOnly} />
     }, {
       key: 'contributors',
       label: 'Contributors',
+      forceRender: true,
       children: <Tab03 form={form} locale={locale} readOnly={readOnly} />
     }, {
       key: 'subjects',
       label: 'Subjects',
+      forceRender: true,
       children: <Tab04 form={form} locale={locale} readOnly={readOnly} />
     }, {
       key: 'notes',
       label: 'Notes',
+      forceRender: true,
       children: <Tab05 form={form} locale={locale} readOnly={readOnly}/>
     }
   ]
@@ -786,6 +791,7 @@ export const FindingAidsEntityForm = ({form, locale, type, initialValues, onActi
     const digitalVersion = {
       key: 'digital_version',
       label: 'Digital Version',
+      forceRender: true,
       children: <DigitalVersionTab form={form} initialValues={initialValues} locale={locale} readOnly={readOnly} />
     }
 
