@@ -17,6 +17,7 @@ import DigitalVersionTab from "./finding_aids/DigitalVersionTab";
 import FormDatePicker from "../components/FormDatePicker";
 import dayjs from "dayjs";
 import {Identifiers} from "./finding_aids/Identifiers";
+import {FormFormattedTextV3} from "../components/FormFormattedTextV3";
 
 const L1_LEVELS = [
   { id: 'F', level: 'Folders'},
@@ -241,7 +242,7 @@ const Tab01 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item label={`Contents Summary`} name="contents_summary" style={{marginBottom: 0}}>
-          <FormFormattedText disabled={readOnly} height={120} />
+            <FormFormattedTextV3 disabled={readOnly} height={170} />
         </Form.Item>
         <FormTranslateButton
           form={form}
@@ -255,7 +256,7 @@ const Tab01 = ({form, locale, readOnly}) => {
           label={renderLabelFlag(locale, 'Contents Summary - Original Language')}
           name="contents_summary_original"
           style={{marginBottom: 0}}>
-          <FormFormattedText disabled={readOnly} height={120} />
+          <FormFormattedTextV3 disabled={readOnly} height={170} />
         </Form.Item>
         <FormTranslateButton
           form={form}
