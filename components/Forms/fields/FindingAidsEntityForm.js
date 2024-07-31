@@ -3,7 +3,6 @@ import {Badge, Button, Checkbox, Col, DatePicker, Form, Input, Row, Space, Tabs}
 import FormSelect from "../components/FormSelect";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 import {renderLabelFlag} from "../../../utils/functions/renderLabelFlag";
-import {FormFormattedText} from "../components/FormFormattedText";
 import {Dates} from "./finding_aids/Dates";
 import {Languages} from "./finding_aids/Languages";
 import {Extents} from "./finding_aids/Extents";
@@ -460,14 +459,14 @@ const Tab01Template = ({form, locale, readOnly, type}) => {
       </Col>
       <Col xs={12}>
         <Form.Item label={`Contents Summary`} name="contents_summary">
-          <FormFormattedText disabled={readOnly} height={120}/>
+            <FormFormattedTextV3 disabled={readOnly} height={170} />
         </Form.Item>
       </Col>
       <Col xs={12}>
         <Form.Item
           label={renderLabelFlag(locale, 'Contents Summary - Original Language')}
           name="contents_summary_original">
-          <FormFormattedText disabled={readOnly} height={120}/>
+            <FormFormattedTextV3 disabled={readOnly} height={170} />
         </Form.Item>
       </Col>
       <Col xs={4}>
@@ -550,12 +549,12 @@ const Tab02 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={24}>
         <Form.Item label={`Physical Condition`} name="physical_condition">
-          <FormFormattedText disabled={readOnly} height={100}/>
+            <FormFormattedTextV3 disabled={readOnly} height={170} />
         </Form.Item>
       </Col>
       <Col xs={12}>
         <Form.Item label={`Physical Description`} name="physical_description" style={{marginBottom: 0}}>
-          <FormFormattedText disabled={readOnly} height={100}/>
+            <FormFormattedTextV3 disabled={readOnly} height={170} />
         </Form.Item>
         <FormTranslateButton
           form={form}
@@ -569,7 +568,7 @@ const Tab02 = ({form, locale, readOnly}) => {
           label={renderLabelFlag(locale, 'Physical Description - Original Language')}
           name="physical_description_original"
           style={{marginBottom: 0}}>
-          <FormFormattedText disabled={readOnly} height={100}/>
+            <FormFormattedTextV3 disabled={readOnly} height={170} />
         </Form.Item>
         <FormTranslateButton
           form={form}
@@ -583,7 +582,7 @@ const Tab02 = ({form, locale, readOnly}) => {
       </Col>
       <Col xs={12}>
         <Form.Item label={`Language Statement`} name="language_statement" style={{marginBottom: 0}}>
-          <FormFormattedText disabled={readOnly} height={100}/>
+            <FormFormattedTextV3 disabled={readOnly} height={170} />
         </Form.Item>
         <FormTranslateButton
           form={form}
@@ -597,7 +596,7 @@ const Tab02 = ({form, locale, readOnly}) => {
           label={renderLabelFlag(locale, 'Language Statement - Original Language')}
           name="language_statement_original"
           style={{marginBottom: 0}}>
-          <FormFormattedText disabled={readOnly} height={100}/>
+            <FormFormattedTextV3 disabled={readOnly} height={170} />
         </Form.Item>
         <FormTranslateButton
           form={form}
@@ -715,7 +714,7 @@ const Tab05 = ({form, locale, readOnly}) => (
   <Row gutter={[12]}>
     <Col xs={12}>
       <Form.Item label={`Note`} name="note">
-        <FormFormattedText disabled={readOnly} height={200} style={{marginBottom: 0}}/>
+          <FormFormattedTextV3 disabled={readOnly} height={170} />
       </Form.Item>
       <FormTranslateButton
         form={form}
@@ -729,7 +728,7 @@ const Tab05 = ({form, locale, readOnly}) => (
         label={renderLabelFlag(locale, 'Note - Original Language')}
         name="note_original"
         style={{marginBottom: 0}}>
-        <FormFormattedText disabled={readOnly} height={200} />
+          <FormFormattedTextV3 disabled={readOnly} height={170} />
       </Form.Item>
       <FormTranslateButton
         form={form}
@@ -740,7 +739,7 @@ const Tab05 = ({form, locale, readOnly}) => (
     </Col>
     <Col xs={24}>
       <Form.Item label={`Internal Note`} name="internal_note">
-        <FormFormattedText disabled={readOnly} height={100} />
+          <FormFormattedTextV3 disabled={readOnly} height={170} />
       </Form.Item>
     </Col>
   </Row>

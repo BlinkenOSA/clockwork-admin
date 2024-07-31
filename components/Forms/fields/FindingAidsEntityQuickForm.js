@@ -3,7 +3,7 @@ import {Button, Col, Form, Input, Row, Space} from "antd";
 import FormSelect from "../components/FormSelect";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 import {renderLabelFlag} from "../../../utils/functions/renderLabelFlag";
-import {FormFormattedText} from "../components/FormFormattedText";
+import {FormFormattedTextV3} from "../components/FormFormattedTextV3";
 import FormTranslateButton from "../components/FormTranslateButton";
 import FormDatePicker from "../components/FormDatePicker";
 import dayjs from "dayjs";
@@ -197,7 +197,7 @@ export const FindingAidsEntityQuickForm = ({form, locale, type}) => {
           </Col>
           <Col xs={24}>
             <Form.Item label={`Contents Summary`} name="contents_summary" style={{marginBottom: 0}}>
-              <FormFormattedText disabled={readOnly} height={120} />
+              <FormFormattedTextV3 disabled={readOnly} height={170} />
             </Form.Item>
             <FormTranslateButton
               form={form}
@@ -211,7 +211,7 @@ export const FindingAidsEntityQuickForm = ({form, locale, type}) => {
               label={renderLabelFlag(locale, 'Contents Summary - Original Language')}
               name="contents_summary_original"
               style={{marginBottom: 0}}>
-              <FormFormattedText disabled={readOnly} height={120} />
+              <FormFormattedTextV3 disabled={readOnly} height={170} />
             </Form.Item>
             <FormTranslateButton
               form={form}
