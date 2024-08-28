@@ -6,7 +6,6 @@ import {Creators} from "./isad/Creators";
 import {FormRemoteSelectWithEdit} from "../components/FormRemoteSelectWithEdit";
 import {renderLabelFlag} from "../../../utils/functions/renderLabelFlag";
 import {Extents} from "./isad/Extents";
-import {FormFormattedText} from "../components/FormFormattedText";
 import {RelatedFindingAids} from "./isad/RelatedFindingAids";
 import {LocationOfOriginals} from "./isad/LocationOfOriginals";
 import {LocationOfCopies} from "./isad/LocationOfCopies";
