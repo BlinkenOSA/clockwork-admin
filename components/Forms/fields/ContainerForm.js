@@ -52,6 +52,11 @@ export const ContainerForm = ({form, readOnly}) => {
           <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
+      <Col xs={24}>
+          <Form.Item label="Legacy ID" name="legacy_id">
+              <Input disabled={readOnly}/>
+          </Form.Item>
+      </Col>
       <Divider />
       <Col xs={24}>
         <Form.Item label={`Internal Note`} name="internal_note">
