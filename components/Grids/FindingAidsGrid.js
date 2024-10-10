@@ -43,6 +43,7 @@ const FindingAidsGrid = ({seriesID}) => {
 
   const columns = [
     {data: 'archival_reference_code', label: 'Archival Reference Code', readOnly: true, width: 200},
+    {data: 'legacy_id', label: 'Legacy ID', width: 150},
     {data: 'title', label: 'Title', width: 300},
     {data: 'title_original', label: 'Title (Original)', width: 300},
     {data: 'original_locale', label: 'Locale', width: 100, type: 'dropdown', source: getLocales},
