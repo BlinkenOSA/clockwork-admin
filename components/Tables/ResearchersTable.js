@@ -5,21 +5,18 @@ import {
   EditOutlined,
   EyeOutlined,
   LoadingOutlined,
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-  PlusOutlined, PrinterOutlined
+  PlusOutlined
 } from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import Link from "next/link";
 
 const ResearchersTable = ({...props}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
-  const { data, loading, refresh} = useData(`/v1/research/researcher`, params);
+  const { data, loading, refresh, tableState,
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('researchers', `/v1/research/researcher`);
 
   const [publishing, setPublishing] = useState({});
 
@@ -177,7 +174,7 @@ const ResearchersTable = ({...props}) => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        remove(`/v1//researchers-db/researchers/${id}/`).then(() => {
+        remove(`/v1/research/researcher/${id}/`).then(() => {
           handleDelete(data.length);
           deleteAlert();
           refresh();
@@ -203,7 +200,11 @@ const ResearchersTable = ({...props}) => {
 
   return (
     <React.Fragment>
-      <TableFilters module={'researcher'} onFilterChange={handleFilterChange}/>
+      <TableFilters
+        module={'researcher'}
+        onFilterChange={handleFilterChange}
+        filters={tableState['filters']}
+      />
       <Table
         bordered={true}
         className={style.Table}

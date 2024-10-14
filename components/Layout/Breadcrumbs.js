@@ -6,7 +6,22 @@ import React from "react";
 import {QuestionCircleOutlined} from '@ant-design/icons';
 import config from './config/config-help';
 
-const Breadcrumbs = ({module, breadcrumbData}) => {
+const Breadcrumbs = ({module, breadcrumbData, activeTabKey}) => {
+  const getHref = () => {
+    if (module) {
+      let key;
+      if (activeTabKey) {
+        key = `${module}/${activeTabKey}`
+      } else {
+        key = module
+      }
+      if (config.hasOwnProperty(key)) {
+        return config[key]
+      }
+    }
+    return '#'
+  }
+
   return (
     <Row>
       <Col xs={23}>
@@ -28,7 +43,7 @@ const Breadcrumbs = ({module, breadcrumbData}) => {
       <Col xs={1}>
         <div className={style.Help}>
           <Tooltip title={'Documentation'} placement="left" >
-            <a href={module ? config[module] : '#'} target={module ? '_new' :  '_self'} style={{marginRight: '5px'}}>
+            <a href={getHref()} target={getHref() !== '#' ? '_new' :  '_self'} style={{marginRight: '5px'}}>
               <QuestionCircleOutlined />
             </a>
           </Tooltip>

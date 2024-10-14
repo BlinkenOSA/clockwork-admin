@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AppLayout from "../../../../components/Layout/Layout";
 import Head from "next/head";
 import Breadcrumbs from "../../../../components/Layout/Breadcrumbs";
@@ -42,7 +42,8 @@ export default function FindingAidsTemplateEdit() {
           recordID={id}
           seriesID={data ? data.archival_unit : undefined}
           type={'edit'}
-          initialValues={data ? fillManyFields(data, manyFieldList) : undefined} /> : ''
+          initialValues={data ? fillManyFields(data, manyFieldList) : undefined}
+        /> : ''
       }
     </AppLayout>
   )

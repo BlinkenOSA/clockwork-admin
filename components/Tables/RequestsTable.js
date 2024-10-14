@@ -9,13 +9,13 @@ import {
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import moment from "moment";
 import {PopupForm} from "../Forms/PopupForm";
 import _ from 'lodash';
-import Link from "next/link";
+import {AiOutlineLoading} from "react-icons/ai";
+
 
 const ORIGIN = {
   'FA': 'Archival',
@@ -24,8 +24,8 @@ const ORIGIN = {
 }
 
 const ResearchersTable = ({...props}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
-  const { data, loading, refresh} = useData(`/v1/research/requests`, params);
+  const { data, loading, refresh , tableState,
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('requests', `/v1/research/requests`);
 
   const [drawerShown, setDrawerShown] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(undefined);
@@ -35,27 +35,33 @@ const ResearchersTable = ({...props}) => {
       title: 'Request Date',
       dataIndex: 'request_date',
       key: 'request__request_date',
-      width: 100,
+      width: 120,
       render: (data) => renderDate(data) ,
-      sorter: false,
+      sorter: true,
     }, {
       title: 'Identifier',
-      key: 'archival_reference_number',
+      key: 'ordering',
       width: 130,
       render: (record) => renderIdentifier(record),
+      sorter: true,
+    }, {
+      title: 'Folders / Items',
+      key: 'parts',
+      width: 130,
+      render: (record) => renderFoldersItems(record),
       sorter: false,
     }, {
       title: 'MLR',
       key: 'mlr',
-      width: 150,
+      width: 130,
       render: (record) => renderMLR(record),
       sorter: false,
     }, {
       title: 'Researcher',
-      dataIndex: 'researcher',
-      key: 'researcher',
+      key: 'request__researcher__last_name',
       width: 100,
-      sorter: false,
+      render: (record) => renderResearcher(record),
+      sorter: true,
     }, {
       title: 'Origin',
       key: 'item_origin',
@@ -71,7 +77,7 @@ const ResearchersTable = ({...props}) => {
     }, {
       title: 'Status',
       key: 'status',
-      width: 120,
+      width: 100,
       className: style.ActionColumn,
       render: (record) => renderStatus(record),
       sorter: false,
@@ -96,7 +102,16 @@ const ResearchersTable = ({...props}) => {
 
   const renderIdentifier = (record) => {
     if (record['item_origin'] === 'FA') {
-      return record['archival_reference_number']
+      if (record['has_restricted_content']) {
+        return (
+          <div>
+            <div>{record['archival_reference_number']}</div>
+            <Badge count={'Has Restricted Material'} style={{ backgroundColor: '#e03c3c', borderRadius: '3px', fontSize: '0.8em' }} />
+          </div>
+        )
+      } else {
+        return record['archival_reference_number']
+      }
     } else {
       return record['identifier']
     }
@@ -111,9 +126,22 @@ const ResearchersTable = ({...props}) => {
 
   }
 
+  const renderResearcher = (record) => {
+    if (record['researcher_email']) {
+      return (
+          <>
+            <div>{record['researcher']}</div>
+            <div className={style.Italic}>{record['researcher_email']}</div>
+          </>
+      )
+    } else {
+      return record['researcher']
+    }
+  }
+
   const renderActions = (record) => {
     const detectDisabled = () => {
-      return record['status'] !== '1' && record['status'] !== '2'
+      return record['status'] !== '1' && record['status'] !== '2' && record['status'] !== '3'
     }
 
     return (
@@ -153,6 +181,20 @@ const ResearchersTable = ({...props}) => {
     return record['mlr']
   }
 
+  const renderFoldersItems = (record) => {
+    const renderRecords = () => (
+        record['parts'].map(rec => {
+            return (
+                <div className={rec['is_restricted'] ? style.Restricted : ''}>
+                  {rec['reference_code']}
+                </div>
+            )
+        })
+    )
+
+    return renderRecords()
+  }
+
   const renderStatus = (record) => {
     const generateBadges = (badgeText, color, withUndo=true) => {
       return (
@@ -176,15 +218,15 @@ const ResearchersTable = ({...props}) => {
       case '1':
         return (generateBadges('In Queue', '#ba3300', false));
       case '2':
-        return (generateBadges('Pending', '#fa8c16'));
+        return (generateBadges('Pending', '#fa8c16', false));
       case '3':
-        return (generateBadges('Delivered', 'rgba(45,184,227,0.66)'));
+        return (generateBadges('Delivered', 'rgba(45,184,227,0.66)', false));
       case '4':
         return (generateBadges('Returned', '#83c04d'));
       case '5':
-        return (generateBadges('Reshelved', '#376e18', false));
+        return (generateBadges('Reshelved', '#376e18'));
       case '9':
-        return (generateBadges('Served', '#223f00', false));
+        return (generateBadges('Served', '#223f00'));
       default:
         break;
     }
@@ -236,7 +278,11 @@ const ResearchersTable = ({...props}) => {
 
   return (
     <React.Fragment>
-      <TableFilters module={'requests'} onFilterChange={handleFilterChange}/>
+      <TableFilters
+        module={'requests'}
+        onFilterChange={handleFilterChange}
+        filters={tableState['filters']}
+      />
       <Table
         bordered={true}
         className={style.Table}
@@ -246,7 +292,7 @@ const ResearchersTable = ({...props}) => {
         size={'small'}
         loading={{
           spinning: loading,
-          indicator: <LoadingOutlined/>,
+          indicator: <AiOutlineLoading/>,
         }}
         footer={() => getFooter()}
         pagination={tableState['pagination']}

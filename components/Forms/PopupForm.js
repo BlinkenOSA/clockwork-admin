@@ -27,6 +27,7 @@ import {MLRForm} from "./fields/MLRForm";
 import {DigitizationForm} from "./fields/DigitizationForm";
 import {RequestsForm} from "./fields/RequestsForm";
 import {RequestItemForm} from "./fields/RequestsItemForm";
+import {NationalityForm} from "./fields/NationalityForm";
 
 export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
   const afterFinish = () => {
@@ -38,7 +39,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
 
   const readOnly = type === 'view';
 
-  const {data, loading} = useData(selectedRecord ? `${preCreateAPI ? preCreateAPI : api}${selectedRecord}/` : undefined);
+  const {data} = useData(selectedRecord ? `${preCreateAPI ? preCreateAPI : api}${selectedRecord}/` : undefined);
 
   useEffect(() => {
     form.setFieldsValue(data)
@@ -88,6 +89,8 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
         return <RoleForm form={form} />;
       case 'corporation_role':
         return <RoleForm form={form} />;
+      case 'nationality':
+        return <NationalityForm form={form} />;
       case 'geo_role':
         return <RoleForm form={form} />;
       case 'finding-aids-quick-edit':
@@ -196,6 +199,24 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
             }
           </Col>
         </Row>
+        {data && data.hasOwnProperty('date_created') &&
+          <div className={style.FooterInfo}>
+            <Row gutter={10} type="flex">
+              <Col>
+                <p>
+                  <strong>Record created: </strong>
+                  {data['date_created']}
+                  {data['user_created'] ? ` by '${data['user_created']}'` : ''}
+                </p>
+                <p>
+                  <strong>Record updated: </strong>
+                  {data['date_updated']}
+                  {data['user_updated'] ? ` by '${data['user_updated']}'` : ''}
+                </p>
+              </Col>
+            </Row>
+          </div>
+        }
       </Form>
     </React.Fragment>
   )

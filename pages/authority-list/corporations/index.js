@@ -5,6 +5,7 @@ import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
 import {Card} from "antd";
 import PopupTable from "../../../components/Tables/PopupTable";
 import {renderURL} from "../../../utils/renders/renderURL";
+import {renderWikidataURL} from "../../../utils/renders/renderWikidataURL";
 
 export default function CorporationsList() {
   const breadcrumbData = [
@@ -24,6 +25,12 @@ export default function CorporationsList() {
       key: 'authority_url',
       sorter: false,
       render: renderURL
+    }, {
+      title: 'Wikidata',
+      dataIndex: 'wikidata_id',
+      key: 'wikidata_id',
+      sorter: false,
+      render: renderWikidataURL
     }
   ];
 

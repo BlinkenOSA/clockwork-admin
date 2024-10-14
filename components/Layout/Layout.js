@@ -36,7 +36,7 @@ export default function AppLayout({children}) {
         <Content style={{ margin: '0 16px' }}>
           {children}
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Vera & Donald Blinken Open Society Archives © 2021</Footer>
+        <Footer style={{ textAlign: 'center' }}>Vera & Donald Blinken Open Society Archives © 2023</Footer>
       </Layout>
     </Layout>
   )

@@ -1,5 +1,9 @@
 .AuthorityTable {
     margin-top: 15px;
+
+    :global .searchmatch {
+        background-color: yellow;
+    }
 }
 
 .SearchButton {

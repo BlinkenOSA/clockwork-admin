@@ -7,7 +7,7 @@ import {SimpleFormFooter} from "./SimpleFormFooter";
 import {FindingAidsEntityForm} from "./fields/FindingAidsEntityForm";
 import {useData} from "../../utils/hooks/useData";
 
-export const FindingAidsForm = ({type, recordID, containerID, seriesID, initialValues}) => {
+export const FindingAidsForm = ({type, recordID, containerID, seriesID, onActiveTabChange, initialValues}) => {
   const [params, setParams] = useState({});
   const router = useRouter();
 
@@ -83,6 +83,7 @@ export const FindingAidsForm = ({type, recordID, containerID, seriesID, initialV
               form={form}
               locale={locale}
               type={type}
+              onActiveTabChange={onActiveTabChange}
             />
           </Row>
         </Card>

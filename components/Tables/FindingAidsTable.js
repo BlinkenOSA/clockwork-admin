@@ -24,8 +24,8 @@ import {PopupForm} from "../Forms/PopupForm";
 
 
 const FindingAidsTable = ({containerID, containerListRefresh, templateData, recordTotalPublished}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleDelete } = useTable(`finding-aids-table-${containerID}`);
-  const { data, loading, refresh } = useData(containerID ? `/v1/finding_aids/list/${containerID}/` : undefined, params);
+  const api = containerID ? `/v1/finding_aids/list/${containerID}/` : undefined;
+  const { data, loading, refresh, tableState, handleDataChange, handleTableChange, handleDelete } = useTable(`finding-aids-table-${containerID}`, api);
 
   const [ publishing, setPublishing ] = useState({});
   const [ confidentialSetting, setConfidentialSetting ] = useState({});
@@ -48,14 +48,6 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     return (
       <React.Fragment>
         <Button.Group>
-          <Tooltip key={'clone'} title={'Clone'}>
-            <Button
-              size="small"
-              icon={<CopyOutlined />}
-              style={{marginRight: '5px'}}
-              onClick={() => onClone(record.id)}
-            />
-          </Tooltip>
           <Tooltip key={'quick_edit'} title={'Quick Edit'}>
             <Button size="small" icon={<FormOutlined/>} onClick={() => onQuickEdit(record.id)} />
           </Tooltip>
@@ -82,6 +74,14 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
               </Tooltip>
             </a>
           }
+          <Tooltip key={'clone'} title={'Clone'}>
+            <Button
+              size="small"
+              icon={<CopyOutlined />}
+              style={{marginLeft: '5px'}}
+              onClick={() => onClone(record.id)}
+            />
+          </Tooltip>
         </Button.Group>
       </React.Fragment>
     )
@@ -89,7 +89,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
 
   const columns = [
     {
-      title: 'Archiaval Reference Code',
+      title: 'Archival Reference Code',
       dataIndex: 'archival_reference_code',
       key: 'archival_reference_code',
       sorter: false,
@@ -204,6 +204,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       onOk() {
         post(`/v1/finding_aids/clone/${id}/`).then(() => {
           refresh();
+          containerListRefresh();
         })
       }
     });
@@ -262,8 +263,15 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     });
   };
 
+  const onQuickCreate = () => {
+    setSelectedRecord(undefined);
+    setAction('create')
+    setDrawerShown(true);
+  };
+
   const onQuickEdit = (id) => {
     setSelectedRecord(id);
+    setAction('edit')
     setDrawerShown(true);
   };
 
@@ -273,23 +281,18 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
   };
 
   const getTemplateButton = () => {
-    const menu = (
-      <Menu>
-        {
-          templateData.map(data => {
-            return (
-              <Menu.Item key={data.id}>
-                <Link href={`/finding-aids/entities/create/from-template/${data.id}/${containerID}`}>{data.template_name}</Link>
-              </Menu.Item>
-            )
-          })
+    const menu = () => {
+      return templateData.map(data => {
+        return {
+          key: data.id,
+          label: <Link href={`/finding-aids/entities/create/from-template/${data.id}/${containerID}`}>{data.template_name}</Link>
         }
-      </Menu>
-    );
+      })
+    }
 
-    if (templateData.length > 0) {
+    if (templateData && templateData.length > 0) {
       return (
-        <Dropdown menu={menu}>
+        <Dropdown menu={{items: menu()}}>
           <Button style={{marginLeft: '10px'}} disabled={templateData.length === 0}>
             New from Template <DownOutlined />
           </Button>

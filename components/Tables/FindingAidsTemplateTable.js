@@ -12,8 +12,9 @@ import Link from "next/link";
 
 
 const FindingAidsTemplateTable = ({seriesID}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleDelete } = useTable(`finding-aids-template-table-${seriesID}`);
-  const { data, loading, refresh } = useData(seriesID ? `/v1/finding_aids/templates/list/${seriesID}/` : undefined, params);
+  const api = seriesID ? `/v1/finding_aids/templates/list/${seriesID}/` : undefined
+  const { data, loading, refresh, tableState,
+    handleDataChange, handleTableChange, handleDelete } = useTable(`finding-aids-template-table-${seriesID}`, api);
 
   useEffect(() => {
     if (data) {

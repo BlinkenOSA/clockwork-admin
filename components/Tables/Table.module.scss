@@ -1,5 +1,5 @@
 .Table {
-    margin-bottom: -12px;
+    margin-bottom: 0;
 }
 
 .ActionColumn {
@@ -53,15 +53,25 @@
 }
 
 .FindingAidsTable {
-    margin-left: 14px;
-    margin-bottom: -10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 
     .PublishColumn {
         border-right: none !important;
     }
 
-    :global .ant-table-tbody td {
-        border-bottom: 1px solid #f0f0f0 !important;
+    :global .ant-table-pagination.ant-pagination {
+        margin-top: 16px !important;
+        margin-bottom: -10px !important;
+    }
+
+    :global tbody.ant-table-tbody tr.ant-table-placeholder td.ant-table-cell {
+        border-inline-end: 0 !important;
+    }
+
+    :global .ant-table-footer {
+        border-top: 1px solid rgba(5, 5, 5, 0.06) !important;
+        border-right: 0 !important;
     }
 }
 
@@ -73,6 +83,10 @@
     padding: 0;
     margin: 0;
 
+    &:before {
+        display: unset !important;
+    }
+    
     :global .ant-modal {
         height: -webkit-fill-available;
         max-width: 100vw;
@@ -83,7 +97,7 @@
         width: 100vw;
         height: 100vh;
         top: 0;
-        overflow: auto;
+        overflow: hidden;
     }
 
     :global .ant-modal-body {
@@ -120,4 +134,17 @@
         justify-content: center;
         align-items: center;
     }
+}
+
+.Italic {
+    font-size: 12px;
+}
+
+.Restricted {
+    display: inline-block;
+    background-color: #e03c3c;
+    color: #FFF;
+    padding: 0 8px;
+    border-radius: 3px;
+    margin-bottom: 3px;
 }
