@@ -660,9 +660,9 @@ const Tab04 = ({form, readOnly}) => (
       </Form.Item>
     </Col>
     <Col xs={12}>
-      <Form.Item label="Subject (People)" name="subject_people">
+      <Form.Item label="Subject (People)" name="subject_person">
         <FormRemoteSelectWithEdit
-          fieldName={'subject_people'}
+          fieldName={'subject_person'}
           form={form}
           valueField={'id'}
           labelField={'name'}
