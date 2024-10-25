@@ -78,7 +78,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
       case 'donors':
         return <DonorForm />;
       case 'isaar':
-        return <IsaarForm form={form} />;
+        return <IsaarForm form={form} onActiveTabChange={() => {}} />;
       case 'barcode':
         return <BarcodeForm form={form} />;
       case 'container':
