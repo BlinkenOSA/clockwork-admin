@@ -28,6 +28,7 @@ import {DigitizationForm} from "./fields/DigitizationForm";
 import {RequestsForm} from "./fields/RequestsForm";
 import {RequestItemForm} from "./fields/RequestsItemForm";
 import {NationalityForm} from "./fields/NationalityForm";
+import AuditLog from "./auditLog/AuditLog";
 
 export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
   const afterFinish = () => {
@@ -213,6 +214,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
                   {data['date_updated']}
                   {data['user_updated'] ? ` by '${data['user_updated']}'` : ''}
                 </p>
+                <AuditLog module={module} object_id={data['id']} />
               </Col>
             </Row>
           </div>
