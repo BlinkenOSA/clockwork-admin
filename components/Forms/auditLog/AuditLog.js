@@ -42,7 +42,7 @@ const AuditLog = ({module, object_id}) => {
                     {
                         data.map(d => {
                             return <li>
-                                {moment(d.timestamp).format('YYYY-MM-DD hh:mm:ss')} | [{d.action}] by <strong>{d.user}</strong>{d.changed_fields && <> | <strong>Fields:</strong> {d.changed_fields.join(', ')}</>}
+                                {moment(d.timestamp).format('YYYY-MM-DD HH:mm:ss')} | [{d.action}] by <strong>{d.user}</strong>{d.changed_fields && <> | <strong>Fields:</strong> {d.changed_fields.join(', ')}</>}
                             </li>
                         })
                     }
