@@ -15,6 +15,7 @@ import moment from "moment";
 import {PopupForm} from "../Forms/PopupForm";
 import _ from 'lodash';
 import {AiOutlineLoading} from "react-icons/ai";
+import LibraryMLRInfo from "./components/LibraryMLRInfo";
 
 
 const ORIGIN = {
@@ -178,6 +179,15 @@ const ResearchersTable = ({...props}) => {
         </div>
       )
     }
+
+    if (record['library_id']) {
+      return (
+        <div>
+          <LibraryMLRInfo kohaID={record['library_id']} />
+        </div>
+      )
+    }
+
     return record['mlr']
   }
 
