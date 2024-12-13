@@ -3,11 +3,10 @@ import React from "react";
 import {useData} from "../../../../utils/hooks/useData";
 import style from "./PrintStyle.module.scss";
 import moment from "moment";
+import LibraryMLRInfo from "../../../../components/Tables/components/LibraryMLRInfo";
 
 export default function RequestsPrint() {
   const { data, loading, refresh} = useData(`/v1/research/requests/print`, {});
-
-
 
   const renderRequestsForDay = (date, idx) => {
     const requestsForDay = data.filter(d => d['request_date'] === date)
@@ -18,7 +17,7 @@ export default function RequestsPrint() {
         case 'FA':
           return data['archival_reference_number']
         case 'L':
-          return 'Library'
+          return data['identifier']
         case 'FL':
           return 'Film Library'
       }
@@ -29,7 +28,36 @@ export default function RequestsPrint() {
         case 'FA':
           return data['carrier_type']
         case 'L':
-          return 'Book'
+          if (data['quantity']) {
+            return 'Continuing Resource'
+          } else {
+            return 'Book'
+          }
+        case 'FL':
+          return 'Film Library Movie'
+      }
+    }
+
+    const renderMLR = data => {
+      switch (data['item_origin']) {
+        case 'FA':
+          return data['mlr']
+        case 'L':
+          if (data['quantity']) {
+            return (
+              <div style={{fontSize: '12px'}}>
+                {data['title']} / {data['quantity']}
+                <LibraryMLRInfo kohaID={data['library_id']} />
+              </div>
+            )
+          } else {
+            return (
+              <div style={{fontSize: '12px', lineHeight: '12px'}}>
+                {data['title']}
+                <LibraryMLRInfo kohaID={data['library_id']} />
+              </div>
+            )
+          }
         case 'FL':
           return 'Film Library Movie'
       }
@@ -53,7 +81,7 @@ export default function RequestsPrint() {
                 return (
                   <tr key={`request_${idx}`}>
                     <td width={200}>{renderIdentifier(request)}</td>
-                    <td width={250}>{request['mlr']}</td>
+                    <td width={250}>{renderMLR(request)}</td>
                     <td width={150}>{renderType(request)}</td>
                     <td width={200}>{request['researcher']}</td>
                   </tr>
