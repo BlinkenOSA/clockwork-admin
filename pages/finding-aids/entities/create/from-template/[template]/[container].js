@@ -37,7 +37,7 @@ export default function FindingAidsCreateFromTemplate() {
 
   const generateInitialData = () => {
     templateData['data']['description_level'] = data['description_level'];
-    templateData['data']['level'] = data['level'];
+    // templateData['data']['level'] = data['level'];
     templateData['data']['container_id'] = data['container_id'];
     templateData['data']['folder_no'] = data['folder_no'];
     templateData['data']['uuid'] = data['uuid'];
