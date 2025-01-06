@@ -9,7 +9,6 @@ import {UserContext, UserProvider} from "../utils/context/UserContext";
 import {useRouter} from "next/router";
 import Index401 from "./index401";
 import {allowedGroups} from "../utils/config/allowedGroups";
-import _ from 'lodash';
 
 const themeOptions = {
   token: {
