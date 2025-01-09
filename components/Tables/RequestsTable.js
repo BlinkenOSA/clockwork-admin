@@ -145,23 +145,27 @@ const ResearchersTable = ({...props}) => {
       return record['status'] !== '1' && record['status'] !== '2' && record['status'] !== '3'
     }
 
-    return (
-      <Button.Group>
-        <Tooltip key={'edit'} title={'Edit'}>
-          <Button
-            size="small"
-            icon={<EditOutlined/>}
-            disabled={detectDisabled()}
-            onClick={() => {
-              setSelectedRecord(record.id)
-              setDrawerShown(true)
-            }}/>
-        </Tooltip>
-        <Tooltip key={'delete'} title={'Delete'}>
-          <Button size="small" icon={<DeleteOutlined/>} onClick={() => onDelete(record.id)}/>
-        </Tooltip>
-      </Button.Group>
-    )
+    if (record['research_allowed']) {
+      return (
+          <Button.Group>
+            <Tooltip key={'edit'} title={'Edit'}>
+              <Button
+                  size="small"
+                  icon={<EditOutlined/>}
+                  disabled={detectDisabled()}
+                  onClick={() => {
+                    setSelectedRecord(record.id)
+                    setDrawerShown(true)
+                  }}/>
+            </Tooltip>
+            <Tooltip key={'delete'} title={'Delete'}>
+              <Button size="small" icon={<DeleteOutlined/>} onClick={() => onDelete(record.id)}/>
+            </Tooltip>
+          </Button.Group>
+      )
+    } else {
+      return ''
+    }
   }
 
   const onStatusChange = (action, id) => {
@@ -192,10 +196,23 @@ const ResearchersTable = ({...props}) => {
   }
 
   const renderFoldersItems = (record) => {
+    const getStyle = (rec) => {
+      switch (rec['status']) {
+        case 'new':
+          return {backgroundColor: '#e03c3c'};
+        case 'approved':
+          return {backgroundColor: '#83c04d'}
+        case 'rejected':
+          return {backgroundColor: '#e06d3c'}
+        case 'lifted':
+          return undefined;
+      }
+    }
+
     const renderRecords = () => (
         record['parts'].map(rec => {
             return (
-                <div className={rec['is_restricted'] ? style.Restricted : ''}>
+                <div className={rec['is_restricted'] ? style.Restricted : ''} style={rec['is_restricted'] ? getStyle(rec) : undefined}>
                   {rec['reference_code']}
                 </div>
             )
@@ -222,6 +239,10 @@ const ResearchersTable = ({...props}) => {
           }
         </div>
       );
+    }
+
+    if (!record['research_allowed']) {
+      return <Badge count={'Waiting for approval'} style={{ backgroundColor: "#666", borderRadius: '3px', fontSize: '0.8em' }} />
     }
 
     switch (record['status']) {

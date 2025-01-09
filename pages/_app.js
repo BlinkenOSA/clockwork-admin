@@ -51,8 +51,14 @@ const CheckAccess = ({children}) => {
         access = true;
       }
 
-      if (groups.includes(allowedGroups[mainPath])) {
-        access = true;
+      if (Array.isArray(allowedGroups[mainPath])) {
+        if (groups.some(r => allowedGroups[mainPath].includes(r))) {
+          access = true;
+        }
+      } else {
+        if (groups.includes(allowedGroups[mainPath])) {
+          access = true;
+        }
       }
     }
 

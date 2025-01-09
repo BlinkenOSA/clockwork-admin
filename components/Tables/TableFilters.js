@@ -12,6 +12,7 @@ import ResearcherTableFilter from "./filters/ResearchTableFilter";
 import ResearchersVisitsTableFilter from "./filters/ResearchersVisitsTableFilter";
 import RequestsTableFilter from "./filters/RequestsTableFilter";
 import DigitizationFindingAidsTableFilter from "./filters/DigitizationFindingAidsTableFilter";
+import RestrictedRequestsTableFilter from "./filters/RestrictedRequestsTableFilter";
 
 const TableFilters = ({onFilterChange, module, filters, ...props}) => {
   const renderFilters = () => {
@@ -36,6 +37,8 @@ const TableFilters = ({onFilterChange, module, filters, ...props}) => {
         return <ResearchersVisitsTableFilter />
       case 'requests':
         return <RequestsTableFilter />
+      case 'restricted-requests':
+        return <RestrictedRequestsTableFilter />
       default:
         return <DefaultTableFilters />;
     }

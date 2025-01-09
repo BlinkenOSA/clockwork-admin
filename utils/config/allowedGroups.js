@@ -12,5 +12,5 @@ export const allowedGroups = {
   '/controlled-list': 'Controlled Lists',
   '/mlr': 'MLR',
   '/digitization': '__ALL__',
-  '/researchers-db': 'Research'
+  '/researchers-db': ['Research', 'Restricted Decision Makers']
 }

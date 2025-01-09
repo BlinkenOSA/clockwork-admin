@@ -5,7 +5,7 @@ import { DashboardOutlined, ApartmentOutlined, UserOutlined, ProfileOutlined, Fi
 import { IoSchoolOutline } from "react-icons/io5"
 import { MdOutlineScanner } from "react-icons/md"
 import { BsInboxes, BsBoxArrowInLeft } from "react-icons/bs"
-import { FaExchangeAlt } from "react-icons/fa"
+import { FaExchangeAlt, FaExclamation } from "react-icons/fa"
 import { HiOutlineLibrary } from "react-icons/hi"
 import { BiPieChartAlt2 } from "react-icons/bi"
 import { ImCopy } from "react-icons/im"
@@ -59,6 +59,7 @@ const configMenu = [
       {name: 'Researcher Visits', icon: <HiOutlineLibrary />, group: ['Research'], link: '/researchers-db/visits'},
       {name: 'Researcher Statistics', icon: <BiPieChartAlt2 />, group: ['Research'], link: '/researchers-db/stats'},
       {name: 'Requests', icon: <FaExchangeAlt />, group: ['Research'], link: '/researchers-db/requests'},
+      {name: 'Restricted Access Man.', icon: <FaExclamation />, group: ['Restricted Decision Makers'], link: '/researchers-db/restricted-access'},
     ]}
 ];
 
