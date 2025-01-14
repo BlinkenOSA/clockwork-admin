@@ -1,22 +1,15 @@
-import {Badge, Button, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
-import React, {useEffect, useState} from "react";
+import {Badge, Button, Popconfirm, Popover, Table, Tooltip} from "antd";
+import React, {useEffect} from "react";
 import {
-  PlusOutlined,
-  PrinterOutlined,
-  UndoOutlined,
-  LoadingOutlined, EyeOutlined, EditOutlined, DeleteOutlined,
+  CheckOutlined, CloseOutlined, FileProtectOutlined, GlobalOutlined, InfoCircleOutlined
 } from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
-import {put, remove} from "../../utils/api";
 import {useTable} from "../../utils/hooks/useTable";
-import {deleteAlert} from "./functions/deleteAlert";
 import moment from "moment";
-import {PopupForm} from "../Forms/PopupForm";
-import _ from 'lodash';
 import {AiOutlineLoading} from "react-icons/ai";
-import LibraryMLRInfo from "./components/LibraryMLRInfo";
-
+import Link from "next/link";
+import {put} from "../../utils/api";
 
 const STATUS = {
   'new': 'New',
@@ -27,7 +20,7 @@ const STATUS = {
 
 const RestrictedRequestsTable = ({...props}) => {
   const { data, loading, refresh , tableState,
-    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('restricted-requests', `/v1/research/restricted-requests`);
+    handleDataChange, handleTableChange, handleExpandedRowsChange, handleFilterChange } = useTable('restricted-requests', `/v1/research/restricted-requests`);
 
   useEffect(() => {
     if (data) {
@@ -40,11 +33,17 @@ const RestrictedRequestsTable = ({...props}) => {
       title: 'Reference Code',
       dataIndex: 'reference_code',
       key: 'request_item__container__archival_unit__reference_code',
+      width: 200,
       sorter: true,
+    }, {
+      title: 'View',
+      key: 'view',
+      width: 100,
+      sorter: false,
+      render: (record) => renderView(record)
     }, {
       title: 'Researcher',
       key: 'request_item__request__researcher__last_name',
-      width: 150,
       render: (record) => renderResearcher(record),
       sorter: true,
     }, {
@@ -60,7 +59,16 @@ const RestrictedRequestsTable = ({...props}) => {
       width: 140,
       className: style.ActionColumn,
       render: (data) => renderStatus(data),
-      sorter: true,
+    }, {
+      title: 'Info',
+      width: 50,
+      className: style.ActionColumn,
+      render: (data) => renderInfo(data),
+    }, {
+      title: 'Actions',
+      width: 100,
+      className: style.ActionColumn,
+      render: (data) => renderActions(data),
     }
   ];
 
@@ -84,6 +92,104 @@ const RestrictedRequestsTable = ({...props}) => {
 
     return (
         <Badge count={STATUS[data]} style={{ backgroundColor: getColor(), borderRadius: '3px', fontSize: '0.8em' }} />
+    )
+  }
+
+  const onAccept = (record) => {
+    put(`/v1/research/restricted-requests/approve/${record.id}/`).then(() => {
+        refresh();
+    })
+  }
+
+  const onReject = (record) => {
+      put(`/v1/research/restricted-requests/reject/${record.id}/`).then(() => {
+          refresh();
+      })
+  }
+
+  const onLift = (record) => {
+      put(`/v1/research/restricted-requests/lift/${record.id}/`).then(() => {
+          refresh();
+      })
+  }
+
+  const renderActions = (record) => {
+    return (
+        <Button.Group>
+            <Tooltip key={'accept'} title={'Accept'}>
+              <Popconfirm
+                  title={<span>Are you sure you would like to <strong>approve access</strong> for this item<br/>but keep it's restricted status?</span>}
+                  icon={<CheckOutlined style={{color: '#83c04d'}} />}
+                  onConfirm={() => onAccept(record)}
+                  okText="Yes"
+                  cancelText="No"
+                  placement="left"
+              >
+                <Button size="small" icon={<CheckOutlined />}/>
+              </Popconfirm>
+            </Tooltip>
+            <Tooltip key={'reject'} title={'Reject'}>
+                <Popconfirm
+                    title={<span>Are you sure you would like to <strong>reject access</strong> for this item<br/>but keep it's restricted status?</span>}
+                    icon={<CloseOutlined style={{color: '#e06d3c'}} />}
+                    onConfirm={() => onReject(record)}
+                    okText="Yes"
+                    cancelText="No"
+                    placement="left"
+                >
+                    <Button size="small" icon={<CloseOutlined />}/>
+                </Popconfirm>
+            </Tooltip>
+            <Tooltip key={'lift'} title={'Lift'}>
+                <Popconfirm
+                    title={<span>Are you sure you would like to <strong>lift the restriction permanently</strong> for this item?</span>}
+                    icon={<FileProtectOutlined style={{color: '#223f00'}} />}
+                    onConfirm={() => onLift(record)}
+                    okText="Yes"
+                    cancelText="No"
+                    placement="left"
+                >
+                    <Button size="small" icon={<FileProtectOutlined />} />
+                </Popconfirm>
+            </Tooltip>
+        </Button.Group>
+    )
+  }
+
+  const renderView = (record) => {
+    return (
+        <div style={{display: 'flex', gap: '5px', alignItems: 'center'}}>
+          <a href={`https://catalog.archivum.org/catalog/${record['catalog_link']}`}
+             target={'_blank'} style={{color: "black"}}>
+            <div className={style.CatalogLink}>Catalog</div>
+          </a>
+          <div style={{fontSize: '12px'}}>|</div>
+          <a href={`/finding_aids/entities/edit/${record['finding_aids_entity']}`}
+             target={'_blank'} style={{color: "black"}}>
+            <div className={style.CatalogLink}>AMS</div>
+          </a>
+        </div>
+    )
+  }
+
+  const renderInfo = (record) => {
+    const content = (
+        <div>
+          <div style={{marginBottom: '10px'}}>
+            <strong>Research Subject:</strong><br/>
+            {record['research_subject']}
+          </div>
+          <div>
+            <strong>Motivation:</strong><br/>
+            {record['motivation']}
+          </div>
+        </div>
+    )
+
+    return (
+        <Popover content={content} title="Research Data" trigger="hover">
+          <InfoCircleOutlined />
+        </Popover>
     )
   }
 

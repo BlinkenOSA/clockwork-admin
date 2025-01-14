@@ -8,6 +8,7 @@ import { BsInboxes, BsBoxArrowInLeft } from "react-icons/bs"
 import { FaExchangeAlt, FaExclamation } from "react-icons/fa"
 import { HiOutlineLibrary } from "react-icons/hi"
 import { BiPieChartAlt2 } from "react-icons/bi"
+import { RiExchangeFundsLine } from "react-icons/ri"
 import { ImCopy } from "react-icons/im"
 import React from "react";
 
@@ -58,9 +59,11 @@ const configMenu = [
       {name: 'Researchers', icon: <IdcardOutlined />, group: ['Research'], link: '/researchers-db/researchers'},
       {name: 'Researcher Visits', icon: <HiOutlineLibrary />, group: ['Research'], link: '/researchers-db/visits'},
       {name: 'Researcher Statistics', icon: <BiPieChartAlt2 />, group: ['Research'], link: '/researchers-db/stats'},
-      {name: 'Requests', icon: <FaExchangeAlt />, group: ['Research'], link: '/researchers-db/requests'},
-      {name: 'Restricted Access Man.', icon: <FaExclamation />, group: ['Restricted Decision Makers'], link: '/researchers-db/restricted-access'},
-    ]}
+  ]},
+  {name: 'Requests', icon: <RiExchangeFundsLine />, module: 'requests', group: ['Research', 'Restricted Decision Makers'], submenu: [
+      {name: 'Requests', icon: <FaExchangeAlt />, group: ['Research'], link: '/requests/list'},
+      {name: 'Restricted Access Man.', icon: <FaExclamation />, group: ['Restricted Decision Makers'], link: '/requests/restricted-access'},
+  ]}
 ];
 
 export default configMenu;
