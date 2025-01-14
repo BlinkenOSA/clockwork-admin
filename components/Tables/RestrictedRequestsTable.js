@@ -116,7 +116,7 @@ const RestrictedRequestsTable = ({...props}) => {
   const renderActions = (record) => {
     return (
         <Button.Group>
-            <Tooltip key={'accept'} title={'Accept'}>
+            <Tooltip key={'approve'} title={'Approve'}>
               <Popconfirm
                   title={<span>Are you sure you would like to <strong>approve access</strong> for this item<br/>but keep it's restricted status?</span>}
                   icon={<CheckOutlined style={{color: '#83c04d'}} />}
