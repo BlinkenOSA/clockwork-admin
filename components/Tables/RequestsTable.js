@@ -24,6 +24,14 @@ const ORIGIN = {
   'FL': 'Film Library'
 }
 
+const STATUS = {
+  'new': 'New',
+  'approved': 'Approved',
+  'rejected': 'Rejected',
+  'lifted': 'Lifted',
+  'approved_on_site': 'Approved for on-site viewing'
+}
+
 const ResearchersTable = ({...props}) => {
   const { data, loading, refresh , tableState,
     handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('requests', `/v1/research/requests`);
@@ -202,6 +210,8 @@ const ResearchersTable = ({...props}) => {
           return {backgroundColor: '#e03c3c'};
         case 'approved':
           return {backgroundColor: '#83c04d'}
+        case 'approved_on_site':
+          return {backgroundColor: '#4dc098'};
         case 'rejected':
           return {backgroundColor: '#e06d3c'}
         case 'lifted':
@@ -211,11 +221,22 @@ const ResearchersTable = ({...props}) => {
 
     const renderRecords = () => (
         record['parts'].map(rec => {
-            return (
-                <div className={rec['is_restricted'] ? style.Restricted : ''} style={rec['is_restricted'] ? getStyle(rec) : undefined}>
+            if (rec['is_restricted']) {
+              return (
+                <Tooltip key={rec['id']} title={STATUS[rec['status']]} placement={'left'}>
+                  <div className={style.Restricted} style={getStyle(rec)}>
+                    {rec['reference_code']}
+                  </div>
+                </Tooltip>
+              )
+            } else {
+              return (
+                <div>
                   {rec['reference_code']}
                 </div>
-            )
+              )
+            }
+
         })
     )
 

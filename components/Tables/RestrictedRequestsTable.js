@@ -1,21 +1,21 @@
 import {Badge, Button, Popconfirm, Popover, Table, Tooltip} from "antd";
 import React, {useEffect} from "react";
 import {
-  CheckOutlined, CloseOutlined, FileProtectOutlined, GlobalOutlined, InfoCircleOutlined
+  CheckOutlined, CloseOutlined, FileProtectOutlined, InfoCircleOutlined, CheckSquareOutlined
 } from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {useTable} from "../../utils/hooks/useTable";
 import moment from "moment";
 import {AiOutlineLoading} from "react-icons/ai";
-import Link from "next/link";
 import {put} from "../../utils/api";
 
 const STATUS = {
   'new': 'New',
   'approved': 'Approved',
   'rejected': 'Rejected',
-  'lifted': 'Lifted'
+  'lifted': 'Lifted',
+  'approved_on_site': 'Approved for on-site'
 }
 
 const RestrictedRequestsTable = ({...props}) => {
@@ -83,6 +83,8 @@ const RestrictedRequestsTable = ({...props}) => {
           return '#e03c3c';
         case 'approved':
           return '#83c04d';
+        case 'approved_on_site':
+          return '#4dc098';
         case 'rejected':
           return '#e06d3c';
         case 'lifted':
@@ -98,6 +100,12 @@ const RestrictedRequestsTable = ({...props}) => {
   const onAccept = (record) => {
     put(`/v1/research/restricted-requests/approve/${record.id}/`).then(() => {
         refresh();
+    })
+  }
+
+  const onAcceptOnSite = (record) => {
+    put(`/v1/research/restricted-requests/approve_on_site/${record.id}/`).then(() => {
+      refresh();
     })
   }
 
@@ -126,6 +134,18 @@ const RestrictedRequestsTable = ({...props}) => {
                   placement="left"
               >
                 <Button size="small" icon={<CheckOutlined />}/>
+              </Popconfirm>
+            </Tooltip>
+            <Tooltip key={'approve_on_site'} title={'Approve for on-site'}>
+              <Popconfirm
+                title={<span>Are you sure you would like to <strong>approve access for <u>on-site viewing</u></strong> for this item<br/>but keep it's restricted status?</span>}
+                icon={<CheckSquareOutlined style={{color: '#83c04d'}} />}
+                onConfirm={() => onAcceptOnSite(record)}
+                okText="Yes"
+                cancelText="No"
+                placement="left"
+              >
+                <Button size="small" icon={<CheckSquareOutlined />}/>
               </Popconfirm>
             </Tooltip>
             <Tooltip key={'reject'} title={'Reject'}>
