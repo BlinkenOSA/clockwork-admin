@@ -41,7 +41,7 @@ const ResearchersTable = ({...props}) => {
 
   const columns = [
     {
-      title: 'Request Date',
+      title: 'Planned Visit',
       dataIndex: 'request_date',
       key: 'request__request_date',
       width: 120,

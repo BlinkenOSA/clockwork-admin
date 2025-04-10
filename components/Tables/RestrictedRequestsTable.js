@@ -47,7 +47,7 @@ const RestrictedRequestsTable = ({...props}) => {
       render: (record) => renderResearcher(record),
       sorter: true,
     }, {
-      title: 'Request Date',
+      title: 'Planned Visit',
       dataIndex: 'request_date',
       key: 'request_item__request__request_date',
       render: (data) => renderDate(data) ,
