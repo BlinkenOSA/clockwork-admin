@@ -32,7 +32,7 @@ const STATUS = {
   'approved_on_site': 'Approved for on-site viewing'
 }
 
-const ResearchersTable = ({...props}) => {
+const RequestsTable = ({...props}) => {
   const { data, loading, refresh , tableState,
     handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('requests', `/v1/research/requests`);
 
@@ -370,4 +370,4 @@ const ResearchersTable = ({...props}) => {
   )
 };
 
-export default ResearchersTable;
+export default RequestsTable;
