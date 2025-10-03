@@ -18,7 +18,7 @@ const MODULES = {
   'isaar': 'ISAAR-CPF',
   'isad': 'ISAD(G)',
   'researchers-db/researchers': 'Researcher',
-  'researchers-db/requests': 'Request'
+  'requests/list': 'Request'
 };
 
 export const SimpleForm = ({api, module, type, initialValues, onActiveTabChange}) => {
@@ -50,7 +50,7 @@ export const SimpleForm = ({api, module, type, initialValues, onActiveTabChange}
         return <FindingAidsEntityForm form={form} locale={locale} readOnly={readOnly} onActiveTabChange={onActiveTabChange}/>;
       case 'researchers-db/researchers':
         return <ResearcherForm form={form} readOnly={readOnly}/>;
-      case 'researchers-db/requests':
+      case 'requests/list':
         return <RequestsForm form={form} readOnly={readOnly}/>;
       default:
         break;

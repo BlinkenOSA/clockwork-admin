@@ -21,7 +21,7 @@ export default function RequestCreate() {
       <Breadcrumbs module={'requests'} breadcrumbData={breadcrumbData} />
       <SimpleForm
         api={`/v1/research/requests/create/`}
-        module={'researchers-db/requests'}
+        module={'requests/list'}
         type={'create'}
         initialValues={initialValues}
       />
