@@ -1,9 +1,9 @@
 import Head from "next/head";
 import React from "react";
-import {useData} from "../../../../utils/hooks/useData";
+import {useData} from "../../../utils/hooks/useData";
 import style from "./PrintStyle.module.scss";
 import moment from "moment";
-import LibraryMLRInfo from "../../../../components/Tables/components/LibraryMLRInfo";
+import LibraryMLRInfo from "../../../components/Tables/components/LibraryMLRInfo";
 
 export default function RequestsPrint() {
   const { data, loading, refresh} = useData(`/v1/research/requests/print`, {});

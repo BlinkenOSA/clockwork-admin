@@ -311,13 +311,13 @@ const RequestsTable = ({...props}) => {
     return (
       <Row gutter={12}>
         <Col span={16}>
-          <a href={'/researchers-db/requests/create'}>
+          <a href={'/requests/create'}>
             <Button type={'primary'}>
               <PlusOutlined />
               Create Request
             </Button>
           </a>
-          <a href={'/researchers-db/requests/print'} target={'_blank'} style={{marginLeft: '10px'}}>
+          <a href={'/requests/print'} target={'_blank'} style={{marginLeft: '10px'}}>
             <Button type={'default'}>
               <PrinterOutlined />
               Print Requests
