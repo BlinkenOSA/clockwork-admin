@@ -173,11 +173,15 @@ const FindingAidsGrid = ({seriesID}) => {
   };
 
   const onReplaceAll = (find, replace) => {
+    const escapeRegExp = (string) => {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
     const search = hot.current.hotInstance.getPlugin('search');
     const results = search.query(find);
     results.forEach(result => {
       const data = hot.current.hotInstance.getDataAtCell(result['row'], result['col']);
-      const findRegEx = new RegExp(find, "ig");
+      const findRegEx = new RegExp(escapeRegExp(find), "ig");
       hot.current.hotInstance.setDataAtCell(result['row'], result['col'], data.replace(findRegEx, replace));
     });
     message.info(`${results.length} occurences of '${find}' was changed to '${replace}'.`)
