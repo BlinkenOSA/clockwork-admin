@@ -163,20 +163,20 @@ const FindingAidsGrid = ({seriesID}) => {
     }
   };
 
+  const escapeRegExp = (string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
   const onReplace = (find, replace) => {
     // Van currentFind
     if (Object.keys(currentFind.current).length > 0) {
       const data = hot.current.hotInstance.getDataAtCell(currentFind.current['row'], currentFind.current['col']);
-      const findRegEx = new RegExp(find, "ig");
+      const findRegEx = new RegExp(escapeRegExp(find), "ig");
       hot.current.hotInstance.setDataAtCell(currentFind.current['row'], currentFind.current['col'], data.replace(findRegEx, replace));
     }
   };
 
   const onReplaceAll = (find, replace) => {
-    const escapeRegExp = (string) => {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }
-
     const search = hot.current.hotInstance.getPlugin('search');
     const results = search.query(find);
     results.forEach(result => {
