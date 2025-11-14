@@ -61,7 +61,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
       case 'languages':
         return <LanguageForm form={form} readOnly={readOnly} />;
       case 'people':
-        return <PersonForm form={form} readOnly={readOnly} />;
+        return <PersonForm form={form} readOnly={readOnly} selectedRecord={selectedRecord} />;
       case 'places':
         return <PlaceForm form={form} readOnly={readOnly} />;
       case 'subjects':

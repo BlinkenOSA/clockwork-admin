@@ -6,6 +6,7 @@ import {Card} from "antd";
 import PopupTable from "../../../components/Tables/PopupTable";
 import {renderURL} from "../../../utils/renders/renderURL";
 import {renderWikidataURL} from "../../../utils/renders/renderWikidataURL";
+import {renderFACount} from "../../../utils/renders/renderFACount";
 
 export default function PersonList() {
   const breadcrumbData = [
@@ -31,7 +32,13 @@ export default function PersonList() {
       key: 'wikidata_id',
       sorter: false,
       render: renderWikidataURL
-    }
+    }, {
+      title: 'Appears in Finding Aids',
+      key: 'fa_total_count',
+      dataIndex: 'fa_total_count',
+      sorter: true,
+      width: 200
+    },
   ];
 
   return (
