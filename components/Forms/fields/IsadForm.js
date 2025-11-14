@@ -163,7 +163,7 @@ const Tab02 = ({form, locale, readOnly}) => {
   return (
     <Row gutter={[12]}>
       <Col xs={24}>
-        <Form.Item label={`3.1.3 Predominant date`} name="predominant_date">
+        <Form.Item label={`3.1.3 Predominant date`} name="date_predominant">
           <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
