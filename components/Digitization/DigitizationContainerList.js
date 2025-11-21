@@ -3,8 +3,13 @@ import {Card} from "antd";
 import PopupTable from "../../components/Tables/PopupTable";
 import {renderDigitalVersion} from "../../utils/renders/renderDigitalVersion";
 import {renderDigitalVersionResearchCloud} from "../../utils/renders/renderDigitalVersionResearchCloud";
+import moment from "moment/moment";
 
 export default function DigitizationContainerList() {
+  const renderDate = (data) => {
+    return (moment(data).format('YYYY-MM-DD'))
+  }
+
   const columns = [
     {
       title: 'Container No.',
@@ -17,6 +22,14 @@ export default function DigitizationContainerList() {
       dataIndex: 'barcode',
       key: 'barcode',
       width: 150,
+      sorter: true
+    }, {
+      title: 'Date Updated',
+      dataIndex: 'date_updated',
+      key: 'date_updated',
+      width: 150,
+      className: 'centerColumn',
+      render: renderDate,
       sorter: true
     }, {
       title: 'Digital Version',
@@ -42,7 +55,7 @@ export default function DigitizationContainerList() {
       sorter: true,
       render: renderDigitalVersion
     }, {
-      title: 'Creation Date',
+      title: 'Creation Date (Digital)',
       dataIndex: 'digital_version_creation_date',
       key: 'digital_version_creation_date',
       className: 'centerColumn',
