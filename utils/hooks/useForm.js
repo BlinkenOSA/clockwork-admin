@@ -25,7 +25,7 @@ export const useForm = (api, formType, messageText, afterFinish, afterValuesChan
             description: `${messageText} record was updated!`,
           });
           setFormLoading(false);
-          afterFinish && afterFinish()
+          afterFinish && afterFinish(response.data)
         }).catch(error => {
           handleError(error);
         });
@@ -38,7 +38,7 @@ export const useForm = (api, formType, messageText, afterFinish, afterValuesChan
             description: `'${messageText}' record was updated!`,
           });
           setFormLoading(false);
-          afterFinish && afterFinish()
+          afterFinish && afterFinish(response.data)
         }).catch(error => {
           handleError(error);
         });
@@ -51,7 +51,7 @@ export const useForm = (api, formType, messageText, afterFinish, afterValuesChan
             description: `${messageText} record was created!`,
           });
           setFormLoading(false);
-          afterFinish()
+          afterFinish && afterFinish(response.data)
         }).catch(error => {
           handleError(error);
         });

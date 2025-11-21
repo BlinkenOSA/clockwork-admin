@@ -31,8 +31,8 @@ import {NationalityForm} from "./fields/NationalityForm";
 import AuditLog from "./auditLog/AuditLog";
 
 export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
-  const afterFinish = () => {
-    onClose();
+  const afterFinish = (data) => {
+    onClose(data);
   };
 
   const {form, formLoading, errors, onFinish, renderErrors, onValuesChange} =
