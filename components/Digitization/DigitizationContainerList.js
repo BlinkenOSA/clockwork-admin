@@ -1,13 +1,17 @@
 import React from 'react'
-import {Card} from "antd";
 import PopupTable from "../../components/Tables/PopupTable";
 import {renderDigitalVersion} from "../../utils/renders/renderDigitalVersion";
 import {renderDigitalVersionResearchCloud} from "../../utils/renders/renderDigitalVersionResearchCloud";
 import moment from "moment/moment";
+import style from "./DigitizationContainerList.module.scss"
 
 export default function DigitizationContainerList() {
   const renderDate = (data) => {
     return (moment(data).format('YYYY-MM-DD'))
+  }
+
+  const renderContainerNo = (data, record) => {
+    return <a className={style.ContainerNo} href={'/finding-aids/containers/' + record['archival_unit_id']} target={'_blank'} rel="noreferrer">{data}</a>
   }
 
   const columns = [
@@ -16,6 +20,7 @@ export default function DigitizationContainerList() {
       dataIndex: 'container_no',
       key: 'container_no',
       sorter: true,
+      render: renderContainerNo,
       width: 200
     }, {
       title: 'Barcode',
@@ -27,7 +32,7 @@ export default function DigitizationContainerList() {
       title: 'Date Updated',
       dataIndex: 'date_updated',
       key: 'date_updated',
-      width: 150,
+      width: 120,
       className: 'centerColumn',
       render: renderDate,
       sorter: true
@@ -35,14 +40,14 @@ export default function DigitizationContainerList() {
       title: 'Digital Version',
       dataIndex: 'digital_version_exists',
       key: 'digital_version_exists',
-      width: 150,
+      width: 120,
       className: 'centerColumn',
       sorter: true,
       render: renderDigitalVersion
     }, {
       title: 'Research Cloud',
       key: 'digital_version_research_cloud',
-      width: 150,
+      width: 120,
       className: 'centerColumn',
       sorter: true,
       render: renderDigitalVersionResearchCloud
@@ -50,7 +55,7 @@ export default function DigitizationContainerList() {
       title: 'Online',
       dataIndex: 'digital_version_online',
       key: 'digital_version_online',
-      width: 150,
+      width: 120,
       className: 'centerColumn',
       sorter: true,
       render: renderDigitalVersion
