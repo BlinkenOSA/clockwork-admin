@@ -2,10 +2,11 @@ import React from 'react';
 import {Form, Col, Input, Tabs} from "antd";
 import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
 import {PersonOtherNames} from "./authority_lists/PersonOtherNames";
+import FormDuplications from "../components/FormDuplications";
 
 const { TabPane } = Tabs;
 
-export const PersonForm = ({form, readOnly}) => {
+export const PersonForm = ({form, selectedRecord, readOnly, afterMergeFinish}) => {
   return (
     <React.Fragment>
       <Col xs={12}>
@@ -58,6 +59,13 @@ export const PersonForm = ({form, readOnly}) => {
               columnTitle={'Wikipedia Link'}
               columnField={'url'}
               type={'person'}
+            />
+          </TabPane>
+          <TabPane tab="Duplications" key="duplications">
+            <FormDuplications
+              selectedRecord={selectedRecord}
+              api={`/v1/authority_list/people/${selectedRecord}/similar`}
+              afterMergeFinish={afterMergeFinish}
             />
           </TabPane>
         </Tabs>
