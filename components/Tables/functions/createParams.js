@@ -4,11 +4,16 @@ export const createParams = ({ pagination={}, filters={}, ...sorter}) => {
   // Sorting
   const createSortParams = (sorter) => {
     const {columnKey, order, column} = sorter;
-    if (columnKey && column) {
-      if (column.hasOwnProperty('sortKeys')) {
-        return {ordering: order === 'ascend' ? `${column.sortKeys.join(',')}` : `-${column.sortKeys.join(',')}`}
+
+    if (columnKey) {
+      if (column) {
+        if (column.hasOwnProperty('sortKeys')) {
+          return {ordering: order === 'ascend' ? `${column.sortKeys.join(',')}` : `-${column.sortKeys.join(',')}`}
+        } else {
+          return {ordering: order === 'ascend' ? `${columnKey}` : `-${columnKey}`}
+        }
       } else {
-        return {ordering: order === 'ascend' ? `${columnKey}` : `-${columnKey}`}
+        return {ordering: ''}
       }
     }
   };
