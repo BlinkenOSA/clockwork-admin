@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@ant-design/icons": "^4.8.0",
+    "@ant-design/icons": "5.x",
     "@ant-design/plots": "^1.2.2",
     "@handsontable/react": "^12.3.0",
     "@kunukn/react-collapse": "^2.2.9",
@@ -20,7 +20,7 @@
     "handsontable": "^12.3.0",
     "lodash": "^4.17.21",
     "next": "12.3.4",
-    "next-auth": "^4.18.4",
+    "next-auth": "4.18.10",
     "next-remove-imports": "^1.0.12",
     "react": "17.0.2",
     "react-dom": "17.0.2",
