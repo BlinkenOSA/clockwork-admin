@@ -176,6 +176,7 @@ export const FormRemoteSelectWithEdit = ({
                     type={action}
                     label={getMessageText()}
                     onClose={onClose}
+                    hasMerge={false}
                 />
             </Drawer>
         </>

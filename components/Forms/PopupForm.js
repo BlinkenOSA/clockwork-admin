@@ -30,7 +30,7 @@ import {RequestItemForm} from "./fields/RequestsItemForm";
 import {NationalityForm} from "./fields/NationalityForm";
 import AuditLog from "./auditLog/AuditLog";
 
-export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
+export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, hasMerge=true, onClose}) => {
   const afterFinish = (data) => {
     onClose(data);
   };
@@ -61,7 +61,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
       case 'languages':
         return <LanguageForm form={form} readOnly={readOnly} />;
       case 'people':
-        return <PersonForm form={form} readOnly={readOnly} selectedRecord={selectedRecord} afterMergeFinish={afterFinish} />;
+        return <PersonForm form={form} readOnly={readOnly} selectedRecord={selectedRecord} afterMergeFinish={afterFinish} hasMerge={hasMerge}/>;
       case 'places':
         return <PlaceForm form={form} readOnly={readOnly} />;
       case 'subjects':

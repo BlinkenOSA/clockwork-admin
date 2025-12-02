@@ -6,7 +6,7 @@ import FormDuplications from "../components/FormDuplications";
 
 const { TabPane } = Tabs;
 
-export const PersonForm = ({form, selectedRecord, readOnly, afterMergeFinish}) => {
+export const PersonForm = ({form, selectedRecord, readOnly, afterMergeFinish, hasMerge}) => {
   return (
     <React.Fragment>
       <Col xs={12}>
@@ -61,13 +61,15 @@ export const PersonForm = ({form, selectedRecord, readOnly, afterMergeFinish}) =
               type={'person'}
             />
           </TabPane>
-          <TabPane tab="Duplications" key="duplications">
-            <FormDuplications
-              selectedRecord={selectedRecord}
-              api={`/v1/authority_list/people/${selectedRecord}/similar`}
-              afterMergeFinish={afterMergeFinish}
-            />
-          </TabPane>
+          { selectedRecord && hasMerge &&
+            <TabPane tab="Duplications" key="duplications">
+              <FormDuplications
+                selectedRecord={selectedRecord}
+                api={`/v1/authority_list/people/${selectedRecord}/similar`}
+                afterMergeFinish={afterMergeFinish}
+              />
+            </TabPane>
+          }
         </Tabs>
       </Col>
     </React.Fragment>
