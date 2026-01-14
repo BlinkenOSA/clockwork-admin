@@ -58,7 +58,7 @@ const DigitalVersionTab = ({form, initialValues, locale, readOnly}) => {
     } else {
       return (
         <div>
-          <Badge count={'Not exists'} style={
+          <Badge count={'None'} style={
             { backgroundColor: '#fa8c16', borderRadius: '3px', fontSize: '0.8em', marginTop: '8px' }
           } />
         </div>
