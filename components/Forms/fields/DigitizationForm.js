@@ -5,8 +5,6 @@ import {Form, Col} from "antd";
 import 'react-json-view-lite/dist/index.css';
 
 const JsonViewer = ({value}) => {
-  console.log(value);
-
   return (
     value ?
     <JsonView

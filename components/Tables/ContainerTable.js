@@ -1,4 +1,4 @@
-import {Button, Card, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
+import {Badge, Button, Card, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
 import React, {useState, useEffect} from "react";
 import {ArrowUpOutlined, ArrowDownOutlined, EditOutlined, DeleteOutlined, LoadingOutlined, BarcodeOutlined,
   CloseOutlined, TableOutlined, CaretRightOutlined, PrinterOutlined, CaretUpOutlined, CaretDownOutlined} from "@ant-design/icons";
@@ -138,6 +138,25 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
 
   };
 
+  const renderDigitalVersions = (value, record) => {
+    const masters = record['digital_versions_masters']
+    const access_copies = record['digital_versions_access_copies']
+
+    if (masters > 0 || access_copies > 0) {
+      return (
+          <div className={style.DigitalBadge}>
+            { masters === 1 && `Master: 1`}
+            { masters > 1 && `Masters: ${masters}`}
+            { access_copies > 0 && masters > 0 && <span> | </span>}
+            { access_copies === 1 && `Access Copy: 1`}
+            { access_copies > 1 && `Access Copies: ${access_copies}`}
+          </div>
+      )
+    } else {
+      return ''
+    }
+  }
+
   const columns = [
     {
       title: 'Container No.',
@@ -154,7 +173,13 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
       title: 'Carrier Type',
       dataIndex: 'carrier_type',
       key: 'carrier_type',
-      width: 300
+      width: 200
+    }, {
+      title: 'Digital Copies',
+      dataIndex: 'container-digital-versions',
+      key: 'container-digital-versions',
+      render: renderDigitalVersions,
+      width: 180
     }, {
       key: 'actions',
       title: 'Actions',
@@ -345,7 +370,6 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
           selectedRecord={selectedRecord}
           module={formType}
           type={action}
-          label={formType === 'container' ? 'Container' : 'Barcode'}
           onClose={onClose}
         />
       </Drawer>

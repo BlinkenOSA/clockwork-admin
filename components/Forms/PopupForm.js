@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Form, Row, Col, Button, Input} from 'antd';
+import {Form, Row, Col, Button, Input, Divider} from 'antd';
 import style from './Forms.module.css';
 import {CarrierTypeForm} from "./fields/CarrierTypeForm";
 import {CorporationForm} from "./fields/CorporationForm";
@@ -16,8 +16,8 @@ import {DonorForm} from "./fields/DonorForm";
 import {useData} from "../../utils/hooks/useData";
 import {fillManyFields} from "../../utils/functions/fillManyFields";
 import {IsaarForm} from "./fields/IsaarForm";
-import {BarcodeForm} from "./fields/BarcodeForm";
-import {ContainerForm} from "./fields/ContainerForm";
+import {BarcodeForm} from "./fields/containers/BarcodeForm";
+import {ContainerForm} from "./fields/containers/ContainerForm";
 import {ExtentUnitForm} from "./fields/ExtentUnitForm";
 import {RoleForm} from "./fields/RoleForm";
 import {useForm} from "../../utils/hooks/useForm";
@@ -29,6 +29,7 @@ import {RequestsForm} from "./fields/RequestsForm";
 import {RequestItemForm} from "./fields/RequestsItemForm";
 import {NationalityForm} from "./fields/NationalityForm";
 import AuditLog from "./auditLog/AuditLog";
+import DigitalVersionsTable from "./fields/containers/DigitalVersionsTable";
 
 export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, hasMerge=true, onClose}) => {
   const afterFinish = (data) => {
@@ -168,6 +169,21 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
     }
   };
 
+  const renderDigitalVersions = () => {
+    if (data && data.digital_versions && data.digital_versions.length > 0) {
+      return (
+          <>
+            <Divider />
+            <h3>Digital Versions</h3>
+            <DigitalVersionsTable digitalVersions={data.digital_versions} />
+            <br/>
+          </>
+      )
+    } else {
+        return null;
+    }
+  }
+
   return (
     <React.Fragment>
       { errors && renderErrors() }
@@ -200,6 +216,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
             }
           </Col>
         </Row>
+        { module === 'container' && renderDigitalVersions() }
         {data && data.hasOwnProperty('date_created') &&
           <div className={style.FooterInfo}>
             <Row gutter={10} type="flex">
