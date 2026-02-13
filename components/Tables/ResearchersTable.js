@@ -45,11 +45,6 @@ const ResearchersTable = ({...props}) => {
       key: 'country__country',
       sorter: true,
     }, {
-      title: 'Citizenship',
-      dataIndex: 'citizenship',
-      key: 'citizenship__nationality',
-      sorter: true,
-    }, {
       title: 'Created',
       dataIndex: 'date_created',
       key: 'date_created',

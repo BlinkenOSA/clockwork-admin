@@ -17,7 +17,7 @@ const ResearcherTableFilter = () => {
 
   return (
     <Row gutter={10} type="flex">
-      <Col span={8}>
+      <Col span={10}>
         <Form.Item name="search">
           <FormFilterSearchInput
             placeholder={'Search...'}
@@ -26,23 +26,13 @@ const ResearcherTableFilter = () => {
             className={style.Search}/>
         </Form.Item>
       </Col>
-      <Col span={4}>
+      <Col span={6}>
         <Form.Item name="country">
           <FormRemoteSelect
             valueField={'id'}
             labelField={'country'}
             placeholder={'- Select Country -'}
             selectAPI={'/v1/research/researcher/country-used/select/'}
-          />
-        </Form.Item>
-      </Col>
-      <Col span={4}>
-        <Form.Item name="citizenship">
-          <FormRemoteSelect
-            valueField={'id'}
-            labelField={'nationality'}
-            placeholder={'- Select Citizenship -'}
-            selectAPI={'/v1/research/researcher/nationality-used/select/'}
           />
         </Form.Item>
       </Col>

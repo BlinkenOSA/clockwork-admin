@@ -6,6 +6,8 @@ import FormRadioGroup from "../components/FormRadioGroup";
 import style from "../Forms.module.css";
 
 const OCCUPATION = [
+  { id: 'ceu_student', occupation: 'CEU Student'},
+  { id: 'ceu_faculty', occupation: 'CEU Faculty'},
   { id: 'ceu', occupation: 'CEU'},
   { id: 'other', occupation: 'Other'},
 ];
@@ -49,41 +51,35 @@ export const ResearcherForm = ({form, readOnly}) => {
         <Form.Item label="Last Name" name="last_name" rules={[{ required: true }]}>
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Address in Hungary" name="address_hungary">
-          <Input disabled={readOnly}/>
-        </Form.Item>
-        <Form.Item label="City in Hungary" name="city_hungary">
-          <Input disabled={readOnly}/>
-        </Form.Item>
-        <Form.Item label="Permanent Address" name="address_abroad">
-          <Input disabled={readOnly}/>
-        </Form.Item>
-        <Form.Item label="City - Permanent Address" name="city_abroad">
-          <Input disabled={readOnly}/>
-        </Form.Item>
         <Form.Item label="Country - Permanent Address" name="country" rules={[{ required: true }]}>
           <FormRemoteSelect
-            valueField={'id'}
-            labelField={'country'}
-            selectAPI={'/v1/authority_list/select/countries/'}
-            disabled={readOnly}
+              valueField={'id'}
+              labelField={'country'}
+              selectAPI={'/v1/authority_list/select/countries/'}
+              disabled={readOnly}
           />
         </Form.Item>
-      </Col>
-      <Col xs={8}>
-        <Form.Item label="Passport or ID Number" name="id_number" rules={[{ required: true }]}>
+        <Form.Item label="City" name="city_abroad">
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Email" name="email" rules={[{ required: true }]}>
+        <Form.Item label="Address" name="address_abroad">
+          <Input disabled={readOnly}/>
+        </Form.Item>
+        <Form.Item label="House No." name="house_number">
           <Input disabled={readOnly}/>
         </Form.Item>
         <Form.Item label="Citizenship" name="citizenship">
           <FormRemoteSelect
-            valueField={'id'}
-            labelField={'nationality'}
-            selectAPI={'/v1/controlled_list/select/nationalities/'}
-            disabled={readOnly}
+              valueField={'id'}
+              labelField={'nationality'}
+              selectAPI={'/v1/controlled_list/select/nationalities/'}
+              disabled={true}
           />
+        </Form.Item>
+      </Col>
+      <Col xs={8}>
+        <Form.Item label="Email" name="email" rules={[{ required: true }]}>
+          <Input disabled={readOnly}/>
         </Form.Item>
         <Form.Item label="Occupation" name="occupation" rules={[{ required: true }]}>
           <FormSelect
@@ -100,16 +96,16 @@ export const ResearcherForm = ({form, readOnly}) => {
             options={OCCUPATION_TYPE}
             valueField={'value'}
             labelField={'label'}
-            disabled={readOnly}
+            disabled={true}
           />
         </Form.Item>
         <Form.Item label="Department" name="department">
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Employer or school" name="employer_or_school">
+        <Form.Item label="Institution / Position / Independent researcher" name="employer_or_school">
           <Input disabled={readOnly}/>
         </Form.Item>
-        <Form.Item label="Degree" name="degree">
+        <Form.Item label="Current Degree / Course" name="degree">
           <FormRemoteSelect
             valueField={'id'}
             labelField={'degree'}
