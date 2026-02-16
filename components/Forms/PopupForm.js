@@ -105,6 +105,8 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
         return <RequestsForm form={form} readOnly={readOnly} />;
       case 'request_item':
         return <RequestItemForm form={form} readOnly={readOnly} />;
+      case 'digital-versions':
+        return '';
       default:
         return (
           <Col xs={24}>
@@ -169,75 +171,72 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
     }
   };
 
-  const renderDigitalVersions = () => {
+  if (module === 'digital-versions') {
     if (data && data.digital_versions && data.digital_versions.length > 0) {
       return (
           <>
-            <Divider />
-            <h3>Digital Versions</h3>
             <DigitalVersionsTable digitalVersions={data.digital_versions} />
-            <br/>
           </>
       )
     } else {
-        return null;
+      return null;
     }
+  } else {
+    return (
+      <React.Fragment>
+        { errors && renderErrors() }
+        <Form
+            name={`${module}-form`}
+            scrollToFirstError={true}
+            validateMessages={validateMessages}
+            validateTrigger={''}
+            initialValues={getInitialValue()}
+            form={form}
+            onFinish={onFinish}
+            onValuesChange={onValuesChange}
+            layout={'vertical'}
+            className={style.Form}
+        >
+          <Row gutter={[12, 0]}>
+            {renderFields()}
+          </Row>
+          <Row>
+            <Col xs={4}>
+              {
+                  type !== 'view' &&
+                  <Button
+                      loading={formLoading}
+                      type={'primary'}
+                      htmlType={'submit'}
+                  >
+                    Submit
+                  </Button>
+              }
+            </Col>
+          </Row>
+          {data && data.hasOwnProperty('date_created') &&
+              <div className={style.FooterInfo}>
+                <Row gutter={10} type="flex">
+                  <Col>
+                    <p>
+                      <strong>Record created: </strong>
+                      {data['date_created']}
+                      {data['user_created'] ? ` by '${data['user_created']}'` : ''}
+                    </p>
+                    <p>
+                      <strong>Record updated: </strong>
+                      {data['date_updated']}
+                      {data['user_updated'] ? ` by '${data['user_updated']}'` : ''}
+                    </p>
+                    <AuditLog module={module} object_id={data['id']} />
+                  </Col>
+                </Row>
+              </div>
+          }
+        </Form>
+      </React.Fragment>
+    )
   }
 
-  return (
-    <React.Fragment>
-      { errors && renderErrors() }
-      <Form
-        name={`${module}-form`}
-        scrollToFirstError={true}
-        validateMessages={validateMessages}
-        validateTrigger={''}
-        initialValues={getInitialValue()}
-        form={form}
-        onFinish={onFinish}
-        onValuesChange={onValuesChange}
-        layout={'vertical'}
-        className={style.Form}
-      >
-        <Row gutter={[12, 0]}>
-          {renderFields()}
-        </Row>
-        <Row>
-          <Col xs={4}>
-            {
-              type !== 'view' &&
-              <Button
-                loading={formLoading}
-                type={'primary'}
-                htmlType={'submit'}
-              >
-                Submit
-              </Button>
-            }
-          </Col>
-        </Row>
-        { module === 'container' && renderDigitalVersions() }
-        {data && data.hasOwnProperty('date_created') &&
-          <div className={style.FooterInfo}>
-            <Row gutter={10} type="flex">
-              <Col>
-                <p>
-                  <strong>Record created: </strong>
-                  {data['date_created']}
-                  {data['user_created'] ? ` by '${data['user_created']}'` : ''}
-                </p>
-                <p>
-                  <strong>Record updated: </strong>
-                  {data['date_updated']}
-                  {data['user_updated'] ? ` by '${data['user_updated']}'` : ''}
-                </p>
-                <AuditLog module={module} object_id={data['id']} />
-              </Col>
-            </Row>
-          </div>
-        }
-      </Form>
-    </React.Fragment>
-  )
 };
 

@@ -1,4 +1,4 @@
-import {Badge, Button, Table} from "antd";
+import {Button, Table} from "antd";
 import ResearchCloudLink from "../finding_aids/ResearchCloudLink";
 import style from "./DigitalVersionsTable.module.scss";
 
@@ -42,7 +42,14 @@ const DigitalVersionsTable = ({digitalVersions}) => {
                 return (
                     <div className={style.Availability}>
                         { physical_copies.map((physical_copy, index) => (
-                            <div key={index}>{physical_copy['storage_unit']} [{physical_copy['storage_unit_label']}]</div>
+                            <div key={index} className={style.AvailabilityRow}>
+                                <div className={style.StorageUnit}>
+                                    {physical_copy['storage_unit']}
+                                </div>
+                                <div className={style.StorageLabel}>
+                                    {physical_copy['storage_unit_label']}
+                                </div>
+                            </div>
                         ))}
                     </div>
                 )
@@ -57,18 +64,22 @@ const DigitalVersionsTable = ({digitalVersions}) => {
             dataIndex: 'level',
             key: 'level',
             render: renderLevel,
-            sorter: true,
+            filters: [
+                { text: 'Master', value: 'M' },
+                { text: 'Access Copy', value: 'A' }
+            ],
+            onFilter: (value, record) => record.level.indexOf(value) === 0,
+            width: 150,
         }, {
             title: 'Filename',
             dataIndex: 'filename',
             key: 'filename',
-            sorter: false,
+            width: 250,
         }, {
             title: 'Available',
             dataIndex: 'available',
             key: 'available',
             render: renderAvailability,
-            sorter: false,
         }
     ]
 

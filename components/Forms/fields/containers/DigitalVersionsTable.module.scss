@@ -2,14 +2,18 @@
   text-align: center;
 }
 
-.MasterStorage {
-  color: #666;
-  border-radius: 3px;
-  font-size: 0.9em;
-  text-align: center;
-  user-select: none;
+.AvailabilityRow {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
 
-  span {
-    padding: 0 4px;
+  .StorageUnit {
+    width: 50px;
+    text-align: left;
+  }
+
+  .StorageLabel {
+    flex: 1;
+    text-align: left;
   }
 }

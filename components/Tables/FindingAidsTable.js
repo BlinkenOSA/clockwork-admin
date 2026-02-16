@@ -14,7 +14,6 @@ import {
 } from "@ant-design/icons";
 import style from './Table.module.scss';
 import {post, put, remove} from "../../utils/api";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import {renderArchivalUnitReferenceCode} from "../../utils/renders/renderArchivalUnitReferenceCode";
@@ -29,6 +28,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
 
   const [ publishing, setPublishing ] = useState({});
   const [ confidentialSetting, setConfidentialSetting ] = useState({});
+  const [ formType, setFormType] = useState('finding-aids-quick-edit');
 
   const [ selectedRecord, setSelectedRecord ] = useState(undefined);
   const [ drawerShown, setDrawerShown ] = useState(false);
@@ -106,6 +106,11 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       sorter: false,
       render: (record) => renderDate(record),
       width: 150
+    }, {
+      title: 'Digital Copies',
+      key: 'container-digital-versions',
+      render: (record) => renderDigitalVersions(record),
+      width: 140
     }, {
       key: 'actions',
       title: 'Actions',
@@ -193,6 +198,38 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     )
   };
 
+  const renderDigitalVersions = (record) => {
+    const masters = record['digital_versions_masters']
+    const access_copies = record['digital_versions_access_copies']
+    const digital_versions_container = record['digital_versions_of_container']
+
+    if (masters > 0 || access_copies > 0) {
+      return (
+          <div className={style.DigitalBadge} onClick={() => {
+            setSelectedRecord(record.id);
+            setAction('digital versions');
+            setFormType('digital-versions');
+            setDrawerShown(true);
+          }}>
+            { masters === 1 && `Master: 1`}
+            { masters > 1 && `Master: ${masters}`}
+            { access_copies > 0 && masters > 0 && <span> | </span>}
+            { access_copies === 1 && `Access: 1`}
+            { access_copies > 1 && `Access: ${access_copies}`}
+          </div>
+      )
+    }
+
+    if (masters === 0 && access_copies === 0 && digital_versions_container > 0) {
+      return (
+          <div className={`${style.DigitalBadge} ${style.Empty}`}>
+            On Container level
+          </div>
+      )
+    }
+    return ''
+  }
+
   const onClone = (id) => {
     const { confirm } = Modal;
 
@@ -266,12 +303,14 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
   const onQuickCreate = () => {
     setSelectedRecord(undefined);
     setAction('create')
+    setFormType('finding-aids-quick-edit');
     setDrawerShown(true);
   };
 
   const onQuickEdit = (id) => {
     setSelectedRecord(id);
     setAction('edit')
+    setFormType('finding-aids-quick-edit');
     setDrawerShown(true);
   };
 
@@ -316,6 +355,15 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     )
   };
 
+  const getTitle = () => {
+    switch (formType) {
+        case 'digital-versions':
+            return 'Digital versions';
+        case 'finding-aids-quick-edit':
+            return 'Quick ${action} Finding Aids Record'
+    }
+  }
+
   return (
     <React.Fragment>
       <Table
@@ -334,7 +382,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
         onChange={handleTableChange}
       />
       <Drawer
-        title={_.capitalize(`Quick ${action} Finding Aids Record`)}
+        title={getTitle()}
         width={'50%'}
         onClose={(e) => onDrawerClose()}
         open={drawerShown}
@@ -344,7 +392,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
           api={'/v1/finding_aids/'}
           preCreateAPI={action === 'create' ? `/v1/finding_aids/pre_create/${containerID}` : null}
           selectedRecord={selectedRecord}
-          module={'finding-aids-quick-edit'}
+          module={formType}
           type={action}
           label={'Finding Aids Record'}
           onClose={onDrawerClose}

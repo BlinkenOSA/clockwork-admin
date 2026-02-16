@@ -8,9 +8,14 @@
     font-size: 0.8em;
     text-align: center;
     user-select: none;
-
+    cursor: pointer;
+    
     span {
         padding: 0 4px;
+    }
+
+    &.Empty {
+        cursor: inherit;
     }
 }
 

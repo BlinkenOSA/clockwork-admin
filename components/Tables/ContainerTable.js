@@ -141,20 +141,34 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
   const renderDigitalVersions = (value, record) => {
     const masters = record['digital_versions_masters']
     const access_copies = record['digital_versions_access_copies']
+    const digital_versions_in_fa = record['digital_versions_in_finding_aids']
 
     if (masters > 0 || access_copies > 0) {
       return (
-          <div className={style.DigitalBadge}>
+          <div className={style.DigitalBadge} onClick={() => {
+            setSelectedRecord(record.id);
+            setAction('digital versions');
+            setFormType('digital-versions');
+            setDrawerShown(true);
+          }}>
             { masters === 1 && `Master: 1`}
             { masters > 1 && `Masters: ${masters}`}
             { access_copies > 0 && masters > 0 && <span> | </span>}
-            { access_copies === 1 && `Access Copy: 1`}
-            { access_copies > 1 && `Access Copies: ${access_copies}`}
+            { access_copies === 1 && `Access: 1`}
+            { access_copies > 1 && `Access: ${access_copies}`}
           </div>
       )
-    } else {
-      return ''
     }
+
+    if (masters === 0 && access_copies === 0 && digital_versions_in_fa > 0) {
+        return (
+            <div className={`${style.DigitalBadge} ${style.Empty}`}>
+                On Folder / Item level
+            </div>
+        )
+    }
+
+    return ''
   }
 
   const columns = [
@@ -179,7 +193,7 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
       dataIndex: 'container-digital-versions',
       key: 'container-digital-versions',
       render: renderDigitalVersions,
-      width: 180
+      width: 140
     }, {
       key: 'actions',
       title: 'Actions',
