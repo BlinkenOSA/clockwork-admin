@@ -1,8 +1,9 @@
 import {Button, Table} from "antd";
 import ResearchCloudLink from "../finding_aids/ResearchCloudLink";
 import style from "./DigitalVersionsTable.module.scss";
+import CatalogLink from "../finding_aids/CatalogLink";
 
-const DigitalVersionsTable = ({digitalVersions}) => {
+const DigitalVersionsTable = ({digitalVersions, catalogID}) => {
     const renderLevel = (text, record) => {
         switch (text) {
             case 'A':
@@ -26,7 +27,7 @@ const DigitalVersionsTable = ({digitalVersions}) => {
                 if (record['available_online']) {
                     return (
                         <div className={style.Availability}>
-                            <Button size={'small'}>In the Catalog</Button>
+                            <CatalogLink catalogID={catalogID} buttonText={'In the Catalog'}/>
                         </div>
                     )
                 }

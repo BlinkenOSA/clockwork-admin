@@ -175,7 +175,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
     if (data && data.digital_versions && data.digital_versions.length > 0) {
       return (
           <>
-            <DigitalVersionsTable digitalVersions={data.digital_versions} />
+            <DigitalVersionsTable digitalVersions={data.digital_versions} catalogID={data['catalog_id']} />
           </>
       )
     } else {
