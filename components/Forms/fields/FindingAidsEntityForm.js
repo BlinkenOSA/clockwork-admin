@@ -787,21 +787,6 @@ export const FindingAidsEntityForm = ({form, locale, type, initialValues, onActi
     }
   ]
 
-  const getItems = () => {
-    const digitalVersion = {
-      key: 'digital_version',
-      label: 'Digital Version',
-      forceRender: true,
-      children: <DigitalVersionTab form={form} initialValues={initialValues} locale={locale} readOnly={readOnly} />
-    }
-
-    if (!isTemplate) {
-      items.push(digitalVersion)
-    }
-
-    return items
-  }
-
   return (
     <React.Fragment>
       <Col xs={24}>
@@ -812,7 +797,7 @@ export const FindingAidsEntityForm = ({form, locale, type, initialValues, onActi
         }
       </Col>
       <Col xs={24}>
-        <Tabs defaultActiveKey="basic" items={getItems()} />
+        <Tabs defaultActiveKey="basic" items={items} />
       </Col>
     </React.Fragment>
   )
