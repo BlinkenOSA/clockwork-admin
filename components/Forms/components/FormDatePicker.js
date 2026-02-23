@@ -5,9 +5,12 @@ import dayjs from "dayjs";
 
 const FormDatePicker = ({ format, disabled=false, value, onChange, ...props }) => {
 
-
   const handleChange = (dateObj, dateString) => {
-    onChange(dateString)
+    if (dateString === '') {
+      onChange(null)
+    } else {
+      onChange(dateString)
+    }
   }
 
   return (
