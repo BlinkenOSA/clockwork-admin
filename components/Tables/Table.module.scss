@@ -130,6 +130,21 @@
     .ResearcherStatusButton {
         cursor: pointer;
     }
+
+    .ResearcherStatusWithUndoButton {
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+
+        .UndoButton {
+            height: 20px;
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
 }
 
 .BadgeWithUndoButton {

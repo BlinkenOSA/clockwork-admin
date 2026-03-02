@@ -5,7 +5,7 @@ import {
   EditOutlined,
   EyeOutlined,
   LoadingOutlined,
-  PlusOutlined
+  PlusOutlined, UndoOutlined
 } from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
@@ -112,38 +112,29 @@ const ResearchersTable = ({...props}) => {
     });
   };
 
-  const renderResearcherApprovedStatus = (record) => {
-    switch (record.approved) {
-      case true:
+  const renderResearcherStatus = (record) => {
+    switch (record.status) {
+      case 'new':
         return (
-          <div onClick={() => onAction('disapprove', record.id)} className={style.ResearcherStatusButton}>
+            <div onClick={() => onAction('activate', record.id)} className={style.ResearcherStatusButton}>
+              <Badge count={'New'} style={{ backgroundColor: '#fa8c16', borderRadius: '3px', fontSize: '0.8em' }} />
+            </div>
+        );
+      case 'approved':
+        return (
+          <div onClick={() => onAction('suspend', record.id)} className={style.ResearcherStatusButton}>
             <Badge count={'Approved'} style={{ backgroundColor: '#376e18', borderRadius: '3px', fontSize: '0.8em' }} />
           </div>
         );
-      case false:
+      case 'suspended':
         return (
-          <div onClick={() => onAction('approve', record.id)} className={style.ResearcherStatusButton}>
-            <Badge count={'Not Approved'} style={{ backgroundColor: '#fa8c16', borderRadius: '3px', fontSize: '0.8em' }} />
-          </div>
-        );
-      default:
-        break;
-    }
-  };
-
-
-  const renderResearcherActiveStatus = (record) => {
-    switch (record.active) {
-      case true:
-        return (
-          <div onClick={() => onAction('deactivate', record.id)} className={style.ResearcherStatusButton}>
-            <Badge count={'Active'} style={{ backgroundColor: '#376e18', borderRadius: '3px', fontSize: '0.8em' }} />
-          </div>
-        );
-      case false:
-        return (
-          <div onClick={() => onAction('activate', record.id)} className={style.ResearcherStatusButton}>
-            <Badge count={'Not Active'} style={{ backgroundColor: '#ba3300', borderRadius: '3px', fontSize: '0.8em' }} />
+          <div className={style.ResearcherStatusWithUndoButton}>
+            <Badge count={'Suspended'} style={{ backgroundColor: '#ba3300', borderRadius: '3px', fontSize: '0.8em' }} />
+            <Tooltip title={'Undo'}>
+              <div onClick={() => onAction('reactivate', record.id)}>
+                <Button size="small" icon={<UndoOutlined/>} className={style.UndoButton}/>
+              </div>
+            </Tooltip>
           </div>
         );
       default:
@@ -154,8 +145,7 @@ const ResearchersTable = ({...props}) => {
   const renderStatus = (record) => {
     return (
       <div className={style.ResearcherStatus}>
-        {renderResearcherApprovedStatus(record)}
-        {renderResearcherActiveStatus(record)}
+        {renderResearcherStatus(record)}
       </div>
     )
   }
