@@ -10,9 +10,10 @@ const ResearcherTableFilter = () => {
     { value: false, label: 'Not Active'},
   ];
 
-  const approved = [
-    { value: true, label: 'Approved'},
-    { value: false, label: 'Not Approved'},
+  const status = [
+    { value: 'new', label: 'New'},
+    { value: 'approved', label: 'Approved'},
+    { value: 'suspended', label: 'Suspended'}
   ];
 
   return (
@@ -26,7 +27,7 @@ const ResearcherTableFilter = () => {
             className={style.Search}/>
         </Form.Item>
       </Col>
-      <Col span={6}>
+      <Col span={8}>
         <Form.Item name="country">
           <FormRemoteSelect
             valueField={'id'}
@@ -36,21 +37,12 @@ const ResearcherTableFilter = () => {
           />
         </Form.Item>
       </Col>
-      <Col span={4}>
-        <Form.Item name="approved">
+      <Col span={6}>
+        <Form.Item name="status">
           <Select
             placeholder={'- Filter by Approval -'}
             allowClear
-            options={approved}
-          />
-        </Form.Item>
-      </Col>
-      <Col span={4}>
-        <Form.Item name="active">
-          <Select
-            placeholder={'- Filter by Status -'}
-            allowClear
-            options={active}
+            options={status}
           />
         </Form.Item>
       </Col>
