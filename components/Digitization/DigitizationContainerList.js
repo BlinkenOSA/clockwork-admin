@@ -2,14 +2,10 @@ import React from 'react'
 import PopupTable from "../../components/Tables/PopupTable";
 import {renderDigitalVersion} from "../../utils/renders/renderDigitalVersion";
 import {renderDigitalVersionResearchCloud} from "../../utils/renders/renderDigitalVersionResearchCloud";
-import moment from "moment/moment";
+import {renderLevel} from "../../utils/renders/renderLevel"
 import style from "./DigitizationContainerList.module.scss"
 
 export default function DigitizationContainerList() {
-  const renderDate = (data) => {
-    return (moment(data).format('YYYY-MM-DD'))
-  }
-
   const renderContainerNo = (data, record) => {
     return <a className={style.ContainerNo} href={'/finding-aids/containers/' + record['archival_unit_id']} target={'_blank'} rel="noreferrer">{data}</a>
   }
@@ -20,52 +16,43 @@ export default function DigitizationContainerList() {
       dataIndex: 'container_no',
       key: 'container_no',
       sorter: true,
+      width: 200,
       render: renderContainerNo,
-      width: 200
     }, {
       title: 'Barcode',
       dataIndex: 'barcode',
       key: 'barcode',
-      width: 150,
+      width: 140,
       sorter: true
-    }, {
-      title: 'Date Updated',
-      dataIndex: 'date_updated',
-      key: 'date_updated',
-      width: 120,
-      className: 'centerColumn',
-      render: renderDate,
-      sorter: true
-    }, {
-      title: 'Digital Version',
-      dataIndex: 'digital_version_exists',
-      key: 'digital_version_exists',
-      width: 120,
-      className: 'centerColumn',
-      sorter: true,
-      render: renderDigitalVersion
     }, {
       title: 'Research Cloud',
-      key: 'digital_version_research_cloud',
+      key: 'available_research_cloud',
       width: 120,
       className: 'centerColumn',
       sorter: true,
       render: renderDigitalVersionResearchCloud
     }, {
       title: 'Online',
-      dataIndex: 'digital_version_online',
-      key: 'digital_version_online',
+      dataIndex: 'available_online',
+      key: 'available_online',
       width: 120,
       className: 'centerColumn',
       sorter: true,
       render: renderDigitalVersion
     }, {
       title: 'Creation Date (Digital)',
-      dataIndex: 'digital_version_creation_date',
-      key: 'digital_version_creation_date',
+      dataIndex: 'creation_date',
+      key: 'creation_date',
       className: 'centerColumn',
       width: 150,
       sorter: true
+    }, {
+      title: 'Level',
+      dataIndex: 'level',
+      key: 'level',
+      className: 'centerColumn',
+      width: 80,
+      render: renderLevel
     }, {
       title: 'Duration',
       dataIndex: 'duration',

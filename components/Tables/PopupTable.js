@@ -6,7 +6,6 @@ import style from './Table.module.scss';
 import {remove} from "../../utils/api";
 import _ from 'lodash';
 import {PopupForm} from "../Forms/PopupForm";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 

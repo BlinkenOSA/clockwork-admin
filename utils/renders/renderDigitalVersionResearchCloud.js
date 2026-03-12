@@ -3,11 +3,10 @@ import {Badge} from "antd";
 import ResearchCloudLink from "../../components/Forms/fields/finding_aids/ResearchCloudLink";
 
 export const renderDigitalVersionResearchCloud = (data) => {
-  console.log(data)
-  switch (data['digital_version_research_cloud']) {
+  switch (data['available_research_cloud']) {
     case true:
       return (
-        <ResearchCloudLink buttonText={'yes'} isBadge={true} path={data['digital_version_research_cloud_path']}/>
+        <ResearchCloudLink buttonText={'yes'} isBadge={true} path={data['research_cloud_path']}/>
       );
     case false:
       return (

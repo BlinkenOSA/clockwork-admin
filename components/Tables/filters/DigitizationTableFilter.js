@@ -10,6 +10,11 @@ const DigitizationTableFilter = () => {
     { value: 'no', label: 'No'},
   ];
 
+  const level = [
+    { value: 'A', label: 'Access'},
+    { value: 'M', label: 'Master'},
+  ]
+
   return (
     <React.Fragment>
       <Row gutter={[10]}>
@@ -33,16 +38,16 @@ const DigitizationTableFilter = () => {
           </Form.Item>
         </Col>
         <Col xs={4}>
-          <Form.Item name="digital_version_exists">
+          <Form.Item name="level">
             <Select
-              placeholder={'- Filter by Digital Version -'}
+              placeholder={'- Filter by Level -'}
               allowClear
-              options={digitalVersion}
+              options={level}
             />
           </Form.Item>
         </Col>
         <Col xs={4}>
-          <Form.Item name="digital_version_research_cloud">
+          <Form.Item name="available_research_cloud">
             <Select
               placeholder={'- Filter by Research Cloud -'}
               allowClear
@@ -51,7 +56,7 @@ const DigitizationTableFilter = () => {
           </Form.Item>
         </Col>
         <Col xs={4}>
-          <Form.Item name="digital_version_online">
+          <Form.Item name="available_online">
             <Select
               placeholder={'- Filter by Online -'}
               allowClear

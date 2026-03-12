@@ -19,7 +19,7 @@ const ResearchCloudLink = ({path, buttonText='Open', isBadge=false}) => {
   if (isBadge) {
     return (
       <a href={getLink()} target={'_blank'}>
-        <Badge count={buttonText} size={'small'} style={{ backgroundColor: '#376e18', borderRadius: '3px', fontSize: '0.8em' }} />
+        <Badge count={buttonText} style={{ backgroundColor: '#376e18', borderRadius: '3px', fontSize: '0.8em' }} />
       </a>
     )
   } else {
