@@ -1,6 +1,7 @@
-import { DashboardOutlined, ApartmentOutlined, UserOutlined, ProfileOutlined, FileOutlined,
+import {
+  DashboardOutlined, ApartmentOutlined, UserOutlined, ProfileOutlined, FileOutlined,
   UnorderedListOutlined, BankOutlined, FlagOutlined, DeploymentUnitOutlined, GlobalOutlined, TeamOutlined,
-  EnvironmentOutlined, TagOutlined, TagsOutlined, RightCircleOutlined, IdcardOutlined
+  EnvironmentOutlined, TagOutlined, TagsOutlined, RightCircleOutlined, IdcardOutlined, SearchOutlined
 } from '@ant-design/icons';
 import { IoSchoolOutline } from "react-icons/io5"
 import { MdOutlineScanner } from "react-icons/md"

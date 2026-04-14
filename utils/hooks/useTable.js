@@ -29,7 +29,7 @@ export const useTable = (module, api) => {
   }, [params])
 
   useDeepCompareEffect(() => {
-    setParams(Object.assign({}, params, createParams(tableState)));
+    setParams(createParams(tableState));
   }, [tableState])
 
   const fetchData = () => {
@@ -86,6 +86,17 @@ export const useTable = (module, api) => {
     }
   };
 
+  const setFilters = (filters = {}) => {
+    setTableState(prevTableState => ({
+      ...prevTableState,
+      pagination: {
+        ...prevTableState.pagination,
+        current: 1
+      },
+      filters: filters
+    }));
+  };
+
   const handleDelete = (dataLength) => {
     if (dataLength === 1) {
       // set pagination
@@ -108,6 +119,7 @@ export const useTable = (module, api) => {
     handleDataChange: handleDataChange,
     handleTableChange: handleTableChange,
     handleFilterChange: handleFilterChange,
-    handleDelete: handleDelete
+    handleDelete: handleDelete,
+    setFilters: setFilters
   }
 };

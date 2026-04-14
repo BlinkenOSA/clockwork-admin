@@ -10,15 +10,40 @@ import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 
 
-const SimpleTable = ({api, columns, module, button, actions=[], footer=true, ...props}) => {
+const SimpleTable = ({
+  api,
+  columns,
+  module,
+  button,
+  actions = [],
+  footer = true,
+  showFilters = true,
+  numberRows = false,
+  externalFilters,
+  rowKey = (record) => record.id,
+  onDataLoaded,
+  ...props
+}) => {
   const { data, loading, refresh, tableState,
-    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module, api);
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete, setFilters } = useTable(module, api);
 
   useEffect(() => {
     if (data) {
       handleDataChange(data.count)
     }
   }, [data]);
+
+  useEffect(() => {
+    if (onDataLoaded) {
+      onDataLoaded(data);
+    }
+  }, [data, onDataLoaded]);
+
+  useEffect(() => {
+    if (externalFilters !== undefined) {
+      setFilters(externalFilters);
+    }
+  }, [externalFilters]);
 
   const getFooter = () => {
     return (
@@ -52,18 +77,32 @@ const SimpleTable = ({api, columns, module, button, actions=[], footer=true, ...
     });
   };
 
+  const currentPage = tableState?.pagination?.current || 1;
+  const pageSize = tableState?.pagination?.pageSize || 10;
+  const rowNumberOffset = (currentPage - 1) * pageSize;
+  const results = Array.isArray(data?.results) ? data.results : [];
+  const tableData = numberRows
+    ? results.map((record, index) => ({
+      ...record,
+      __rowNumber: rowNumberOffset + index + 1
+    }))
+    : results;
+
   return (
     <React.Fragment>
-      <TableFilters
-        module={module}
-        onFilterChange={handleFilterChange}
-        filters={tableState['filters']}
-      />
+      {
+        showFilters &&
+        <TableFilters
+          module={module}
+          onFilterChange={handleFilterChange}
+          filters={tableState['filters']}
+        />
+      }
       <Table
         bordered={true}
         className={style.Table}
-        rowKey={record => record.id}
-        dataSource={data ? data.results : []}
+        rowKey={rowKey}
+        dataSource={tableData}
         columns={getColumns(columns, actions, module, onDelete)}
         size={'small'}
         footer={footer ? () => getFooter() : false}

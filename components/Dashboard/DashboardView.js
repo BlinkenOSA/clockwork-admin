@@ -3,6 +3,8 @@ import {Radio, Card} from "antd";
 import DashboardContentStats from "./DashboardContentStats.js";
 import DashboardLogs from "./DashboardLogs";
 import dynamic from "next/dynamic";
+import SearchPage from "./search/SearchPage";
+import {SearchOutlined} from "@ant-design/icons";
 
 const Activity = dynamic(
   () => import('./analyticsDisplays/Activity'),
@@ -15,10 +17,12 @@ const Totals = dynamic(
 );
 
 const DashbboardView = () => {
-    const [view, setView] = useState('stats');
+    const [view, setView] = useState('search');
 
     const getTitle = () => {
         switch (view) {
+            case 'search':
+                return 'Search'
             case 'stats':
                 return 'Statistics';
             case 'logs':
@@ -34,6 +38,8 @@ const DashbboardView = () => {
 
     const getView = () => {
         switch (view) {
+            case 'search':
+                return (<SearchPage />);
             case 'stats':
                 return (<DashboardContentStats />);
             case 'logs':
@@ -52,7 +58,8 @@ const DashbboardView = () => {
     };
 
     const viewChange = () => (
-      <Radio.Group defaultValue="stats" buttonStyle="solid" size={'small'} onChange={onChange}>
+      <Radio.Group defaultValue="search" buttonStyle="solid" size={'small'} onChange={onChange}>
+        <Radio.Button value="search">Search</Radio.Button>
         <Radio.Button value="stats">Statistics</Radio.Button>
         <Radio.Button value="logs">Logs</Radio.Button>
         <Radio.Button value="analytics-activity">Analytics (Activity)</Radio.Button>
