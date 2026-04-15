@@ -192,7 +192,7 @@ const SearchPage = () => {
         <Col md={12}>
           <Search
             value={query}
-            placeholder="Search dashboard records"
+            placeholder="Search AMS records"
             enterButton
             allowClear
             size="middle"
