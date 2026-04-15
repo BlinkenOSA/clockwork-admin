@@ -62,7 +62,7 @@ const configMenu = [
       {name: 'Researcher Statistics', icon: <BiPieChartAlt2 />, group: ['Research'], link: '/researchers-db/stats'},
   ]},
   {name: 'Requests', icon: <RiExchangeFundsLine />, module: 'requests', group: ['Research', 'Restricted Decision Makers'], submenu: [
-      {name: 'Requests', icon: <FaExchangeAlt />, group: ['Research'], link: '/requests/list'},
+      {name: 'Requests List', icon: <FaExchangeAlt />, group: ['Research'], link: '/requests/list'},
       {name: 'Restricted Access Man.', icon: <FaExclamation />, group: ['Restricted Decision Makers'], link: '/requests/restricted-access'},
   ]}
 ];
