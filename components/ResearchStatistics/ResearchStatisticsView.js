@@ -1,33 +1,62 @@
 import {Card, Radio} from "antd";
 import React, {useState} from "react";
-import SearchPage from "../Dashboard/search/SearchPage";
-import DashboardContentStats from "../Dashboard/DashboardContentStats";
-import DashboardLogs from "../Dashboard/DashboardLogs";
+import { DatePicker, Space } from 'antd';
+import style from "./ResearchStatisticsView.module.scss";
+import ResearchersStatistics from "./parts/ResearchersStatistics";
+import ResearchersVisits from "./parts/ResearchersVisits";
+import ResearchersRequests from "./parts/ResearchersRequests";
+import PopularCollections from "./parts/PopularCollections";
+const { RangePicker } = DatePicker;
 
 const ResearchStatisticsView = () => {
-	const [view, setView] = useState('search');
+	const [view, setView] = useState('researchers');
+	const [dateFilter, setDateFilter] = useState({start: null, end: null});
+
+	const handleDateFilterChange = (date, dateString) => {
+		setDateFilter({ start: dateString[0], end: dateString[1] });
+	}
 
 	const getTitle = () => {
-		switch (view) {
-			case 'researchers':
-				return 'Researchers'
-			case 'visits':
-				return 'Visits';
-			case 'requests':
-				return 'Requests';
-			default:
-				break;
+		const getMainTitle = () => {
+			switch (view) {
+				case 'researchers':
+					return 'Researchers'
+				case 'visits':
+					return 'Visits';
+				case 'requests':
+					return 'Requests';
+				case 'popularity':
+					return 'Popular collections';
+				default:
+					break;
+			}
 		}
+
+		return (
+			<div className={style.TitleText}>
+				<span className={style.MainTitleText}>{getMainTitle()}</span>
+				<RangePicker onChange={handleDateFilterChange} />
+			</div>
+		)
 	};
+
+	const getParams = () => {
+		return {
+			date_from: dateFilter.start,
+			date_to: dateFilter.end
+		}
+	}
 
 	const getView = () => {
 		switch (view) {
 			case 'researchers':
-				return ''
+				return <ResearchersStatistics params={getParams()} />;
 			case 'visits':
-				return '';
+				return <ResearchersVisits params={getParams()} />;
 			case 'requests':
-				return '';
+				return <ResearchersRequests params={getParams()} />;
+			case 'popularity':
+				return <PopularCollections params={getParams()} />;
 			default:
 				break;
 		}
@@ -42,6 +71,7 @@ const ResearchStatisticsView = () => {
 			<Radio.Button value="researchers">Researchers</Radio.Button>
 			<Radio.Button value="visits">Visits</Radio.Button>
 			<Radio.Button value="requests">Requests</Radio.Button>
+			<Radio.Button value="popularity">Popular collections</Radio.Button>
 		</Radio.Group>
 	);
 
