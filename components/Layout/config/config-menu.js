@@ -59,7 +59,7 @@ const configMenu = [
   {name: 'Researchers Database', icon: <IoSchoolOutline/>, module: 'researcher', group: ['Research'], submenu: [
       {name: 'Researchers', icon: <IdcardOutlined />, group: ['Research'], link: '/researchers-db/researchers'},
       {name: 'Researcher Visits', icon: <HiOutlineLibrary />, group: ['Research'], link: '/researchers-db/visits'},
-      {name: 'Researcher Statistics', icon: <BiPieChartAlt2 />, group: ['Research'], link: '/researchers-db/stats'},
+      {name: 'Researcher Statistics', icon: <BiPieChartAlt2 />, group: ['Research'], link: '/researchers-db/statistics'},
   ]},
   {name: 'Requests', icon: <RiExchangeFundsLine />, module: 'requests', group: ['Research', 'Restricted Decision Makers'], submenu: [
       {name: 'Requests List', icon: <FaExchangeAlt />, group: ['Research'], link: '/requests/list'},
