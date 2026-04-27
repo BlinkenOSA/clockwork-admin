@@ -76,12 +76,13 @@
     classnames "^2.2.6"
     rc-util "^5.9.4"
 
-"@ant-design/plots@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@ant-design/plots/-/plots-1.2.2.tgz#06913f7931000409f49d800d5e04a27d68b5a438"
-  integrity sha512-glu1FpCsaFfObqMnK2/oDqw+B+QWcerTub9UsobkOKYnMDcBF85T50FR+/q9N/73oMTyy8EURihux5ghDlbBXQ==
+"@ant-design/plots@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@ant-design/plots/-/plots-1.2.6.tgz#35e541484069249989f92b7d9cdc835ea87191c5"
+  integrity sha512-fFzB9DxRSPQa47S3WypRk4Rh+P8vBUuY/DT+IXgUrlKJtvVZUFnuYfjypX3Q/Pie2PEbI6gmskzXLxVF+3Ztvw==
   dependencies:
     "@antv/g2plot" "^2.2.11"
+    "@antv/util" "^2.0.9"
     react-content-loader "^5.0.4"
 
 "@ant-design/react-slick@~0.29.1":
