@@ -2,11 +2,29 @@ import {Card, Radio} from "antd";
 import React, {useState} from "react";
 import { DatePicker, Space } from 'antd';
 import style from "./ResearchStatisticsView.module.scss";
-import ResearchersStatistics from "./parts/ResearchersStatistics";
-import ResearchersVisits from "./parts/ResearchersVisits";
-import ResearchersRequests from "./parts/ResearchersRequests";
-import PopularCollections from "./parts/PopularCollections";
+import dynamic from "next/dynamic";
+
 const { RangePicker } = DatePicker;
+
+const ResearchersStatistics = dynamic(
+	() => import('./parts/ResearchersStatistics'),
+	{ ssr: false }
+);
+
+const ResearchersVisits = dynamic(
+	() => import('./parts/ResearchersVisits'),
+	{ ssr: false }
+);
+
+const ResearchersRequests = dynamic(
+	() => import('./parts/ResearchersRequests'),
+	{ ssr: false }
+);
+
+const PopularCollections = dynamic(
+	() => import('./parts/PopularCollections'),
+	{ ssr: false }
+);
 
 const ResearchStatisticsView = () => {
 	const [view, setView] = useState('researchers');
