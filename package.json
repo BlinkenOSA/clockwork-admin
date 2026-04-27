@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "5.x",
-    "@ant-design/plots": "^1.2.2",
+    "@ant-design/plots": "^1.2.6",
     "@handsontable/react": "^12.3.0",
     "@kunukn/react-collapse": "^2.2.9",
     "@uiw/react-md-editor": "^4.0.4",
