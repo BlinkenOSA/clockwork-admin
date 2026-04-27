@@ -4,7 +4,6 @@ import DashboardContentStats from "./DashboardContentStats.js";
 import DashboardLogs from "./DashboardLogs";
 import dynamic from "next/dynamic";
 import SearchPage from "./search/SearchPage";
-import {SearchOutlined} from "@ant-design/icons";
 
 const Activity = dynamic(
   () => import('./analyticsDisplays/Activity'),
