@@ -183,15 +183,22 @@ const RequestsTable = ({...props}) => {
   }
 
   const renderMLR = (record) => {
-    if (record['has_digital_version']) {
+    if (record['mlr'].hasOwnProperty('locations')) {
       return (
         <div>
-          <div>{record['mlr']}</div>
-          <Badge count={record['digital_version_barcode']} style={{ backgroundColor: '#e06d3c', borderRadius: '3px', fontSize: '0.8em' }} />
+          <div>{record['mlr']['locations']}</div>
+          {
+            record['mlr']['another_request'] &&
+            <Badge count={'Appears in another request'} style={{ backgroundColor: '#666', borderRadius: '3px', fontSize: '0.8em' }} />
+          }
+          {
+            record['has_digital_version'] &&
+            <Badge count={record['digital_version_barcode']} style={{ backgroundColor: '#e06d3c', borderRadius: '3px', fontSize: '0.8em' }} />
+          }
         </div>
       )
     }
-
+    
     if (record['library_id']) {
       return (
         <div>
