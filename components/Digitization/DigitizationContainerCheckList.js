@@ -1,13 +1,17 @@
 import React from 'react'
-import PopupTable from "../../components/Tables/PopupTable";
-import {renderDigitalVersion} from "../../utils/renders/renderDigitalVersion";
-import {renderDigitalVersionResearchCloud} from "../../utils/renders/renderDigitalVersionResearchCloud";
-import {renderLevel} from "../../utils/renders/renderLevel"
 import style from "./DigitizationContainerList.module.scss"
+import {Badge} from "antd";
+import SimpleTable from "../Tables/SimpleTable";
 
-export default function DigitizationContainerList() {
+export default function DigitizationContainerCheckList() {
   const renderContainerNo = (data, record) => {
     return <a className={style.ContainerNo} href={'/finding-aids/containers/' + record['archival_unit_id']} target={'_blank'} rel="noreferrer">{data}</a>
+  }
+
+  const renderNo = (data) => {
+    return (
+        <Badge count={'no'} style={{ backgroundColor: '#fa8c16', borderRadius: '3px', fontSize: '0.8em' }} />
+    );
   }
 
   const columns = [
@@ -30,7 +34,7 @@ export default function DigitizationContainerList() {
       width: 120,
       className: 'centerColumn',
       sorter: true,
-      render: renderDigitalVersionResearchCloud
+      render: renderNo
     }, {
       title: 'Online',
       dataIndex: 'available_online',
@@ -38,46 +42,25 @@ export default function DigitizationContainerList() {
       width: 120,
       className: 'centerColumn',
       sorter: true,
-      render: renderDigitalVersion
-    }, {
-      title: 'Creation Date (Digital)',
-      dataIndex: 'creation_date',
-      key: 'creation_date',
-      className: 'centerColumn',
-      width: 150,
-      sorter: true
-    }, {
-      title: 'Level',
-      dataIndex: 'level',
-      key: 'level',
-      className: 'centerColumn',
-      width: 80,
-      render: renderLevel
-    }, {
-      title: 'Duration',
-      dataIndex: 'duration',
-      key: 'duration',
-      width: 100,
-      className: 'centerColumn',
+      render: renderNo
     }, {
       title: 'Carrier Type',
       dataIndex: 'carrier_type',
       key: 'carrier_type',
       className: 'centerColumn',
-      width: 100,
-      sorter: true
+      sorter: true,
+      width: 100
     },
   ];
 
   return (
-    <PopupTable
+    <SimpleTable
       showFilter={true}
       footer={false}
-      module={'digitization'}
+      module={'digitization-container-check'}
       label={'Digitization Log'}
-      api={`/v1/digitization/container/`}
+      api={`/v1/digitization/container/checklist/`}
       columns={columns}
-      actions={['view']}
     />
   )
 }

@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Radio, Card} from "antd";
 import DigitizationContainerList from "./DigitizationContainerList";
 import DigitizationFindingAidsList from "./DigitizationFindingAidsList";
+import DigitizationContainerCheckList from "./DigitizationContainerCheckList";
 
 
 const DigitazationLogView = () => {
@@ -13,6 +14,8 @@ const DigitazationLogView = () => {
         return 'Digitized Containers';
       case 'finding_aids':
         return 'Digitized Finding Aids (Folders / Items)';
+      case 'container_check':
+        return 'Containers with barcode missing a digital object';
       default:
         break;
     }
@@ -22,6 +25,8 @@ const DigitazationLogView = () => {
     switch (view) {
       case 'container':
         return (<DigitizationContainerList />);
+      case 'container_check':
+        return (<DigitizationContainerCheckList />);
       case 'finding_aids':
         return (<DigitizationFindingAidsList/>);
       default:
@@ -36,6 +41,7 @@ const DigitazationLogView = () => {
   const viewChange = () => (
     <Radio.Group defaultValue="container" buttonStyle="solid" size={'small'} onChange={onChange}>
       <Radio.Button value="container">Containers</Radio.Button>
+      <Radio.Button value="container_check">Container Checklist</Radio.Button>
       <Radio.Button value="finding_aids">Finding Aids (Folders / Items)</Radio.Button>
     </Radio.Group>
   );

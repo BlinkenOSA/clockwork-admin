@@ -13,6 +13,7 @@ import ResearchersVisitsTableFilter from "./filters/ResearchersVisitsTableFilter
 import RequestsTableFilter from "./filters/RequestsTableFilter";
 import DigitizationFindingAidsTableFilter from "./filters/DigitizationFindingAidsTableFilter";
 import RestrictedRequestsTableFilter from "./filters/RestrictedRequestsTableFilter";
+import DigitizationContainerCheckTableFilter from "./filters/DigitizationContainerCheckTableFilter";
 
 const TableFilters = ({onFilterChange, module, filters, ...props}) => {
   const renderFilters = () => {
@@ -29,6 +30,8 @@ const TableFilters = ({onFilterChange, module, filters, ...props}) => {
         return <MLRTableFilter />;
       case 'digitization':
         return <DigitizationTableFilter />;
+      case 'digitization-container-check':
+        return <DigitizationContainerCheckTableFilter />;
       case 'digitization-finding_aids':
         return <DigitizationFindingAidsTableFilter />;
       case 'researcher':

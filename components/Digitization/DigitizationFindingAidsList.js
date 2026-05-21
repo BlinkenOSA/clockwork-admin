@@ -36,7 +36,7 @@ export default function DigitizationFindingAidsList() {
       sorter: true,
       render: renderDigitalVersion
     }, {
-      title: 'Creation Date',
+      title: 'Creation Date (Digital)',
       dataIndex: 'digital_version_creation_date',
       key: 'digital_version_creation_date',
       className: 'centerColumn',
