@@ -1,5 +1,5 @@
 import {Menu} from "antd";
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import config from './config/config-menu';
 import style from "./Menu.module.scss";
 import {useRouter} from "next/router";
@@ -9,35 +9,41 @@ const AppMenu = ({collapsed}) => {
   const router = useRouter();
   const user = useContext(UserContext);
 
-  const collectOpenKeys = () => {
-    const openKeys = [];
-    config.forEach(menuConfig => {
-      if (menuConfig.hasOwnProperty('submenu')) {
-        const activeMenu = menuConfig['submenu'].filter(submenu => router.pathname.includes(submenu.link));
-        if (activeMenu.length > 0) {
-          openKeys.push(menuConfig.name)
-        }
-      }
-    });
-    return openKeys;
+  const isActivePath = (link) => {
+    if (!link) {
+      return false;
+    }
+
+    return router.pathname === link || router.pathname.startsWith(`${link}/`);
   };
 
-  const collectSelectedKeys = () => {
-    const selectedKeys = [];
-    config.forEach(menuConfig => {
-      if (menuConfig.hasOwnProperty('submenu')) {
-        const activeMenu = menuConfig['submenu'].filter(submenu => router.pathname.includes(submenu.link));
-        if (activeMenu.length > 0) {
-          selectedKeys.push(...activeMenu.map(am => (am.name)))
-        }
-      } else {
-        if (router.pathname.includes(menuConfig.link)) {
-          selectedKeys.push(menuConfig.name)
+  const collectActiveTrail = (menuItems, parents = []) => {
+    for (const menuItem of menuItems) {
+      const currentTrail = [...parents, menuItem.name];
+
+      if (menuItem.hasOwnProperty('submenu')) {
+        const submenuTrail = collectActiveTrail(menuItem.submenu, currentTrail);
+        if (submenuTrail.length > 0) {
+          return submenuTrail;
         }
       }
-    });
-    return selectedKeys;
+
+      if (isActivePath(menuItem.link)) {
+        return currentTrail;
+      }
+    }
+
+    return [];
   };
+
+  const activeTrail = collectActiveTrail(config);
+  const activeOpenKeys = activeTrail.slice(0, -1);
+  const selectedKeys = activeTrail.slice(-1);
+  const [openKeys, setOpenKeys] = useState(activeOpenKeys);
+
+  useEffect(() => {
+    setOpenKeys(activeOpenKeys);
+  }, [router.pathname]);
 
   const getItem = (label, key, icon, group, children) => {
     let returnItem = false;
@@ -103,8 +109,9 @@ const AppMenu = ({collapsed}) => {
       <Menu
         theme="dark"
         mode="inline"
-        defaultOpenKeys={collectOpenKeys()}
-        defaultSelectedKeys={collectSelectedKeys()}
+        openKeys={openKeys}
+        onOpenChange={setOpenKeys}
+        selectedKeys={selectedKeys}
         items={renderItems()}
       />
     </React.Fragment>
