@@ -10,8 +10,6 @@ import {StandardizedNames} from "./isaar/StandardizedNames";
 import {CorporateBodyIdentifiers} from "./isaar/CorporateBodyIdentifiers";
 import {Places} from "./isaar/Places";
 
-const {TabPane} = Tabs;
-
 const TYPES = [
   { id: 'P', type: 'Personal'},
   { id: 'C', type: 'Corporate Body'},
