@@ -1,9 +1,11 @@
 import React from 'react';
 import {DatePicker} from "antd";
 import dayjs from "dayjs";
+import {sanitizeForwardedProps} from "../../../utils/functions/sanitizeForwardedProps";
 
 
 const FormDatePicker = ({ format, disabled=false, value, onChange, ...props }) => {
+  const forwardedProps = sanitizeForwardedProps(props);
 
   const handleChange = (dateObj, dateString) => {
     if (dateString === '') {
@@ -18,8 +20,8 @@ const FormDatePicker = ({ format, disabled=false, value, onChange, ...props }) =
       format={format}
       disabled={disabled}
       style={{width: '100%'}}
-      {...props}
-      value={value ? dayjs(value) : ''}
+      {...forwardedProps}
+      value={value ? dayjs(value) : null}
       onChange={handleChange}
     />
   )

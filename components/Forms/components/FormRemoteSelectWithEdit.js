@@ -4,6 +4,7 @@ import {Button, Drawer, Input, Select} from "antd";
 import _ from "lodash";
 import {PopupForm} from "../PopupForm";
 import {useData} from "../../../utils/hooks/useData";
+import {sanitizeForwardedProps} from "../../../utils/functions/sanitizeForwardedProps";
 
 const {Option} = Select;
 
@@ -20,8 +21,9 @@ export const FormRemoteSelectWithEdit = ({
                                              disabled = false,
                                              form,
                                              mode = "default",
-                                             ...props
+                                         ...props
                                          }) => {
+    const forwardedProps = sanitizeForwardedProps(props);
     const [params, setParams] = useState(selectAPIParams);
     const [selectData, setSelectData] = useState([]);
     const [drawerShown, setDrawerShown] = useState(false);
@@ -134,7 +136,7 @@ export const FormRemoteSelectWithEdit = ({
                     mode={mode}
                     disabled={disabled}
                     loading={loading}
-                    {...props}
+                    {...forwardedProps}
                 >
                     {selectData.map((d) => (
                         <Option key={d[valueField]} value={d[valueField]}>

@@ -3,12 +3,14 @@ import {Select, Spin} from "antd";
 import {useData} from "../../../utils/hooks/useData";
 import {useList, useUpdateEffect} from "react-use";
 import {get} from "../../../utils/api";
+import {sanitizeForwardedProps} from "../../../utils/functions/sanitizeForwardedProps";
 
 const {Option} = Select;
 
 const FormRemoteSelectInfiniteScroll = ({ selectAPI, selectAPIParams={}, valueField, labelField,
                             onChange, placeholder, mode='default',
                             disabled=false, renderFunction, searchMinLength=2, ...props }) => {
+  const forwardedProps = sanitizeForwardedProps(props);
 
   const [data, setData] = useState(undefined);
   const [params, setParams] = useState(selectAPIParams);
@@ -128,7 +130,7 @@ const FormRemoteSelectInfiniteScroll = ({ selectAPI, selectAPIParams={}, valueFi
       disabled={disabled}
       loading={loading}
       labelInValue={true}
-      {...props}
+      {...forwardedProps}
     >
       {selectOptions}
     </Select>
