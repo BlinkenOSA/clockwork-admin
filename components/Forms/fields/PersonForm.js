@@ -29,16 +29,6 @@ export const PersonForm = ({form, selectedRecord, readOnly, afterMergeFinish, ha
           <TabPane tab="Other Forms of Name" key="person_other_formats">
             <PersonOtherNames disabled={readOnly} />
           </TabPane>
-          <TabPane tab="Authority Link (VIAF)" key="authority_link">
-            <FormAuthoritySelect
-              api={'/v1/authority_list/viaf/'}
-              form={form}
-              field={'authority_url'}
-              columnTitle={'VIAF ID'}
-              columnField={'viaf_id'}
-              type={'person'}
-            />
-          </TabPane>
           <TabPane tab="WikiData" key="wikidata">
             <FormAuthoritySelect
               api={'/v1/authority_list/wikidata/'}
@@ -48,16 +38,6 @@ export const PersonForm = ({form, selectedRecord, readOnly, afterMergeFinish, ha
               columnField={'wikidata_id'}
               urlField={'wikidata_url'}
               isWikidata={true}
-              type={'person'}
-            />
-          </TabPane>
-          <TabPane tab="Wikipedia Link" key="wikipedia_link">
-            <FormAuthoritySelect
-              api={'/v1/authority_list/wikipedia/'}
-              form={form}
-              field={'wiki_url'}
-              columnTitle={'Wikipedia Link'}
-              columnField={'url'}
               type={'person'}
             />
           </TabPane>

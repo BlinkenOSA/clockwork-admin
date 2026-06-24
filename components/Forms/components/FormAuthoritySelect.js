@@ -5,6 +5,46 @@ import style from "./FormAuthoritySelect.module.scss";
 import {useData} from "../../../utils/hooks/useData";
 import ReactHtmlParser from 'react-html-parser';
 
+const parseAuthorityCache = (authorityCache) => {
+  if (!authorityCache) {
+    return null;
+  }
+
+  if (typeof authorityCache === 'string') {
+    try {
+      return JSON.parse(authorityCache);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  return authorityCache;
+};
+
+const getAuthorityCacheSummary = (authorityCache) => {
+  const parsedCache = parseAuthorityCache(authorityCache);
+
+  if (!parsedCache || typeof parsedCache !== 'object') {
+    return null;
+  }
+
+  const wikipediaPages = parsedCache.wikipedia_pages && typeof parsedCache.wikipedia_pages === 'object'
+    ? Object.entries(parsedCache.wikipedia_pages).filter(([, value]) => typeof value === 'string' && value !== '')
+    : [];
+  const properties = parsedCache.properties && typeof parsedCache.properties === 'object'
+    ? Object.entries(parsedCache.properties).filter(([, value]) => value !== null && value !== undefined && value !== '')
+    : [];
+
+  return {
+    title: parsedCache.title,
+    description: parsedCache.description,
+    viaf: parsedCache.viaf,
+    wikipedia: parsedCache.wikipedia,
+    wikipediaPages,
+    properties
+  };
+};
+
 const AuthoritySelectTable = ({tableColumnTitle, tableColumnField, urlField, dataSource, ...props}) => {
   const renderSelectButton = (data) => {
     return(
@@ -32,7 +72,7 @@ const AuthoritySelectTable = ({tableColumnTitle, tableColumnField, urlField, dat
     {
       title: tableColumnTitle,
       key: tableColumnField,
-      width: 400,
+      width: 150,
       sorter: false,
       render: renderTitle
     }, {
@@ -65,7 +105,12 @@ export const FormAuthoritySelect = ({api, type, nameField='name', field, form, c
                                       isWikidata=false, urlField}) => {
   const [searchValue, setSearchValue] = useState('');
 
-  const {data, loading} = useData(api, {query: searchValue, type: isWikidata ? undefined : type});
+  const {data, loading} = useData(
+    searchValue === '' ? undefined : api,
+    {query: searchValue, type: isWikidata ? undefined : type}
+  );
+  const wikidataCache = Form.useWatch('wikidata_cache', form);
+  console.log(wikidataCache)
 
   const onSearch = () => {
     const search = form.getFieldValue(nameField);
@@ -78,11 +123,6 @@ export const FormAuthoritySelect = ({api, type, nameField='name', field, form, c
   return (
     <React.Fragment>
       <Row gutter={10}>
-        <Col span={20}>
-          <Form.Item name={field}>
-            <Input />
-          </Form.Item>
-        </Col>
         <Col span={4}>
           <Button
             className={style.SearchButton}
@@ -92,18 +132,83 @@ export const FormAuthoritySelect = ({api, type, nameField='name', field, form, c
             Search
           </Button>
         </Col>
-      </Row>
-      <Row>
-        <Col span={24} className={style.AuthorityTable}>
-          <AuthoritySelectTable
-            dataSource={data}
-            onSelect={(val) => form.setFieldsValue({[field]: val})}
-            tableColumnTitle={columnTitle}
-            tableColumnField={columnField}
-            urlField={urlField}
-          />
+        <Col span={20}>
+          <Form.Item name={field} label="Selected Identifier">
+            <Input disabled={true} />
+          </Form.Item>
         </Col>
       </Row>
+      {
+        wikidataCache &&
+        <Row>
+          <Col span={24}>
+            <div className={style.CacheSummary}>
+              {
+                wikidataCache.title &&
+                <div className={style.CacheSummaryTitle}>{wikidataCache.title}</div>
+              }
+              {
+                wikidataCache.description &&
+                <div className={style.CacheSummaryDescription}>{wikidataCache.description}</div>
+              }
+              <ul className={style.CacheSummaryList}>
+                {
+                  wikidataCache.viaf &&
+                  <li>
+                    VIAF: <a href={`https://viaf.org/viaf/${wikidataCache.viaf}`} target={'_blank'} rel="noopener noreferrer">{wikidataCache.viaf}</a>
+                  </li>
+                }
+                {
+                  wikidataCache.wikipedia &&
+                  <li>
+                    Wikipedia: <a href={authorityCacheSummary.wikipedia} target={'_blank'} rel="noopener noreferrer">{authorityCacheSummary.wikipedia}</a>
+                  </li>
+                }
+                {
+                  wikidataCache.wikipediaPages.length > 0 &&
+                  <li>
+                    Wikipedia Pages:
+                    <ul className={style.CacheNestedList}>
+                      {wikidataCache.wikipediaPages.map(([key, value]) => (
+                        <li key={key}>
+                          {key}: <a href={value} target={'_blank'} rel="noopener noreferrer">{value}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                }
+                {
+                  wikidataCache.properties.length > 0 &&
+                  <li>
+                    Properties:
+                    <ul className={style.CacheNestedList}>
+                      {wikidataCache.properties.map(([key, value]) => (
+                        <li key={key}>
+                          {key}: {Array.isArray(value) ? value.join(', ') : value}
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                }
+              </ul>
+            </div>
+          </Col>
+        </Row>
+      }
+      {
+        data && data.length > 0 &&
+        <Row>
+          <Col span={24} className={style.AuthorityTable}>
+            <AuthoritySelectTable
+              dataSource={data}
+              onSelect={(val) => form.setFieldsValue({[field]: val})}
+              tableColumnTitle={columnTitle}
+              tableColumnField={columnField}
+              urlField={urlField}
+            />
+          </Col>
+        </Row>
+      }
     </React.Fragment>
   )
 };
