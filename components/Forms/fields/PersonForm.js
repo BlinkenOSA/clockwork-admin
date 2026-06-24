@@ -4,9 +4,42 @@ import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
 import {PersonOtherNames} from "./authority_lists/PersonOtherNames";
 import FormDuplications from "../components/FormDuplications";
 
-const { TabPane } = Tabs;
-
 export const PersonForm = ({form, selectedRecord, readOnly, afterMergeFinish, hasMerge}) => {
+  const items = [
+    {
+      key: 'person_other_formats',
+      label: 'Other Forms of Name',
+      children: <PersonOtherNames disabled={readOnly} />
+    },
+    {
+      key: 'wikidata',
+      label: 'WikiData',
+      children: (
+        <FormAuthoritySelect
+          api={'/v1/authority_list/wikidata/'}
+          form={form}
+          field={'wikidata_id'}
+          columnTitle={'Wikidata ID'}
+          columnField={'wikidata_id'}
+          urlField={'wikidata_url'}
+          isWikidata={true}
+          type={'person'}
+        />
+      )
+    },
+    ...(selectedRecord && hasMerge ? [{
+      key: 'duplications',
+      label: 'Duplications',
+      children: (
+        <FormDuplications
+          selectedRecord={selectedRecord}
+          api={`/v1/authority_list/people/${selectedRecord}/similar`}
+          afterMergeFinish={afterMergeFinish}
+        />
+      )
+    }] : [])
+  ];
+
   return (
     <React.Fragment>
       <Col xs={12}>
@@ -25,34 +58,8 @@ export const PersonForm = ({form, selectedRecord, readOnly, afterMergeFinish, ha
         </Form.Item>
       </Col>
       <Col xs={24}>
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Other Forms of Name" key="person_other_formats">
-            <PersonOtherNames disabled={readOnly} />
-          </TabPane>
-          <TabPane tab="WikiData" key="wikidata">
-            <FormAuthoritySelect
-              api={'/v1/authority_list/wikidata/'}
-              form={form}
-              field={'wikidata_id'}
-              columnTitle={'Wikidata ID'}
-              columnField={'wikidata_id'}
-              urlField={'wikidata_url'}
-              isWikidata={true}
-              type={'person'}
-            />
-          </TabPane>
-          { selectedRecord && hasMerge &&
-            <TabPane tab="Duplications" key="duplications">
-              <FormDuplications
-                selectedRecord={selectedRecord}
-                api={`/v1/authority_list/people/${selectedRecord}/similar`}
-                afterMergeFinish={afterMergeFinish}
-              />
-            </TabPane>
-          }
-        </Tabs>
+        <Tabs defaultActiveKey="person_other_formats" items={items} />
       </Col>
     </React.Fragment>
   )
 };
-
