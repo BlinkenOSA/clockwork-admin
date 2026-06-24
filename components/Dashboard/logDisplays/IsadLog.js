@@ -19,7 +19,11 @@ const IsadLog = ({type}) => {
     };
 
     return (
-      <Timeline.Item label={getLabel()} dot={<AiOutlineClockCircle/>} className={style.LogTimelineItem}>
+      <Timeline.Item
+          key={item['id']}
+          label={getLabel()}
+          dot={<AiOutlineClockCircle/>}
+          className={style.LogTimelineItem}>
         <div>{item['reference_code']}</div>
         <div>{item['title']}</div>
         <Tag>{item[`user_${type}d`]}</Tag>
