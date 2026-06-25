@@ -109,7 +109,7 @@ export const FormAuthoritySelect = ({api, type, nameField='name', field, form, c
     searchValue === '' ? undefined : api,
     {query: searchValue, type: isWikidata ? undefined : type}
   );
-  const wikidataCache = Form.useWatch('wikidata_cache', form);
+  const wikidataCache = form.getFieldValue('wikidata_cache');
   console.log(wikidataCache)
 
   const onSearch = () => {
