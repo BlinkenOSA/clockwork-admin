@@ -42,3 +42,12 @@ body {
 .ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-has-trigger {
     height: calc(100vh - 48px) !important;
 }
+
+.authority-geo-shape-map {
+    height: 260px;
+    width: 100%;
+}
+
+.authority-geo-shape-map .leaflet-control-attribution {
+    font-size: 10px;
+}

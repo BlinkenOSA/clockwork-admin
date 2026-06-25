@@ -647,6 +647,11 @@
     rc-trigger "^5.3.4"
     rc-util "^5.24.4"
 
+"@react-leaflet/core@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-1.1.1.tgz#827fd05bb542cf874116176d8ef48d5b12163f81"
+  integrity sha512-7PGLWa9MZ5x/cWy8EH2VzI4T8q5WpuHbixzCDXqixP/WyqwIrg5NDUPgYuFnB4IEIZF+6nA265mYzswFo/h1Pw==
+
 "@swc/helpers@0.4.11":
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.4.11.tgz#db23a376761b3d31c26502122f349a21b592c8de"
@@ -2125,6 +2130,11 @@ lazy-cache@^1.0.3:
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
   integrity sha512-RE2g0b5VGZsOCFOCgP7omTRYFqydmZkBwl5oNnQ1lDYC57uyO9KqNnNVxT7COSHTxrRCWVcAVOcbjk+tvh/rgQ==
 
+leaflet@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.9.4.tgz#23fae724e282fa25745aff82ca4d394748db7d8d"
+  integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
+
 locate-path@^7.1.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-7.2.0.tgz#69cb1779bd90b35ab1e771e1f2f89a202c2a8a8a"
@@ -3358,6 +3368,13 @@ react-json-view-lite@^0.9.2:
   version "0.9.4"
   resolved "https://registry.yarnpkg.com/react-json-view-lite/-/react-json-view-lite-0.9.4.tgz#a7c6c66c6c8e73e130618b2e9cacf34044060638"
   integrity sha512-gKc1lvyRa8cjtlqw/m6+PF5jsyNMCgjjtktZaUUIyV0rsZRiZK+jGExepXJDeRq1Z7IuYNd0sc5LyTnm9R28uA==
+
+react-leaflet@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-3.2.5.tgz#bec0bfab9dd8c2b030ea630f7a0687a60322ca7d"
+  integrity sha512-Z3KZ+4SijsRbbrt2I1a3ZDY6+V6Pm91eYTdxTN18G6IOkFRsJo1BuSPLFnyFrlF3WDjQFPEcTPkEgD1VEeAoBg==
+  dependencies:
+    "@react-leaflet/core" "^1.1.1"
 
 react-markdown@~9.0.1:
   version "9.0.1"

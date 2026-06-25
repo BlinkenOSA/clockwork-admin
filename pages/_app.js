@@ -1,5 +1,6 @@
 import {SessionProvider, signIn, useSession} from "next-auth/react"
 import 'antd/dist/reset.css'
+import 'leaflet/dist/leaflet.css'
 import '../styles/global.css';
 import '../styles/variables.css';
 import React, {useContext} from "react";

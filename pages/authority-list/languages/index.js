@@ -20,12 +20,6 @@ export default function LanguageList() {
       key: 'language',
       sorter: true,
     }, {
-      title: 'Authority URL',
-      dataIndex: 'authority_url',
-      key: 'authority_url',
-      sorter: false,
-      render: renderURL
-    }, {
       title: 'Wikidata',
       dataIndex: 'wikidata_id',
       key: 'wikidata_id',

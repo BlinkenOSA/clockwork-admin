@@ -12,20 +12,6 @@ export const CorporationForm = ({form, readOnly}) => {
       children: <CorporationOtherNames disabled={readOnly} />
     },
     {
-      key: 'authority_link',
-      label: 'Authority Link (VIAF)',
-      children: (
-        <FormAuthoritySelect
-          api={'/v1/authority_list/viaf/'}
-          form={form}
-          field={'authority_url'}
-          columnTitle={'VIAF ID'}
-          columnField={'viaf_id'}
-          type={'corporation'}
-        />
-      )
-    },
-    {
       key: 'wikidata',
       label: 'WikiData',
       children: (

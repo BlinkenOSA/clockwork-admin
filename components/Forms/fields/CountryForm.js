@@ -5,21 +5,6 @@ import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
 export const CountryForm = ({form, readOnly}) => {
   const items = [
     {
-      key: 'authority_link',
-      label: 'Authority Link (VIAF)',
-      children: (
-        <FormAuthoritySelect
-          api={'/v1/authority_list/viaf/'}
-          form={form}
-          nameField={'country'}
-          field={'authority_url'}
-          columnTitle={'VIAF ID'}
-          columnField={'viaf_id'}
-          type={'country'}
-        />
-      )
-    },
-    {
       key: 'wikidata',
       label: 'WikiData',
       children: (
@@ -32,21 +17,6 @@ export const CountryForm = ({form, readOnly}) => {
           columnField={'wikidata_id'}
           urlField={'wikidata_url'}
           isWikidata={true}
-          type={'country'}
-        />
-      )
-    },
-    {
-      key: 'wikipedia_link',
-      label: 'Wikipedia Link',
-      children: (
-        <FormAuthoritySelect
-          api={'/v1/authority_list/wikipedia/'}
-          form={form}
-          nameField={'country'}
-          field={'wiki_url'}
-          columnTitle={'Wikipedia Link'}
-          columnField={'url'}
           type={'country'}
         />
       )

@@ -45,6 +45,15 @@
     object-fit: contain;
 }
 
+.CacheSummaryMapWrapper {
+    margin: 0 0 12px 0;
+    max-width: 420px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    overflow: hidden;
+    font-size: 13px;
+}
+
 .CacheSummaryList {
     margin: 0;
     padding-left: 20px;
