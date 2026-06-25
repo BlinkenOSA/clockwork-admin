@@ -1,5 +1,5 @@
 import {Button, Col, Form, Input, Tooltip, Row, Table} from "antd";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { SelectOutlined } from '@ant-design/icons';
 import style from "./FormAuthoritySelect.module.scss";
 import {useData} from "../../../utils/hooks/useData";
@@ -21,6 +21,51 @@ const parseAuthorityCache = (authorityCache) => {
   return authorityCache;
 };
 
+const getWikipediaLanguageLabel = (wikiKey) => {
+  const languageCode = wikiKey.replace(/wiki$/i, '');
+  const normalizedLanguageCode = languageCode.replace(/_/g, '-');
+  const candidateCodes = [
+    normalizedLanguageCode,
+    normalizedLanguageCode.split('-')[0],
+    normalizedLanguageCode.slice(0, 3),
+    normalizedLanguageCode.slice(0, 2)
+  ].filter((code, index, array) => code && array.indexOf(code) === index);
+
+  if (typeof Intl !== 'undefined' && typeof Intl.DisplayNames === 'function') {
+    try {
+      const displayNames = new Intl.DisplayNames(['en'], {type: 'language'});
+
+      for (const candidateCode of candidateCodes) {
+        const languageName = displayNames.of(candidateCode);
+
+        if (languageName && languageName.toLowerCase() !== candidateCode.toLowerCase()) {
+          return languageName;
+        }
+      }
+    } catch (error) {
+      // Fall back to a readable code label for Wikimedia-specific variants.
+    }
+  }
+
+  return normalizedLanguageCode.replace(/-/g, ' ');
+};
+
+const getDisplayUrl = (url) => {
+  try {
+    return decodeURI(url);
+  } catch (error) {
+    return url;
+  }
+};
+
+const getPropertyLabel = (propertyKey) => {
+  return propertyKey
+    .split('_')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+};
+
 const getAuthorityCacheSummary = (authorityCache) => {
   const parsedCache = parseAuthorityCache(authorityCache);
 
@@ -28,12 +73,21 @@ const getAuthorityCacheSummary = (authorityCache) => {
     return null;
   }
 
-  const wikipediaPages = parsedCache.wikipedia_pages && typeof parsedCache.wikipedia_pages === 'object'
-    ? Object.entries(parsedCache.wikipedia_pages).filter(([, value]) => typeof value === 'string' && value !== '')
-    : [];
-  const properties = parsedCache.properties && typeof parsedCache.properties === 'object'
-    ? Object.entries(parsedCache.properties).filter(([, value]) => value !== null && value !== undefined && value !== '')
-    : [];
+  const wikipediaPagesSource = parsedCache.wikipediaPages || parsedCache.wikipedia_pages;
+  const wikipediaPages = Array.isArray(wikipediaPagesSource)
+    ? wikipediaPagesSource.filter((entry) => Array.isArray(entry) && entry.length >= 2 && typeof entry[1] === 'string' && entry[1] !== '')
+    : wikipediaPagesSource && typeof wikipediaPagesSource === 'object'
+      ? Object.entries(wikipediaPagesSource).filter(([, value]) => typeof value === 'string' && value !== '')
+      : [];
+  const propertiesSource = parsedCache.properties;
+  const properties = Array.isArray(propertiesSource)
+    ? propertiesSource.filter((entry) => Array.isArray(entry) && entry.length >= 2 && entry[1] !== null && entry[1] !== undefined && entry[1] !== '')
+    : propertiesSource && typeof propertiesSource === 'object'
+      ? Object.entries(propertiesSource).filter(([, value]) => value !== null && value !== undefined && value !== '')
+      : [];
+  const imageProperty = properties.find(([key, value]) => key === 'image' && typeof value === 'string' && value !== '');
+  const image = imageProperty ? imageProperty[1] : null;
+  const visibleProperties = properties.filter(([key]) => key !== 'image');
 
   return {
     title: parsedCache.title,
@@ -41,7 +95,8 @@ const getAuthorityCacheSummary = (authorityCache) => {
     viaf: parsedCache.viaf,
     wikipedia: parsedCache.wikipedia,
     wikipediaPages,
-    properties
+    image,
+    properties: visibleProperties
   };
 };
 
@@ -104,13 +159,23 @@ const AuthoritySelectTable = ({tableColumnTitle, tableColumnField, urlField, dat
 export const FormAuthoritySelect = ({api, type, nameField='name', field, form, columnTitle, columnField,
                                       isWikidata=false, urlField}) => {
   const [searchValue, setSearchValue] = useState('');
+  const [showAllWikipediaPages, setShowAllWikipediaPages] = useState(false);
 
   const {data, loading} = useData(
     searchValue === '' ? undefined : api,
     {query: searchValue, type: isWikidata ? undefined : type}
   );
-  const wikidataCache = form.getFieldValue('wikidata_cache');
-  console.log(wikidataCache)
+
+  const wikidataCache = getAuthorityCacheSummary(form.getFieldValue('wikidata_cache'));
+  const wikidataId = form.getFieldValue(field);
+  const wikidataUrl = wikidataId ? `https://www.wikidata.org/wiki/${wikidataId}` : null;
+  const visibleWikipediaPages = showAllWikipediaPages
+    ? wikidataCache?.wikipediaPages || []
+    : (wikidataCache?.wikipediaPages || []).slice(0, 5);
+
+  useEffect(() => {
+    setShowAllWikipediaPages(false);
+  }, [wikidataId]);
 
   const onSearch = () => {
     const search = form.getFieldValue(nameField);
@@ -151,17 +216,29 @@ export const FormAuthoritySelect = ({api, type, nameField='name', field, form, c
                 wikidataCache.description &&
                 <div className={style.CacheSummaryDescription}>{wikidataCache.description}</div>
               }
+              {
+                wikidataCache.image &&
+                <div className={style.CacheSummaryImageWrapper}>
+                  <img className={style.CacheSummaryImage} src={wikidataCache.image} alt={wikidataCache.title || 'Authority image'} />
+                </div>
+              }
               <ul className={style.CacheSummaryList}>
+                {
+                  wikidataUrl &&
+                  <li>
+                    Wikidata: <a className={style.CacheSummaryLink} href={wikidataUrl} target={'_blank'} rel="noopener noreferrer">{getDisplayUrl(wikidataUrl)}</a>
+                  </li>
+                }
                 {
                   wikidataCache.viaf &&
                   <li>
-                    VIAF: <a href={`https://viaf.org/viaf/${wikidataCache.viaf}`} target={'_blank'} rel="noopener noreferrer">{wikidataCache.viaf}</a>
+                    VIAF: <a className={style.CacheSummaryLink} href={`https://viaf.org/viaf/${wikidataCache.viaf}`} target={'_blank'} rel="noopener noreferrer">{wikidataCache.viaf}</a>
                   </li>
                 }
                 {
                   wikidataCache.wikipedia &&
                   <li>
-                    Wikipedia: <a href={authorityCacheSummary.wikipedia} target={'_blank'} rel="noopener noreferrer">{authorityCacheSummary.wikipedia}</a>
+                    Wikipedia (main): <a className={style.CacheSummaryLink} href={wikidataCache.wikipedia} target={'_blank'} rel="noopener noreferrer">{getDisplayUrl(wikidataCache.wikipedia)}</a>
                   </li>
                 }
                 {
@@ -169,22 +246,32 @@ export const FormAuthoritySelect = ({api, type, nameField='name', field, form, c
                   <li>
                     Wikipedia Pages:
                     <ul className={style.CacheNestedList}>
-                      {wikidataCache.wikipediaPages.map(([key, value]) => (
+                      {visibleWikipediaPages.map(([key, value]) => (
                         <li key={key}>
-                          {key}: <a href={value} target={'_blank'} rel="noopener noreferrer">{value}</a>
+                          {getWikipediaLanguageLabel(key)}: <a className={style.CacheSummaryLink} href={value} target={'_blank'} rel="noopener noreferrer">{getDisplayUrl(value)}</a>
                         </li>
                       ))}
                     </ul>
+                    {
+                      wikidataCache.wikipediaPages.length > 5 &&
+                      <button
+                        type="button"
+                        className={style.CacheSummaryToggle}
+                        onClick={() => setShowAllWikipediaPages(!showAllWikipediaPages)}
+                      >
+                        {showAllWikipediaPages ? 'Show Less' : 'Show More'}
+                      </button>
+                    }
                   </li>
                 }
                 {
                   wikidataCache.properties.length > 0 &&
-                  <li>
+                  <li style={{paddingTop: '10px'}}>
                     Properties:
                     <ul className={style.CacheNestedList}>
                       {wikidataCache.properties.map(([key, value]) => (
                         <li key={key}>
-                          {key}: {Array.isArray(value) ? value.join(', ') : value}
+                          {getPropertyLabel(key)}: {Array.isArray(value) ? value.join(', ') : value}
                         </li>
                       ))}
                     </ul>
