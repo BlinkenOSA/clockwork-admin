@@ -25,7 +25,7 @@ export const FindingAidsTemplateForm = ({type, recordID, seriesID, initialValues
   };
 
   const afterFinish = () => {
-    router.push(`/finding-aids/containers/${seriesID}`);
+    router.push(`/finding-aids/folders-items/containers/${seriesID}`);
   };
 
   const {form, formLoading, errors, locale, onFinish, renderErrors, onValuesChange} =
@@ -63,7 +63,7 @@ export const FindingAidsTemplateForm = ({type, recordID, seriesID, initialValues
           </Row>
         </Card>
         <SimpleFormFooter
-          module={`finding-aids/containers/${seriesID}`}
+          module={`finding-aids/folders-items/containers/${seriesID}`}
           form={form}
           type={type}
           loading={formLoading}

@@ -1,10 +1,10 @@
 import React from 'react'
-import AppLayout from "../../../components/Layout/Layout";
+import AppLayout from "../../../../components/Layout/Layout";
 import Head from "next/head";
-import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
+import Breadcrumbs from "../../../../components/Layout/Breadcrumbs";
 import {useRouter} from "next/router";
-import {useData} from "../../../utils/hooks/useData";
-import ContainerTable from "../../../components/Tables/ContainerTable";
+import {useData} from "../../../../utils/hooks/useData";
+import ContainerTable from "../../../../components/Tables/ContainerTable";
 
 export default function FindingAidsContainerView() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function FindingAidsContainerView() {
       <Head>
         <title>AMS - Archival Management System - Containers</title>
       </Head>
-      <Breadcrumbs module={'finding-aids/containers'} breadcrumbData={breadcrumbData} />
+      <Breadcrumbs module={'finding-aids/folders-items/containers'} breadcrumbData={breadcrumbData} />
       <ContainerTable
         seriesID={series}
         seriesTitle={data ? `${data.title_full}` : ''}

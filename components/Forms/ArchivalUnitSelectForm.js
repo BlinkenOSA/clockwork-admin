@@ -94,7 +94,7 @@ export const ArchivalUnitSelectForm = () => {
       <Card size={'small'} className={style.Footer}>
         <Row gutter={12} type="flex">
           <Col xs={12}>
-            <Link href={archivalUnitFormState['series'] ? `/finding-aids/containers/${archivalUnitFormState['series']}` : ''}>
+            <Link href={archivalUnitFormState['series'] ? `/finding-aids/folders-items/containers/${archivalUnitFormState['series']}` : ''}>
               <Button
                 type={'default'}
                 disabled={!archivalUnitFormState['series']}

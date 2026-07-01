@@ -67,7 +67,7 @@ const getActions = (record) => {
   const getURL = (identifier, action) => {
     if (identifier.indexOf('finding-aids-') !== -1) {
       const id = identifier.replace('finding-aids-', '');
-      return `/finding-aids/entities/${action}/${id}`;
+      return `/finding-aids/folders-items/entities/${action}/${id}`;
     }
 
     if (identifier.indexOf('isad-') !== -1) {

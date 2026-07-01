@@ -1,8 +1,8 @@
 import React from 'react'
-import AppLayout from "../../components/Layout/Layout";
+import AppLayout from "../../../components/Layout/Layout";
 import Head from "next/head";
-import Breadcrumbs from "../../components/Layout/Breadcrumbs";
-import {ArchivalUnitSelectForm} from "../../components/Forms/ArchivalUnitSelectForm";
+import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
+import {ArchivalUnitSelectForm} from "../../../components/Forms/ArchivalUnitSelectForm";
 
 export default function FindingAidsSeriesSelect() {
   const breadcrumbData = [

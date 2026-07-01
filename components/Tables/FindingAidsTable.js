@@ -10,7 +10,8 @@ import {
   ArrowDownOutlined,
   ArrowUpOutlined,
   WarningOutlined,
-  DownOutlined
+  DownOutlined,
+  FileUnknownOutlined, CloseCircleOutlined
 } from "@ant-design/icons";
 import style from './Table.module.scss';
 import {post, put, remove} from "../../utils/api";
@@ -28,6 +29,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
 
   const [ publishing, setPublishing ] = useState({});
   const [ confidentialSetting, setConfidentialSetting ] = useState({});
+  const [ missingSetting, setMissingSetting ] = useState({});
   const [ formType, setFormType] = useState('finding-aids-quick-edit');
 
   const [ selectedRecord, setSelectedRecord ] = useState(undefined);
@@ -51,7 +53,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
           <Tooltip key={'quick_edit'} title={'Quick Edit'}>
             <Button size="small" icon={<FormOutlined/>} onClick={() => onQuickEdit(record.id)} />
           </Tooltip>
-          <Link href={`/finding-aids/entities/edit/${record.id}`}>
+          <Link href={`/finding-aids/folders-items/entities/edit/${record.id}`}>
             <Tooltip key={'edit'} title={'Edit'}>
               <Button size="small" icon={<EditOutlined/>} />
             </Tooltip>
@@ -167,7 +169,8 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
         return (
           <Tooltip title={'Unset confidential'}>
             <Button
-              size="small" type={'warning'}
+              size="small"
+              type={'warning'}
               className={style.ButtonConfidential}
               loading={confidentialSetting.hasOwnProperty(record.id) ? confidentialSetting[record.id] : false}
               onClick={() => {onAction('set_non_confidential', record.id)}}
@@ -180,7 +183,6 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
           <Tooltip title={'Set confidential'}>
             <Button
               size="small"
-              type={'warning'}
               loading={confidentialSetting.hasOwnProperty(record.id) ? confidentialSetting[record.id] : false}
               onClick={() => {onAction('set_confidential', record.id)}}
               icon={<WarningOutlined />}
@@ -190,9 +192,37 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       }
     };
 
+    const renderMissingButton = () => {
+      if (record['missing']) {
+        return (
+            <Tooltip title={'Set non missing'}>
+              <Button
+                  size="small"
+                  className={style.ButtonMissing}
+                  loading={missingSetting.hasOwnProperty(record.id) ? missingSetting[record.id] : false}
+                  onClick={() => {onAction('set_non_missing', record.id)}}
+                  icon={<CloseCircleOutlined />}
+              />
+            </Tooltip>
+        );
+      } else {
+        return (
+            <Tooltip title={'Set missing'}>
+              <Button
+                  size="small"
+                  loading={missingSetting.hasOwnProperty(record.id) ? missingSetting[record.id] : false}
+                  onClick={() => {onAction('set_missing', record.id)}}
+                  icon={<CloseCircleOutlined />}
+              />
+            </Tooltip>
+        );
+      }
+    };
+
     return (
       <Button.Group>
         { renderContainerPublishButton() }
+        { renderMissingButton() }
         { renderConfidentialButton() }
       </Button.Group>
     )
@@ -264,7 +294,25 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
           })
         }
       });
-    } else {
+    }
+
+    if (action === 'set_missing' || action === 'set_non_missing') {
+      confirm({
+        title: `Are you sure you would like to set the missing status of the record?`,
+        okText: 'Yes',
+        okType: 'warning',
+        cancelText: 'No',
+        onOk() {
+          setMissingSetting({[id]: true});
+          put(`/v1/finding_aids/${action}/${id}/`).then(() => {
+            refresh();
+            setMissingSetting({[id]: false});
+          })
+        }
+      });
+    }
+
+    if (action === 'set_confidential' || action === 'set_non_confidential') {
       confirm({
         title: `Are you sure you would like to ${action === 'set_confidential' ? 'set confidential status to' : 'remove confidential status from'} the record?`,
         okText: 'Yes',
@@ -324,7 +372,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       return templateData.map(data => {
         return {
           key: data.id,
-          label: <Link href={`/finding-aids/entities/create/from-template/${data.id}/${containerID}`}>{data.template_name}</Link>
+          label: <Link href={`/finding-aids/folders-items/entities/create/from-template/${data.id}/${containerID}`}>{data.template_name}</Link>
         }
       })
     }
@@ -344,7 +392,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     return (
       <Row>
         <Col span={12}>
-          <Link href={`/finding-aids/entities/create/${containerID}`}>
+          <Link href={`/finding-aids/folders-items/entities/create/${containerID}`}>
             <Button type={'primary'}>
               New Folder / Item
             </Button>

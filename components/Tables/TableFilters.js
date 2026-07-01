@@ -14,6 +14,7 @@ import RequestsTableFilter from "./filters/RequestsTableFilter";
 import DigitizationFindingAidsTableFilter from "./filters/DigitizationFindingAidsTableFilter";
 import RestrictedRequestsTableFilter from "./filters/RestrictedRequestsTableFilter";
 import DigitizationContainerCheckTableFilter from "./filters/DigitizationContainerCheckTableFilter";
+import FindingAidsMissingTableFilter from "./filters/FindingAidsMissingTableFilter";
 
 const TableFilters = ({onFilterChange, module, filters, ...props}) => {
   const renderFilters = () => {
@@ -28,6 +29,8 @@ const TableFilters = ({onFilterChange, module, filters, ...props}) => {
         return <IsaarTableFilters />;
       case 'mlr':
         return <MLRTableFilter />;
+      case 'finding-aids-missing':
+        return <FindingAidsMissingTableFilter />;
       case 'digitization':
         return <DigitizationTableFilter />;
       case 'digitization-container-check':

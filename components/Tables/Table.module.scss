@@ -47,6 +47,17 @@
     }
 }
 
+.ButtonMissing {
+    color: #FFFFFF !important;
+    background-color: #1fb7fb;
+
+    &:hover, &:focus {
+        background-color: #148ebd;
+        color: #FFF;
+        border-color: rgb(217, 217, 217);
+    }
+}
+
 .ButtonConfidential {
     background-color: #ffeb37;
     

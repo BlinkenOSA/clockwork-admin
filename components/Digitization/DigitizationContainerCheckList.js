@@ -5,7 +5,7 @@ import SimpleTable from "../Tables/SimpleTable";
 
 export default function DigitizationContainerCheckList() {
   const renderContainerNo = (data, record) => {
-    return <a className={style.ContainerNo} href={'/finding-aids/containers/' + record['archival_unit_id']} target={'_blank'} rel="noreferrer">{data}</a>
+    return <a className={style.ContainerNo} href={'/finding-aids/folders-items/containers/' + record['archival_unit_id']} target={'_blank'} rel="noreferrer">{data}</a>
   }
 
   const renderNo = (data) => {

@@ -236,14 +236,22 @@ const RequestsTable = ({...props}) => {
                   </div>
                 </Tooltip>
               )
-            } else {
-              return (
-                <div>
-                  {rec['reference_code']}
-                </div>
-              )
             }
 
+          if (rec['is_missing']) {
+            return (
+                <div>
+                  {rec['reference_code']}
+                  <Badge count={'Missing'} style={{ backgroundColor: '#1fb7fb', borderRadius: '3px', fontSize: '0.8em' }} />
+                </div>
+            )
+          }
+
+            return (
+              <div>
+                {rec['reference_code']}
+              </div>
+            )
         })
     )
 

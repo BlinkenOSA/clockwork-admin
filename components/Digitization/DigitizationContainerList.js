@@ -7,7 +7,7 @@ import style from "./DigitizationContainerList.module.scss"
 
 export default function DigitizationContainerList() {
   const renderContainerNo = (data, record) => {
-    return <a className={style.ContainerNo} href={'/finding-aids/containers/' + record['archival_unit_id']} target={'_blank'} rel="noreferrer">{data}</a>
+    return <a className={style.ContainerNo} href={'/finding-aids/folders-items/containers/' + record['archival_unit_id']} target={'_blank'} rel="noreferrer">{data}</a>
   }
 
   const columns = [
