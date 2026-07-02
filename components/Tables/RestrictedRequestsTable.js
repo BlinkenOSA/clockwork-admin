@@ -184,7 +184,7 @@ const RestrictedRequestsTable = ({...props}) => {
             <div className={style.CatalogLink}>Catalog</div>
           </a>
           <div style={{fontSize: '12px'}}>|</div>
-          <a href={`/finding_aids/entities/edit/${record['finding_aids_entity']}`}
+          <a href={`/finding-aids/entities/edit/${record['finding_aids_entity']}`}
              target={'_blank'} style={{color: "black"}}>
             <div className={style.CatalogLink}>AMS</div>
           </a>
