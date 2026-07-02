@@ -241,8 +241,10 @@ const RequestsTable = ({...props}) => {
           if (rec['is_missing']) {
             return (
                 <div>
-                  {rec['reference_code']}
-                  <Badge count={'Missing'} style={{ backgroundColor: '#1fb7fb', borderRadius: '3px', fontSize: '0.8em' }} />
+                  <Badge count={`${rec['reference_code']} - missing`} style={{
+                    backgroundColor: '#1fb7fb',
+                    borderRadius: '3px',
+                    fontSize: '0.8em' }} />
                 </div>
             )
           }
