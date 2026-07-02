@@ -41,7 +41,11 @@ export default function RequestsPrint() {
     const renderMLR = data => {
       switch (data['item_origin']) {
         case 'FA':
-          return data['mlr']
+          if (data['mlr'] && typeof data['mlr'] === 'object') {
+            return data['mlr']['locations'] || ''
+          }
+
+          return data['mlr'] || ''
         case 'L':
           if (data['quantity']) {
             return (
