@@ -26,7 +26,7 @@ const FindingAidsTemplateTable = ({seriesID}) => {
     return (
       <React.Fragment>
         <Button.Group>
-          <Link href={`/finding-aids/templates/edit/${record.id}`}>
+          <Link href={`/finding-aids/folders-items/templates/edit/${record.id}`}>
             <Tooltip key={'edit'} title={'Edit'}>
               <Button size="small" icon={<EditOutlined/>} />
             </Tooltip>
@@ -61,7 +61,7 @@ const FindingAidsTemplateTable = ({seriesID}) => {
     return (
       <Row>
         <Col span={8}>
-          <Link href={`/finding-aids/templates/create/${seriesID}`}>
+          <Link href={`/finding-aids/folders-items/templates/create/${seriesID}`}>
             <Button type={'primary'}>
               New Template
             </Button>
