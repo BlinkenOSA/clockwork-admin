@@ -32,9 +32,9 @@ const STATUS = {
   'approved_on_site': 'Approved for on-site viewing'
 }
 
-const RequestsTable = ({...props}) => {
+const RequestsTable = ({api = '/v1/research/requests', ...props}) => {
   const { data, loading, refresh , tableState,
-    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('requests', `/v1/research/requests`);
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('requests', api);
 
   const [drawerShown, setDrawerShown] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(undefined);
@@ -93,7 +93,7 @@ const RequestsTable = ({...props}) => {
     }, {
       key: 'actions',
       title: 'Actions',
-      width: 60,
+      width: 100,
       className: style.ActionColumn,
       render: (record) => renderActions(record)
     }

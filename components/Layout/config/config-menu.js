@@ -4,13 +4,14 @@ import {
   EnvironmentOutlined, TagOutlined, TagsOutlined, RightCircleOutlined, IdcardOutlined, SearchOutlined
 } from '@ant-design/icons';
 import { IoSchoolOutline } from "react-icons/io5"
-import { MdOutlineScanner } from "react-icons/md"
+import { MdOutlineScanner, MdOutlineWbCloudy } from "react-icons/md"
 import { BsInboxes, BsBoxArrowInLeft } from "react-icons/bs"
 import { FaExchangeAlt, FaExclamation } from "react-icons/fa"
 import { HiOutlineLibrary } from "react-icons/hi"
 import { BiPieChartAlt2 } from "react-icons/bi"
 import { RiExchangeFundsLine } from "react-icons/ri"
 import { ImCopy } from "react-icons/im"
+
 import React from "react";
 
 const configMenu = [
@@ -64,6 +65,7 @@ const configMenu = [
   ]},
   {name: 'Requests', icon: <RiExchangeFundsLine />, module: 'requests', group: ['Research', 'Restricted Decision Makers'], submenu: [
       {name: 'Requests List', icon: <FaExchangeAlt />, group: ['Research'], link: '/requests/list'},
+      {name: 'Digital Requests', icon: <MdOutlineWbCloudy />, group: ['Research'], link: '/requests/digital'},
       {name: 'Restricted Access Man.', icon: <FaExclamation />, group: ['Restricted Decision Makers'], link: '/requests/restricted-access'},
   ]}
 ];

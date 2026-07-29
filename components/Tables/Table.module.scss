@@ -179,6 +179,51 @@
     }
 }
 
+.StatusWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.ShareJobBadge {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.ShareJobRunning {
+    color: #0958d9;
+}
+
+.ShareJobSuccess {
+    color: #389e0d;
+}
+
+.ShareJobFailed {
+    color: #cf1322;
+}
+
+.ShareJobStatus {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ShareJobProgress {
+    margin-top: 4px;
+}
+
+.ShareJobMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 13px;
+}
+
 .Italic {
     font-size: 12px;
 }
