@@ -198,7 +198,15 @@ const RequestsTable = ({api = '/v1/research/requests', ...props}) => {
         </div>
       )
     }
-    
+
+    if (record['item_origin'] === 'FL' && record['identifier'].startsWith('HU_OSA')) {
+      return (
+          <div>
+            <Badge count={record['identifier']} style={{ backgroundColor: '#e06d3c', borderRadius: '3px', fontSize: '0.8em' }} />
+          </div>
+      )
+    }
+
     if (record['library_id']) {
       return (
         <div>

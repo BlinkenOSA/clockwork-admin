@@ -1,4 +1,4 @@
-import {Alert, Badge, Button, Col, Drawer, Modal, Progress, Row, Table, Tooltip, message} from "antd";
+import {Badge, Button, Col, Drawer, Modal, Row, Table, Tooltip, message} from "antd";
 import React, {useEffect, useState} from "react";
 import {
   PlusOutlined,
@@ -7,6 +7,10 @@ import {
   EditOutlined,
   DeleteOutlined,
   CloudUploadOutlined,
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
@@ -28,15 +32,25 @@ const STATUS = {
 }
 
 const SHARE_JOB_STEP_LABELS = {
-  pending: 'Pending',
+  queued: 'Queued',
   checking_files: 'Checking files',
   creating_directory: 'Creating directory',
   copying_files: 'Copying files',
-  sharing_directory: 'Sharing directory',
-  sending_notifications: 'Sending notifications',
+  // sharing_directory: 'Sharing directory',
+  sending_emails: 'Sending emails',
   completed: 'Completed',
   failed: 'Failed',
 }
+
+const SHARE_JOB_STEP_ORDER = [
+  'queued',
+  'checking_files',
+  'creating_directory',
+  'copying_files',
+  // 'sharing_directory',
+  'sending_emails',
+  'completed',
+]
 
 const RequestTableDigital = () => {
   const { data, loading, refresh , tableState,
@@ -153,9 +167,18 @@ const RequestTableDigital = () => {
       } else {
         return record['archival_reference_number']
       }
-    } else {
-      return record['identifier']
     }
+
+    if (record['item_origin'] === 'FL') {
+      return (
+          <div>
+            <div>{record['other_identifier'] ? record['other_identifier'] : record['identifier']}</div>
+            <div className={style.Italic}>{record['title']}</div>
+          </div>
+      )
+    }
+
+    return record['identifier']
   }
 
   const renderResearcher = (record) => {
@@ -219,6 +242,14 @@ const RequestTableDigital = () => {
             <Badge count={record['digital_version_barcode']} style={{ backgroundColor: '#e06d3c', borderRadius: '3px', fontSize: '0.8em' }} />
           }
         </div>
+      )
+    }
+
+    if (detectFilmLibraryDigital(record)) {
+      return (
+          <div>
+            <Badge count={record['identifier']} style={{ backgroundColor: '#e06d3c', borderRadius: '3px', fontSize: '0.8em' }} />
+          </div>
       )
     }
 
@@ -329,8 +360,12 @@ const RequestTableDigital = () => {
     );
   };
 
+  const detectFilmLibraryDigital = (record) => {
+    return record['item_origin'] === 'FL' && record['identifier'].startsWith('HU_OSA')
+  }
+
   const renderStatus = (record) => {
-    const canShare = record['has_digital_version'] && record['status'] !== '9';
+    const canShare = (detectFilmLibraryDigital(record) || record['has_digital_version']) && record['status'] === '2';
     const currentShareJob = shareJobsByItem[record.id];
     const shareInProgress = currentShareJob && !['completed', 'failed'].includes(currentShareJob.status);
 
@@ -436,32 +471,60 @@ const RequestTableDigital = () => {
     }
 
     const shareStepLabel = getShareJobStepLabel(shareJob);
-    const progressPercent = shareJob.progress_percent ?? 0;
-    const progressStatus = shareJob.status === 'failed' ? 'exception' : shareJob.status === 'completed' ? 'success' : 'active';
+    const currentStepIndex = SHARE_JOB_STEP_ORDER.indexOf(shareJob.current_step);
+    const resolvedCurrentStepIndex = currentStepIndex >= 0 ? currentStepIndex : 0;
+
+    const renderStepState = (stepKey, stepIndex) => {
+      if (shareJob.status === 'failed' && stepKey === shareJob.current_step) {
+        return {
+          icon: <CloseCircleOutlined className={style.ShareJobStepFailedIcon} />,
+          className: style.ShareJobStepFailed,
+        };
+      }
+
+      if (stepIndex < resolvedCurrentStepIndex || shareJob.status === 'completed') {
+        return {
+          icon: <CheckCircleOutlined className={style.ShareJobStepDoneIcon} />,
+          className: style.ShareJobStepDone,
+        };
+      }
+
+      if (stepKey === shareJob.current_step && shareJob.status !== 'failed') {
+        return {
+          icon: <LoadingOutlined className={style.ShareJobStepActiveIcon} />,
+          className: style.ShareJobStepActive,
+        };
+      }
+
+      return {
+        icon: <ClockCircleOutlined className={style.ShareJobStepPendingIcon} />,
+        className: style.ShareJobStepPending,
+      };
+    };
 
     return (
       <div className={style.ShareJobStatus}>
-        <Alert
-          type={shareJob.status === 'failed' ? 'error' : shareJob.status === 'completed' ? 'success' : 'info'}
-          showIcon
-          message={shareStepLabel}
-          description={shareJob.message || 'SharePoint job is running.'}
-        />
-        <div className={style.ShareJobProgress}>
-          <Progress percent={progressPercent} status={progressStatus} />
+        <div className={style.ShareJobHeadline}>
+          <div className={style.ShareJobTitle}>{shareStepLabel}</div>
+          <div className={style.ShareJobDescription}>{shareJob.message || 'SharePoint job is running.'}</div>
         </div>
-        <div className={style.ShareJobMeta}>
-          <div><strong>Status:</strong> {_.capitalize(shareJob.status)}</div>
-          <div><strong>Step:</strong> {shareStepLabel}</div>
-          <div><strong>Progress:</strong> {shareJob.progress_current} / {shareJob.progress_total}</div>
+        <div className={style.ShareJobChecklist}>
+          {
+            SHARE_JOB_STEP_ORDER.map((stepKey, stepIndex) => {
+              const stepState = renderStepState(stepKey, stepIndex);
+
+              return (
+                <div key={stepKey} className={`${style.ShareJobStep} ${stepState.className}`}>
+                  <div className={style.ShareJobStepIcon}>{stepState.icon}</div>
+                  <div className={style.ShareJobStepLabel}>{SHARE_JOB_STEP_LABELS[stepKey] || _.startCase(stepKey)}</div>
+                </div>
+              );
+            })
+          }
         </div>
         {
           shareJob.error_message &&
-          <Alert
-            type={'error'}
-            showIcon
-            message={shareJob.error_message}
-          />
+          <div className={style.ShareJobError}>{shareJob.error_message}</div>
         }
       </div>
     );

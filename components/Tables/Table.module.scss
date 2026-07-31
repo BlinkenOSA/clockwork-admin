@@ -213,14 +213,80 @@
     gap: 12px;
 }
 
-.ShareJobProgress {
-    margin-top: 4px;
+.ShareJobHeadline {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ShareJobTitle {
+    font-weight: 600;
+}
+
+.ShareJobDescription {
+    font-size: 13px;
+    color: #666;
+}
+
+.ShareJobChecklist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 0;
+}
+
+.ShareJobStep {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.ShareJobStepIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+}
+
+.ShareJobStepLabel {
+    line-height: 1.3;
+}
+
+.ShareJobStepDone {
+    color: #389e0d;
+}
+
+.ShareJobStepActive {
+    color: #0958d9;
+    font-weight: 600;
+}
+
+.ShareJobStepPending {
+    color: #8c8c8c;
+}
+
+.ShareJobStepFailed {
+    color: #cf1322;
+    font-weight: 600;
+}
+
+.ShareJobStepDoneIcon,
+.ShareJobStepActiveIcon,
+.ShareJobStepPendingIcon,
+.ShareJobStepFailedIcon {
+    font-size: 15px;
 }
 
 .ShareJobMeta {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    font-size: 13px;
+}
+
+.ShareJobError {
+    color: #cf1322;
     font-size: 13px;
 }
 
