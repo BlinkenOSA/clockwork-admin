@@ -373,7 +373,7 @@ const RequestTableDigital = () => {
       return (
         <div className={style.StatusWrapper}>
           <div className={style.BadgeWithUndoButton}>
-            <div onClick={() => onStatusChange('next', record['id'])} className={style.Badge}>
+            <div className={style.Badge}>
               <Badge count={badgeText} style={{ backgroundColor: color, borderRadius: '3px', fontSize: '0.8em' }} />
             </div>
             {
