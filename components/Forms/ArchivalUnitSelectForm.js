@@ -7,14 +7,14 @@ import Link from "next/link";
 import {renderArchivalUnitDropdown} from "../../utils/renders/renderArchivalUnitDropdown";
 import useStickyState from "../../utils/hooks/useStickyState";
 
-export const ArchivalUnitSelectForm = () => {
+export const ArchivalUnitSelectForm = ({unprocessedMaterials = false}) => {
   const [form] = Form.useForm();
 
   const [ archivalUnitFormState, setArchivalUnitFormState ] = useStickyState({
     fonds: undefined,
     subfonds: undefined,
     series: undefined
-  }, 'ams-select-archival-unit-form')
+  }, unprocessedMaterials ? 'ams-select-unprocessed-materials-form' : 'ams-select-archival-unit-form')
 
 
   const onValuesChange = (values) => {
@@ -53,6 +53,7 @@ export const ArchivalUnitSelectForm = () => {
       className={style.Form}
     >
       <Card size="small">
+        {!unprocessedMaterials && <>
         <Col xs={24}>
           <Form.Item label="Fonds" name="fonds" required>
             <FormRemoteSelect
@@ -78,13 +79,19 @@ export const ArchivalUnitSelectForm = () => {
             />
           </Form.Item>
         </Col>
+        </>}
         <Col xs={24}>
           <Form.Item label="Series" name="series" required>
             <FormRemoteSelect
               valueField={'id'}
               labelField={'title_full'}
               renderFunction={renderArchivalUnitDropdown}
-              selectAPI={archivalUnitFormState['subfonds'] ? `/v1/archival_unit/select/${archivalUnitFormState['subfonds']}/` : undefined}
+              selectAPI={unprocessedMaterials
+                ? '/v1/archival_unit/select/'
+                : archivalUnitFormState['subfonds']
+                  ? `/v1/archival_unit/select/${archivalUnitFormState['subfonds']}/`
+                  : undefined}
+              selectAPIParams={unprocessedMaterials ? {unprocessed: true, level: 'S'} : {}}
               placeholder={'- Select Series -'}
               searchMinLength={0}
             />
@@ -94,7 +101,9 @@ export const ArchivalUnitSelectForm = () => {
       <Card size={'small'} className={style.Footer}>
         <Row gutter={12} type="flex">
           <Col xs={12}>
-            <Link href={archivalUnitFormState['series'] ? `/finding-aids/folders-items/containers/${archivalUnitFormState['series']}` : ''}>
+            <Link href={archivalUnitFormState['series']
+              ? `${unprocessedMaterials ? '/finding-aids/unprocessed-materials' : '/finding-aids/folders-items'}/containers/${archivalUnitFormState['series']}`
+              : ''}>
               <Button
                 type={'default'}
                 disabled={!archivalUnitFormState['series']}

@@ -26,6 +26,7 @@ const configMenu = [
   {name: 'Finding Aids', icon: <FileOutlined/>, module: 'finding-aids', group: ['Finding Aids'], submenu: [
       {name: 'Folders / Items', group: ['Finding Aids'], link: '/finding-aids/folders-items'},
       {name: 'Missing Folders / Items', group: ['Finding Aids'], link: '/finding-aids/missing'},
+      {name: 'Unprocessed Materials', group: ['Finding Aids'], link: '/finding-aids/unprocessed-materials'},
     ]},
   {name: 'Lists', icon: <ImCopy/>, module: 'list', group: ['Authority Lists', 'Controlled Lists'], submenu: [
     {name: 'Authority List', icon: <TagsOutlined/>, module: '/list/authority-list', group: ['Authority Lists'], submenu: [

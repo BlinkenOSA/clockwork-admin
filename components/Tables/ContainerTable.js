@@ -1,7 +1,8 @@
 import {Badge, Button, Card, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
 import React, {useState, useEffect} from "react";
 import {ArrowUpOutlined, ArrowDownOutlined, EditOutlined, DeleteOutlined, LoadingOutlined, BarcodeOutlined,
-  CloseOutlined, TableOutlined, CaretRightOutlined, PrinterOutlined, CaretUpOutlined, CaretDownOutlined} from "@ant-design/icons";
+  CloseOutlined, TableOutlined, CaretRightOutlined, CaretUpOutlined, CaretDownOutlined,
+  SwapOutlined} from "@ant-design/icons";
 import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
 import _ from 'lodash';
@@ -16,13 +17,14 @@ import FindingAidsTemplateTable from "./FindingAidsTemplateTable";
 import FindingAidsTable from "./FindingAidsTable";
 import dynamic from "next/dynamic";
 import LabelTypeSelector from "../LabelTypeSelector/LabelTypeSelector";
+import {ContainerMoveForm} from "../Forms/ContainerMoveForm";
 
 const FindingAidsGrid = dynamic(
   () => import('../Grids/FindingAidsGrid'),
   { ssr: false }
 );
 
-const ContainerTable = ({seriesID, seriesTitle}) => {
+const ContainerTable = ({seriesID, seriesTitle, unprocessedMaterials = false}) => {
   const api = seriesID ? `/v1/container/list/${seriesID}/` : undefined;
   const { data, loading, refresh, tableState,
     handleExpandedRowsChange, handleDataChange, handleTableChange, handleDelete } = useTable(
@@ -37,10 +39,14 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
   const [faTemplateOpen, setFATemplateOpen] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [moveModalVisible, setMoveModalVisible] = useState(false);
+  const [movingContainer, setMovingContainer] = useState(undefined);
 
   const [deletedContainer, setDeletedContainer] = useState(undefined);
 
-  const templateData = useData(seriesID ? `/v1/finding_aids/templates/select/${seriesID}/` : undefined);
+  const templateData = useData(
+    !unprocessedMaterials && seriesID ? `/v1/finding_aids/templates/select/${seriesID}/` : undefined
+  );
 
   useEffect(() => {
     if (data) {
@@ -60,6 +66,38 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
             <Button size="small" icon={<DeleteOutlined/>} onClick={() => onDelete(record.id)}/>
           </Tooltip>
         }
+      </Button.Group>
+    )
+  };
+
+  const renderUnprocessedActionButtons = (record) => {
+    return (
+      <Button.Group>
+        <Tooltip title={'Edit'}>
+          <Button
+            size="small"
+            icon={<EditOutlined/>}
+            onClick={() => onEdit(record.id)}
+          />
+        </Tooltip>
+        <Tooltip title={record.is_removable ? 'Delete' : undefined}>
+          <Button
+            size="small"
+            disabled={!record.is_removable}
+            icon={<DeleteOutlined/>}
+            onClick={() => onDelete(record.id)}
+          />
+        </Tooltip>
+        <Tooltip title={'Move container'}>
+          <Button
+            size="small"
+            icon={<SwapOutlined/>}
+            onClick={() => {
+              setMovingContainer(record.id);
+              setMoveModalVisible(true);
+            }}
+          />
+        </Tooltip>
       </Button.Group>
     )
   };
@@ -196,17 +234,19 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
       width: 140
     }, {
       key: 'actions',
-      title: 'Actions',
+      title: unprocessedMaterials ? 'Action' : 'Actions',
       width: 150,
       className: style.ActionColumn,
-      render: (record) => renderActionButtons(record, ['edit', 'delete'])
-    }, {
+      render: (record) => unprocessedMaterials
+        ? renderUnprocessedActionButtons(record)
+        : renderActionButtons(record)
+    }, ...(!unprocessedMaterials ? [{
       key: 'publish',
       title: 'Publish',
       width: 135,
       className: style.PublishColumn,
       render: renderPublishButton
-    }
+    }] : [])
   ];
 
   const onPublish = (action, id) => {
@@ -292,6 +332,29 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
   };
 
   const getFooter = () => {
+    if (unprocessedMaterials) {
+      return (
+        <Row gutter={[12]}>
+          <Col span={16}>
+            <Button type={'default'} onClick={() => setCreateFormOpen(!createFormOpen)}>
+              {
+                createFormOpen ?
+                  <div><CaretUpOutlined/><span style={{marginLeft: '5px'}}>Container Form</span></div> :
+                  <div><CaretRightOutlined/><span style={{marginLeft: '5px'}}>Container Form</span></div>
+              }
+            </Button>
+          </Col>
+          <Col span={8} style={{textAlign: 'right'}}>
+            <Link href={'/finding-aids/unprocessed-materials'}>
+              <Button type={'default'}>
+                <CloseOutlined/> Close
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+      )
+    }
+
     return (
       <Row gutter={[12]}>
         <Col span={16}>
@@ -356,22 +419,22 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
             spinning: loading,
             indicator: <LoadingOutlined/>,
           }}
-          expandable={{
-            onExpandedRowsChange: handleExpandedRowsChange,
-            expandedRowKeys: tableState['expandedRows'],
-            expandedRowRender: expandedRowRender,
-          }}
+          expandable={unprocessedMaterials ? undefined : {
+              onExpandedRowsChange: handleExpandedRowsChange,
+              expandedRowKeys: tableState['expandedRows'],
+              expandedRowRender: expandedRowRender,
+            }}
           footer={() => getFooter()}
           pagination={tableState['pagination']}
           onChange={handleTableChange}
-          onRow={onRow}
+          onRow={unprocessedMaterials ? undefined : onRow}
         />
       </Card>
-      <Collapse isOpen={faTemplateOpen}>
+      {!unprocessedMaterials && <Collapse isOpen={faTemplateOpen}>
         <Card size="small" style={{marginBottom: '10px'}}>
           <FindingAidsTemplateTable seriesID={seriesID} />
         </Card>
-      </Collapse>
+      </Collapse>}
       <Drawer
         title={_.capitalize(action)}
         width={'50%'}
@@ -387,7 +450,7 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
           onClose={onClose}
         />
       </Drawer>
-      <Modal
+      {!unprocessedMaterials && <Modal
         title={seriesTitle}
         centered
         open={modalVisible}
@@ -400,7 +463,27 @@ const ContainerTable = ({seriesID, seriesTitle}) => {
         wrapClassName={style.TableViewModal}
       >
         <FindingAidsGrid seriesID={seriesID} />
-      </Modal>
+      </Modal>}
+      {unprocessedMaterials && <Drawer
+        title={'Move container'}
+        open={moveModalVisible}
+        width={'50%'}
+        onClose={() => {
+          setMoveModalVisible(false);
+          setMovingContainer(undefined);
+        }}
+        destroyOnClose={true}
+      >
+        <ContainerMoveForm
+          containerID={movingContainer}
+          sourceSeriesID={seriesID}
+          onMoved={() => {
+            setMoveModalVisible(false);
+            setMovingContainer(undefined);
+            refresh();
+          }}
+        />
+      </Drawer>}
     </React.Fragment>
   )
 };
