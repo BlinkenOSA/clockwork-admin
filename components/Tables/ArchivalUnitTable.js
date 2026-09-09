@@ -23,9 +23,8 @@ const ArchivalUnitTable = ({columns}) => {
   const [module, setModule] = useState('archival-units-fonds');
   const [selectedRecord, setSelectedRecord] = useState(undefined);
 
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module);
-
-  const {data, loading, refresh} = useData(`/v1/archival_unit/`, params);
+  const { data, loading, refresh, tableState,
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module, '/v1/archival_unit/');
 
   useEffect(() => {
     if (data) {
@@ -137,7 +136,11 @@ const ArchivalUnitTable = ({columns}) => {
 
   return (
     <React.Fragment>
-      <TableFilters module={'archival-units'} onFilterChange={handleFilterChange}/>
+      <TableFilters
+        module={'archival-units'}
+        onFilterChange={handleFilterChange}
+        filters={tableState['filters']}
+      />
       <Table
         bordered={true}
         className={style.Table}

@@ -1,14 +1,19 @@
-export const createParams = ({ pagination={}, filters={}, sorter={} }) => {
+export const createParams = ({ pagination={}, filters={}, ...sorter}) => {
   let paginationParams, sorterParams = {};
 
   // Sorting
   const createSortParams = (sorter) => {
     const {columnKey, order, column} = sorter;
-    if (columnKey && column) {
-      if (column.hasOwnProperty('sortKeys')) {
-        return {ordering: order === 'ascend' ? `${column.sortKeys.join(',')}` : `-${column.sortKeys.join(',')}`}
+
+    if (columnKey) {
+      if (column) {
+        if (column.hasOwnProperty('sortKeys')) {
+          return {ordering: order === 'ascend' ? `${column.sortKeys.join(',')}` : `-${column.sortKeys.join(',')}`}
+        } else {
+          return {ordering: order === 'ascend' ? `${columnKey}` : `-${columnKey}`}
+        }
       } else {
-        return {ordering: order === 'ascend' ? `${columnKey}` : `-${columnKey}`}
+        return {ordering: ''}
       }
     }
   };
@@ -34,5 +39,5 @@ export const createParams = ({ pagination={}, filters={}, sorter={} }) => {
     paginationParams = loadPagination(pagination);
   }
 
-  return Object.assign({}, paginationParams, sorterParams);
+  return Object.assign({}, paginationParams, sorterParams, filters);
 };

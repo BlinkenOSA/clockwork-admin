@@ -6,27 +6,27 @@
 }
 
 .Loading {
-    font-size: 84px;
+    font-size: 40px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 800;
     text-align: center;
 
     span {
-        animation: loading01 0.2s infinite alternate;
+        animation: loading01 1s infinite alternate;
         @for $i from 1 through 6 {
             &:nth-child(#{$i+1}) {
-                animation-delay: #{$i*.1}s;
+                animation-delay: #{$i*.3}s;
             }
         }
     }
 
     @keyframes loading01 {
         0% {
-            filter: blur(0);
+            filter: blur(1px);
             opacity: 1;
         }
         100% {
-            filter: blur(5px);
+            filter: blur(2px);
             opacity: .2;
         }
     }

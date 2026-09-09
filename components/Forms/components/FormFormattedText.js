@@ -1,7 +1,11 @@
-import SunEditor from "suneditor-react";
 import 'suneditor/dist/css/suneditor.min.css';
 import React from "react";
 import style from "./FormFormattedText.module.css";
+import dynamic from "next/dynamic";
+
+const SunEditor = dynamic(() => import("suneditor-react"), {
+  ssr: false,
+});
 
 export const FormFormattedText = ({value, disabled=false, initialValue, ...props}) => {
   const options = {
@@ -9,17 +13,18 @@ export const FormFormattedText = ({value, disabled=false, initialValue, ...props
       ['bold', 'underline', 'italic'],
       ['list', 'link'],
       ['outdent', 'indent'],
-      ['undo', 'redo']
+      ['undo', 'redo'],
+      ['removeFormat']
     ],
     defaultStyle: 'font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; ' +
       'font-size: 14px; color: #5c6873;',
-    resizingBar : false
+    resizingBar : true
   };
 
   return (
     <div className={`${disabled ? style.FormattedTextAreaDisabled : style.FormattedTextArea}`}>
       <SunEditor
-        defaultValue={value ? value : undefined}
+        setContents={value ? value : undefined}
         autoFocus={false}
         showToolbar={!disabled}
         disable={disabled}

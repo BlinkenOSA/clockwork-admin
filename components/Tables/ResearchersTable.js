@@ -5,21 +5,18 @@ import {
   EditOutlined,
   EyeOutlined,
   LoadingOutlined,
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-  PlusOutlined, PrinterOutlined
+  PlusOutlined, UndoOutlined
 } from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import Link from "next/link";
 
 const ResearchersTable = ({...props}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
-  const { data, loading, refresh} = useData(`/v1/research/researcher`, params);
+  const { data, loading, refresh, tableState,
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('researchers', `/v1/research/researcher`);
 
   const [publishing, setPublishing] = useState({});
 
@@ -46,11 +43,6 @@ const ResearchersTable = ({...props}) => {
       title: 'Country',
       dataIndex: 'country',
       key: 'country__country',
-      sorter: true,
-    }, {
-      title: 'Citizenship',
-      dataIndex: 'citizenship',
-      key: 'citizenship__nationality',
       sorter: true,
     }, {
       title: 'Created',
@@ -120,38 +112,29 @@ const ResearchersTable = ({...props}) => {
     });
   };
 
-  const renderResearcherApprovedStatus = (record) => {
-    switch (record.approved) {
-      case true:
+  const renderResearcherStatus = (record) => {
+    switch (record.status) {
+      case 'new':
         return (
-          <div onClick={() => onAction('disapprove', record.id)} className={style.ResearcherStatusButton}>
+            <div onClick={() => onAction('activate', record.id)} className={style.ResearcherStatusButton}>
+              <Badge count={'New'} style={{ backgroundColor: '#fa8c16', borderRadius: '3px', fontSize: '0.8em' }} />
+            </div>
+        );
+      case 'approved':
+        return (
+          <div onClick={() => onAction('suspend', record.id)} className={style.ResearcherStatusButton}>
             <Badge count={'Approved'} style={{ backgroundColor: '#376e18', borderRadius: '3px', fontSize: '0.8em' }} />
           </div>
         );
-      case false:
+      case 'suspended':
         return (
-          <div onClick={() => onAction('approve', record.id)} className={style.ResearcherStatusButton}>
-            <Badge count={'Not Approved'} style={{ backgroundColor: '#fa8c16', borderRadius: '3px', fontSize: '0.8em' }} />
-          </div>
-        );
-      default:
-        break;
-    }
-  };
-
-
-  const renderResearcherActiveStatus = (record) => {
-    switch (record.active) {
-      case true:
-        return (
-          <div onClick={() => onAction('deactivate', record.id)} className={style.ResearcherStatusButton}>
-            <Badge count={'Active'} style={{ backgroundColor: '#376e18', borderRadius: '3px', fontSize: '0.8em' }} />
-          </div>
-        );
-      case false:
-        return (
-          <div onClick={() => onAction('activate', record.id)} className={style.ResearcherStatusButton}>
-            <Badge count={'Not Active'} style={{ backgroundColor: '#ba3300', borderRadius: '3px', fontSize: '0.8em' }} />
+          <div className={style.ResearcherStatusWithUndoButton}>
+            <Badge count={'Suspended'} style={{ backgroundColor: '#ba3300', borderRadius: '3px', fontSize: '0.8em' }} />
+            <Tooltip title={'Undo'}>
+              <div onClick={() => onAction('reactivate', record.id)}>
+                <Button size="small" icon={<UndoOutlined/>} className={style.UndoButton}/>
+              </div>
+            </Tooltip>
           </div>
         );
       default:
@@ -162,8 +145,7 @@ const ResearchersTable = ({...props}) => {
   const renderStatus = (record) => {
     return (
       <div className={style.ResearcherStatus}>
-        {renderResearcherApprovedStatus(record)}
-        {renderResearcherActiveStatus(record)}
+        {renderResearcherStatus(record)}
       </div>
     )
   }
@@ -177,7 +159,7 @@ const ResearchersTable = ({...props}) => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        remove(`/v1//researchers-db/researchers/${id}/`).then(() => {
+        remove(`/v1/research/researcher/${id}/`).then(() => {
           handleDelete(data.length);
           deleteAlert();
           refresh();
@@ -203,7 +185,11 @@ const ResearchersTable = ({...props}) => {
 
   return (
     <React.Fragment>
-      <TableFilters module={'researcher'} onFilterChange={handleFilterChange}/>
+      <TableFilters
+        module={'researcher'}
+        onFilterChange={handleFilterChange}
+        filters={tableState['filters']}
+      />
       <Table
         bordered={true}
         className={style.Table}

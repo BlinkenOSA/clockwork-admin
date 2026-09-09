@@ -1,36 +1,44 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Card, Col, Form, Row} from "antd";
 import style from "./Forms.module.css";
 import FormRemoteSelect from "./components/FormRemoteSelect";
 import { ContainerOutlined } from '@ant-design/icons';
 import Link from "next/link";
 import {renderArchivalUnitDropdown} from "../../utils/renders/renderArchivalUnitDropdown";
+import useStickyState from "../../utils/hooks/useStickyState";
 
-export const ArchivalUnitSelectForm = () => {
+export const ArchivalUnitSelectForm = ({unprocessedMaterials = false}) => {
   const [form] = Form.useForm();
 
-  const [fonds, setFonds] = useState(undefined);
-  const [subfonds, setSubfonds] = useState(undefined);
-  const [series, setSeries] = useState(undefined);
+  const [ archivalUnitFormState, setArchivalUnitFormState ] = useStickyState({
+    fonds: undefined,
+    subfonds: undefined,
+    series: undefined
+  }, unprocessedMaterials ? 'ams-select-unprocessed-materials-form' : 'ams-select-archival-unit-form')
+
 
   const onValuesChange = (values) => {
     if (values.hasOwnProperty('fonds')) {
       form.setFieldsValue({subfonds: undefined});
       form.setFieldsValue({series: undefined});
 
-      setFonds(values['fonds']);
-      setSubfonds(undefined);
-      setSeries(undefined);
+      setArchivalUnitFormState({
+        fonds: values['fonds'], subfonds: undefined, series: undefined
+      })
     }
 
     if (values.hasOwnProperty('subfonds')) {
       form.setFieldsValue({series: undefined});
-      setSubfonds(values['subfonds']);
-      setSeries(undefined);
+
+      setArchivalUnitFormState({
+        fonds: archivalUnitFormState['fonds'], subfonds: values['subfonds'], series: undefined
+      })
     }
 
     if (values.hasOwnProperty('series')) {
-      setSeries(values['series']);
+      setArchivalUnitFormState({
+        fonds: archivalUnitFormState['fonds'], subfonds: archivalUnitFormState['subfonds'], series: values['series']
+      })
     }
   };
 
@@ -40,10 +48,12 @@ export const ArchivalUnitSelectForm = () => {
       scrollToFirstError={true}
       form={form}
       onValuesChange={onValuesChange}
+      initialValues={archivalUnitFormState}
       layout={'vertical'}
       className={style.Form}
     >
       <Card size="small">
+        {!unprocessedMaterials && <>
         <Col xs={24}>
           <Form.Item label="Fonds" name="fonds" required>
             <FormRemoteSelect
@@ -53,6 +63,7 @@ export const ArchivalUnitSelectForm = () => {
               selectAPI={'/v1/archival_unit/select/'}
               selectAPIParams={{level: 'F'}}
               placeholder={'- Select Fonds -'}
+              searchMinLength={0}
             />
           </Form.Item>
         </Col>
@@ -62,19 +73,27 @@ export const ArchivalUnitSelectForm = () => {
               valueField={'id'}
               labelField={'title_full'}
               renderFunction={renderArchivalUnitDropdown}
-              selectAPI={fonds ? `/v1/archival_unit/select/${fonds}/` : undefined}
+              selectAPI={archivalUnitFormState['fonds'] ? `/v1/archival_unit/select/${archivalUnitFormState['fonds']}/` : undefined}
               placeholder={'- Select Subfonds -'}
+              searchMinLength={0}
             />
           </Form.Item>
         </Col>
+        </>}
         <Col xs={24}>
           <Form.Item label="Series" name="series" required>
             <FormRemoteSelect
               valueField={'id'}
               labelField={'title_full'}
               renderFunction={renderArchivalUnitDropdown}
-              selectAPI={subfonds ? `/v1/archival_unit/select/${subfonds}/` : undefined}
+              selectAPI={unprocessedMaterials
+                ? '/v1/archival_unit/select/'
+                : archivalUnitFormState['subfonds']
+                  ? `/v1/archival_unit/select/${archivalUnitFormState['subfonds']}/`
+                  : undefined}
+              selectAPIParams={unprocessedMaterials ? {unprocessed: true, level: 'S'} : {}}
               placeholder={'- Select Series -'}
+              searchMinLength={0}
             />
           </Form.Item>
         </Col>
@@ -82,10 +101,12 @@ export const ArchivalUnitSelectForm = () => {
       <Card size={'small'} className={style.Footer}>
         <Row gutter={12} type="flex">
           <Col xs={12}>
-            <Link href={series ? `/finding-aids/containers/${series}` : ''}>
+            <Link href={archivalUnitFormState['series']
+              ? `${unprocessedMaterials ? '/finding-aids/unprocessed-materials' : '/finding-aids/folders-items'}/containers/${archivalUnitFormState['series']}`
+              : ''}>
               <Button
                 type={'default'}
-                disabled={!series}
+                disabled={!archivalUnitFormState['series']}
               >
                 <ContainerOutlined /> Containers
               </Button>

@@ -9,6 +9,12 @@ import {useRouter} from "next/router";
 export const FindingAidsTemplateForm = ({type, recordID, seriesID, initialValues}) => {
   const router = useRouter();
 
+  const [activeTabKey, setActiveTabKey] = useState('')
+
+  const onActiveTabChange = (activeKey) => {
+    setActiveTabKey(activeKey)
+  }
+
   const getAPI = () => {
     switch (type) {
       case 'create':
@@ -19,7 +25,7 @@ export const FindingAidsTemplateForm = ({type, recordID, seriesID, initialValues
   };
 
   const afterFinish = () => {
-    router.push(`/finding-aids/containers/${seriesID}`);
+    router.push(`/finding-aids/folders-items/containers/${seriesID}`);
   };
 
   const {form, formLoading, errors, locale, onFinish, renderErrors, onValuesChange} =
@@ -52,11 +58,12 @@ export const FindingAidsTemplateForm = ({type, recordID, seriesID, initialValues
               form={form}
               locale={locale}
               type={type}
+              onActiveTabChange={onActiveTabChange}
             />
           </Row>
         </Card>
         <SimpleFormFooter
-          module={`finding-aids/containers/${seriesID}`}
+          module={`finding-aids/folders-items/containers/${seriesID}`}
           form={form}
           type={type}
           loading={formLoading}

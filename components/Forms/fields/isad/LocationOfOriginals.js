@@ -4,7 +4,7 @@ import {CloseOutlined, PlusOutlined} from '@ant-design/icons';
 
 export const LocationOfOriginals = ({disabled}) => (
   <React.Fragment>
-    <div className={'ant-form-item-label'}>Location of Originals</div>
+    <div className={'ant-form-item-label'}>3.5.1 Location of originals</div>
     <Form.List name={'location_of_originals'}>
       {(fields, { add, remove }) => {
         return (

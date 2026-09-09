@@ -9,13 +9,14 @@ import {
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
 import {put, remove} from "../../utils/api";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import moment from "moment";
 import {PopupForm} from "../Forms/PopupForm";
 import _ from 'lodash';
-import Link from "next/link";
+import {AiOutlineLoading} from "react-icons/ai";
+import LibraryMLRInfo from "./components/LibraryMLRInfo";
+
 
 const ORIGIN = {
   'FA': 'Archival',
@@ -23,39 +24,53 @@ const ORIGIN = {
   'FL': 'Film Library'
 }
 
-const ResearchersTable = ({...props}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('isad');
-  const { data, loading, refresh} = useData(`/v1/research/requests`, params);
+const STATUS = {
+  'new': 'New',
+  'approved': 'Approved',
+  'rejected': 'Rejected',
+  'lifted': 'Lifted',
+  'approved_on_site': 'Approved for on-site viewing'
+}
+
+const RequestsTable = ({api = '/v1/research/requests', ...props}) => {
+  const { data, loading, refresh , tableState,
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('requests', api);
 
   const [drawerShown, setDrawerShown] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(undefined);
 
   const columns = [
     {
-      title: 'Request Date',
+      title: 'Planned Visit',
       dataIndex: 'request_date',
       key: 'request__request_date',
-      width: 100,
+      width: 120,
       render: (data) => renderDate(data) ,
-      sorter: false,
+      sorter: true,
     }, {
       title: 'Identifier',
-      key: 'archival_reference_number',
+      key: 'ordering',
       width: 130,
       render: (record) => renderIdentifier(record),
+      sorter: true,
+    }, {
+      title: 'Folders / Items',
+      key: 'parts',
+      width: 130,
+      render: (record) => renderFoldersItems(record),
       sorter: false,
     }, {
       title: 'MLR',
       key: 'mlr',
-      width: 150,
+      width: 130,
       render: (record) => renderMLR(record),
       sorter: false,
     }, {
       title: 'Researcher',
-      dataIndex: 'researcher',
-      key: 'researcher',
+      key: 'request__researcher__last_name',
       width: 100,
-      sorter: false,
+      render: (record) => renderResearcher(record),
+      sorter: true,
     }, {
       title: 'Origin',
       key: 'item_origin',
@@ -71,14 +86,14 @@ const ResearchersTable = ({...props}) => {
     }, {
       title: 'Status',
       key: 'status',
-      width: 120,
+      width: 100,
       className: style.ActionColumn,
       render: (record) => renderStatus(record),
       sorter: false,
     }, {
       key: 'actions',
       title: 'Actions',
-      width: 60,
+      width: 100,
       className: style.ActionColumn,
       render: (record) => renderActions(record)
     }
@@ -96,7 +111,16 @@ const ResearchersTable = ({...props}) => {
 
   const renderIdentifier = (record) => {
     if (record['item_origin'] === 'FA') {
-      return record['archival_reference_number']
+      if (record['has_restricted_content']) {
+        return (
+          <div>
+            <div>{record['archival_reference_number']}</div>
+            <Badge count={'Has Restricted Material'} style={{ backgroundColor: '#e03c3c', borderRadius: '3px', fontSize: '0.8em' }} />
+          </div>
+        )
+      } else {
+        return record['archival_reference_number']
+      }
     } else {
       return record['identifier']
     }
@@ -111,28 +135,45 @@ const ResearchersTable = ({...props}) => {
 
   }
 
+  const renderResearcher = (record) => {
+    if (record['researcher_email']) {
+      return (
+          <>
+            <div>{record['researcher']}</div>
+            <div className={style.Italic}>{record['researcher_email']}</div>
+          </>
+      )
+    } else {
+      return record['researcher']
+    }
+  }
+
   const renderActions = (record) => {
     const detectDisabled = () => {
-      return record['status'] !== '1' && record['status'] !== '2'
+      return record['status'] !== '1' && record['status'] !== '2' && record['status'] !== '3'
     }
 
-    return (
-      <Button.Group>
-        <Tooltip key={'edit'} title={'Edit'}>
-          <Button
-            size="small"
-            icon={<EditOutlined/>}
-            disabled={detectDisabled()}
-            onClick={() => {
-              setSelectedRecord(record.id)
-              setDrawerShown(true)
-            }}/>
-        </Tooltip>
-        <Tooltip key={'delete'} title={'Delete'}>
-          <Button size="small" icon={<DeleteOutlined/>} onClick={() => onDelete(record.id)}/>
-        </Tooltip>
-      </Button.Group>
-    )
+    if (record['research_allowed']) {
+      return (
+          <Button.Group>
+            <Tooltip key={'edit'} title={'Edit'}>
+              <Button
+                  size="small"
+                  icon={<EditOutlined/>}
+                  disabled={detectDisabled()}
+                  onClick={() => {
+                    setSelectedRecord(record.id)
+                    setDrawerShown(true)
+                  }}/>
+            </Tooltip>
+            <Tooltip key={'delete'} title={'Delete'}>
+              <Button size="small" icon={<DeleteOutlined/>} onClick={() => onDelete(record.id)}/>
+            </Tooltip>
+          </Button.Group>
+      )
+    } else {
+      return ''
+    }
   }
 
   const onStatusChange = (action, id) => {
@@ -142,15 +183,89 @@ const ResearchersTable = ({...props}) => {
   }
 
   const renderMLR = (record) => {
-    if (record['has_digital_version']) {
+    if (record['mlr'].hasOwnProperty('locations')) {
       return (
         <div>
-          <div>{record['mlr']}</div>
-          <Badge count={record['digital_version_barcode']} style={{ backgroundColor: '#e06d3c', borderRadius: '3px', fontSize: '0.8em' }} />
+          <div>{record['mlr']['locations']}</div>
+          {
+            record['mlr']['another_request'] &&
+            <Badge count={'Appears in another request'} style={{ backgroundColor: '#666', borderRadius: '3px', fontSize: '0.8em' }} />
+          }
+          {
+            record['has_digital_version'] &&
+            <Badge count={record['digital_version_barcode']} style={{ backgroundColor: '#e06d3c', borderRadius: '3px', fontSize: '0.8em' }} />
+          }
         </div>
       )
     }
+
+    if (record['item_origin'] === 'FL' && record['identifier'].startsWith('HU_OSA')) {
+      return (
+          <div>
+            <Badge count={record['identifier']} style={{ backgroundColor: '#e06d3c', borderRadius: '3px', fontSize: '0.8em' }} />
+          </div>
+      )
+    }
+
+    if (record['library_id']) {
+      return (
+        <div>
+          <LibraryMLRInfo kohaID={record['library_id']} />
+        </div>
+      )
+    }
+
     return record['mlr']
+  }
+
+  const renderFoldersItems = (record) => {
+    const getStyle = (rec) => {
+      switch (rec['status']) {
+        case 'new':
+          return {backgroundColor: '#e03c3c'};
+        case 'approved':
+          return {backgroundColor: '#83c04d'}
+        case 'approved_on_site':
+          return {backgroundColor: '#4dc098'};
+        case 'rejected':
+          return {backgroundColor: '#e06d3c'}
+        case 'lifted':
+          return undefined;
+      }
+    }
+
+    const renderRecords = () => (
+        record['parts'].map(rec => {
+            if (rec['is_restricted']) {
+              return (
+                <Tooltip key={rec['id']} title={STATUS[rec['status']]} placement={'left'}>
+                  <div className={style.Restricted} style={getStyle(rec)}>
+                    {rec['reference_code']}
+                  </div>
+                </Tooltip>
+              )
+            }
+
+          if (rec['is_missing']) {
+            return (
+                <div>
+                  <Badge count={`${rec['reference_code']} - missing`} style={{
+                    backgroundColor: '#1fb7fb',
+                    borderRadius: '3px',
+                    fontSize: '0.8em' }} />
+                </div>
+            )
+          }
+
+            return (
+              <div>
+                {rec['reference_code']}
+              </div>
+            )
+        })
+    )
+
+    return renderRecords()
   }
 
   const renderStatus = (record) => {
@@ -172,19 +287,23 @@ const ResearchersTable = ({...props}) => {
       );
     }
 
+    if (!record['research_allowed']) {
+      return <Badge count={'Waiting for approval'} style={{ backgroundColor: "#666", borderRadius: '3px', fontSize: '0.8em' }} />
+    }
+
     switch (record['status']) {
       case '1':
         return (generateBadges('In Queue', '#ba3300', false));
       case '2':
-        return (generateBadges('Pending', '#fa8c16'));
+        return (generateBadges('Pending', '#fa8c16', false));
       case '3':
-        return (generateBadges('Delivered', 'rgba(45,184,227,0.66)'));
+        return (generateBadges('Delivered', 'rgba(45,184,227,0.66)', false));
       case '4':
         return (generateBadges('Returned', '#83c04d'));
       case '5':
-        return (generateBadges('Reshelved', '#376e18', false));
+        return (generateBadges('Reshelved', '#376e18'));
       case '9':
-        return (generateBadges('Served', '#223f00', false));
+        return (generateBadges('Served', '#223f00'));
       default:
         break;
     }
@@ -217,13 +336,13 @@ const ResearchersTable = ({...props}) => {
     return (
       <Row gutter={12}>
         <Col span={16}>
-          <a href={'/researchers-db/requests/create'}>
+          <a href={'/requests/create'}>
             <Button type={'primary'}>
               <PlusOutlined />
               Create Request
             </Button>
           </a>
-          <a href={'/researchers-db/requests/print'} target={'_blank'} style={{marginLeft: '10px'}}>
+          <a href={'/requests/print'} target={'_blank'} style={{marginLeft: '10px'}}>
             <Button type={'default'}>
               <PrinterOutlined />
               Print Requests
@@ -236,7 +355,11 @@ const ResearchersTable = ({...props}) => {
 
   return (
     <React.Fragment>
-      <TableFilters module={'requests'} onFilterChange={handleFilterChange}/>
+      <TableFilters
+        module={'requests'}
+        onFilterChange={handleFilterChange}
+        filters={tableState['filters']}
+      />
       <Table
         bordered={true}
         className={style.Table}
@@ -246,7 +369,7 @@ const ResearchersTable = ({...props}) => {
         size={'small'}
         loading={{
           spinning: loading,
-          indicator: <LoadingOutlined/>,
+          indicator: <AiOutlineLoading/>,
         }}
         footer={() => getFooter()}
         pagination={tableState['pagination']}
@@ -272,4 +395,4 @@ const ResearchersTable = ({...props}) => {
   )
 };
 
-export default ResearchersTable;
+export default RequestsTable;

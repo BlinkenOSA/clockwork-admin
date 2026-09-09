@@ -4,7 +4,7 @@ import Head from "next/head";
 import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
 import {Card} from "antd";
 import PopupTable from "../../../components/Tables/PopupTable";
-import {renderURL} from "../../../utils/renders/renderURL";
+import {renderWikidataURL} from "../../../utils/renders/renderWikidataURL";
 
 export default function PersonList() {
   const breadcrumbData = [
@@ -19,12 +19,18 @@ export default function PersonList() {
       key: 'name',
       sorter: true,
     }, {
-      title: 'Authority URL',
-      dataIndex: 'authority_url',
-      key: 'authority_url',
+      title: 'Wikidata',
+      dataIndex: 'wikidata_id',
+      key: 'wikidata_id',
       sorter: false,
-      render: renderURL
-    }
+      render: renderWikidataURL
+    }, {
+      title: 'Appears in Finding Aids',
+      key: 'fa_total_count',
+      dataIndex: 'fa_total_count',
+      sorter: true,
+      width: 200
+    },
   ];
 
   return (
