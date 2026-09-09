@@ -23,10 +23,10 @@ const configMenu = [
   {name: 'Archival Unit', icon: <ApartmentOutlined/>, module: 'archival-unit', group: ['Archival Units'], link: '/archival-units'},
   {name: 'ISAAR-CPF', icon: <UserOutlined/>, module: 'isaar', group: ['ISAAR'], link: '/isaar'},
   {name: 'ISAD(G)', icon: <ProfileOutlined/>, module: 'isad', group: ['ISAD(G)'], link: '/isad'},
-  {name: 'Finding Aids', icon: <FileOutlined/>, module: 'finding-aids', group: ['Finding Aids'], submenu: [
+  {name: 'Finding Aids', icon: <FileOutlined/>, module: 'finding-aids', group: ['Finding Aids', 'Unprocessed Materials'], submenu: [
       {name: 'Folders / Items', group: ['Finding Aids'], link: '/finding-aids/folders-items'},
       {name: 'Missing Folders / Items', group: ['Finding Aids'], link: '/finding-aids/missing'},
-      {name: 'Unprocessed Materials', group: ['Finding Aids'], link: '/finding-aids/unprocessed-materials'},
+      {name: 'Unprocessed Materials', group: ['Unprocessed Materials'], link: '/finding-aids/unprocessed-materials'},
     ]},
   {name: 'Lists', icon: <ImCopy/>, module: 'list', group: ['Authority Lists', 'Controlled Lists'], submenu: [
     {name: 'Authority List', icon: <TagsOutlined/>, module: '/list/authority-list', group: ['Authority Lists'], submenu: [
