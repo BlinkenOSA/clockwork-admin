@@ -13,7 +13,7 @@ export default function UnprocessedMaterialsContainerView() {
 
   const breadcrumbData = [
     {text: 'Finding Aids'},
-    {text: 'Unprocessed Materials', link: '/finding-aids/unprocessed-materials'},
+    {text: 'Undefined Materials', link: '/finding-aids/undefined-materials'},
     {text: data ? `${data.title_full}` : ''},
     {text: 'Containers'}
   ];

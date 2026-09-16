@@ -102,7 +102,7 @@ export const ArchivalUnitSelectForm = ({unprocessedMaterials = false}) => {
         <Row gutter={12} type="flex">
           <Col xs={12}>
             <Link href={archivalUnitFormState['series']
-              ? `${unprocessedMaterials ? '/finding-aids/unprocessed-materials' : '/finding-aids/folders-items'}/containers/${archivalUnitFormState['series']}`
+              ? `${unprocessedMaterials ? '/finding-aids/undefined-materials' : '/finding-aids/folders-items'}/containers/${archivalUnitFormState['series']}`
               : ''}>
               <Button
                 type={'default'}

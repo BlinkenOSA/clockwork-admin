@@ -345,7 +345,7 @@ const ContainerTable = ({seriesID, seriesTitle, unprocessedMaterials = false}) =
             </Button>
           </Col>
           <Col span={8} style={{textAlign: 'right'}}>
-            <Link href={'/finding-aids/unprocessed-materials'}>
+            <Link href={'/finding-aids/undefined-materials'}>
               <Button type={'default'}>
                 <CloseOutlined/> Close
               </Button>
