@@ -10,11 +10,11 @@ import {
   ArrowDownOutlined,
   ArrowUpOutlined,
   WarningOutlined,
-  DownOutlined
+  DownOutlined,
+  FileUnknownOutlined, CloseCircleOutlined
 } from "@ant-design/icons";
 import style from './Table.module.scss';
 import {post, put, remove} from "../../utils/api";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 import {renderArchivalUnitReferenceCode} from "../../utils/renders/renderArchivalUnitReferenceCode";
@@ -24,11 +24,13 @@ import {PopupForm} from "../Forms/PopupForm";
 
 
 const FindingAidsTable = ({containerID, containerListRefresh, templateData, recordTotalPublished}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleDelete } = useTable(`finding-aids-table-${containerID}`);
-  const { data, loading, refresh } = useData(containerID ? `/v1/finding_aids/list/${containerID}/` : undefined, params);
+  const api = containerID ? `/v1/finding_aids/list/${containerID}/` : undefined;
+  const { data, loading, refresh, tableState, handleDataChange, handleTableChange, handleDelete } = useTable(`finding-aids-table-${containerID}`, api);
 
   const [ publishing, setPublishing ] = useState({});
   const [ confidentialSetting, setConfidentialSetting ] = useState({});
+  const [ missingSetting, setMissingSetting ] = useState({});
+  const [ formType, setFormType] = useState('finding-aids-quick-edit');
 
   const [ selectedRecord, setSelectedRecord ] = useState(undefined);
   const [ drawerShown, setDrawerShown ] = useState(false);
@@ -48,18 +50,10 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     return (
       <React.Fragment>
         <Button.Group>
-          <Tooltip key={'clone'} title={'Clone'}>
-            <Button
-              size="small"
-              icon={<CopyOutlined />}
-              style={{marginRight: '5px'}}
-              onClick={() => onClone(record.id)}
-            />
-          </Tooltip>
           <Tooltip key={'quick_edit'} title={'Quick Edit'}>
             <Button size="small" icon={<FormOutlined/>} onClick={() => onQuickEdit(record.id)} />
           </Tooltip>
-          <Link href={`/finding-aids/entities/edit/${record.id}`}>
+          <Link href={`/finding-aids/folders-items/entities/edit/${record.id}`}>
             <Tooltip key={'edit'} title={'Edit'}>
               <Button size="small" icon={<EditOutlined/>} />
             </Tooltip>
@@ -82,6 +76,14 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
               </Tooltip>
             </a>
           }
+          <Tooltip key={'clone'} title={'Clone'}>
+            <Button
+              size="small"
+              icon={<CopyOutlined />}
+              style={{marginLeft: '5px'}}
+              onClick={() => onClone(record.id)}
+            />
+          </Tooltip>
         </Button.Group>
       </React.Fragment>
     )
@@ -89,7 +91,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
 
   const columns = [
     {
-      title: 'Archiaval Reference Code',
+      title: 'Archival Reference Code',
       dataIndex: 'archival_reference_code',
       key: 'archival_reference_code',
       sorter: false,
@@ -106,6 +108,11 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       sorter: false,
       render: (record) => renderDate(record),
       width: 150
+    }, {
+      title: 'Digital Copies',
+      key: 'container-digital-versions',
+      render: (record) => renderDigitalVersions(record),
+      width: 140
     }, {
       key: 'actions',
       title: 'Actions',
@@ -162,7 +169,8 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
         return (
           <Tooltip title={'Unset confidential'}>
             <Button
-              size="small" type={'warning'}
+              size="small"
+              type={'warning'}
               className={style.ButtonConfidential}
               loading={confidentialSetting.hasOwnProperty(record.id) ? confidentialSetting[record.id] : false}
               onClick={() => {onAction('set_non_confidential', record.id)}}
@@ -175,7 +183,6 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
           <Tooltip title={'Set confidential'}>
             <Button
               size="small"
-              type={'warning'}
               loading={confidentialSetting.hasOwnProperty(record.id) ? confidentialSetting[record.id] : false}
               onClick={() => {onAction('set_confidential', record.id)}}
               icon={<WarningOutlined />}
@@ -185,13 +192,73 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       }
     };
 
+    const renderMissingButton = () => {
+      if (record['missing']) {
+        return (
+            <Tooltip title={'Set non missing'}>
+              <Button
+                  size="small"
+                  className={style.ButtonMissing}
+                  loading={missingSetting.hasOwnProperty(record.id) ? missingSetting[record.id] : false}
+                  onClick={() => {onAction('set_non_missing', record.id)}}
+                  icon={<CloseCircleOutlined />}
+              />
+            </Tooltip>
+        );
+      } else {
+        return (
+            <Tooltip title={'Set missing'}>
+              <Button
+                  size="small"
+                  loading={missingSetting.hasOwnProperty(record.id) ? missingSetting[record.id] : false}
+                  onClick={() => {onAction('set_missing', record.id)}}
+                  icon={<CloseCircleOutlined />}
+              />
+            </Tooltip>
+        );
+      }
+    };
+
     return (
       <Button.Group>
         { renderContainerPublishButton() }
+        { renderMissingButton() }
         { renderConfidentialButton() }
       </Button.Group>
     )
   };
+
+  const renderDigitalVersions = (record) => {
+    const masters = record['digital_versions_masters']
+    const access_copies = record['digital_versions_access_copies']
+    const digital_versions_container = record['digital_versions_of_container']
+
+    if (masters > 0 || access_copies > 0) {
+      return (
+          <div className={style.DigitalBadge} onClick={() => {
+            setSelectedRecord(record.id);
+            setAction('digital versions');
+            setFormType('digital-versions');
+            setDrawerShown(true);
+          }}>
+            { masters === 1 && `Master: 1`}
+            { masters > 1 && `Master: ${masters}`}
+            { access_copies > 0 && masters > 0 && <span> | </span>}
+            { access_copies === 1 && `Access: 1`}
+            { access_copies > 1 && `Access: ${access_copies}`}
+          </div>
+      )
+    }
+
+    if (masters === 0 && access_copies === 0 && digital_versions_container > 0) {
+      return (
+          <div className={`${style.DigitalBadge} ${style.Empty}`}>
+            On Container level
+          </div>
+      )
+    }
+    return ''
+  }
 
   const onClone = (id) => {
     const { confirm } = Modal;
@@ -204,6 +271,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       onOk() {
         post(`/v1/finding_aids/clone/${id}/`).then(() => {
           refresh();
+          containerListRefresh();
         })
       }
     });
@@ -226,7 +294,25 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
           })
         }
       });
-    } else {
+    }
+
+    if (action === 'set_missing' || action === 'set_non_missing') {
+      confirm({
+        title: `Are you sure you would like to set the missing status of the record?`,
+        okText: 'Yes',
+        okType: 'warning',
+        cancelText: 'No',
+        onOk() {
+          setMissingSetting({[id]: true});
+          put(`/v1/finding_aids/${action}/${id}/`).then(() => {
+            refresh();
+            setMissingSetting({[id]: false});
+          })
+        }
+      });
+    }
+
+    if (action === 'set_confidential' || action === 'set_non_confidential') {
       confirm({
         title: `Are you sure you would like to ${action === 'set_confidential' ? 'set confidential status to' : 'remove confidential status from'} the record?`,
         okText: 'Yes',
@@ -262,8 +348,17 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     });
   };
 
+  const onQuickCreate = () => {
+    setSelectedRecord(undefined);
+    setAction('create')
+    setFormType('finding-aids-quick-edit');
+    setDrawerShown(true);
+  };
+
   const onQuickEdit = (id) => {
     setSelectedRecord(id);
+    setAction('edit')
+    setFormType('finding-aids-quick-edit');
     setDrawerShown(true);
   };
 
@@ -273,23 +368,18 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
   };
 
   const getTemplateButton = () => {
-    const menu = (
-      <Menu>
-        {
-          templateData.map(data => {
-            return (
-              <Menu.Item key={data.id}>
-                <Link href={`/finding-aids/entities/create/from-template/${data.id}/${containerID}`}>{data.template_name}</Link>
-              </Menu.Item>
-            )
-          })
+    const menu = () => {
+      return templateData.map(data => {
+        return {
+          key: data.id,
+          label: <Link href={`/finding-aids/folders-items/entities/create/from-template/${data.id}/${containerID}`}>{data.template_name}</Link>
         }
-      </Menu>
-    );
+      })
+    }
 
-    if (templateData.length > 0) {
+    if (templateData && templateData.length > 0) {
       return (
-        <Dropdown menu={menu}>
+        <Dropdown menu={{items: menu()}}>
           <Button style={{marginLeft: '10px'}} disabled={templateData.length === 0}>
             New from Template <DownOutlined />
           </Button>
@@ -302,7 +392,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
     return (
       <Row>
         <Col span={12}>
-          <Link href={`/finding-aids/entities/create/${containerID}`}>
+          <Link href={`/finding-aids/folders-items/entities/create/${containerID}`}>
             <Button type={'primary'}>
               New Folder / Item
             </Button>
@@ -312,6 +402,15 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
       </Row>
     )
   };
+
+  const getTitle = () => {
+    switch (formType) {
+        case 'digital-versions':
+            return 'Digital versions';
+        case 'finding-aids-quick-edit':
+            return 'Quick ${action} Finding Aids Record'
+    }
+  }
 
   return (
     <React.Fragment>
@@ -331,7 +430,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
         onChange={handleTableChange}
       />
       <Drawer
-        title={_.capitalize(`Quick ${action} Finding Aids Record`)}
+        title={getTitle()}
         width={'50%'}
         onClose={(e) => onDrawerClose()}
         open={drawerShown}
@@ -341,7 +440,7 @@ const FindingAidsTable = ({containerID, containerListRefresh, templateData, reco
           api={'/v1/finding_aids/'}
           preCreateAPI={action === 'create' ? `/v1/finding_aids/pre_create/${containerID}` : null}
           selectedRecord={selectedRecord}
-          module={'finding-aids-quick-edit'}
+          module={formType}
           type={action}
           label={'Finding Aids Record'}
           onClose={onDrawerClose}

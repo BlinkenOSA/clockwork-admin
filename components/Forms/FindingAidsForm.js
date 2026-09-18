@@ -7,7 +7,7 @@ import {SimpleFormFooter} from "./SimpleFormFooter";
 import {FindingAidsEntityForm} from "./fields/FindingAidsEntityForm";
 import {useData} from "../../utils/hooks/useData";
 
-export const FindingAidsForm = ({type, recordID, containerID, seriesID, initialValues}) => {
+export const FindingAidsForm = ({type, recordID, containerID, seriesID, onActiveTabChange, initialValues}) => {
   const [params, setParams] = useState({});
   const router = useRouter();
 
@@ -31,7 +31,7 @@ export const FindingAidsForm = ({type, recordID, containerID, seriesID, initialV
   }, [data]);
 
   const afterFinish = () => {
-    router.push(`/finding-aids/containers/${seriesID}`);
+    router.push(`/finding-aids/folders-items/containers/${seriesID}`);
   };
 
   const afterValuesChange = (changedValues, allValues) => {
@@ -83,11 +83,12 @@ export const FindingAidsForm = ({type, recordID, containerID, seriesID, initialV
               form={form}
               locale={locale}
               type={type}
+              onActiveTabChange={onActiveTabChange}
             />
           </Row>
         </Card>
         <SimpleFormFooter
-          module={`finding-aids/containers/${seriesID}`}
+          module={`finding-aids/folders-items/containers/${seriesID}`}
           form={form}
           type={type}
           loading={formLoading}

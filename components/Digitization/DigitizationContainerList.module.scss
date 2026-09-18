@@ -1,0 +1,9 @@
+.ContainerNo {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px dotted gray;
+
+  &:hover {
+    color: #000;
+  }
+}

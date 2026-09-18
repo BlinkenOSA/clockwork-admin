@@ -18,10 +18,10 @@ const MODULES = {
   'isaar': 'ISAAR-CPF',
   'isad': 'ISAD(G)',
   'researchers-db/researchers': 'Researcher',
-  'researchers-db/requests': 'Request'
+  'requests/list': 'Request'
 };
 
-export const SimpleForm = ({api, module, type, initialValues}) => {
+export const SimpleForm = ({api, module, type, initialValues, onActiveTabChange}) => {
   const router = useRouter();
 
   const afterFinish = () => {
@@ -43,14 +43,14 @@ export const SimpleForm = ({api, module, type, initialValues}) => {
       case 'donors':
         return <DonorForm readOnly={readOnly}/>;
       case 'isaar':
-        return <IsaarForm form={form} readOnly={readOnly}/>;
+        return <IsaarForm form={form} readOnly={readOnly} onActiveTabChange={onActiveTabChange}/>;
       case 'isad':
-        return <IsadForm form={form} locale={locale} readOnly={readOnly}/>;
+        return <IsadForm form={form} locale={locale} readOnly={readOnly} onActiveTabChange={onActiveTabChange}/>;
       case 'finding-aids':
-        return <FindingAidsEntityForm form={form} locale={locale} readOnly={readOnly}/>;
+        return <FindingAidsEntityForm form={form} locale={locale} readOnly={readOnly} onActiveTabChange={onActiveTabChange}/>;
       case 'researchers-db/researchers':
         return <ResearcherForm form={form} readOnly={readOnly}/>;
-      case 'researchers-db/requests':
+      case 'requests/list':
         return <RequestsForm form={form} readOnly={readOnly}/>;
       default:
         break;

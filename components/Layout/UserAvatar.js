@@ -6,6 +6,7 @@ import {UserOutlined, LogoutOutlined} from "@ant-design/icons";
 import {signOut} from "next-auth/react";
 import {useRouter} from "next/router";
 import {UserContext} from "../../utils/context/UserContext";
+import {clearLocalStorageByPrefix} from "../../utils/functions/clearLocalStorageByPrefix";
 
 const UserAvatar = ({displayUsername=true, ...rest}) => {
   const user = useContext(UserContext);
@@ -37,6 +38,7 @@ const UserAvatar = ({displayUsername=true, ...rest}) => {
           router.push('/profile');
           break;
         case "logout":
+          clearLocalStorageByPrefix('ams-')
           signOut({callbackUrl: '/auth/login'})
           break;
       }

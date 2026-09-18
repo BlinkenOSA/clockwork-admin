@@ -22,9 +22,9 @@ export default function DonorCreate() {
       </Head>
       <Breadcrumbs module={'donors'} breadcrumbData={breadcrumbData} />
       <SimpleForm
-        api={`/v1/research/researcher/`}
+        api={`/v1/research/researcher`}
         module={'researchers-db/researchers'}
-        type={'edit'}
+        type={'create'}
         initialValues={initialValues} />
     </AppLayout>
   )

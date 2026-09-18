@@ -5,7 +5,7 @@ import FormRemoteSelect from "../../components/FormRemoteSelect";
 
 export const Extents = ({disabled}) => (
   <React.Fragment>
-    <div className={'ant-form-item-label'}>Creators</div>
+    <div className={'ant-form-item-label'}>3.1.5 Extent of the unit of description</div>
     <Form.List name={'extents'}>
       {(fields, { add, remove }) => {
         return (
