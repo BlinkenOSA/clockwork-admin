@@ -17,7 +17,7 @@ export const renderStatus = (data) => {
       );
     case 'Not exists':
       return (
-        <Badge count={'not exists'} style={{ backgroundColor: '#ba3300', borderRadius: '3px', fontSize: '0.8em' }} />
+        <Badge count={'none'} style={{ backgroundColor: '#ba3300', borderRadius: '3px', fontSize: '0.8em' }} />
       );
     default:
       break;

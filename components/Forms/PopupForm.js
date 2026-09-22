@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Form, Row, Col, Button, Input} from 'antd';
+import {Form, Row, Col, Button, Input, Divider} from 'antd';
 import style from './Forms.module.css';
 import {CarrierTypeForm} from "./fields/CarrierTypeForm";
 import {CorporationForm} from "./fields/CorporationForm";
@@ -16,8 +16,8 @@ import {DonorForm} from "./fields/DonorForm";
 import {useData} from "../../utils/hooks/useData";
 import {fillManyFields} from "../../utils/functions/fillManyFields";
 import {IsaarForm} from "./fields/IsaarForm";
-import {BarcodeForm} from "./fields/BarcodeForm";
-import {ContainerForm} from "./fields/ContainerForm";
+import {BarcodeForm} from "./fields/containers/BarcodeForm";
+import {ContainerForm} from "./fields/containers/ContainerForm";
 import {ExtentUnitForm} from "./fields/ExtentUnitForm";
 import {RoleForm} from "./fields/RoleForm";
 import {useForm} from "../../utils/hooks/useForm";
@@ -27,10 +27,13 @@ import {MLRForm} from "./fields/MLRForm";
 import {DigitizationForm} from "./fields/DigitizationForm";
 import {RequestsForm} from "./fields/RequestsForm";
 import {RequestItemForm} from "./fields/RequestsItemForm";
+import {NationalityForm} from "./fields/NationalityForm";
+import AuditLog from "./auditLog/AuditLog";
+import DigitalVersionsTable from "./fields/containers/DigitalVersionsTable";
 
-export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, onClose}) => {
-  const afterFinish = () => {
-    onClose();
+export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, field, label, hasMerge=true, onClose}) => {
+  const afterFinish = (data) => {
+    onClose(data);
   };
 
   const {form, formLoading, errors, onFinish, renderErrors, onValuesChange} =
@@ -38,7 +41,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
 
   const readOnly = type === 'view';
 
-  const {data, loading} = useData(selectedRecord ? `${preCreateAPI ? preCreateAPI : api}${selectedRecord}/` : undefined);
+  const {data} = useData(selectedRecord ? `${preCreateAPI ? preCreateAPI : api}${selectedRecord}/` : undefined);
 
   useEffect(() => {
     form.setFieldsValue(data)
@@ -59,7 +62,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
       case 'languages':
         return <LanguageForm form={form} readOnly={readOnly} />;
       case 'people':
-        return <PersonForm form={form} readOnly={readOnly} />;
+        return <PersonForm form={form} readOnly={readOnly} selectedRecord={selectedRecord} afterMergeFinish={afterFinish} hasMerge={hasMerge}/>;
       case 'places':
         return <PlaceForm form={form} readOnly={readOnly} />;
       case 'subjects':
@@ -77,7 +80,7 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
       case 'donors':
         return <DonorForm />;
       case 'isaar':
-        return <IsaarForm form={form} />;
+        return <IsaarForm form={form} onActiveTabChange={() => {}} />;
       case 'barcode':
         return <BarcodeForm form={form} />;
       case 'container':
@@ -88,6 +91,8 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
         return <RoleForm form={form} />;
       case 'corporation_role':
         return <RoleForm form={form} />;
+      case 'nationality':
+        return <NationalityForm form={form} />;
       case 'geo_role':
         return <RoleForm form={form} />;
       case 'finding-aids-quick-edit':
@@ -100,6 +105,8 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
         return <RequestsForm form={form} readOnly={readOnly} />;
       case 'request_item':
         return <RequestItemForm form={form} readOnly={readOnly} />;
+      case 'digital-versions':
+        return '';
       default:
         return (
           <Col xs={24}>
@@ -164,40 +171,72 @@ export const PopupForm = ({api, preCreateAPI, selectedRecord, module, type, fiel
     }
   };
 
-  return (
-    <React.Fragment>
-      { errors && renderErrors() }
-      <Form
-        name={`${module}-form`}
-        scrollToFirstError={true}
-        validateMessages={validateMessages}
-        validateTrigger={''}
-        initialValues={getInitialValue()}
-        form={form}
-        onFinish={onFinish}
-        onValuesChange={onValuesChange}
-        layout={'vertical'}
-        className={style.Form}
-      >
-        <Row gutter={[12, 0]}>
-          {renderFields()}
-        </Row>
-        <Row>
-          <Col xs={4}>
-            {
-              type !== 'view' &&
-              <Button
-                loading={formLoading}
-                type={'primary'}
-                htmlType={'submit'}
-              >
-                Submit
-              </Button>
-            }
-          </Col>
-        </Row>
-      </Form>
-    </React.Fragment>
-  )
+  if (module === 'digital-versions') {
+    if (data && data.digital_versions && data.digital_versions.length > 0) {
+      return (
+          <>
+            <DigitalVersionsTable digitalVersions={data.digital_versions} catalogID={data['catalog_id']} />
+          </>
+      )
+    } else {
+      return null;
+    }
+  } else {
+    return (
+      <React.Fragment>
+        { errors && renderErrors() }
+        <Form
+            name={`${module}-form`}
+            scrollToFirstError={true}
+            validateMessages={validateMessages}
+            validateTrigger={''}
+            initialValues={getInitialValue()}
+            form={form}
+            onFinish={onFinish}
+            onValuesChange={onValuesChange}
+            layout={'vertical'}
+            className={style.Form}
+        >
+          <Row gutter={[12, 0]}>
+            {renderFields()}
+          </Row>
+          <Row>
+            <Col xs={4}>
+              {
+                  type !== 'view' &&
+                  <Button
+                      loading={formLoading}
+                      type={'primary'}
+                      htmlType={'submit'}
+                  >
+                    Submit
+                  </Button>
+              }
+            </Col>
+          </Row>
+          {data && data.hasOwnProperty('date_created') &&
+              <div className={style.FooterInfo}>
+                <Row gutter={10} type="flex">
+                  <Col>
+                    <p>
+                      <strong>Record created: </strong>
+                      {data['date_created']}
+                      {data['user_created'] ? ` by '${data['user_created']}'` : ''}
+                    </p>
+                    <p>
+                      <strong>Record updated: </strong>
+                      {data['date_updated']}
+                      {data['user_updated'] ? ` by '${data['user_updated']}'` : ''}
+                    </p>
+                    <AuditLog module={module} object_id={data['id']} />
+                  </Col>
+                </Row>
+              </div>
+          }
+        </Form>
+      </React.Fragment>
+    )
+  }
+
 };
 

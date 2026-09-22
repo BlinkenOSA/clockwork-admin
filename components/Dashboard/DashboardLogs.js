@@ -5,31 +5,48 @@ import ArchivalUnitLog from "./logDisplays/ArchivalUnitLog";
 import IsadLog from "./logDisplays/IsadLog";
 import FindingAidsLog from "./logDisplays/FindingAidsLog";
 
-const { TabPane } = Tabs;
-
 const DashboardLogs = () => {
+  const items = [
+    {
+      key: 'accessions',
+      label: 'Accessions',
+      children: <AccessionLog />
+      ,
+    },
+    {
+      key: 'archival_units',
+      label: 'Archival Units',
+      children: <ArchivalUnitLog />
+    },
+    {
+      key: 'isad-created',
+      label: 'ISAD(G) (Created)',
+      children: <IsadLog type={'create'} />,
+    },
+    {
+      key: 'isad-updated',
+      label: 'ISAD(G) (Updated)',
+      children: <IsadLog type={'update'} />
+    },
+    {
+      key: 'folder_items-created',
+      label: 'Folders / Items (Created)',
+      children: <FindingAidsLog type={'create'} />
+    },
+    {
+      key: 'folder_items-updated',
+      label: 'Folders / Items (Updated)',
+      children: <FindingAidsLog type={'update'} />
+    },
+  ];
+
   return (
     <React.Fragment>
       <Col xs={24}>
-        <Tabs defaultActiveKey="accessions" tabPosition={'right'}>
-          <TabPane tab="Accessions" key="accessions">
-            <AccessionLog />
-          </TabPane>
-          <TabPane tab="Archival Units" key="archival_units">
-            <ArchivalUnitLog />
-          </TabPane>
-          <TabPane tab="ISAD(G) (Created)" key="isad-created">
-            <IsadLog type={'create'} />
-          </TabPane>
-          <TabPane tab="ISAD(G) (Updated)" key="isad-updated">
-            <IsadLog type={'update'} />
-          </TabPane>
-          <TabPane tab="Folders / Items (Created)" key="folder_items-created">
-            <FindingAidsLog type={'create'} />
-          </TabPane>
-          <TabPane tab="Folders / Items (Updated)" key="folder_items-updated">
-            <FindingAidsLog type={'update'} />
-          </TabPane>
+        <Tabs
+            items={items}
+            defaultActiveKey="accessions"
+            tabPosition={'right'}>
         </Tabs>
       </Col>
     </React.Fragment>

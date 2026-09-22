@@ -12,8 +12,9 @@ import Link from "next/link";
 
 
 const FindingAidsTemplateTable = ({seriesID}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleDelete } = useTable(`finding-aids-template-table-${seriesID}`);
-  const { data, loading, refresh } = useData(seriesID ? `/v1/finding_aids/templates/list/${seriesID}/` : undefined, params);
+  const api = seriesID ? `/v1/finding_aids/templates/list/${seriesID}/` : undefined
+  const { data, loading, refresh, tableState,
+    handleDataChange, handleTableChange, handleDelete } = useTable(`finding-aids-template-table-${seriesID}`, api);
 
   useEffect(() => {
     if (data) {
@@ -25,7 +26,7 @@ const FindingAidsTemplateTable = ({seriesID}) => {
     return (
       <React.Fragment>
         <Button.Group>
-          <Link href={`/finding-aids/templates/edit/${record.id}`}>
+          <Link href={`/finding-aids/folders-items/templates/edit/${record.id}`}>
             <Tooltip key={'edit'} title={'Edit'}>
               <Button size="small" icon={<EditOutlined/>} />
             </Tooltip>
@@ -60,7 +61,7 @@ const FindingAidsTemplateTable = ({seriesID}) => {
     return (
       <Row>
         <Col span={8}>
-          <Link href={`/finding-aids/templates/create/${seriesID}`}>
+          <Link href={`/finding-aids/folders-items/templates/create/${seriesID}`}>
             <Button type={'primary'}>
               New Template
             </Button>

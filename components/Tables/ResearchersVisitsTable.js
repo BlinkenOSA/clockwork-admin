@@ -1,5 +1,5 @@
 import { Button, Card, Col, Modal, notification, Row, Table } from "antd";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   LoadingOutlined,
   CaretUpOutlined, CaretRightOutlined,
@@ -13,8 +13,7 @@ import {put, remove} from "../../utils/api";
 import {deleteAlert} from "./functions/deleteAlert";
 
 const ResearchersTable = ({...props}) => {
-  const { params, tableState, handleTableChange} = useTable('researchers-visits');
-  const { data, loading, refresh} = useData(`/v1/research/visits`, params);
+  const { data, loading, refresh, tableState, handleDataChange, handleTableChange} = useTable('researcherVisits', `/v1/research/visits`);
 
   const [createFormOpen, setCreateFormOpen] = useState(true);
 
@@ -24,6 +23,18 @@ const ResearchersTable = ({...props}) => {
       dataIndex: 'researcher',
       key: 'researcher__last_name',
       width: 200,
+      sorter: true,
+    }, {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'researcher__email',
+      width: 150,
+      sorter: true,
+    }, {
+      title: 'Card No.',
+      dataIndex: 'card_number',
+      key: 'researcher__card_number',
+      width: 100,
       sorter: true,
     }, {
       title: 'Check In',
@@ -39,6 +50,12 @@ const ResearchersTable = ({...props}) => {
       render: (record) => renderCheckOut(record)
     },
   ];
+
+  useEffect(() => {
+    if (data) {
+      handleDataChange(data.count)
+    }
+  }, [data]);
 
   const onCheckOut = (data) => {
     const { confirm } = Modal;
@@ -94,7 +111,7 @@ const ResearchersTable = ({...props}) => {
   return (
     <React.Fragment>
       <Collapse isOpen={createFormOpen}>
-        <Card size="small" style={{marginBottom: '10px'}} title={'New Researcher Visit'}>
+        <Card size="small" style={{marginBottom: '10px'}} bodyStyle={{paddingBottom: 0}} title={'New Researcher Visit'}>
           <ResearchersVisitsForm refresh={refresh}/>
         </Card>
       </Collapse>
