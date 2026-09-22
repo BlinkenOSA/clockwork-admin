@@ -52,6 +52,7 @@ export default function DigitizationContainerList() {
       key: 'level',
       className: 'centerColumn',
       width: 80,
+      sorter: true,
       render: renderLevel
     }, {
       title: 'Duration',
