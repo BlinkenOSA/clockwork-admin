@@ -1,4 +1,4 @@
-import {Badge, Button, Popconfirm, Popover, Table, Tooltip} from "antd";
+import {Badge, Button, Form, Popconfirm, Popover, Table, Tooltip} from "antd";
 import React, {useEffect} from "react";
 import {
   CheckOutlined, CloseOutlined, FileProtectOutlined, InfoCircleOutlined, CheckSquareOutlined
@@ -20,7 +20,9 @@ const STATUS = {
 
 const RestrictedRequestsTable = ({...props}) => {
   const { data, loading, refresh , tableState,
-    handleDataChange, handleTableChange, handleExpandedRowsChange, handleFilterChange } = useTable('restricted-requests', `/v1/research/restricted-requests`);
+    handleDataChange, handleTableChange, handleExpandedRowsChange, handleFilterChange, setFilters } = useTable('restricted-requests', `/v1/research/restricted-requests`);
+
+  const [filterForm] = Form.useForm();
 
   useEffect(() => {
     if (data) {
@@ -214,15 +216,32 @@ const RestrictedRequestsTable = ({...props}) => {
   }
 
   const renderResearcher = (record) => {
+    const researcherName = (
+      <button
+        type="button"
+        className={style.ResearcherFilterButton}
+        onClick={() => {
+          const filters = {
+            ...tableState.filters,
+            researcher: record.researcher_id,
+          };
+          filterForm.setFieldsValue({researcher: record.researcher_id});
+          setFilters(filters);
+        }}
+      >
+        {record['researcher']}
+      </button>
+    );
+
     if (record['researcher_email']) {
       return (
           <>
-            <div>{record['researcher']}</div>
+            <div>{researcherName}</div>
             <div className={style.Italic}>{record['researcher_email']}</div>
           </>
       )
     } else {
-      return record['researcher']
+      return researcherName
     }
   }
 
@@ -232,6 +251,7 @@ const RestrictedRequestsTable = ({...props}) => {
         module={'restricted-requests'}
         onFilterChange={handleFilterChange}
         filters={tableState['filters']}
+        form={filterForm}
       />
       <Table
         bordered={true}

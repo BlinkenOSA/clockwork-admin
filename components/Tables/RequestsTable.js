@@ -1,4 +1,4 @@
-import {Badge, Button, Col, Drawer, Modal, Row, Table, Tooltip} from "antd";
+import {Badge, Button, Col, Drawer, Form, Modal, Row, Table, Tooltip} from "antd";
 import React, {useEffect, useState} from "react";
 import {
   PlusOutlined,
@@ -34,8 +34,9 @@ const STATUS = {
 
 const RequestsTable = ({api = '/v1/research/requests', ...props}) => {
   const { data, loading, refresh , tableState,
-    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('requests', api);
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete, setFilters } = useTable('requests', api);
 
+  const [filterForm] = Form.useForm();
   const [drawerShown, setDrawerShown] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(undefined);
 
@@ -136,15 +137,32 @@ const RequestsTable = ({api = '/v1/research/requests', ...props}) => {
   }
 
   const renderResearcher = (record) => {
+    const researcherName = (
+      <button
+        type="button"
+        className={style.ResearcherFilterButton}
+        onClick={() => {
+          const filters = {
+            ...tableState.filters,
+            researcher: record.researcher_id,
+          };
+          filterForm.setFieldsValue({researcher: record.researcher_id});
+          setFilters(filters);
+        }}
+      >
+        {record['researcher']}
+      </button>
+    );
+
     if (record['researcher_email']) {
       return (
           <>
-            <div>{record['researcher']}</div>
+            <div>{researcherName}</div>
             <div className={style.Italic}>{record['researcher_email']}</div>
           </>
       )
     } else {
-      return record['researcher']
+      return researcherName
     }
   }
 
@@ -359,6 +377,7 @@ const RequestsTable = ({api = '/v1/research/requests', ...props}) => {
         module={'requests'}
         onFilterChange={handleFilterChange}
         filters={tableState['filters']}
+        form={filterForm}
       />
       <Table
         bordered={true}
