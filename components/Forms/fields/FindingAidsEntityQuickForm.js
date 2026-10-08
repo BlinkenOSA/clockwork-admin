@@ -1,9 +1,12 @@
 import React from "react";
-import { Col, Form, Input, Row } from "antd";
+import {Button, Col, Form, Input, Row, Space} from "antd";
 import FormSelect from "../components/FormSelect";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 import {renderLabelFlag} from "../../../utils/functions/renderLabelFlag";
-import {FormFormattedText} from "../components/FormFormattedText";
+import {FormFormattedTextV3} from "../components/FormFormattedTextV3";
+import FormTranslateButton from "../components/FormTranslateButton";
+import FormDatePicker from "../components/FormDatePicker";
+import dayjs from "dayjs";
 
 
 const L1_LEVELS = [
@@ -18,6 +21,11 @@ const L2_LEVELS = [
 const DESCRIPTION_LEVELS = [
   { id: 'L1', level: 'Level 1'},
   { id: 'L2', level: 'Level 2'},
+];
+
+const ACCESS_RIGHTS = [
+  { id: 1, right: 'Not Restricted'},
+  { id: 3, right: 'Restricted'},
 ];
 
 const Identifier = ({initialValues, type}) => (
@@ -67,6 +75,28 @@ const Identifier = ({initialValues, type}) => (
 export const FindingAidsEntityQuickForm = ({form, locale, type}) => {
   const readOnly = type === 'view';
 
+  const accessRights = Form.useWatch('access_rights', form)
+  const dateFrom = Form.useWatch('date_from', form)
+  const restrictionDate = Form.useWatch('access_rights_restriction_date', form)
+
+  const setRestrictionDate = (number) => {
+    let dObj;
+    if (restrictionDate) {
+      dObj = dayjs(restrictionDate)
+    } else {
+      if (dateFrom) {
+        try {
+          dObj = dayjs(`${dateFrom.slice(0, 4)}-12-31`)
+        } catch (error) {
+          // Invalid date
+        }
+      }
+    }
+    if (dObj.isValid()) {
+      form.setFieldValue('access_rights_restriction_date', dObj.add(number, 'year').format('YYYY-MM-DD'))
+    }
+  }
+
   return (
     <React.Fragment>
       <Col xs={24} style={{marginBottom: '10px'}}>
@@ -97,16 +127,29 @@ export const FindingAidsEntityQuickForm = ({form, locale, type}) => {
             </Form.Item>
           </Col>
           <Col xs={12}>
-            <Form.Item label="Title" name="title" required rules={[{ required: true }]}>
+            <Form.Item label="Title" name="title" required rules={[{ required: true }]} style={{marginBottom: 0}}>
               <Input disabled={readOnly}/>
             </Form.Item>
+            <FormTranslateButton
+              form={form}
+              mode={'toOriginal'}
+              fieldName={'title'}
+              toField={'title_original'}
+              disabled={readOnly}/>
           </Col>
           <Col xs={12}>
             <Form.Item
               label={renderLabelFlag(locale, 'Title - Original Language')}
-              name="original_title" >
+              name="title_original"
+              style={{marginBottom: 0}}>
               <Input disabled={readOnly}/>
             </Form.Item>
+            <FormTranslateButton
+              form={form}
+              mode={'toEnglish'}
+              fieldName={'title_original'}
+              toField={'title'}
+              disabled={readOnly}/>
           </Col>
           <Col xs={12}>
             <Form.Item label={`Date From`} name="date_from" extra={'Date format: YYYY, or YYYY-MM, or YYYY-MM-DD'} required rules={[{ required: true }]}>
@@ -123,17 +166,59 @@ export const FindingAidsEntityQuickForm = ({form, locale, type}) => {
               <Input disabled={readOnly} />
             </Form.Item>
           </Col>
-          <Col xs={24}>
-            <Form.Item label={`Contents Summary`} name="contents_summary">
-              <FormFormattedText disabled={readOnly} height={120} />
+          <Col xs={12}>
+            <Form.Item label="Access Rights" name="access_rights" required rules={[{ required: true }]}>
+              <FormSelect
+                data={ACCESS_RIGHTS}
+                valueField={'id'}
+                labelField={'right'}
+                allowClear={false}
+              />
             </Form.Item>
+            <label>Restriction Date</label>
+            <Space.Compact block>
+              <Button onClick={() => setRestrictionDate(5)} disabled={readOnly || accessRights === '2'}>
+                +5Y
+              </Button>
+              <Button onClick={() => setRestrictionDate(-5)} disabled={readOnly || accessRights === '2'}>
+                -5Y
+              </Button>
+              <Form.Item name="access_rights_restriction_date" style={{width: '100%'}}>
+                <FormDatePicker
+                  format={'YYYY-MM-DD'}
+                  disabled={readOnly || accessRights === '2'} />
+              </Form.Item>
+            </Space.Compact>
+          </Col>
+          <Col xs={12}>
+            <Form.Item label="Restriction Explanation" name="access_rights_restriction_explanation">
+              <Input.TextArea rows={4} disabled={readOnly} />
+            </Form.Item>
+          </Col>
+          <Col xs={24}>
+            <Form.Item label={`Contents Summary`} name="contents_summary" style={{marginBottom: 0}}>
+              <FormFormattedTextV3 disabled={readOnly} height={170} />
+            </Form.Item>
+            <FormTranslateButton
+              form={form}
+              mode={'toOriginal'}
+              fieldName={'contents_summary'}
+              toField={'contents_summary_original'}
+              disabled={readOnly}/>
           </Col>
           <Col xs={24}>
             <Form.Item
               label={renderLabelFlag(locale, 'Contents Summary - Original Language')}
-              name="contents_summary_original">
-              <FormFormattedText disabled={readOnly} height={120} />
+              name="contents_summary_original"
+              style={{marginBottom: 0}}>
+              <FormFormattedTextV3 disabled={readOnly} height={170} />
             </Form.Item>
+            <FormTranslateButton
+              form={form}
+              mode={'toEnglish'}
+              fieldName={'contents_summary_original'}
+              toField={'contents_summary'}
+              disabled={readOnly}/>
           </Col>
         </Row>
       </Col>

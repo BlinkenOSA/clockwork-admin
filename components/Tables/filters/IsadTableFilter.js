@@ -8,7 +8,7 @@ const IsadTableFilter = () => {
   const statuses = [
     { value: 'draft', label: 'draft'},
     { value: 'final', label: 'final'},
-    { value: 'not exists', label: 'not exists'}
+    { value: 'not exists', label: 'none'}
   ];
 
   return (

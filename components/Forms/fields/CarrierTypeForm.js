@@ -15,17 +15,17 @@ export const CarrierTypeForm = ({readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={8}>
-        <Form.Item label="Width" name="width">
+        <Form.Item label="Width (mm)" name="width">
           <Input />
         </Form.Item>
       </Col>
       <Col xs={8}>
-        <Form.Item label="Height" name="height">
+        <Form.Item label="Height (mm)" name="height">
           <Input />
         </Form.Item>
       </Col>
       <Col xs={8}>
-        <Form.Item label="Depth" name="depth">
+        <Form.Item label="Depth (mm)" name="depth">
           <Input />
         </Form.Item>
       </Col>

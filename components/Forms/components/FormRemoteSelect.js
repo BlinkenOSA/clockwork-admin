@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {Select, Spin} from "antd";
 import {useData} from "../../../utils/hooks/useData";
+import {sanitizeForwardedProps} from "../../../utils/functions/sanitizeForwardedProps";
 
 const {Option} = Select;
 
 const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelField,
                             onChange, placeholder, mode='default',
                             disabled=false, renderFunction, searchMinLength=2, ...props }) => {
+  const forwardedProps = sanitizeForwardedProps(props);
 
   const [params, setParams] = useState(selectAPIParams);
   const [selectData, setSelectData] = useState([]);
@@ -18,7 +20,7 @@ const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelFiel
   }, [data]);
 
   const handleSearch = (value) => {
-    if (value.length > 2 || value.length === 0) {
+    if (value.length > searchMinLength || value.length === 0) {
       setParams(prevParams => ({
         ...prevParams,
         search: value
@@ -60,7 +62,7 @@ const FormRemoteSelect = ({ selectAPI, selectAPIParams={}, valueField, labelFiel
       mode={mode}
       disabled={disabled}
       loading={loading}
-      {...props}
+      {...forwardedProps}
     >
       {selectOptions}
     </Select>

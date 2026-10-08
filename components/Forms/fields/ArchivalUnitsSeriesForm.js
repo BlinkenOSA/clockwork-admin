@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Col, Input, Row} from "antd";
+import {Form, Col, Input, Row, InputNumber} from "antd";
 import FormRemoteSelect from "../components/FormRemoteSelect";
 
 
@@ -42,7 +42,7 @@ export const ArchivalUnitsSeriesForm = ({type, readOnly}) => {
           name="series"
           rules={[{ required: true, type: 'number', min: 1 }]}
         >
-          <Input />
+          <InputNumber />
         </Form.Item>
       </Col>
       <Col xs={14}>

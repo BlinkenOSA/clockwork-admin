@@ -5,8 +5,6 @@ import {Form, Col} from "antd";
 import 'react-json-view-lite/dist/index.css';
 
 const JsonViewer = ({value}) => {
-  console.log(value);
-
   return (
     value ?
     <JsonView
@@ -21,7 +19,7 @@ export const DigitizationForm = ({readOnly}) => {
   return (
     <React.Fragment>
       <Col xs={24}>
-        <Form.Item name="digital_version_technical_metadata">
+        <Form.Item name="technical_metadata">
           <JsonViewer/>
         </Form.Item>
       </Col>

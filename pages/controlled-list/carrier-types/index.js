@@ -26,17 +26,17 @@ export default function CarrierTypeList() {
       key: 'type_original_language',
       sorter: true
     }, {
-      title: 'Width',
+      title: 'Width (mm)',
       dataIndex: 'width',
       key: 'width',
       width: 100
     }, {
-      title: 'Height',
+      title: 'Height (mm)',
       dataIndex: 'height',
       key: 'height',
       width: 100
     }, {
-      title: 'Depth',
+      title: 'Depth (mm)',
       dataIndex: 'depth',
       key: 'depth',
       width: 100

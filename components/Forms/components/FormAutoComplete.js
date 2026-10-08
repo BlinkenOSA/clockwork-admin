@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {Select} from "antd";
 import {useData} from "../../../utils/hooks/useData";
+import {sanitizeForwardedProps} from "../../../utils/functions/sanitizeForwardedProps";
 
 const {Option} = Select;
 
 const FormRemoteSelect = ({ selectAPI, valueField, labelField,
                             onChange, placeholder,
                             disabled=false, renderFunction, ...props }) => {
+  const forwardedProps = sanitizeForwardedProps(props);
 
   const [params, setParams] = useState({});
   const [acData, setAcData] = useState([]);
@@ -50,7 +52,7 @@ const FormRemoteSelect = ({ selectAPI, valueField, labelField,
       mode={mode}
       disabled={disabled}
       loading={loading}
-      {...props}
+      {...forwardedProps}
     >
       {selectOptions}
     </Select>

@@ -3,6 +3,7 @@ import style from "./Forms.module.css";
 import React, {useState} from "react";
 import {useRouter} from "next/router";
 import Collapse from "@kunukn/react-collapse";
+import AuditLog from "./auditLog/AuditLog";
 
 export const SimpleFormFooter = ({form, type, loading, module}) => {
   const router = useRouter();
@@ -53,6 +54,7 @@ export const SimpleFormFooter = ({form, type, loading, module}) => {
                 {form.getFieldValue('date_updated')}
                 {form.getFieldValue('user_updated') ? ` by '${form.getFieldValue('user_updated')}'` : ''}
               </p>
+              <AuditLog module={module} object_id={form.getFieldValue('id')} />
             </Col>
           </Row>
         </Card>

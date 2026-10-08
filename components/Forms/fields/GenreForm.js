@@ -2,9 +2,57 @@ import React from 'react';
 import {Form, Col, Input, Row, Tabs} from "antd";
 import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
 
-const { TabPane } = Tabs;
-
 export const GenreForm = ({form, readOnly}) => {
+  const items = [
+    {
+      key: 'authority_link',
+      label: 'Authority Link (LCSH)',
+      children: (
+        <FormAuthoritySelect
+          api={'/v1/authority_list/lcsh/'}
+          form={form}
+          nameField={'genre'}
+          field={'authority_url'}
+          columnTitle={'LCSH ID'}
+          columnField={'lcsh_id'}
+          type={'genre'}
+        />
+      )
+    },
+    {
+      key: 'wikidata',
+      label: 'WikiData',
+      children: (
+        <FormAuthoritySelect
+          api={'/v1/authority_list/wikidata/'}
+          form={form}
+          nameField={'genre'}
+          field={'wikidata_id'}
+          columnTitle={'Wikidata ID'}
+          columnField={'wikidata_id'}
+          urlField={'wikidata_url'}
+          isWikidata={true}
+          type={'genre'}
+        />
+      )
+    },
+    {
+      key: 'wikipedia_link',
+      label: 'Wikipedia Link',
+      children: (
+        <FormAuthoritySelect
+          api={'/v1/authority_list/wikipedia/'}
+          form={form}
+          nameField={'genre'}
+          field={'wiki_url'}
+          columnTitle={'Wikipedia Link'}
+          columnField={'url'}
+          type={'genre'}
+        />
+      )
+    }
+  ];
+
   return (
     <React.Fragment>
       <Col xs={24}>
@@ -18,32 +66,8 @@ export const GenreForm = ({form, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={24}>
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Authority Link (LCSH)" key="authority_link">
-            <FormAuthoritySelect
-              api={'/v1/authority_list/lcsh/'}
-              form={form}
-              nameField={'genre'}
-              field={'authority_url'}
-              columnTitle={'LCSH ID'}
-              columnField={'lcsh_id'}
-              type={'genre'}
-            />
-          </TabPane>
-          <TabPane tab="Wikipedia Link" key="wikipedia_link">
-            <FormAuthoritySelect
-              api={'/v1/authority_list/wikipedia/'}
-              form={form}
-              nameField={'genre'}
-              field={'wiki_url'}
-              columnTitle={'Wikipedia Link'}
-              columnField={'url'}
-              type={'genre'}
-            />
-          </TabPane>
-        </Tabs>
+        <Tabs defaultActiveKey="authority_link" items={items} />
       </Col>
     </React.Fragment>
   )
 };
-

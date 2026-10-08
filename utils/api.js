@@ -36,6 +36,34 @@ export const get = async (url, params={}) => {
   )
 };
 
+export const getFile = async (url, filename) => {
+  const session = await getSession();
+
+  axios.get(
+    `${API}${url}`,
+    {
+      headers: {
+        Authorization: "Bearer " + session.accessToken
+      },
+      responseType: 'blob'
+    }
+  ).then(response => {
+    // create file link in browser's memory
+    const href = URL.createObjectURL(response.data);
+
+    // create "a" HTML element with href to file & click
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+
+    // clean up "a" element & remove ObjectURL
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href);
+  });
+};
+
 export const put = async (url, data={}) => {
   const session = await getSession();
 
