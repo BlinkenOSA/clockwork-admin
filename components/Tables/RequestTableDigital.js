@@ -1,4 +1,4 @@
-import {Badge, Button, Col, Drawer, Modal, Row, Table, Tooltip, message} from "antd";
+import {Badge, Button, Col, Drawer, Form, Modal, Row, Table, Tooltip, message} from "antd";
 import React, {useEffect, useState} from "react";
 import {
   PlusOutlined,
@@ -11,6 +11,7 @@ import {
   ClockCircleOutlined,
   CloseCircleOutlined,
   LoadingOutlined,
+  MailOutlined,
 } from "@ant-design/icons";
 import TableFilters from "./TableFilters";
 import style from './Table.module.scss';
@@ -36,8 +37,6 @@ const SHARE_JOB_STEP_LABELS = {
   checking_files: 'Checking files',
   creating_directory: 'Creating directory',
   copying_files: 'Copying files',
-  // sharing_directory: 'Sharing directory',
-  sending_emails: 'Sending emails',
   completed: 'Completed',
   failed: 'Failed',
 }
@@ -47,21 +46,21 @@ const SHARE_JOB_STEP_ORDER = [
   'checking_files',
   'creating_directory',
   'copying_files',
-  // 'sharing_directory',
-  'sending_emails',
   'completed',
 ]
 
 const RequestTableDigital = () => {
   const { data, loading, refresh , tableState,
-    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable('requests', '/v1/research/requests/digital');
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete, setFilters } = useTable('requests', '/v1/research/requests/digital');
 
+  const [filterForm] = Form.useForm();
   const [drawerShown, setDrawerShown] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(undefined);
   const [shareJob, setShareJob] = useState(undefined);
   const [shareJobsByItem, setShareJobsByItem] = useState({});
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [shareStartingId, setShareStartingId] = useState(undefined);
+  const [emailStartingRequestId, setEmailStartingRequestId] = useState(undefined);
 
   const shareJobFinished = shareJob && ['completed', 'failed'].includes(shareJob.status);
 
@@ -182,15 +181,32 @@ const RequestTableDigital = () => {
   }
 
   const renderResearcher = (record) => {
+    const researcherName = (
+      <button
+        type="button"
+        className={style.ResearcherFilterButton}
+        onClick={() => {
+          const filters = {
+            ...tableState.filters,
+            researcher: record.researcher_id,
+          };
+          filterForm.setFieldsValue({researcher: record.researcher_id});
+          setFilters(filters);
+        }}
+      >
+        {record['researcher']}
+      </button>
+    );
+
     if (record['researcher_email']) {
       return (
         <>
-          <div>{record['researcher']}</div>
+          <div>{researcherName}</div>
           <div className={style.Italic}>{record['researcher_email']}</div>
         </>
       )
     } else {
-      return record['researcher']
+      return researcherName
     }
   }
 
@@ -314,7 +330,7 @@ const RequestTableDigital = () => {
     return renderRecords()
   }
 
-  const onShare = async (id) => {
+  const onPrepare = async (id) => {
     setShareStartingId(id);
     setShareModalOpen(true);
     setShareJob(undefined);
@@ -328,9 +344,24 @@ const RequestTableDigital = () => {
       }));
     } catch (error) {
       setShareModalOpen(false);
-      message.error('Could not start SharePoint sharing.', 3);
+      message.error('Could not start preparing the requested materials.', 3);
     } finally {
       setShareStartingId(undefined);
+    }
+  };
+
+  const onShareAndEmail = async (requestId) => {
+    setEmailStartingRequestId(requestId);
+
+    try {
+      await post(`/v1/research/requests/${requestId}/requested-materials-sharepoint-share/`);
+      message.success('The directory was shared and the notification email was sent.', 4);
+      refresh();
+    } catch (error) {
+      const errorMessage = error?.response?.data?.detail || 'Could not share the directory and send the email.';
+      message.error(errorMessage, 4);
+    } finally {
+      setEmailStartingRequestId(undefined);
     }
   };
 
@@ -346,7 +377,7 @@ const RequestTableDigital = () => {
     const shareStepLabel = getShareJobStepLabel(job);
 
     if (job.status === 'completed') {
-      return <span className={style.ShareJobSuccess}>Share completed</span>;
+      return <span className={style.ShareJobSuccess}>Preparation completed</span>;
     }
 
     if (job.status === 'failed') {
@@ -365,7 +396,10 @@ const RequestTableDigital = () => {
   }
 
   const renderStatus = (record) => {
-    const canShare = (detectFilmLibraryDigital(record) || record['has_digital_version']) && record['status'] === '2';
+    const hasDigitalMaterial = detectFilmLibraryDigital(record) || record['has_digital_version'];
+    const materialsPrepared = Boolean(record['requested_materials_prepared']);
+    const directoryShared = Boolean(record['requested_materials_shared_date']);
+    const showPreparationAction = hasDigitalMaterial && ['2', '9'].includes(record['status']);
     const currentShareJob = shareJobsByItem[record.id];
     const shareInProgress = currentShareJob && !['completed', 'failed'].includes(currentShareJob.status);
 
@@ -377,15 +411,28 @@ const RequestTableDigital = () => {
               <Badge count={badgeText} style={{ backgroundColor: color, borderRadius: '3px', fontSize: '0.8em' }} />
             </div>
             {
-              canShare &&
-              <Tooltip title={'Share'}>
+              showPreparationAction &&
+              <Tooltip title={materialsPrepared ? 'Materials prepared' : 'Prepare materials'}>
                 <Button
                   size="small"
                   icon={<CloudUploadOutlined/>}
                   className={style.UndoButton}
                   loading={shareStartingId === record.id}
-                  disabled={shareInProgress}
-                  onClick={() => onShare(record.id)}
+                  disabled={shareInProgress || materialsPrepared}
+                  onClick={() => onPrepare(record.id)}
+                />
+              </Tooltip>
+            }
+            {
+              hasDigitalMaterial && materialsPrepared &&
+              <Tooltip title={directoryShared ? 'Directory shared and email sent' : 'Share directory and send email'}>
+                <Button
+                  size="small"
+                  icon={<MailOutlined/>}
+                  className={`${style.UndoButton} ${directoryShared ? style.CompletedActionButton : ''}`}
+                  loading={emailStartingRequestId === record.request}
+                  disabled={directoryShared}
+                  onClick={() => onShareAndEmail(record.request)}
                 />
               </Tooltip>
             }
@@ -467,7 +514,7 @@ const RequestTableDigital = () => {
 
   const renderShareJobStatus = () => {
     if (!shareJob) {
-      return <div>Starting SharePoint sharing job...</div>;
+      return <div>Starting requested-materials preparation job...</div>;
     }
 
     const shareStepLabel = getShareJobStepLabel(shareJob);
@@ -506,7 +553,7 @@ const RequestTableDigital = () => {
       <div className={style.ShareJobStatus}>
         <div className={style.ShareJobHeadline}>
           <div className={style.ShareJobTitle}>{shareStepLabel}</div>
-          <div className={style.ShareJobDescription}>{shareJob.message || 'SharePoint job is running.'}</div>
+          <div className={style.ShareJobDescription}>{shareJob.message || 'Preparation job is running.'}</div>
         </div>
         <div className={style.ShareJobChecklist}>
           {
@@ -554,6 +601,7 @@ const RequestTableDigital = () => {
   return (
     <React.Fragment>
       <TableFilters
+        form={filterForm}
         module={'requests'}
         onFilterChange={handleFilterChange}
         filters={tableState['filters']}
@@ -590,7 +638,7 @@ const RequestTableDigital = () => {
         />
       </Drawer>
       <Modal
-        title={'Share requested materials'}
+        title={'Prepare requested materials'}
         open={shareModalOpen}
         onCancel={onShareModalClose}
         footer={[

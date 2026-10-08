@@ -23,6 +23,25 @@
     text-align: center;
 }
 
+.ResearcherFilterButton {
+    text-decoration: none;
+    appearance: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    border-color: #DDD !important;
+    border-bottom: 1px dotted;
+
+    &:hover,
+    &:focus {
+        border-color: #999 !important;
+        color: inherit;
+    }
+}
+
 .PublishColumn {
     text-align: center;
 }
@@ -176,6 +195,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        & button {
+            height: 20px;
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }
 
@@ -184,6 +211,15 @@
     flex-direction: column;
     align-items: center;
     gap: 6px;
+}
+
+.CompletedActionButton,
+.CompletedActionButton:hover,
+.CompletedActionButton:focus,
+.CompletedActionButton:disabled {
+    color: #fff !important;
+    background-color: #52c41a !important;
+    border-color: #52c41a !important;
 }
 
 .ShareJobBadge {

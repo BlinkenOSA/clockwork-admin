@@ -16,7 +16,7 @@ import RestrictedRequestsTableFilter from "./filters/RestrictedRequestsTableFilt
 import DigitizationContainerCheckTableFilter from "./filters/DigitizationContainerCheckTableFilter";
 import FindingAidsMissingTableFilter from "./filters/FindingAidsMissingTableFilter";
 
-const TableFilters = ({onFilterChange, module, filters, ...props}) => {
+const TableFilters = ({onFilterChange, module, filters, form, ...props}) => {
   const renderFilters = () => {
     switch (module) {
       case 'accessions':
@@ -53,6 +53,7 @@ const TableFilters = ({onFilterChange, module, filters, ...props}) => {
   return (
     <div className={style.Filter}>
       <Form
+        form={form}
         name={`${module}-tableFilter`}
         initialValues={filters}
         onValuesChange={onFilterChange}
