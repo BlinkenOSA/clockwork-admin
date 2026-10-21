@@ -21,7 +21,7 @@ export default function UnprocessedMaterialsContainerView() {
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - Unprocessed Materials / Containers</title>
+        <title>AMS - Archival Management System - Undefined Materials / Containers</title>
       </Head>
       <Breadcrumbs module={'finding-aids/containers'} breadcrumbData={breadcrumbData}/>
       <ContainerTable

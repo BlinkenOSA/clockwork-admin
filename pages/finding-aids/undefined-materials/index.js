@@ -13,7 +13,7 @@ export default function UnprocessedMaterialsSeriesSelect() {
   return (
     <AppLayout>
       <Head>
-        <title>AMS - Archival Management System - Finding Aids / Unprocessed Materials</title>
+        <title>AMS - Archival Management System - Finding Aids / Undefined Materials</title>
       </Head>
       <Breadcrumbs module={'finding-aids/archival-unit-select'} breadcrumbData={breadcrumbData} />
       <ArchivalUnitSelectForm unprocessedMaterials />
