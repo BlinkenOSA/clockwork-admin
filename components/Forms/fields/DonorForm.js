@@ -41,7 +41,7 @@ export const DonorForm = ({readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={12}>
-        <Form.Item label="Phone" name="phone">
+        <Form.Item label="Phone" name="phone" required rules={[{ required: true }]}>
           <Input disabled={readOnly}/>
         </Form.Item>
       </Col>
@@ -66,7 +66,7 @@ export const DonorForm = ({readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={12}>
-        <Form.Item label="Email" name="email">
+        <Form.Item label="Email" name="email" required rules={[{ required: true }]}>
           <Input disabled={readOnly}/>
         </Form.Item>
       </Col>

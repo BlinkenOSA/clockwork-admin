@@ -6,19 +6,17 @@ import style from './Table.module.scss';
 import {remove} from "../../utils/api";
 import _ from 'lodash';
 import {PopupForm} from "../Forms/PopupForm";
-import {useData} from "../../utils/hooks/useData";
 import {useTable} from "../../utils/hooks/useTable";
 import {deleteAlert} from "./functions/deleteAlert";
 
 
 const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=false, footer=true, ...props}) => {
-  const { params, tableState, handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module);
+  const { data, loading, refresh , tableState,
+    handleDataChange, handleTableChange, handleFilterChange, handleDelete } = useTable(module, api);
 
   const [drawerShown, setDrawerShown] = useState(false);
   const [action, setAction] = useState('create');
   const [selectedRecord, setSelectedRecord] = useState(undefined);
-
-  const { data, loading, refresh } = useData(api, params);
 
   useEffect(() => {
     if (data) {
@@ -137,7 +135,11 @@ const PopupTable = ({api, columns, module, actions=[], field, label, showFilter=
   return (
     <React.Fragment>
       {showFilter &&
-        <TableFilters module={module} onFilterChange={handleFilterChange}/>
+        <TableFilters
+          module={module}
+          onFilterChange={handleFilterChange}
+          filters={tableState['filters']}
+        />
       }
       <Table
         bordered={true}

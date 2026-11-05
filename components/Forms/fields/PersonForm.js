@@ -2,10 +2,44 @@ import React from 'react';
 import {Form, Col, Input, Tabs} from "antd";
 import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
 import {PersonOtherNames} from "./authority_lists/PersonOtherNames";
+import FormDuplications from "../components/FormDuplications";
 
-const { TabPane } = Tabs;
+export const PersonForm = ({form, selectedRecord, readOnly, afterMergeFinish, hasMerge}) => {
+  const items = [
+    {
+      key: 'person_other_formats',
+      label: 'Other Forms of Name',
+      children: <PersonOtherNames disabled={readOnly} />
+    },
+    {
+      key: 'wikidata',
+      label: 'WikiData',
+      children: (
+        <FormAuthoritySelect
+          api={'/v1/authority_list/wikidata/'}
+          form={form}
+          field={'wikidata_id'}
+          columnTitle={'Wikidata ID'}
+          columnField={'wikidata_id'}
+          urlField={'wikidata_url'}
+          isWikidata={true}
+          type={'person'}
+        />
+      )
+    },
+    ...(selectedRecord && hasMerge ? [{
+      key: 'duplications',
+      label: 'Duplications',
+      children: (
+        <FormDuplications
+          selectedRecord={selectedRecord}
+          api={`/v1/authority_list/people/${selectedRecord}/similar`}
+          afterMergeFinish={afterMergeFinish}
+        />
+      )
+    }] : [])
+  ];
 
-export const PersonForm = ({form, readOnly}) => {
   return (
     <React.Fragment>
       <Col xs={12}>
@@ -24,33 +58,8 @@ export const PersonForm = ({form, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={24}>
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Other Forms of Name" key="person_other_formats">
-            <PersonOtherNames disabled={readOnly} />
-          </TabPane>
-          <TabPane tab="Authority Link (VIAF)" key="authority_link">
-            <FormAuthoritySelect
-              api={'/v1/authority_list/viaf/'}
-              form={form}
-              field={'authority_url'}
-              columnTitle={'VIAF ID'}
-              columnField={'viaf_id'}
-              type={'person'}
-            />
-          </TabPane>
-          <TabPane tab="Wikipedia Link" key="wikipedia_link">
-            <FormAuthoritySelect
-              api={'/v1/authority_list/wikipedia/'}
-              form={form}
-              field={'wiki_url'}
-              columnTitle={'Wikipedia Link'}
-              columnField={'url'}
-              type={'person'}
-            />
-          </TabPane>
-        </Tabs>
+        <Tabs defaultActiveKey="person_other_formats" items={items} />
       </Col>
     </React.Fragment>
   )
 };
-

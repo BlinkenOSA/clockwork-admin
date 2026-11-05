@@ -4,7 +4,7 @@ import {CloseOutlined, PlusOutlined} from '@ant-design/icons';
 
 export const LocationOfCopies = ({disabled}) => (
   <React.Fragment>
-    <div className={'ant-form-item-label'}>Location of Copies</div>
+    <div className={'ant-form-item-label'}>3.5.2 Location of copies</div>
     <Form.List name={'location_of_copies'}>
       {(fields, { add, remove }) => {
         return (

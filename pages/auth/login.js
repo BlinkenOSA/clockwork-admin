@@ -24,7 +24,7 @@ const Login = () => {
                 </Col>
                 <Col lg={12} md={0} sm={0} xs={0} className={style.LoginInfo}>
                   <div className={style.Logo}>
-                    <img src={'/images/osa_logo.png'} alt="Logo" />
+                    <img src={'/images/archivum_logo.svg'} alt="Logo" />
                   </div>
                   <Divider style={{color: '#FFF', marginBottom: '30px'}}><strong>Clock</strong>Work AMS</Divider>
                   <Text style={{color: '#FFF'}}>

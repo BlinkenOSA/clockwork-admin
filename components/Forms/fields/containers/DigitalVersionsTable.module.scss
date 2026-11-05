@@ -1,0 +1,19 @@
+.Availability {
+  text-align: center;
+}
+
+.AvailabilityRow {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+
+  .StorageUnit {
+    width: 50px;
+    text-align: left;
+  }
+
+  .StorageLabel {
+    flex: 1;
+    text-align: left;
+  }
+}

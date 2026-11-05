@@ -2,7 +2,6 @@ import React from 'react'
 import AppLayout from "../../../components/Layout/Layout";
 import Head from "next/head";
 import Breadcrumbs from "../../../components/Layout/Breadcrumbs";
-import {Card} from "antd";
 import ResearchersVisitsTable from "../../../components/Tables/ResearchersVisitsTable";
 
 export default function ResearchersVisits() {
