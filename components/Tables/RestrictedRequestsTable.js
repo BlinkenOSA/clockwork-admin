@@ -59,7 +59,7 @@ const RestrictedRequestsTable = ({...props}) => {
       dataIndex: 'created_date',
       key: 'request_item__request__created_date',
       width: 150,
-      render: (data) => data ? moment(data).format('YYYY-MM-DD HH:mm') : '',
+      render: (data) => renderDate(data) ,
       sorter: true,
     }, {
       title: 'Status',

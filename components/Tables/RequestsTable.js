@@ -52,8 +52,8 @@ const RequestsTable = ({api = '/v1/research/requests', ...props}) => {
       title: 'Request Submitted',
       dataIndex: 'created_date',
       key: 'request__created_date',
-      width: 150,
-      render: (data) => data ? moment(data).format('YYYY-MM-DD HH:mm') : '',
+      width: 120,
+      render: (data) => renderDate(data),
       sorter: true,
     }, {
       title: 'Identifier',
@@ -211,7 +211,11 @@ const RequestsTable = ({api = '/v1/research/requests', ...props}) => {
     if (record['mlr'].hasOwnProperty('locations')) {
       return (
         <div>
-          <div>{record['mlr']['locations']}</div>
+          <div>
+            {record['mlr']['locations'].split(/(\([^)]*\))/).map((part, index) => (
+              part.startsWith('(') ? <div key={index} className={style.Italic}>{part}</div> : part
+            ))}
+          </div>
           {
             record['mlr']['another_request'] &&
             <Badge count={'Appears in another request'} style={{ backgroundColor: '#666', borderRadius: '3px', fontSize: '0.8em' }} />
