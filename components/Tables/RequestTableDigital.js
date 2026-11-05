@@ -73,6 +73,13 @@ const RequestTableDigital = () => {
       render: (data) => renderDate(data),
       sorter: true,
     }, {
+      title: 'Request Submitted',
+      dataIndex: 'created_date',
+      key: 'request__created_date',
+      width: 150,
+      render: (data) => data ? moment(data).format('YYYY-MM-DD HH:mm') : '',
+      sorter: true,
+    }, {
       title: 'Identifier',
       key: 'ordering',
       width: 130,

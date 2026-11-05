@@ -55,6 +55,13 @@ const RestrictedRequestsTable = ({...props}) => {
       render: (data) => renderDate(data) ,
       sorter: true,
     }, {
+      title: 'Request Submitted',
+      dataIndex: 'created_date',
+      key: 'request_item__request__created_date',
+      width: 150,
+      render: (data) => data ? moment(data).format('YYYY-MM-DD HH:mm') : '',
+      sorter: true,
+    }, {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
