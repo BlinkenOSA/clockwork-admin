@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {Select, Spin} from "antd";
 import {useData} from "../../../utils/hooks/useData";
+import {sanitizeForwardedProps} from "../../../utils/functions/sanitizeForwardedProps";
 
 const {Option} = Select;
 
 const FormSelect = ({ data, selectAPIParams, valueField, labelField,
                             onChange, placeholder, mode='default',
                             disabled=false, ...props }) => {
+  const forwardedProps = sanitizeForwardedProps(props);
 
   const handleSelect = (value) => {
     onChange(value)
@@ -30,7 +32,7 @@ const FormSelect = ({ data, selectAPIParams, valueField, labelField,
       placeholder={placeholder}
       mode={mode}
       disabled={disabled}
-      {...props}
+      {...forwardedProps}
     >
       {selectOptions}
     </Select>

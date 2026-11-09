@@ -21,7 +21,11 @@ const AccessionLog = () => {
     };
 
     return (
-      <Timeline.Item label={item['transfer_date']} dot={<AiOutlineClockCircle/>} className={style.LogTimelineItem}>
+      <Timeline.Item
+          key={item['id']}
+          label={item['transfer_date']}
+          dot={<AiOutlineClockCircle/>}
+          className={style.LogTimelineItem}>
         <div style={{fontStyle: 'italic'}}>{item['seq']}</div>
         {renderArchivalUnit()}
         <Tag>{item['user_created']}</Tag>

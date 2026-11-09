@@ -18,6 +18,16 @@ export default function DonorList() {
       width: 400,
       sorter: true,
     }, {
+      title: 'Country',
+      dataIndex: 'country',
+      key: 'country__country',
+      sorter: true,
+    }, {
+      title: 'City',
+      dataIndex: 'city',
+      key: 'city',
+      sorter: true,
+    }, {
       title: 'Address',
       dataIndex: 'address',
       key: 'address',

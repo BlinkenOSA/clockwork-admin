@@ -3,10 +3,46 @@ import {Form, Col, Input, Row, Tabs} from "antd";
 import {FormAuthoritySelect} from "../components/FormAuthoritySelect";
 import {CorporationOtherNames} from "./authority_lists/CorporationOtherNames";
 
-const { TabPane } = Tabs;
-
 
 export const CorporationForm = ({form, readOnly}) => {
+  const items = [
+    {
+      key: 'corporation_other_formats',
+      label: 'Other Forms of Name',
+      children: <CorporationOtherNames disabled={readOnly} />
+    },
+    {
+      key: 'wikidata',
+      label: 'WikiData',
+      children: (
+        <FormAuthoritySelect
+          api={'/v1/authority_list/wikidata/'}
+          form={form}
+          field={'wikidata_id'}
+          columnTitle={'Wikidata ID'}
+          columnField={'wikidata_id'}
+          urlField={'wikidata_url'}
+          isWikidata={true}
+          type={'corporation'}
+        />
+      )
+    },
+    {
+      key: 'wikipedia_link',
+      label: 'Wikipedia Link',
+      children: (
+        <FormAuthoritySelect
+          api={'/v1/authority_list/wikipedia/'}
+          form={form}
+          field={'wiki_url'}
+          columnTitle={'Wikipedia Link'}
+          columnField={'url'}
+          type={'corporation'}
+        />
+      )
+    }
+  ];
+
   return (
     <React.Fragment>
       <Col xs={24}>
@@ -20,33 +56,8 @@ export const CorporationForm = ({form, readOnly}) => {
         </Form.Item>
       </Col>
       <Col xs={24}>
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Other Forms of Name" key="corporation_other_formats">
-            <CorporationOtherNames disabled={readOnly} />
-          </TabPane>
-          <TabPane tab="Authority Link (VIAF)" key="authority_link">
-            <FormAuthoritySelect
-              api={'/v1/authority_list/viaf/'}
-              form={form}
-              field={'authority_url'}
-              columnTitle={'VIAF ID'}
-              columnField={'viaf_id'}
-              type={'corporation'}
-            />
-          </TabPane>
-          <TabPane tab="Wikipedia Link" key="wikipedia_link">
-            <FormAuthoritySelect
-              api={'/v1/authority_list/wikipedia/'}
-              form={form}
-              field={'wiki_url'}
-              columnTitle={'Wikipedia Link'}
-              columnField={'url'}
-              type={'corporation'}
-            />
-          </TabPane>
-        </Tabs>
+        <Tabs defaultActiveKey="corporation_other_formats" items={items} />
       </Col>
     </React.Fragment>
   )
 };
-

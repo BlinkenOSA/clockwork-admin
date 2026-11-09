@@ -1,0 +1,21 @@
+.FormattedTextArea {
+  :global .w-md-editor-toolbar {
+    border-radius: 1px;
+    height: 40px;
+  }
+
+  :global .w-md-editor {
+    border-radius: 1px;
+  }
+
+  :global .w-md-editor-preview {
+    background-color: #F7F7F7;
+
+    :global .wmde-markdown {
+      background-color: #F7F7F7;
+      font-size: 14px !important;
+      line-height: 21px !important;
+    }
+
+  }
+}

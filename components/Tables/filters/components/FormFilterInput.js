@@ -1,7 +1,9 @@
 import {Input} from "antd";
 import React, {useState} from "react";
+import {sanitizeForwardedProps} from "../../../../utils/functions/sanitizeForwardedProps";
 
 const FormFilterInput = ({value, onChange, ...props}) => {
+  const forwardedProps = sanitizeForwardedProps(props);
   const [inputValue, setInputValue] = useState(value);
 
   const onPressEnter = (e) => {
@@ -21,7 +23,7 @@ const FormFilterInput = ({value, onChange, ...props}) => {
       value={inputValue}
       onPressEnter={onPressEnter}
       onChange={onValueChange}
-      {...props}
+      {...forwardedProps}
     />
   )
 };

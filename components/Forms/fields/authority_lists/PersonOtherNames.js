@@ -25,12 +25,20 @@ export const PersonOtherNames = ({disabled}) => (
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={12}>
+                <Col xs={6}>
                   <Form.Item
                     {...field}
-                    name={[field.name, 'name']}
+                    name={[field.name, 'first_name']}
                   >
-                    <Input placeholder={'Name'} disabled={disabled}/>
+                    <Input placeholder={'First Name'} disabled={disabled}/>
+                  </Form.Item>
+                </Col>
+                <Col xs={6}>
+                  <Form.Item
+                    {...field}
+                    name={[field.name, 'last_name']}
+                  >
+                    <Input placeholder={'Last Name'} disabled={disabled}/>
                   </Form.Item>
                 </Col>
                 <Col xs={2}>

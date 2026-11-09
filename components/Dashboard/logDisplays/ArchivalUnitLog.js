@@ -19,7 +19,11 @@ const ArchivalUnitLog = () => {
     };
 
     return (
-      <Timeline.Item label={getLabel()} dot={<AiOutlineClockCircle/>} className={style.LogTimelineItem}>
+      <Timeline.Item
+          key={item['id']}
+          label={getLabel()}
+          dot={<AiOutlineClockCircle/>}
+          className={style.LogTimelineItem}>
         <div>{item['title_full']}</div>
         <Tag>{item['user_created']}</Tag>
       </Timeline.Item>
