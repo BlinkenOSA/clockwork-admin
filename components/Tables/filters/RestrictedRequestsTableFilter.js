@@ -8,6 +8,7 @@ import style from "../TableFilters.module.css";
 const STATUSES = [
   { value: 'new', label: 'New'},
   { value: 'approved', label: 'Approved'},
+  { value: 'approved_on_site', label: 'Approved for on-site'},
   { value: 'rejected', label: 'Rejected'},
   { value: 'lifted', label: 'Lifted'},
 ]
